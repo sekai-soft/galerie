@@ -17,6 +17,16 @@ body {
     -ms-overflow-style: none;  /* IE and Edge */
 }
 
+p {
+    font-size: 2em;
+    line-height: 1.5;
+}
+
+a {
+    font-size: 2em;
+    line-height: 1.5;
+}
+
 .stream {
     width: 66%;
     margin: 0 auto;
@@ -28,6 +38,11 @@ body {
 
 /** sizes for tablet **/
 @media screen and (max-width: 768px) {
+    p {
+        font-size: 2em;
+        line-height: 1.5;
+    }
+
     .stream {
         width: 80%;
         margin: 0 auto;
@@ -36,10 +51,20 @@ body {
     .grid-sizer, .grid-item {
         width: 32%;
     }
+
+    a {
+        font-size: 2em;
+        line-height: 1.5;
+    }
 }
 
 /** sizes for phone **/
 @media screen and (max-width: 414px) {
+    p {
+        font-size: 1.5em;
+        line-height: 1.5;
+    }
+
     .stream {
         width: 100%;
     }
@@ -47,12 +72,21 @@ body {
     .grid-sizer, .grid-item {
         width: 49%;
     }
+
+    a {
+        font-size: 1.5em;
+        line-height: 1.5;
+    }
 }
 
+a {
+    color: #F5F5F5;
+}
 
 .item-image {
     max-width: 100%;
     border-radius: 4px;
+    cursor: pointer;
 }
 
 .tag-container {

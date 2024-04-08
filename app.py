@@ -68,15 +68,15 @@ def more():
             max_uid_index = i
             break
     more_images = all_images[max_uid_index + 1: max_uid_index + 1 + max_images]
-
-    if not more_images:
-        return OWARI_BUTTON
     
     more_html = map(
         lambda image: GRID_ITEM_TEMPLATE.replace('UID', image.uid).replace('IMAGE_URL', image.image_url),
         more_images)
     more_html = ''.join(more_html)
 
-    motto_button = MOTTO_BUTTON_TEMPLATE.replace('MAX_UID', more_images[-1].uid)
+    if len(more_images) < max_images:
+        motto_button = OWARI_BUTTON
+    else:
+        motto_button = MOTTO_BUTTON_TEMPLATE.replace('MAX_UID', more_images[-1].uid)
 
     return more_html + motto_button
