@@ -1,0 +1,27 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <title>({{ count }}) RSS Waterfall</title>
+    <link rel="stylesheet" type="text/css" href="{{ url_for('static', filename='style.css') }}">
+</head>
+<body>
+    <div class="grid" id="grid">
+        {% for image in images %}
+        <div class="grid-item" id="{{ image.uid }}">
+            <img class="item-image" src="{{ image.image_url }}" />
+        </div>
+        {% endfor %}
+    </div>
+    <button
+        id="motto"
+        hx-get="/more?max_uid={{ images[-1].uid }}"
+        hx-target="#grid"
+        hx-swap="beforeend"
+    >もっと</button>
+    <script src="https://code.jquery.com/jquery-3.7.1.slim.js"></script>
+    <script src="https://unpkg.com/masonry-layout@4/dist/masonry.pkgd.js"></script>
+    <script src="https://unpkg.com/imagesloaded@5/imagesloaded.pkgd.js"></script>
+    <script src="https://unpkg.com/htmx.org@1.9.11/dist/htmx.js" integrity="sha384-l9bYT9SL4CAW0Hl7pAOpfRc18mys1b0wK4U8UtGnWOxPVbVMgrOdB+jyz/WY8Jue" crossorigin="anonymous"></script>
+    <script src="{{ url_for('static', filename='script.js') }}"></script>
+</body>
+</html>
