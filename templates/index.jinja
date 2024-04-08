@@ -5,19 +5,23 @@
     <link rel="stylesheet" type="text/css" href="{{ url_for('static', filename='style.css') }}">
 </head>
 <body>
-    <div class="grid" id="grid">
+    <div class="grid stream" id="grid">
+        <div class="grid-sizer"></div>
         {% for image in images %}
         <div class="grid-item" id="{{ image.uid }}">
             <img class="item-image" src="{{ image.image_url }}" />
         </div>
         {% endfor %}
     </div>
-    <button
-        id="motto"
-        hx-get="/more?max_uid={{ images[-1].uid }}"
-        hx-target="#grid"
-        hx-swap="beforeend"
-    >もっと</button>
+    <div class="tag-container stream">
+        <div
+            id="motto"
+            class="tag"
+            hx-get="/more?max_uid={{ images[-1].uid }}"
+            hx-target="#grid"
+            hx-swap="beforeend"
+        >もっと</button>
+    </div>
     <script src="https://code.jquery.com/jquery-3.7.1.slim.js"></script>
     <script src="https://unpkg.com/masonry-layout@4/dist/masonry.pkgd.js"></script>
     <script src="https://unpkg.com/imagesloaded@5/imagesloaded.pkgd.js"></script>

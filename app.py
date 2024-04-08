@@ -41,19 +41,21 @@ GRID_ITEM_TEMPLATE = """<div class="grid-item" id="UID">
 </div>"""
 
 
-MOTTO_BUTTON_TEMPLATE = """<button
+MOTTO_BUTTON_TEMPLATE = """<div
     id="motto"
+    class="tag"
     hx-swap-oob="true"
     hx-get="/more?max_uid=MAX_UID"
     hx-target="#grid"
     hx-swap="beforeend"
->もっと</button>"""
+>もっと</div>"""
 
 
-OWARI_BUTTON = """<button
+OWARI_BUTTON = """<div
     id="motto"
+    class="tag"
     hx-swap-oob="true"
->終わり</button>"""
+>終わり</div>"""
 
 
 @app.route('/more')

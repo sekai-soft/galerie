@@ -1,7 +1,8 @@
 const grid = $('.grid').masonry({
   itemSelector: '.grid-item',
-  columnWidth: 200,
-  gutter: 4,
+  columnWidth: '.grid-sizer',
+  percentPosition: true,
+  gutter: 4
 });
 
 grid.imagesLoaded().progress(() => {
