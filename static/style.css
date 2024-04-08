@@ -23,8 +23,32 @@ body {
 }
 
 .grid-sizer, .grid-item {
-    width: 33%;
+    width: 32%;
 }
+
+/** sizes for tablet **/
+@media screen and (max-width: 768px) {
+    .stream {
+        width: 80%;
+        margin: 0 auto;
+    }
+    
+    .grid-sizer, .grid-item {
+        width: 32%;
+    }
+}
+
+/** sizes for phone **/
+@media screen and (max-width: 414px) {
+    .stream {
+        width: 100%;
+    }
+    
+    .grid-sizer, .grid-item {
+        width: 49%;
+    }
+}
+
 
 .item-image {
     max-width: 100%;
