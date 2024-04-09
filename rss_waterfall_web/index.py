@@ -1,8 +1,15 @@
 from typing import List
+from urllib.parse import quote
 from rss_waterfall.images import Image
 
 
-GRID_ITEM_TEMPLATE = """<div class="grid-item" id="UID" x-data="{}" x-on:click="window.open('URL', '_blank')">
+GRID_ITEM_DBLCLICK_ATTRIBUTE_TEMPLATE = """ x-on:dblclick="clearTimeout(timer); fetch('/suki?url=ENCODED_URL', {method: 'POST'})" """
+
+GRID_ITEM_TEMPLATE = """<div
+    class="grid-item"
+    id="UID"
+    x-data="{ timer: null }"
+    x-on:click="clearTimeout(timer); timer = setTimeout(() => { window.open('URL', '_blank') }, 250);" GRID_ITEM_DBLCLICK_ATTRIBUTES>
     <img class="item-image" src="IMAGE_URL"/>
 </div>"""
 
@@ -49,14 +56,18 @@ INDEX_TEMPLATE = f"""<!DOCTYPE html>
 """
 
 
-def render_images_html(all_images: List[Image], max_images: int) -> str:
+def render_images_html(all_images: List[Image], max_images: int, double_click_action: bool) -> str:
     images = all_images[:max_images]
     images_html = ''
     for image in images:
         images_html += GRID_ITEM_TEMPLATE \
             .replace('UID', image.uid) \
             .replace('IMAGE_URL', image.image_url) \
-            .replace('URL', image.url)
+            .replace('URL', image.url) \
+            .replace('GRID_ITEM_DBLCLICK_ATTRIBUTES',
+                     GRID_ITEM_DBLCLICK_ATTRIBUTE_TEMPLATE
+                        .replace('ENCODED_URL', quote(image.url)) if double_click_action
+                     else '')
     return images_html
 
 
@@ -71,8 +82,8 @@ def render_button_html(all_images: List[Image], max_images: int) -> str:
     return OWARI_BUTTON
 
 
-def render_index(all_images: List[Image], max_images: int, url_for_style_css: str, url_for_script_js: str) -> str:
-    images_html = render_images_html(all_images, max_images)
+def render_index(all_images: List[Image], max_images: int, url_for_style_css: str, url_for_script_js: str, double_click_action: bool) -> str:
+    images_html = render_images_html(all_images, max_images, double_click_action)
     button_html = render_button_html(all_images, max_images)
     return INDEX_TEMPLATE \
         .replace('COUNT', str(len(all_images))) \
