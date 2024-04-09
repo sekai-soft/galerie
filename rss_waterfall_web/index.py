@@ -1,9 +1,9 @@
 from typing import List
-from urllib.parse import quote
+from urllib.parse import quote, quote_plus
 from rss_waterfall.images import Image
 
 
-GRID_ITEM_DBLCLICK_ATTRIBUTE_TEMPLATE = """ x-on:dblclick="clearTimeout(timer); fetch('/suki?url=ENCODED_URL', {method: 'POST'}).then(() => window.toast('Added to Pocket'))" """
+GRID_ITEM_DBLCLICK_ATTRIBUTE_TEMPLATE = """ x-on:dblclick="clearTimeout(timer); fetch('/suki?url=ENCODED_URL&TAG_ARGS', {method: 'POST'}).then(() => window.toast('Added to Pocket'))" """
 
 GRID_ITEM_TEMPLATE = """<div
     class="grid-item"
@@ -67,8 +67,12 @@ def render_images_html(all_images: List[Image], max_images: int, double_click_ac
             .replace('URL', image.url) \
             .replace('GRID_ITEM_DBLCLICK_ATTRIBUTES',
                      GRID_ITEM_DBLCLICK_ATTRIBUTE_TEMPLATE
-                        .replace('ENCODED_URL', quote(image.url)) if double_click_action
-                     else '')
+                        .replace(
+                            'ENCODED_URL', quote(image.url)) \
+                        .replace('&TAG_ARGS', ''.join(
+                            map(lambda group: f'&tag={quote_plus(group.title)}&tag={quote(f'group_id={group.gid}')}', image.groups)
+                        ) if image.groups else '')
+                        if double_click_action else '')
     return images_html
 
 

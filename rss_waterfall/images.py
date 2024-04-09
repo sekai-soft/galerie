@@ -5,10 +5,17 @@ from .fever import get_unread_items
 
 
 @dataclass
+class Group:
+    title: str
+    gid: int
+
+
+@dataclass
 class Image:
     image_url: str
     uid: str
     url: str
+    groups: List[Group]
 
 
 def extract_images(html: str, item: Dict) -> List[Image]:
@@ -19,7 +26,10 @@ def extract_images(html: str, item: Dict) -> List[Image]:
         items.append(Image(
             image_url=image_url['src'],
             uid=f'{item['id']}-{i}',
-            url=item['url']))
+            url=item['url'],
+            groups=[Group(
+                title=group['title'],
+                gid=group['id']) for group in item['groups']]))
     return items
 
 

@@ -1,6 +1,6 @@
 import os
 from dotenv import load_dotenv
-from urllib.parse import unquote
+from urllib.parse import unquote, unquote_plus
 from flask import Flask, request, url_for
 from pocket import Pocket
 from rss_waterfall.images import get_images
@@ -56,5 +56,7 @@ def suki():
         return 'Pocket was not configured how did you get here?'
     encoded_url = request.args.get('url')
     url = unquote(encoded_url)
-    pocket_client.add(url)
+    encoded_tags = request.args.getlist('tag')
+    tags = list(map(unquote_plus, encoded_tags))
+    pocket_client.add(url, tags=tags)
     return f'Added {url} to Pocket'
