@@ -1,8 +1,8 @@
 import os
 from dotenv import load_dotenv
-from flask import Flask, render_template, request
-from rss_waterfall.fever import get_unread_items
-from rss_waterfall.rss import extract_images
+from flask import Flask, request, url_for
+from rss_waterfall.images import get_images
+from rss_waterfall_web.index import render_index, render_images_html, render_button_html
 
 
 def get_env_or_bust(key: str) -> str:
@@ -19,64 +19,24 @@ max_images = int(os.getenv('MAX_IMAGES', '15'))
 app = Flask(__name__, static_url_path='/static')
 
 
-def get_images():
-    images = []
-    for item in get_unread_items(fever_endpoint, fever_username, fever_password):
-        html = item['html']
-        images += extract_images(html, item['id'])
-    return images
-
-
 @app.route("/")
 def index():
-    images = get_images()
-    return render_template(
-        'index.jinja',
-        count=len(images),
-        images=images[: max_images])
+    all_images = get_images(fever_endpoint, fever_username, fever_password)
+    return render_index(
+        all_images,
+        max_images, 
+        url_for('static', filename='style.css'),
+        url_for('static', filename='script.js'))
 
 
-GRID_ITEM_TEMPLATE = """<div class="grid-item" id="UID">
-    <img class="item-image" src="IMAGE_URL" />
-</div>"""
-
-
-MOTTO_BUTTON_TEMPLATE = """<div
-    id="motto"
-    class="tag"
-    hx-swap-oob="true"
-    hx-get="/more?max_uid=MAX_UID"
-    hx-target="#grid"
-    hx-swap="beforeend"
->もっと</div>"""
-
-
-OWARI_BUTTON = """<div
-    id="motto"
-    class="tag"
-    hx-swap-oob="true"
->終わり</div>"""
-
-
-@app.route('/more')
+@app.route('/motto')
 def more():
     max_uid = request.args.get('max_uid')
-    all_images = get_images()
+    all_images = get_images(fever_endpoint, fever_username, fever_password)
     max_uid_index = -1
     for i, image in enumerate(all_images):
         if image.uid == max_uid:
             max_uid_index = i
             break
-    more_images = all_images[max_uid_index + 1: max_uid_index + 1 + max_images]
-    
-    more_html = map(
-        lambda image: GRID_ITEM_TEMPLATE.replace('UID', image.uid).replace('IMAGE_URL', image.image_url),
-        more_images)
-    more_html = ''.join(more_html)
-
-    if len(more_images) < max_images:
-        motto_button = OWARI_BUTTON
-    else:
-        motto_button = MOTTO_BUTTON_TEMPLATE.replace('MAX_UID', more_images[-1].uid)
-
-    return more_html + motto_button
+    remaining_images = all_images[max_uid_index + 1:]
+    return render_images_html(remaining_images, max_images) + render_button_html(remaining_images, max_images)
