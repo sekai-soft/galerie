@@ -3,7 +3,7 @@ from urllib.parse import quote
 from rss_waterfall.images import Image
 
 
-GRID_ITEM_DBLCLICK_ATTRIBUTE_TEMPLATE = """ x-on:dblclick="clearTimeout(timer); fetch('/suki?url=ENCODED_URL', {method: 'POST'})" """
+GRID_ITEM_DBLCLICK_ATTRIBUTE_TEMPLATE = """ x-on:dblclick="clearTimeout(timer); fetch('/suki?url=ENCODED_URL', {method: 'POST'}).then(() => window.toast('Added to Pocket'))" """
 
 GRID_ITEM_TEMPLATE = """<div
     class="grid-item"
@@ -15,7 +15,7 @@ GRID_ITEM_TEMPLATE = """<div
 
 MOTTO_BUTTON_TEMPLATE = """<div
     id="motto"
-    class="tag"
+    class="button"
     hx-swap-oob="true"
     hx-get="/motto?max_uid=MAX_UID"
     hx-target="#grid"
@@ -24,7 +24,7 @@ MOTTO_BUTTON_TEMPLATE = """<div
 
 OWARI_BUTTON = """<div
     id="motto"
-    class="tag"
+    class="button"
     hx-swap-oob="true"
 >終わり</div>"""
 
@@ -41,15 +41,16 @@ INDEX_TEMPLATE = f"""<!DOCTYPE html>
     </head>
     <body>
         <div class="stream">
-            <p>RSS Waterfall <a href="https://github.com/sekai-soft/rss-waterfall" target="_blank" style="font-size: 1em;">&lt;/&gt;</a></p>
+            <p>(COUNT) RSS Waterfall <a href="https://github.com/sekai-soft/rss-waterfall" target="_blank" style="font-size: 1em;">&lt;/&gt;</a></p>
         </div>
         <div class="grid stream" id="grid">
             <div class="grid-sizer"></div>
             IMAGES_HTML
         </div>
-        <div class="tag-container stream">
+        <div class="button-container stream">
             BUTTON_HTML
         </div>
+        <div id="toast">Default toast message</div> 
         <script src="URL_FOR_SCRIPT_JS"></script>
     </body>
 </html>

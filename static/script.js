@@ -17,3 +17,13 @@ $(document).on('htmx:afterSettle', (event) => {
     });
   }
 });
+
+window.toast = (message) => {
+  const toastEl = $('#toast')
+  toastEl.addClass('show');
+  toastEl.text(message);
+
+  setTimeout(() => {
+    toastEl.removeClass('show');
+  }, 500);
+}
