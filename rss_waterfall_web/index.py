@@ -2,8 +2,8 @@ from typing import List
 from rss_waterfall.images import Image
 
 
-GRID_ITEM_TEMPLATE = """<div class="grid-item" id="UID">
-    <img class="item-image" src="IMAGE_URL" />
+GRID_ITEM_TEMPLATE = """<div class="grid-item" id="UID" x-data="{}" x-on:click="window.open('URL', '_blank')">
+    <img class="item-image" src="IMAGE_URL"/>
 </div>"""
 
 MOTTO_BUTTON_TEMPLATE = """<div
@@ -26,6 +26,11 @@ INDEX_TEMPLATE = f"""<!DOCTYPE html>
     <head>
         <title>(COUNT) RSS Waterfall</title>
         <link rel="stylesheet" type="text/css" href="URL_FOR_STYLE_CSS">
+        <script src="https://code.jquery.com/jquery-3.7.1.slim.js"></script>
+        <script src="https://unpkg.com/masonry-layout@4/dist/masonry.pkgd.js"></script>
+        <script src="https://unpkg.com/imagesloaded@5/imagesloaded.pkgd.js"></script>
+        <script src="https://unpkg.com/htmx.org@1.9.11/dist/htmx.js" integrity="sha384-l9bYT9SL4CAW0Hl7pAOpfRc18mys1b0wK4U8UtGnWOxPVbVMgrOdB+jyz/WY8Jue" crossorigin="anonymous"></script>
+        <script defer src="https://cdn.jsdelivr.net/npm/alpinejs@3.13.8/dist/cdn.min.js"></script>
     </head>
     <body>
         <div class="stream">
@@ -38,10 +43,6 @@ INDEX_TEMPLATE = f"""<!DOCTYPE html>
         <div class="tag-container stream">
             BUTTON_HTML
         </div>
-        <script src="https://code.jquery.com/jquery-3.7.1.slim.js"></script>
-        <script src="https://unpkg.com/masonry-layout@4/dist/masonry.pkgd.js"></script>
-        <script src="https://unpkg.com/imagesloaded@5/imagesloaded.pkgd.js"></script>
-        <script src="https://unpkg.com/htmx.org@1.9.11/dist/htmx.js" integrity="sha384-l9bYT9SL4CAW0Hl7pAOpfRc18mys1b0wK4U8UtGnWOxPVbVMgrOdB+jyz/WY8Jue" crossorigin="anonymous"></script>
         <script src="URL_FOR_SCRIPT_JS"></script>
     </body>
 </html>
@@ -54,7 +55,8 @@ def render_images_html(all_images: List[Image], max_images: int) -> str:
     for image in images:
         images_html += GRID_ITEM_TEMPLATE \
             .replace('UID', image.uid) \
-            .replace('IMAGE_URL', image.image_url)
+            .replace('IMAGE_URL', image.image_url) \
+            .replace('URL', image.url)
     return images_html
 
 

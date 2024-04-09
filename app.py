@@ -30,7 +30,7 @@ def index():
 
 
 @app.route('/motto')
-def more():
+def motto():
     max_uid = request.args.get('max_uid')
     all_images = get_images(fever_endpoint, fever_username, fever_password)
     max_uid_index = -1
