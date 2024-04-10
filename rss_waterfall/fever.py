@@ -6,7 +6,7 @@ from typing import List
 ITEMS_QUERY_MAX_ITERS = 50
 
 
-def get_unread_items(endpoint: str, username: str, password: str) -> List[dict]:
+def _fever_auth(endpoint: str, username: str, password: str) -> str:
     username_plus_password = username + ':' + password
     api_key = hashlib.md5(username_plus_password.encode()).hexdigest()
 
@@ -15,6 +15,11 @@ def get_unread_items(endpoint: str, username: str, password: str) -> List[dict]:
     auth_res = auth_res.json()
     if 'auth' not in auth_res or auth_res['auth'] != 1:
         raise RuntimeError('Authentication failed')
+    return api_key
+
+
+def get_unread_items(endpoint: str, username: str, password: str) -> List[dict]:
+    api_key = _fever_auth(endpoint, username, password)
     
     groups_res = requests.post(endpoint + '/?api&groups', data={'api_key': api_key})
     groups_res.raise_for_status()
@@ -30,9 +35,10 @@ def get_unread_items(endpoint: str, username: str, password: str) -> List[dict]:
 
     unread_item_ids_res = requests.post(endpoint + '/?api&unread_item_ids', data={'api_key': api_key})
     unread_item_ids_res.raise_for_status()
-    unread_item_ids = list(map(int, unread_item_ids_res.json()['unread_item_ids'].split(',')))
-    if len(unread_item_ids) == 0:
+    unread_item_ids = unread_item_ids_res.json()['unread_item_ids']
+    if unread_item_ids == '':
         return []
+    unread_item_ids = list(map(int, unread_item_ids.split(',')))
     # &items&since_id query looks like it's exclusive, e.g. since_id's item will not be included
     # hence need to -1 to make sure since_id's item is also included
     since_id = min(unread_item_ids) - 1
@@ -52,3 +58,11 @@ def get_unread_items(endpoint: str, username: str, password: str) -> List[dict]:
         since_id = max([i['id'] for i in items])
     # unread_items is ordered by oldest first
     return list(reversed(unread_items))
+
+
+def mark_items_as_read(endpoint: str, username: str, password: str, item_ids: int):
+    api_key = _fever_auth(endpoint, username, password)
+
+    for item_id in item_ids:
+        mark_res = requests.post(endpoint + '/?api&mark=item&as=read&id=' + item_id, data={'api_key': api_key})
+        mark_res.raise_for_status()

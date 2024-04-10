@@ -1,9 +1,10 @@
 import os
 from dotenv import load_dotenv
 from urllib.parse import unquote, unquote_plus
-from flask import Flask, request, url_for
+from flask import Flask, request, url_for, Response
 from pocket import Pocket
-from rss_waterfall.images import get_images
+from rss_waterfall.fever import mark_items_as_read
+from rss_waterfall.images import get_images, uid_to_item_id
 from rss_waterfall_web.index import render_index, render_images_html, render_button_html
 
 
@@ -55,10 +56,29 @@ def motto():
 @app.route('/suki', methods=['POST'])
 def suki():
     if not pocket_client:
-        return 'Pocket was not configured how did you get here?'
+        return 'Pocket was not configured. How did you get here?'
     encoded_url = request.args.get('url')
     url = unquote(encoded_url)
     encoded_tags = request.args.getlist('tag')
     tags = list(map(unquote_plus, encoded_tags))
     pocket_client.add(url, tags=tags)
     return f'Added {url} to Pocket'
+
+
+@app.route('/owari', methods=['POST'])
+def owari():
+    session_max_uid = request.args.get('session_max_uid')
+    min_uid = request.args.get('min_uid')
+    max_item_id = uid_to_item_id(session_max_uid)
+    min_item_id = uid_to_item_id(min_uid)
+    
+    mark_as_read_item_ids = []
+    all_images = get_images(fever_endpoint, fever_username, fever_password)
+    for image in all_images:
+        item_id = uid_to_item_id(image.uid)
+        if min_item_id <= item_id <= max_item_id:
+            mark_as_read_item_ids.append(item_id)
+    mark_items_as_read(fever_endpoint, fever_username, fever_password, mark_as_read_item_ids)
+    resp = Response(f'Marked {len(mark_as_read_item_ids)} items as read')
+    resp.headers['HX-Refresh'] = "true"
+    return resp

@@ -20,18 +20,22 @@ MOTTO_BUTTON_TEMPLATE = """<div
     hx-get="/motto?session_max_uid=SESSION_MAX_UID&max_uid=MAX_UID"
     hx-target="#grid"
     hx-swap="beforeend"
->(COUNT) もっと <span class="htmx-indicator">...</span></div>"""
+>(COUNT) Load more <span class="htmx-indicator">...</span></div>"""
 
-OWARI_BUTTON = """<div
+OWARI_BUTTON_TEMPLATE = """<div
     id="motto"
     class="button"
     hx-swap-oob="true"
->終わり</div>"""
+    hx-confirm="Are you sure you want to mark all items as read?"
+    hx-post="/owari?session_max_uid=SESSION_MAX_UID&min_uid=MIN_UID"
+>Mark all as read</div>"""
+
+MOTIVATIONAL_BANNER = """<p>There is nothing left. Go do something else.</p>"""
 
 INDEX_TEMPLATE = f"""<!DOCTYPE html>
 <html>
     <head>
-        <title>(COUNT) RSS Waterfall</title>
+        <title>COUNTRSS Waterfall</title>
         <link rel="stylesheet" type="text/css" href="URL_FOR_STYLE_CSS">
         <script src="https://code.jquery.com/jquery-3.7.1.slim.js"></script>
         <script src="https://unpkg.com/masonry-layout@4/dist/masonry.pkgd.js"></script>
@@ -41,7 +45,8 @@ INDEX_TEMPLATE = f"""<!DOCTYPE html>
     </head>
     <body>
         <div class="stream">
-            <p>(COUNT) RSS Waterfall <a href="https://github.com/sekai-soft/rss-waterfall" target="_blank" style="font-size: 1em;">&lt;/&gt;</a></p>
+            <p>COUNTRSS Waterfall <a href="https://github.com/sekai-soft/rss-waterfall" target="_blank" style="font-size: 1em;">&lt;/&gt;</a></p>
+            MOTIVATIONAL_BANNER
         </div>
         <div class="grid stream" id="grid">
             <div class="grid-sizer"></div>
@@ -90,14 +95,19 @@ def render_button_html(all_or_remaining_images: List[Image], max_images: int, se
     if len(all_or_remaining_images) > max_images:
         max_uid = all_or_remaining_images[max_images - 1].uid
         return render_motto_button_html(len(all_or_remaining_images) - max_images, max_uid, session_max_uid)
-    return OWARI_BUTTON
+    return OWARI_BUTTON_TEMPLATE.replace('SESSION_MAX_UID', session_max_uid).replace('MIN_UID', all_or_remaining_images[-1].uid)
 
 
 def render_index(all_images: List[Image], max_images: int, url_for_style_css: str, url_for_script_js: str, double_click_action: bool) -> str:
     images_html = render_images_html(all_images, max_images, double_click_action)
-    button_html = render_button_html(all_images, max_images, all_images[0].uid)
+    if all_images:
+        button_html = render_button_html(all_images, max_images, all_images[0].uid)
+    else:
+        button_html = ''
+    nothing_left = not all_images
     return INDEX_TEMPLATE \
-        .replace('COUNT', str(len(all_images))) \
+        .replace('COUNT', f'({len(all_images)}) ' if not nothing_left else '') \
+        .replace('MOTIVATIONAL_BANNER', MOTIVATIONAL_BANNER if nothing_left else '') \
         .replace('IMAGES_HTML', images_html) \
         .replace('BUTTON_HTML', button_html) \
         .replace('URL_FOR_STYLE_CSS', url_for_style_css) \

@@ -18,6 +18,10 @@ class Image:
     groups: List[Group]
 
 
+def uid_to_item_id(uid: str) -> str:
+    return uid.rsplit('-', 1)[0]
+
+
 def extract_images(html: str, item: Dict) -> List[Image]:
     soup = BeautifulSoup(html, 'html.parser')
     image_urls = soup.find_all('img')
