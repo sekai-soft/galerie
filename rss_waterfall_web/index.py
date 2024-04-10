@@ -20,7 +20,7 @@ MOTTO_BUTTON_TEMPLATE = """<div
     hx-get="/motto?max_uid=MAX_UID"
     hx-target="#grid"
     hx-swap="beforeend"
->もっと</div>"""
+>(COUNT) もっと <span class="htmx-indicator">...</span></div>"""
 
 OWARI_BUTTON = """<div
     id="motto"
@@ -76,14 +76,16 @@ def render_images_html(all_images: List[Image], max_images: int, double_click_ac
     return images_html
 
 
-def render_motto_button_html(max_uid: str) -> str:
-    return MOTTO_BUTTON_TEMPLATE.replace('MAX_UID', max_uid)
+def render_motto_button_html(count: int, max_uid: str) -> str:
+    return MOTTO_BUTTON_TEMPLATE \
+        .replace('COUNT', str(count)) \
+        .replace('MAX_UID', max_uid)
 
 
 def render_button_html(all_images: List[Image], max_images: int) -> str:
     if len(all_images) > max_images:
         max_uid = all_images[max_images - 1].uid
-        return render_motto_button_html(max_uid)
+        return render_motto_button_html(len(all_images) - max_images, max_uid)
     return OWARI_BUTTON
 
 
