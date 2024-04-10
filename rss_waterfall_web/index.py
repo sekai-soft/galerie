@@ -35,7 +35,11 @@ MOTIVATIONAL_BANNER = """<p>There is nothing left. Go do something else.</p>"""
 INDEX_TEMPLATE = f"""<!DOCTYPE html>
 <html>
     <head>
+        <meta charset="UTF-8">
+        <meta name="viewport" content="width=device-width, initial-scale=1.0">
+        <meta http-equiv="X-UA-Compatible" content="ie=edge">
         <title>COUNTRSS Waterfall</title>
+        <meta name="description" content="A Pinterest/Xiaohongshu photo wall style RSS reader">
         <link rel="stylesheet" type="text/css" href="URL_FOR_STYLE_CSS">
         <script src="https://code.jquery.com/jquery-3.7.1.slim.js"></script>
         <script src="https://unpkg.com/masonry-layout@4/dist/masonry.pkgd.js"></script>
