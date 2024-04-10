@@ -17,7 +17,7 @@ MOTTO_BUTTON_TEMPLATE = """<div
     id="motto"
     class="button"
     hx-swap-oob="true"
-    hx-get="/motto?max_uid=MAX_UID"
+    hx-get="/motto?session_max_uid=SESSION_MAX_UID&max_uid=MAX_UID"
     hx-target="#grid"
     hx-swap="beforeend"
 >(COUNT) もっと <span class="htmx-indicator">...</span></div>"""
@@ -57,8 +57,8 @@ INDEX_TEMPLATE = f"""<!DOCTYPE html>
 """
 
 
-def render_images_html(all_images: List[Image], max_images: int, double_click_action: bool) -> str:
-    images = all_images[:max_images]
+def render_images_html(remaining_images: List[Image], max_images: int, double_click_action: bool) -> str:
+    images = remaining_images[:max_images]
     images_html = ''
     for image in images:
         images_html += GRID_ITEM_TEMPLATE \
@@ -76,22 +76,26 @@ def render_images_html(all_images: List[Image], max_images: int, double_click_ac
     return images_html
 
 
-def render_motto_button_html(count: int, max_uid: str) -> str:
+def render_motto_button_html(count: int, max_uid: str, session_max_uid: str) -> str:
+    # order of SESSION_MAX_UID and MAX_UID cannot be change
+    # otherwise max_uid will be in SESSION_MAX_UID
+    # because MAX_UID is a substring of SESSION_MAX_UID
     return MOTTO_BUTTON_TEMPLATE \
         .replace('COUNT', str(count)) \
+        .replace('SESSION_MAX_UID', session_max_uid) \
         .replace('MAX_UID', max_uid)
 
 
-def render_button_html(all_images: List[Image], max_images: int) -> str:
-    if len(all_images) > max_images:
-        max_uid = all_images[max_images - 1].uid
-        return render_motto_button_html(len(all_images) - max_images, max_uid)
+def render_button_html(all_or_remaining_images: List[Image], max_images: int, session_max_uid: str) -> str:
+    if len(all_or_remaining_images) > max_images:
+        max_uid = all_or_remaining_images[max_images - 1].uid
+        return render_motto_button_html(len(all_or_remaining_images) - max_images, max_uid, session_max_uid)
     return OWARI_BUTTON
 
 
 def render_index(all_images: List[Image], max_images: int, url_for_style_css: str, url_for_script_js: str, double_click_action: bool) -> str:
     images_html = render_images_html(all_images, max_images, double_click_action)
-    button_html = render_button_html(all_images, max_images)
+    button_html = render_button_html(all_images, max_images, all_images[0].uid)
     return INDEX_TEMPLATE \
         .replace('COUNT', str(len(all_images))) \
         .replace('IMAGES_HTML', images_html) \

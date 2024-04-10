@@ -40,6 +40,7 @@ def index():
 @app.route('/motto')
 def motto():
     max_uid = request.args.get('max_uid')
+    session_max_uid = request.args.get('session_max_uid')
     all_images = get_images(fever_endpoint, fever_username, fever_password)
     max_uid_index = -1
     for i, image in enumerate(all_images):
@@ -47,7 +48,8 @@ def motto():
             max_uid_index = i
             break
     remaining_images = all_images[max_uid_index + 1:]
-    return render_images_html(remaining_images, max_images, pocket_client is not None) + render_button_html(remaining_images, max_images)
+    return render_images_html(remaining_images, max_images, pocket_client is not None) + \
+        render_button_html(remaining_images, max_images, session_max_uid)
 
 
 @app.route('/suki', methods=['POST'])
