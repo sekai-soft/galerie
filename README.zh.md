@@ -2,7 +2,7 @@
 一款 Pinterest/小红书照片墙式的 RSS 阅读器
 
 [![en](https://img.shields.io/badge/lang-en-blue.svg)](https://github.com/sekai-soft/rss-waterfall/blob/master/README.md)
-[![zh](https://img.shields.io/badge/lang-zh-red.svg)](https://github.com/sekai-soft/rss-waterfall/blob/master/README.zh.md)
+[![zh](https://img.shields.io/badge/中文文档-red.svg)](https://github.com/sekai-soft/rss-waterfall/blob/master/README.zh.md)
 [![zh](https://img.shields.io/badge/docker-amd64-orange)](https://github.com/sekai-soft/rss-waterfall/pkgs/container/rss-waterfall)
 [![zh](https://img.shields.io/badge/docker-arm64-teal)](https://github.com/sekai-soft/rss-waterfall/pkgs/container/rss-waterfall)
 
