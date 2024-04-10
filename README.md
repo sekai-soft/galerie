@@ -14,7 +14,7 @@ A Pinterest/Xiaohongshu photo wall style RSS reader
     * [FreshRSS](https://freshrss.github.io/FreshRSS/en/users/06_Mobile_access.html)
     * [Tiny Tiny RSS (via a third-party plugin)](https://github.com/DigitalDJ/tinytinyrss-fever-plugin)
 * View images from unread RSS items in a beautiful photo wall
-* Mark items as read when you are done
+* Mark all items as read when you are done
 * (Optional) Connect to Pocket and quickly add items to read-it-later by double-tapping on the image
 
 ## Unimplemented ideas
