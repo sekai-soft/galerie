@@ -7,7 +7,7 @@ LOGIN_TEMPLATE = """<!DOCTYPE html>
         <title>Login | RSS Waterfall</title>
         <meta name="description" content="A Pinterest/Xiaohongshu photo wall style RSS reader">
         <link rel="stylesheet" type="text/css" href="URL_FOR_STYLE_CSS">
-        <script src="https://unpkg.com/htmx.org@1.9.11/dist/htmx.js" integrity="sha384-l9bYT9SL4CAW0Hl7pAOpfRc18mys1b0wK4U8UtGnWOxPVbVMgrOdB+jyz/WY8Jue" crossorigin="anonymous"></script>
+        <script src="https://cdn.jsdelivr.net/npm/htmx.org@1.9.11/dist/htmx.min.js"></script>
         <script defer src="https://cdn.jsdelivr.net/npm/alpinejs@3.13.8/dist/cdn.min.js"></script>
     </head>
     <body>

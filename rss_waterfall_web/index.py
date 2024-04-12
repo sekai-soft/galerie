@@ -51,9 +51,9 @@ INDEX_TEMPLATE = f"""<!DOCTYPE html>
         <meta name="description" content="A Pinterest/Xiaohongshu photo wall style RSS reader">
         <link rel="stylesheet" type="text/css" href="URL_FOR_STYLE_CSS">
         <script src="https://code.jquery.com/jquery-3.7.1.slim.js"></script>
-        <script src="https://unpkg.com/masonry-layout@4/dist/masonry.pkgd.js"></script>
-        <script src="https://unpkg.com/imagesloaded@5/imagesloaded.pkgd.js"></script>
-        <script src="https://unpkg.com/htmx.org@1.9.11/dist/htmx.js" integrity="sha384-l9bYT9SL4CAW0Hl7pAOpfRc18mys1b0wK4U8UtGnWOxPVbVMgrOdB+jyz/WY8Jue" crossorigin="anonymous"></script>
+        <script src="https://cdn.jsdelivr.net/npm/masonry-layout@4.2.2/dist/masonry.pkgd.min.js"></script>
+        <script src="https://cdn.jsdelivr.net/npm/imagesloaded@5.0.0/imagesloaded.pkgd.min.js"></script>
+        <script src="https://cdn.jsdelivr.net/npm/htmx.org@1.9.11/dist/htmx.min.js"></script>
         <script defer src="https://cdn.jsdelivr.net/npm/alpinejs@3.13.8/dist/cdn.min.js"></script>
     </head>
     <body>
