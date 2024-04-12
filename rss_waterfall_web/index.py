@@ -30,7 +30,16 @@ OWARI_BUTTON_TEMPLATE = """<div
     hx-post="/owari?session_max_uid=SESSION_MAX_UID&min_uid=MIN_UID"
 >Mark all as read</div>"""
 
-MOTIVATIONAL_BANNER = """<p>There is nothing left. Go do something else.</p>"""
+MOTIVATIONAL_BANNER = """<div class="stream">
+    <p>There is nothing left. Go do something else.</p>
+</div>"""
+
+LOGOUT_BUTTON = """<div
+    class="button"
+    style="width: 20%"
+    hx-post="/deauth"
+    hx-swap="none"
+>Logout</div>"""
 
 INDEX_TEMPLATE = f"""<!DOCTYPE html>
 <html>
@@ -48,10 +57,11 @@ INDEX_TEMPLATE = f"""<!DOCTYPE html>
         <script defer src="https://cdn.jsdelivr.net/npm/alpinejs@3.13.8/dist/cdn.min.js"></script>
     </head>
     <body>
-        <div class="stream">
+        <div class="stream header">
             <p>COUNTRSS Waterfall <a href="https://github.com/sekai-soft/rss-waterfall" target="_blank" style="font-size: 1em;">&lt;/&gt;</a></p>
-            MOTIVATIONAL_BANNER
+            LOGOUT_BUTTON
         </div>
+        MOTIVATIONAL_BANNER
         <div class="grid stream" id="grid">
             <div class="grid-sizer"></div>
             IMAGES_HTML
@@ -102,7 +112,13 @@ def render_button_html(all_or_remaining_images: List[Image], max_images: int, se
     return OWARI_BUTTON_TEMPLATE.replace('SESSION_MAX_UID', session_max_uid).replace('MIN_UID', all_or_remaining_images[-1].uid)
 
 
-def render_index(all_images: List[Image], max_images: int, url_for_style_css: str, url_for_script_js: str, double_click_action: bool) -> str:
+def render_index(
+        all_images: List[Image],
+        max_images: int,
+        url_for_style_css: str,
+        url_for_script_js: str,
+        double_click_action: bool,
+        has_auth_cookie: bool) -> str:
     images_html = render_images_html(all_images, max_images, double_click_action)
     if all_images:
         button_html = render_button_html(all_images, max_images, all_images[0].uid)
@@ -111,6 +127,7 @@ def render_index(all_images: List[Image], max_images: int, url_for_style_css: st
     nothing_left = not all_images
     return INDEX_TEMPLATE \
         .replace('COUNT', f'({len(all_images)}) ' if not nothing_left else '') \
+        .replace('LOGOUT_BUTTON', LOGOUT_BUTTON if has_auth_cookie else '') \
         .replace('MOTIVATIONAL_BANNER', MOTIVATIONAL_BANNER if nothing_left else '') \
         .replace('IMAGES_HTML', images_html) \
         .replace('BUTTON_HTML', button_html) \

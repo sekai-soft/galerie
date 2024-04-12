@@ -37,8 +37,15 @@ input {
     margin: 0 auto;
 }
 
+.header {
+    display: flex;
+    flex-direction: horizontal;
+    justify-content: space-between;
+    align-items: center;
+}
+
 .grid-sizer, .grid-item {
-    width: 32%;
+    width: 33%;
 }
 
 a {
@@ -59,7 +66,7 @@ a {
     }
 
     .stream {
-        width: 80%;
+        width: 66%;
         margin: 0 auto;
     }
     

@@ -94,6 +94,14 @@ def auth():
         return resp
 
 
+@app.route("/deauth", methods=['POST'])
+def deauth():
+    resp = make_response()
+    resp.delete_cookie('auth')
+    resp.headers['HX-Redirect'] = '/login'
+    return resp
+
+
 @app.route("/")
 @requires_auth
 def index():
@@ -103,7 +111,8 @@ def index():
         max_images, 
         url_for('static', filename='style.css'),
         url_for('static', filename='script.js'),
-        pocket_client is not None)
+        pocket_client is not None,
+        request.cookies.get('auth') is not None)
 
 
 @app.route('/motto')
