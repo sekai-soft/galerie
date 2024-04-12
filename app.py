@@ -4,11 +4,12 @@ import json
 from functools import wraps
 from dotenv import load_dotenv
 from urllib.parse import unquote, unquote_plus
-from flask import Flask, request, url_for, Response, g, make_response
+from flask import Flask, request, url_for, Response, g, redirect, make_response
 from pocket import Pocket
-from rss_waterfall.fever import mark_items_as_read
+from rss_waterfall.fever import mark_items_as_read, fever_auth, FeverAuthError
 from rss_waterfall.images import get_images, uid_to_item_id
 from rss_waterfall_web.index import render_index, render_images_html, render_button_html
+from rss_waterfall_web.login import render_login
 
 app = Flask(__name__, static_url_path='/static')
 load_dotenv()
@@ -35,12 +36,12 @@ def load_fever_auth():
     return False
 
 
-def fever_auth(f):
+def requires_auth(f):
     @wraps(f)
     def decorated_function(*args, **kwargs):
         fever_auth = load_fever_auth()
         if not fever_auth:
-            return 'Get authenticated bro.'
+            return redirect('/login')
         g.fever_endpoint, g.fever_username, g.fever_password = fever_auth
         return f(*args, **kwargs)
     return decorated_function
@@ -55,15 +56,46 @@ if 'POCKET_CONSUMER_KEY' in os.environ and 'POCKET_ACCESS_TOKEN' in os.environ:
 max_images = int(os.getenv('MAX_IMAGES', '15'))
 
 
-@app.route("/auth")
+@app.route("/login")
+def login():
+    fever_auth = load_fever_auth()
+    if fever_auth:
+        return redirect('/')
+    return render_login(url_for('static', filename='style.css'))
+
+
+@app.route('/auth', methods=['POST'])
 def auth():
-    response = make_response("You are gold")
-    response.set_cookie('auth', '')
-    return response
+    endpoint = request.form.get('endpoint')
+    username = request.form.get('username')
+    password = request.form.get('password')
+    try:
+        fever_auth(endpoint, username, password)
+        resp = make_response()
+        auth_str = json.dumps({
+            'endpoint': endpoint,
+            'username': username,
+            'password': password
+        })
+        auth_bytes = auth_str.encode("utf-8")
+        b64_auth_bytes = base64.b64encode(auth_bytes)
+        resp.set_cookie('auth', b64_auth_bytes.decode('utf-8'))
+        resp.headers['HX-Redirect'] = '/'
+        return resp
+    except FeverAuthError:
+        resp =  make_response()
+        resp.status_code = 401
+        resp.headers['HX-Trigger'] = json.dumps({"showMessage": "Failed to authenticate with Fever API"})
+        return resp
+    except Exception as e:
+        resp =  make_response()
+        resp.status_code = 500
+        resp.headers['HX-Trigger'] = json.dumps({"showMessage": f"Unknown server error:\n{str(e)}"})
+        return resp
 
 
 @app.route("/")
-@fever_auth
+@requires_auth
 def index():
     all_images = get_images(g.fever_endpoint, g.fever_username, g.fever_password)
     return render_index(
@@ -75,7 +107,7 @@ def index():
 
 
 @app.route('/motto')
-@fever_auth
+@requires_auth
 def motto():
     max_uid = request.args.get('max_uid')
     session_max_uid = request.args.get('session_max_uid')
@@ -103,7 +135,7 @@ def suki():
 
 
 @app.route('/owari', methods=['POST'])
-@fever_auth
+@requires_auth
 def owari():
     session_max_uid = request.args.get('session_max_uid')
     min_uid = request.args.get('min_uid')

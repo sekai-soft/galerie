@@ -6,7 +6,11 @@ from typing import List
 ITEMS_QUERY_MAX_ITERS = 50
 
 
-def _fever_auth(endpoint: str, username: str, password: str) -> str:
+class FeverAuthError(Exception):
+    pass
+
+
+def fever_auth(endpoint: str, username: str, password: str) -> str:
     username_plus_password = username + ':' + password
     api_key = hashlib.md5(username_plus_password.encode()).hexdigest()
 
@@ -14,12 +18,12 @@ def _fever_auth(endpoint: str, username: str, password: str) -> str:
     auth_res.raise_for_status()
     auth_res = auth_res.json()
     if 'auth' not in auth_res or auth_res['auth'] != 1:
-        raise RuntimeError('Authentication failed')
+        raise FeverAuthError()
     return api_key
 
 
 def get_unread_items(endpoint: str, username: str, password: str) -> List[dict]:
-    api_key = _fever_auth(endpoint, username, password)
+    api_key = fever_auth(endpoint, username, password)
     
     groups_res = requests.post(endpoint + '/?api&groups', data={'api_key': api_key})
     groups_res.raise_for_status()
@@ -61,7 +65,7 @@ def get_unread_items(endpoint: str, username: str, password: str) -> List[dict]:
 
 
 def mark_items_as_read(endpoint: str, username: str, password: str, item_ids: int):
-    api_key = _fever_auth(endpoint, username, password)
+    api_key = fever_auth(endpoint, username, password)
 
     for item_id in item_ids:
         mark_res = requests.post(endpoint + '/?api&mark=item&as=read&id=' + item_id, data={'api_key': api_key})

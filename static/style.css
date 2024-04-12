@@ -17,8 +17,17 @@ body {
     -ms-overflow-style: none;  /* IE and Edge */
 }
 
+.code-font {
+    font-family: 'Consolas', 'Menlo', monospace;
+}
+
 /** sizes **/
 p {
+    font-size: 2em;
+    line-height: 1.5;
+}
+
+input {
     font-size: 2em;
     line-height: 1.5;
 }
@@ -44,6 +53,11 @@ a {
         line-height: 1.5;
     }
 
+    input {
+        font-size: 2em;
+        line-height: 1.5;
+    }
+
     .stream {
         width: 80%;
         margin: 0 auto;
@@ -62,6 +76,11 @@ a {
 /** sizes for phone **/
 @media screen and (max-width: 414px) {
     p {
+        font-size: 1.5em;
+        line-height: 1.5;
+    }
+
+    input {
         font-size: 1.5em;
         line-height: 1.5;
     }
@@ -109,8 +128,16 @@ a {
     font-size: 1.2em;
 }
 
- /* The toast - position it at the bottom and in the middle of the screen */
- #toast {
+input {
+    color: #F5F5F5;
+    border: none;
+    border-bottom: 2px solid #999999;
+    background-color: #1A1A1A;
+    width: 75%;
+}
+
+/* The toast - position it at the bottom and in the middle of the screen */
+#toast {
     visibility: hidden; /* Hidden by default. Visible on click */
     width: 25%;
     background-color: #F5F5F5;
