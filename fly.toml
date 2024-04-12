@@ -1,0 +1,16 @@
+app = "rss-waterfall"
+kill_signal = "SIGINT"
+kill_timeout = "5s"
+primary_region = "sjc"
+
+[http_service]
+auto_start_machines = false
+auto_stop_machines = false
+force_https = true
+internal_port = 5_000
+min_machines_running = 1
+
+[[vm]]
+cpu_kind = "shared"
+cpus = 1
+memory = "256mb"
