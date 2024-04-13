@@ -35,6 +35,7 @@ OAWRI_BUTTON_TEMPLATE = """<div
     style="margin-left: 4px"
     hx-confirm="OWARI_CONFIRM"
     hx-post="/owari?session_max_uid=SESSION_MAX_UID&min_uid=MIN_UID"
+    hx-disabled-elt="this"
 >OWARI_LABEL <span class="htmx-indicator">...</span></div>"""
 
 MOTTO_BUTTONS_CONTAINER_TEMPLATE = """<div
@@ -47,6 +48,7 @@ MOTTO_BUTTONS_CONTAINER_TEMPLATE = """<div
         hx-get="/motto?session_max_uid=SESSION_MAX_UID&max_uid=MAX_UID"
         hx-target="#grid"
         hx-swap="beforeend"
+        hx-disabled-elt="this"
     >LOAD_COUNT_MORE <span class="htmx-indicator">...</span></div>
 """ + OAWRI_BUTTON_TEMPLATE + """</div>"""
 

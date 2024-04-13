@@ -61,6 +61,7 @@ LOGIN_TEMPLATE = """<!DOCTYPE html>
                     style="margin-top: 2em"
                     hx-post="/auth"
                     hx-swap="none"
+                    hx-disabled-elt="this"
                 >
                     LOGIN <span class="htmx-indicator">...</span>
                 </div>
