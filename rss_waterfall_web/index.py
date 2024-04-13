@@ -20,7 +20,7 @@ I18N = {
 def get_string(en_string: str, lang: str) -> str:
     return I18N.get(lang, {}).get(en_string, en_string)
 
-GRID_ITEM_DBLCLICK_ATTRIBUTE_TEMPLATE = """ x-on:dblclick.prevent="clearTimeout(timer); fetch('/suki?url=ENCODED_URL&TAG_ARGS', {method: 'POST'}).then(() => window.toast('Added to Pocket'))" """
+GRID_ITEM_DBLCLICK_ATTRIBUTE_TEMPLATE = """ x-on:dblclick.prevent="clearTimeout(timer); fetch('/suki?url=ENCODED_URL&TAG_ARGS', {method: 'POST'}).then(() => window.toast('Added UID to Pocket'))" """
 
 GRID_ITEM_TEMPLATE = """<div
     class="grid-item"
@@ -115,6 +115,7 @@ def render_images_html(remaining_images: List[Image], max_images: int, double_cl
                         .replace('&TAG_ARGS', ''.join(
                             map(lambda group: f'&tag={quote_plus(group.title)}&tag={quote(f'group_id={group.gid}')}', image.groups)
                         ) if image.groups else '')
+                        .replace('UID', image.uid) \
                         if double_click_action else '')
     return images_html
 

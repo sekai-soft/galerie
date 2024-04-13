@@ -55,16 +55,6 @@ if 'POCKET_CONSUMER_KEY' in os.environ and 'POCKET_ACCESS_TOKEN' in os.environ:
 
 max_images = int(os.getenv('MAX_IMAGES', '15'))
 
-
-@app.route("/login")
-def login():
-    fever_auth = load_fever_auth()
-    if fever_auth:
-        return redirect('/')
-    return render_login(
-        url_for('static', filename='style.css'),
-        request.accept_languages.best_match(['en', 'zh']))
-
 I18N = {
     "zh": {
         "Failed to authenticate with Fever API": "无法登陆 Fever API",
@@ -76,6 +66,29 @@ I18N = {
 def get_string(en_string: str, lang: str) -> str:
     return I18N.get(lang, {}).get(en_string, en_string)
 
+
+def catches_exceptions(f):
+    @wraps(f)
+    def decorated_function(*args, **kwargs):
+        try:
+            return f(*args, **kwargs)
+        except Exception as e: 
+            lang = request.accept_languages.best_match(['en', 'zh'])
+            resp = make_response(f"{get_string("Unknown server error", lang)}\n{str(e)}")
+            resp.status_code = 500
+            return resp
+    return decorated_function
+
+
+@app.route("/login")
+@catches_exceptions
+def login():
+    fever_auth = load_fever_auth()
+    if fever_auth:
+        return redirect('/')
+    return render_login(
+        url_for('static', filename='style.css'),
+        request.accept_languages.best_match(['en', 'zh']))
 
 @app.route('/auth', methods=['POST'])
 def auth():
@@ -118,6 +131,7 @@ def deauth():
 
 @app.route("/")
 @requires_auth
+@catches_exceptions
 def index():
     all_images = get_images(g.fever_endpoint, g.fever_username, g.fever_password)
     return render_index(
@@ -132,6 +146,7 @@ def index():
 
 @app.route('/motto')
 @requires_auth
+@catches_exceptions
 def motto():
     max_uid = request.args.get('max_uid')
     session_max_uid = request.args.get('session_max_uid')
@@ -160,6 +175,7 @@ def suki():
 
 @app.route('/owari', methods=['POST'])
 @requires_auth
+@catches_exceptions
 def owari():
     session_max_uid = request.args.get('session_max_uid')
     min_uid = request.args.get('min_uid')
