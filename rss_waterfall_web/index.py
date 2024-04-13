@@ -13,22 +13,23 @@ GRID_ITEM_TEMPLATE = """<div
     <img class="item-image" src="IMAGE_URL"/>
 </div>"""
 
-MOTTO_BUTTON_TEMPLATE = """<div
-    id="motto"
+OAWRI_BUTTON_TEMPLATE = """<div
     class="button"
-    hx-swap-oob="true"
-    hx-get="/motto?session_max_uid=SESSION_MAX_UID&max_uid=MAX_UID"
-    hx-target="#grid"
-    hx-swap="beforeend"
->(COUNT) Load more <span class="htmx-indicator">...</span></div>"""
-
-OWARI_BUTTON_TEMPLATE = """<div
-    id="motto"
-    class="button"
-    hx-swap-oob="true"
-    hx-confirm="Are you sure you want to mark all items as read?"
+    style="margin-left: 4px"
+    hx-confirm="CONFIRM"
     hx-post="/owari?session_max_uid=SESSION_MAX_UID&min_uid=MIN_UID"
->Mark all as read</div>"""
+>LABEL <span class="htmx-indicator">...</span></div>"""
+
+MOTTO_BUTTONS_CONTAINER_TEMPLATE = """<div class="button-container stream" id="motto" hx-swap-oob="true">
+    <div
+        class="button"
+        hx-get="/motto?session_max_uid=SESSION_MAX_UID&max_uid=MAX_UID"
+        hx-target="#grid"
+        hx-swap="beforeend"
+    >(COUNT) Load more <span class="htmx-indicator">...</span></div>
+""" + OAWRI_BUTTON_TEMPLATE + """</div>"""
+
+OWARI_BUTTONS_TEMPLATE = """<div class="button-container stream" id="motto" hx-swap-oob="true">""" + OAWRI_BUTTON_TEMPLATE + """</div>"""
 
 MOTIVATIONAL_BANNER = """<div class="stream">
     <p>There is nothing left. Go do something else.</p>
@@ -66,9 +67,7 @@ INDEX_TEMPLATE = f"""<!DOCTYPE html>
             <div class="grid-sizer"></div>
             IMAGES_HTML
         </div>
-        <div class="button-container stream">
-            BUTTON_HTML
-        </div>
+        BUTTON_HTML
         <div id="toast">Default toast message</div> 
         <script src="URL_FOR_SCRIPT_JS"></script>
     </body>
@@ -95,21 +94,36 @@ def render_images_html(remaining_images: List[Image], max_images: int, double_cl
     return images_html
 
 
-def render_motto_button_html(count: int, max_uid: str, session_max_uid: str) -> str:
+def render_motto_buttons_container_html(count: int, max_uid: str, min_uid: str, session_max_uid: str) -> str:
     # order of SESSION_MAX_UID and MAX_UID cannot be change
     # otherwise max_uid will be in SESSION_MAX_UID
     # because MAX_UID is a substring of SESSION_MAX_UID
-    return MOTTO_BUTTON_TEMPLATE \
+    return MOTTO_BUTTONS_CONTAINER_TEMPLATE \
         .replace('COUNT', str(count)) \
         .replace('SESSION_MAX_UID', session_max_uid) \
-        .replace('MAX_UID', max_uid)
+        .replace('MAX_UID', max_uid) \
+        .replace('MIN_UID', min_uid) \
+        .replace('CONFIRM', 'Are you sure you want to mark above as read') \
+        .replace('LABEL', 'Mark above as read')
+
+
+def render_owari_buttons_container_html(min_uid: str, session_max_uid: str) -> str:
+    return OWARI_BUTTONS_TEMPLATE \
+        .replace('SESSION_MAX_UID', session_max_uid) \
+        .replace('MIN_UID', min_uid) \
+        .replace('CONFIRM', 'Are you sure you want to mark all as read?') \
+        .replace('LABEL', 'Mark all as read')
 
 
 def render_button_html(all_or_remaining_images: List[Image], max_images: int, session_max_uid: str) -> str:
     if len(all_or_remaining_images) > max_images:
+        count = len(all_or_remaining_images) - max_images
         max_uid = all_or_remaining_images[max_images - 1].uid
-        return render_motto_button_html(len(all_or_remaining_images) - max_images, max_uid, session_max_uid)
-    return OWARI_BUTTON_TEMPLATE.replace('SESSION_MAX_UID', session_max_uid).replace('MIN_UID', all_or_remaining_images[-1].uid)
+        min_uid = all_or_remaining_images[max_images].uid
+        return render_motto_buttons_container_html(count, max_uid, min_uid, session_max_uid)
+    else:
+        min_uid = all_or_remaining_images[-1].uid
+        return render_owari_buttons_container_html(min_uid, session_max_uid)
 
 
 def render_index(
