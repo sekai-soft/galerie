@@ -88,6 +88,7 @@ def login():
         return redirect('/')
     return render_login(
         url_for('static', filename='style.css'),
+        url_for('static', filename='favicon.png'),
         request.accept_languages.best_match(['en', 'zh']))
 
 @app.route('/auth', methods=['POST'])
@@ -138,6 +139,7 @@ def index():
         all_images,
         max_images, 
         url_for('static', filename='style.css'),
+        url_for('static', filename='favicon.png'),
         url_for('static', filename='script.js'),
         pocket_client is not None,
         request.cookies.get('auth') is not None,

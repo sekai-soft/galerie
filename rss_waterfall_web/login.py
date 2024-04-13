@@ -24,6 +24,7 @@ LOGIN_TEMPLATE = """<!DOCTYPE html>
         <meta http-equiv="X-UA-Compatible" content="ie=edge">
         <title>LOGIN_RSS_WATERFALL</title>
         <meta name="description" content="A_PINTEREST_XIAOHONGSHU_PHOTO_WALL_STYLE_RSS_READER">
+        <link rel="icon" type="image/png" href="URL_FOR_FAVICON_PNG">
         <link rel="stylesheet" type="text/css" href="URL_FOR_STYLE_CSS">
         <script src="https://cdn.jsdelivr.net/npm/htmx.org@1.9.11/dist/htmx.min.js"></script>
         <script defer src="https://cdn.jsdelivr.net/npm/alpinejs@3.13.8/dist/cdn.min.js"></script>
@@ -77,11 +78,12 @@ LOGIN_TEMPLATE = """<!DOCTYPE html>
 """
 
 
-def render_login(url_for_style_css: str, lang: str):
+def render_login(url_for_style_css: str, url_for_favicon_png: str, lang: str):
     return LOGIN_TEMPLATE \
         .replace('LOGIN_RSS_WATERFALL', get_string('Login | RSS Waterfall', lang)) \
         .replace('A_PINTEREST_XIAOHONGSHU_PHOTO_WALL_STYLE_RSS_READER', get_string('A Pinterest/Xiaohongshu photo wall style RSS reader', lang)) \
         .replace('URL_FOR_STYLE_CSS', url_for_style_css) \
+        .replace('URL_FOR_FAVICON_PNG', url_for_favicon_png) \
         .replace('PLEASE_LOGIN_FIRST', get_string('Please login first', lang)) \
         .replace('ENDPOINT_URL_HELP_URL', get_string('https://github.com/sekai-soft/rss-waterfall?tab=readme-ov-file#example-fever-endpoints', lang)) \
         .replace('ENDPOINT_URL', get_string('Endpoint URL', lang)) \

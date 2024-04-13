@@ -77,6 +77,7 @@ INDEX_TEMPLATE = f"""<!DOCTYPE html>
         <meta http-equiv="X-UA-Compatible" content="ie=edge">
         <title>COUNTRSS_WATERFALL</title>
         <meta name="description" content="A_PINTEREST_XIAOHONGSHU_PHOTO_WALL_STYLE_RSS_READER">
+        <link rel="icon" type="image/png" href="URL_FOR_FAVICON_PNG">
         <link rel="stylesheet" type="text/css" href="URL_FOR_STYLE_CSS">
         <script src="https://code.jquery.com/jquery-3.7.1.slim.js"></script>
         <script src="https://cdn.jsdelivr.net/npm/masonry-layout@4.2.2/dist/masonry.pkgd.min.js"></script>
@@ -179,6 +180,7 @@ def render_index(
         all_images: List[Image],
         max_images: int,
         url_for_style_css: str,
+        url_for_favicon_png: str,
         url_for_script_js: str,
         double_click_action: bool,
         has_auth_cookie: bool,
@@ -200,4 +202,5 @@ def render_index(
         .replace('IMAGES_HTML', images_html) \
         .replace('BUTTON_HTML', button_html) \
         .replace('URL_FOR_STYLE_CSS', url_for_style_css) \
+        .replace('URL_FOR_FAVICON_PNG', url_for_favicon_png) \
         .replace('URL_FOR_SCRIPT_JS', url_for_script_js)
