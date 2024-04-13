@@ -45,7 +45,7 @@ input {
 }
 
 .grid-sizer, .grid-item {
-    width: 33%;
+    width: 32.666666666666%;
 }
 
 a {
@@ -53,7 +53,7 @@ a {
     line-height: 1.5;
 }
 
-/** sizes for tablet **/
+/** sizes for tablet and phone **/
 @media screen and (max-width: 768px) {
     p {
         font-size: 2em;
@@ -66,12 +66,12 @@ a {
     }
 
     .stream {
-        width: 66%;
+        width: 100%;
         margin: 0 auto;
     }
     
     .grid-sizer, .grid-item {
-        width: 32%;
+        width: 49.5%;
     }
 
     a {
@@ -111,9 +111,10 @@ a {
 }
 
 .item-image {
-    max-width: 100%;
+    width: 100%;
     border-radius: 4px;
     cursor: pointer;
+    object-fit: cover;
 }
 
 .button-container {
