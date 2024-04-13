@@ -143,7 +143,7 @@ def motto():
             break
     remaining_images = all_images[max_uid_index + 1:]
     return render_images_html(remaining_images, max_images, pocket_client is not None) + \
-        render_button_html(remaining_images, max_images, session_max_uid)
+        render_button_html(remaining_images, max_images, session_max_uid, request.accept_languages.best_match(['en', 'zh']))
 
 
 @app.route('/suki', methods=['POST'])

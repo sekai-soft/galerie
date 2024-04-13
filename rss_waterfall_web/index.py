@@ -8,8 +8,10 @@ I18N = {
         "A Pinterest/Xiaohongshu photo wall style RSS reader": "一款 Pinterest/小红书照片墙式的 RSS 阅读器",
         "Logout": "登出",
         "Load COUNT more": "加载 COUNT 张更多",
-        "Mark above COUNT as read": "标记以上 COUNT 为已读",
+        "Mark above as read": "标记以上为已读",
+        "Are you sure you want to mark above as read?": "确定要标记以上为已读吗？",
         "Mark all as read": "标记全部为已读",
+        "Are you sure you want to mark all as read?": "确定要标记全部为已读吗？",
         "✨ All read ✨": "✨ 全部已读 ✨",
     }
 }
@@ -31,9 +33,9 @@ GRID_ITEM_TEMPLATE = """<div
 OAWRI_BUTTON_TEMPLATE = """<div
     class="button"
     style="margin-left: 4px"
-    hx-confirm="CONFIRM"
+    hx-confirm="OWARI_CONFIRM"
     hx-post="/owari?session_max_uid=SESSION_MAX_UID&min_uid=MIN_UID"
->LABEL <span class="htmx-indicator">...</span></div>"""
+>OWARI_LABEL <span class="htmx-indicator">...</span></div>"""
 
 MOTTO_BUTTONS_CONTAINER_TEMPLATE = """<div
     class="button-container stream"
@@ -45,7 +47,7 @@ MOTTO_BUTTONS_CONTAINER_TEMPLATE = """<div
         hx-get="/motto?session_max_uid=SESSION_MAX_UID&max_uid=MAX_UID"
         hx-target="#grid"
         hx-swap="beforeend"
-    >Load COUNT more <span class="htmx-indicator">...</span></div>
+    >LOAD_COUNT_MORE <span class="htmx-indicator">...</span></div>
 """ + OAWRI_BUTTON_TEMPLATE + """</div>"""
 
 OWARI_BUTTONS_TEMPLATE = """<div
@@ -54,8 +56,8 @@ OWARI_BUTTONS_TEMPLATE = """<div
     hx-swap-oob="true"
 >""" + OAWRI_BUTTON_TEMPLATE + """</div>"""
 
-MOTIVATIONAL_BANNER = """<div class="stream">
-    <p>✨ All read ✨</p>
+MOTIVATIONAL_BANNER_TEMPLATE = """<div class="stream">
+    <p>STAR_ALL_READ_STAR</p>
 </div>"""
 
 LOGOUT_BUTTON_TEMPLATE = """<div
@@ -117,25 +119,27 @@ def render_images_html(remaining_images: List[Image], max_images: int, double_cl
     return images_html
 
 
-def render_motto_buttons_container_html(count: int, above_count: int, max_uid: str, min_uid: str, session_max_uid: str) -> str:
+def render_motto_buttons_container_html(count: int, max_uid: str, min_uid: str, session_max_uid: str, lang: str) -> str:
     # order of SESSION_MAX_UID and MAX_UID cannot be change
     # otherwise max_uid will be in SESSION_MAX_UID
     # because MAX_UID is a substring of SESSION_MAX_UID
-    return MOTTO_BUTTONS_CONTAINER_TEMPLATE \
-        .replace('COUNT', str(count)) \
+    res = MOTTO_BUTTONS_CONTAINER_TEMPLATE \
+        .replace('LOAD_COUNT_MORE', get_string("Load COUNT more", lang)) \
         .replace('SESSION_MAX_UID', session_max_uid) \
         .replace('MAX_UID', max_uid) \
         .replace('MIN_UID', min_uid) \
-        .replace('CONFIRM', f'Are you sure you want to mark above {above_count} as read') \
-        .replace('LABEL', f'Mark above {above_count} as read')
+        .replace('OWARI_CONFIRM', get_string("Are you sure you want to mark above as read?", lang)) \
+        .replace('OWARI_LABEL', get_string("Mark above as read", lang))
+    return res \
+        .replace('COUNT', str(count))
 
 
-def render_owari_buttons_container_html(min_uid: str, session_max_uid: str) -> str:
+def render_owari_buttons_container_html(min_uid: str, session_max_uid: str, lang: str) -> str:
     return OWARI_BUTTONS_TEMPLATE \
         .replace('SESSION_MAX_UID', session_max_uid) \
         .replace('MIN_UID', min_uid) \
-        .replace('CONFIRM', 'Are you sure you want to mark all as read?') \
-        .replace('LABEL', 'Mark all as read')
+        .replace('OWARI_CONFIRM', get_string("Are you sure you want to mark all as read?", lang)) \
+        .replace('OWARI_LABEL', get_string("Mark all as read", lang))
 
 
 def _find_last_min_uid(all_or_remaining_images: List[Image], max_images: int) -> Tuple[str, int]:
@@ -145,16 +149,15 @@ def _find_last_min_uid(all_or_remaining_images: List[Image], max_images: int) ->
         image = all_or_remaining_images[index]
         item_id = uid_to_item_id(image.uid)
         if item_id != item_id_for_min_uid:
-            return image.uid, index + 1
-    return all_or_remaining_images[0].uid, max_images
+            return image.uid
+    return all_or_remaining_images[0].uid
 
 
-def render_button_html(all_or_remaining_images: List[Image], max_images: int, session_max_uid: str) -> str:
+def render_button_html(all_or_remaining_images: List[Image], max_images: int, session_max_uid: str, lang: str) -> str:
     if len(all_or_remaining_images) > max_images:
         count = len(all_or_remaining_images) - max_images
         max_uid = all_or_remaining_images[max_images - 1].uid
         min_uid = all_or_remaining_images[max_images].uid
-        above_count = max_images
         if uid_to_item_id(max_uid) != uid_to_item_id(min_uid):
             # it is possible that the image at max_imags is not the last image of the associated feed
             # if we do not find the item/image previous to this image
@@ -162,11 +165,11 @@ def render_button_html(all_or_remaining_images: List[Image], max_images: int, se
             # will also make the remaining images of the associated item not render at all
             # hence, we need to find the item/image previous to this image
             # and use its uid as min_uid
-            min_uid, above_count = _find_last_min_uid(all_or_remaining_images, max_images)
-        return render_motto_buttons_container_html(count, above_count, max_uid, min_uid, session_max_uid)
+            min_uid = _find_last_min_uid(all_or_remaining_images, max_images)
+        return render_motto_buttons_container_html(count, max_uid, min_uid, session_max_uid, lang)
     else:
         min_uid = all_or_remaining_images[-1].uid
-        return render_owari_buttons_container_html(min_uid, session_max_uid)
+        return render_owari_buttons_container_html(min_uid, session_max_uid, lang)
 
 
 def render_index(
@@ -179,7 +182,7 @@ def render_index(
         lang: str) -> str:
     images_html = render_images_html(all_images, max_images, double_click_action)
     if all_images:
-        button_html = render_button_html(all_images, max_images, all_images[0].uid)
+        button_html = render_button_html(all_images, max_images, all_images[0].uid, lang)
     else:
         button_html = ''
     nothing_left = not all_images
@@ -189,7 +192,8 @@ def render_index(
         .replace('COUNT', f'({len(all_images)}) ' if not nothing_left else '') \
         .replace('LOGOUT_BUTTON', LOGOUT_BUTTON_TEMPLATE
                  .replace('LOGOUT', get_string('Logout', lang)) if has_auth_cookie else '') \
-        .replace('MOTIVATIONAL_BANNER', MOTIVATIONAL_BANNER if nothing_left else '') \
+        .replace('MOTIVATIONAL_BANNER', MOTIVATIONAL_BANNER_TEMPLATE
+                 .replace('STAR_ALL_READ_STAR', get_string('✨ All read ✨', lang)) if nothing_left else '') \
         .replace('IMAGES_HTML', images_html) \
         .replace('BUTTON_HTML', button_html) \
         .replace('URL_FOR_STYLE_CSS', url_for_style_css) \
