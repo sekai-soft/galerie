@@ -1,6 +1,6 @@
-from typing import List
+from typing import List, Tuple
 from urllib.parse import quote, quote_plus
-from rss_waterfall.images import Image
+from rss_waterfall.images import Image, uid_to_item_id
 
 
 GRID_ITEM_DBLCLICK_ATTRIBUTE_TEMPLATE = """ x-on:dblclick.prevent="clearTimeout(timer); fetch('/suki?url=ENCODED_URL&TAG_ARGS', {method: 'POST'}).then(() => window.toast('Added to Pocket'))" """
@@ -20,19 +20,27 @@ OAWRI_BUTTON_TEMPLATE = """<div
     hx-post="/owari?session_max_uid=SESSION_MAX_UID&min_uid=MIN_UID"
 >LABEL <span class="htmx-indicator">...</span></div>"""
 
-MOTTO_BUTTONS_CONTAINER_TEMPLATE = """<div class="button-container stream" id="motto" hx-swap-oob="true">
+MOTTO_BUTTONS_CONTAINER_TEMPLATE = """<div
+    class="button-container stream"
+    id="motto"
+    hx-swap-oob="true"
+>
     <div
         class="button"
         hx-get="/motto?session_max_uid=SESSION_MAX_UID&max_uid=MAX_UID"
         hx-target="#grid"
         hx-swap="beforeend"
-    >(COUNT) Load more <span class="htmx-indicator">...</span></div>
+    >Load COUNT more <span class="htmx-indicator">...</span></div>
 """ + OAWRI_BUTTON_TEMPLATE + """</div>"""
 
-OWARI_BUTTONS_TEMPLATE = """<div class="button-container stream" id="motto" hx-swap-oob="true">""" + OAWRI_BUTTON_TEMPLATE + """</div>"""
+OWARI_BUTTONS_TEMPLATE = """<div
+    class="button-container stream"
+    id="motto"
+    hx-swap-oob="true"
+>""" + OAWRI_BUTTON_TEMPLATE + """</div>"""
 
 MOTIVATIONAL_BANNER = """<div class="stream">
-    <p>There is nothing left. Go do something else.</p>
+    <p>✨ All read ✨</p>
 </div>"""
 
 LOGOUT_BUTTON = """<div
@@ -94,7 +102,7 @@ def render_images_html(remaining_images: List[Image], max_images: int, double_cl
     return images_html
 
 
-def render_motto_buttons_container_html(count: int, max_uid: str, min_uid: str, session_max_uid: str) -> str:
+def render_motto_buttons_container_html(count: int, above_count: int, max_uid: str, min_uid: str, session_max_uid: str) -> str:
     # order of SESSION_MAX_UID and MAX_UID cannot be change
     # otherwise max_uid will be in SESSION_MAX_UID
     # because MAX_UID is a substring of SESSION_MAX_UID
@@ -103,8 +111,8 @@ def render_motto_buttons_container_html(count: int, max_uid: str, min_uid: str, 
         .replace('SESSION_MAX_UID', session_max_uid) \
         .replace('MAX_UID', max_uid) \
         .replace('MIN_UID', min_uid) \
-        .replace('CONFIRM', 'Are you sure you want to mark above as read') \
-        .replace('LABEL', 'Mark above as read')
+        .replace('CONFIRM', f'Are you sure you want to mark above {above_count} as read') \
+        .replace('LABEL', f'Mark above {above_count} as read')
 
 
 def render_owari_buttons_container_html(min_uid: str, session_max_uid: str) -> str:
@@ -115,12 +123,32 @@ def render_owari_buttons_container_html(min_uid: str, session_max_uid: str) -> s
         .replace('LABEL', 'Mark all as read')
 
 
+def _find_last_min_uid(all_or_remaining_images: List[Image], max_images: int) -> Tuple[str, int]:
+    min_uid = all_or_remaining_images[max_images - 1].uid
+    item_id_for_min_uid = uid_to_item_id(min_uid)
+    for index in range(max_images - 1, -1, -1):
+        image = all_or_remaining_images[index]
+        item_id = uid_to_item_id(image.uid)
+        if item_id != item_id_for_min_uid:
+            return image.uid, index + 1
+    return all_or_remaining_images[0].uid, max_images
+
+
 def render_button_html(all_or_remaining_images: List[Image], max_images: int, session_max_uid: str) -> str:
     if len(all_or_remaining_images) > max_images:
         count = len(all_or_remaining_images) - max_images
         max_uid = all_or_remaining_images[max_images - 1].uid
         min_uid = all_or_remaining_images[max_images].uid
-        return render_motto_buttons_container_html(count, max_uid, min_uid, session_max_uid)
+        above_count = max_images
+        if uid_to_item_id(max_uid) != uid_to_item_id(min_uid):
+            # it is possible that the image at max_imags is not the last image of the associated feed
+            # if we do not find the item/image previous to this image
+            # marking all items as read including this image
+            # will also make the remaining images of the associated item not render at all
+            # hence, we need to find the item/image previous to this image
+            # and use its uid as min_uid
+            min_uid, above_count = _find_last_min_uid(all_or_remaining_images, max_images)
+        return render_motto_buttons_container_html(count, above_count, max_uid, min_uid, session_max_uid)
     else:
         min_uid = all_or_remaining_images[-1].uid
         return render_owari_buttons_container_html(min_uid, session_max_uid)
