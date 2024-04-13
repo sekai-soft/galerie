@@ -2,6 +2,21 @@ from typing import List, Tuple
 from urllib.parse import quote, quote_plus
 from rss_waterfall.images import Image, uid_to_item_id
 
+I18N = {
+    "zh": {
+        "RSS Waterfall": "RSS 瀑布流",
+        "A Pinterest/Xiaohongshu photo wall style RSS reader": "一款 Pinterest/小红书照片墙式的 RSS 阅读器",
+        "Logout": "登出",
+        "Load COUNT more": "加载 COUNT 张更多",
+        "Mark above COUNT as read": "标记以上 COUNT 为已读",
+        "Mark all as read": "标记全部为已读",
+        "✨ All read ✨": "✨ 全部已读 ✨",
+    }
+}
+
+
+def get_string(en_string: str, lang: str) -> str:
+    return I18N.get(lang, {}).get(en_string, en_string)
 
 GRID_ITEM_DBLCLICK_ATTRIBUTE_TEMPLATE = """ x-on:dblclick.prevent="clearTimeout(timer); fetch('/suki?url=ENCODED_URL&TAG_ARGS', {method: 'POST'}).then(() => window.toast('Added to Pocket'))" """
 
@@ -43,12 +58,12 @@ MOTIVATIONAL_BANNER = """<div class="stream">
     <p>✨ All read ✨</p>
 </div>"""
 
-LOGOUT_BUTTON = """<div
+LOGOUT_BUTTON_TEMPLATE = """<div
     class="button"
     style="width: 20%"
     hx-post="/deauth"
     hx-swap="none"
->Logout</div>"""
+>LOGOUT</div>"""
 
 INDEX_TEMPLATE = f"""<!DOCTYPE html>
 <html>
@@ -56,8 +71,8 @@ INDEX_TEMPLATE = f"""<!DOCTYPE html>
         <meta charset="UTF-8">
         <meta name="viewport" content="width=device-width, initial-scale=1.0">
         <meta http-equiv="X-UA-Compatible" content="ie=edge">
-        <title>COUNTRSS Waterfall</title>
-        <meta name="description" content="A Pinterest/Xiaohongshu photo wall style RSS reader">
+        <title>COUNTRSS_WATERFALL</title>
+        <meta name="description" content="A_PINTEREST_XIAOHONGSHU_PHOTO_WALL_STYLE_RSS_READER">
         <link rel="stylesheet" type="text/css" href="URL_FOR_STYLE_CSS">
         <script src="https://code.jquery.com/jquery-3.7.1.slim.js"></script>
         <script src="https://cdn.jsdelivr.net/npm/masonry-layout@4.2.2/dist/masonry.pkgd.min.js"></script>
@@ -67,7 +82,7 @@ INDEX_TEMPLATE = f"""<!DOCTYPE html>
     </head>
     <body>
         <div class="stream header">
-            <p>COUNTRSS Waterfall <a href="https://github.com/sekai-soft/rss-waterfall" target="_blank" style="font-size: 1em;">&lt;/&gt;</a></p>
+            <p>COUNTRSS_WATERFALL <a href="https://github.com/sekai-soft/rss-waterfall" target="_blank" style="font-size: 1em;">&lt;/&gt;</a></p>
             LOGOUT_BUTTON
         </div>
         MOTIVATIONAL_BANNER
@@ -160,7 +175,8 @@ def render_index(
         url_for_style_css: str,
         url_for_script_js: str,
         double_click_action: bool,
-        has_auth_cookie: bool) -> str:
+        has_auth_cookie: bool,
+        lang: str) -> str:
     images_html = render_images_html(all_images, max_images, double_click_action)
     if all_images:
         button_html = render_button_html(all_images, max_images, all_images[0].uid)
@@ -168,8 +184,11 @@ def render_index(
         button_html = ''
     nothing_left = not all_images
     return INDEX_TEMPLATE \
+        .replace('RSS_WATERFALL', get_string('RSS Waterfall', lang)) \
+        .replace('A_PINTEREST_XIAOHONGSHU_PHOTO_WALL_STYLE_RSS_READER', get_string('A Pinterest/Xiaohongshu photo wall style RSS reader', lang)) \
         .replace('COUNT', f'({len(all_images)}) ' if not nothing_left else '') \
-        .replace('LOGOUT_BUTTON', LOGOUT_BUTTON if has_auth_cookie else '') \
+        .replace('LOGOUT_BUTTON', LOGOUT_BUTTON_TEMPLATE
+                 .replace('LOGOUT', get_string('Logout', lang)) if has_auth_cookie else '') \
         .replace('MOTIVATIONAL_BANNER', MOTIVATIONAL_BANNER if nothing_left else '') \
         .replace('IMAGES_HTML', images_html) \
         .replace('BUTTON_HTML', button_html) \

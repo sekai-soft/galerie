@@ -61,11 +61,25 @@ def login():
     fever_auth = load_fever_auth()
     if fever_auth:
         return redirect('/')
-    return render_login(url_for('static', filename='style.css'))
+    return render_login(
+        url_for('static', filename='style.css'),
+        request.accept_languages.best_match(['en', 'zh']))
+
+I18N = {
+    "zh": {
+        "Failed to authenticate with Fever API": "无法登陆 Fever API",
+        "Unknown server error": "未知服务器错误",
+    }
+}
+
+
+def get_string(en_string: str, lang: str) -> str:
+    return I18N.get(lang, {}).get(en_string, en_string)
 
 
 @app.route('/auth', methods=['POST'])
 def auth():
+    lang = request.accept_languages.best_match(['en', 'zh'])
     endpoint = request.form.get('endpoint')
     username = request.form.get('username')
     password = request.form.get('password')
@@ -85,12 +99,12 @@ def auth():
     except FeverAuthError:
         resp =  make_response()
         resp.status_code = 401
-        resp.headers['HX-Trigger'] = json.dumps({"showMessage": "Failed to authenticate with Fever API"})
+        resp.headers['HX-Trigger'] = json.dumps({"showMessage": get_string("Failed to authenticate with Fever API", lang)})
         return resp
     except Exception as e:
         resp =  make_response()
         resp.status_code = 500
-        resp.headers['HX-Trigger'] = json.dumps({"showMessage": f"Unknown server error:\n{str(e)}"})
+        resp.headers['HX-Trigger'] = json.dumps({"showMessage": f"{get_string("Unknown server error", lang)}\n{str(e)}"})
         return resp
 
 
@@ -112,7 +126,8 @@ def index():
         url_for('static', filename='style.css'),
         url_for('static', filename='script.js'),
         pocket_client is not None,
-        request.cookies.get('auth') is not None)
+        request.cookies.get('auth') is not None,
+        request.accept_languages.best_match(['en', 'zh']))
 
 
 @app.route('/motto')
