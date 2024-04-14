@@ -4,3 +4,4 @@ beautifulsoup4==4.12.3
 python-dotenv==1.0.1
 pocket==0.3.6
 pytz==2024.1
+sentry-sdk[flask]==1.43.0

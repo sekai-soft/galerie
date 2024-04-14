@@ -2,6 +2,7 @@ import os
 import base64
 import json
 import pytz
+import sentry_sdk
 from typing import Optional
 from datetime import datetime
 from functools import wraps
@@ -9,10 +10,16 @@ from dotenv import load_dotenv
 from urllib.parse import unquote, unquote_plus
 from flask import Flask, request, url_for, Response, g, redirect, make_response
 from pocket import Pocket
+from sentry_sdk import capture_exception
 from rss_waterfall.fever import mark_items_as_read, fever_auth, FeverAuthError
 from rss_waterfall.images import get_images, uid_to_item_id
 from rss_waterfall_web.index import render_index, render_images_html, render_button_html
 from rss_waterfall_web.login import render_login
+
+if os.getenv('SENTRY_DSN'):
+    sentry_sdk.init(
+        dsn=os.getenv('SENTRY_DSN'),
+    )
 
 app = Flask(__name__, static_url_path='/static')
 load_dotenv()
@@ -23,7 +30,6 @@ def load_fever_auth():
     env_username = os.getenv('FEVER_USERNAME')
     env_password = os.getenv('FEVER_PASSWORD')
     if env_endpoint and env_username and env_password:
-        return env_endpoint, env_username, env_password
         return env_endpoint, env_username, env_password
 
     auth_cookie = request.cookies.get('auth')
@@ -81,7 +87,7 @@ def catches_exceptions(f):
         try:
             return f(*args, **kwargs)
         except Exception as e:
-            print(e)
+            capture_exception(e)
             resp = make_response(f"{get_string("Unknown server error", get_lang())}\n{str(e)}")
             resp.status_code = 500
             return resp
