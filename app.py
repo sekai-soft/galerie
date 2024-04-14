@@ -2,6 +2,7 @@ import os
 import base64
 import json
 import pytz
+from typing import Optional
 from datetime import datetime
 from functools import wraps
 from dotenv import load_dotenv
@@ -144,15 +145,18 @@ def get_start_of_day_in_epoch(iana_timezone: str) -> int:
     return epoch_time
 
 
+def compute_after_for_maybe_today() -> Optional[int]:
+    if request.args.get('today') != "1":
+        return None
+    browser_tz = request.cookies.get('tz')
+    return get_start_of_day_in_epoch(browser_tz)
+
+
 @app.route("/")
 @requires_auth
 @catches_exceptions
 def index():
-    after = None
-    if request.args.get('today') == "1":
-        browser_tz = request.cookies.get('tz')
-        after = get_start_of_day_in_epoch(browser_tz)
-    all_images = get_images(g.fever_endpoint, g.fever_username, g.fever_password, after)
+    all_images = get_images(g.fever_endpoint, g.fever_username, g.fever_password, compute_after_for_maybe_today())
     return render_index(
         all_images,
         max_images, 
@@ -169,11 +173,7 @@ def index():
 @requires_auth
 @catches_exceptions
 def load_more():
-    after = None
-    if request.args.get('today') == "1":
-        browser_tz = request.cookies.get('tz')
-        after = get_start_of_day_in_epoch(browser_tz)
-    all_images = get_images(g.fever_endpoint, g.fever_username, g.fever_password, after)
+    all_images = get_images(g.fever_endpoint, g.fever_username, g.fever_password, compute_after_for_maybe_today())
 
     max_uid = request.args.get('max_uid')
     max_uid_index = -1
@@ -210,11 +210,12 @@ def mark_as_read():
     min_item_id = uid_to_item_id(min_uid)
     
     mark_as_read_item_ids = []
-    all_images = get_images(g.fever_endpoint, g.fever_username, g.fever_password, None)
+    all_images = get_images(g.fever_endpoint, g.fever_username, g.fever_password, compute_after_for_maybe_today())
     for image in all_images:
         item_id = uid_to_item_id(image.uid)
         if min_item_id <= item_id <= max_item_id:
             mark_as_read_item_ids.append(item_id)
+
     mark_items_as_read(g.fever_endpoint, g.fever_username, g.fever_password, mark_as_read_item_ids)
     resp = Response(f'Marked {len(mark_as_read_item_ids)} items as read')
     resp.headers['HX-Refresh'] = "true"

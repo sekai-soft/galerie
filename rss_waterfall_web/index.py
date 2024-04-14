@@ -13,6 +13,7 @@ I18N = {
         "Mark all as read": "标记全部为已读",
         "Are you sure you want to mark all as read?": "确定要标记全部为已读吗？",
         "✨ All read ✨": "✨ 全部已读 ✨",
+        "✨ Today's images all read ✨": "✨ 今日图片全部已读 ✨"
     }
 }
 
@@ -30,11 +31,11 @@ GRID_ITEM_TEMPLATE = """<div
     <img class="item-image" src="IMAGE_URL"/>
 </div>"""
 
-OAWRI_BUTTON_TEMPLATE = """<div
+MARK_AS_READ_BUTTON_TEMPLATE = """<div
     class="button"
     style="margin-left: 4px"
     hx-confirm="MARK_AS_READ_CONFIRM"
-    hx-post="/mark_as_read?session_max_uid=SESSION_MAX_UID&min_uid=MIN_UID"
+    hx-post="/mark_as_read?session_max_uid=SESSION_MAX_UID&min_uid=MIN_UIDTODAY_PARAM"
     hx-disabled-elt="this"
 >MARK_AS_READ_LABEL <span class="htmx-indicator">...</span></div>"""
 
@@ -50,16 +51,16 @@ LOAD_MORE_BUTTONS_CONTAINER_TEMPLATE = """<div
         hx-swap="beforeend"
         hx-disabled-elt="this"
     >LOAD_COUNT_MORE <span class="htmx-indicator">...</span></div>
-""" + OAWRI_BUTTON_TEMPLATE + """</div>"""
+""" + MARK_AS_READ_BUTTON_TEMPLATE + """</div>"""
 
 MARK_AS_READ_BUTTONS_TEMPLATE = """<div
     class="button-container stream"
     id="buttons"
     hx-swap-oob="true"
->""" + OAWRI_BUTTON_TEMPLATE + """</div>"""
+>""" + MARK_AS_READ_BUTTON_TEMPLATE + """</div>"""
 
-MOTIVATIONAL_BANNER_TEMPLATE = """<div class="stream">
-    <p>STAR_ALL_READ_STAR</p>
+ALL_READ_HTML_TEMPLATE = """<div class="stream">
+    <p>ALL_READ_MESSAGE</p>
 </div>"""
 
 LOGOUT_BUTTON_TEMPLATE = """<div
@@ -143,12 +144,13 @@ def render_load_more_buttons_container_html(count: int, max_uid: str, min_uid: s
         .replace('COUNT', str(count))
 
 
-def render_mark_as_read_buttons_container_html(min_uid: str, session_max_uid: str, lang: str) -> str:
+def render_mark_as_read_buttons_container_html(min_uid: str, session_max_uid: str, lang: str, today: bool) -> str:
     return MARK_AS_READ_BUTTONS_TEMPLATE \
         .replace('SESSION_MAX_UID', session_max_uid) \
         .replace('MIN_UID', min_uid) \
         .replace('MARK_AS_READ_CONFIRM', get_string("Are you sure you want to mark all as read?", lang)) \
-        .replace('MARK_AS_READ_LABEL', get_string("Mark all as read", lang))
+        .replace('MARK_AS_READ_LABEL', get_string("Mark all as read", lang)) \
+        .replace('TODAY_PARAM', '&today=1' if today else '') \
 
 
 def _find_last_min_uid(all_or_remaining_images: List[Image], max_images: int) -> Tuple[str, int]:
@@ -178,7 +180,7 @@ def render_button_html(all_or_remaining_images: List[Image], max_images: int, se
         return render_load_more_buttons_container_html(count, max_uid, min_uid, session_max_uid, lang, today)
     else:
         min_uid = all_or_remaining_images[-1].uid
-        return render_mark_as_read_buttons_container_html(min_uid, session_max_uid, lang)
+        return render_mark_as_read_buttons_container_html(min_uid, session_max_uid, lang, today)
 
 
 def render_index(
@@ -203,8 +205,9 @@ def render_index(
         .replace('COUNT', f'({len(all_images)}) ' if not nothing_left else '') \
         .replace('LOGOUT_BUTTON', LOGOUT_BUTTON_TEMPLATE
                  .replace('LOGOUT', get_string('Logout', lang)) if has_auth_cookie else '') \
-        .replace('MOTIVATIONAL_BANNER', MOTIVATIONAL_BANNER_TEMPLATE
-                 .replace('STAR_ALL_READ_STAR', get_string('✨ All read ✨', lang)) if nothing_left else '') \
+        .replace('MOTIVATIONAL_BANNER', ALL_READ_HTML_TEMPLATE
+                 .replace('ALL_READ_MESSAGE',
+                          (get_string("✨ Today's images all read ✨", lang) if today else get_string('✨ All read ✨', lang))) if nothing_left else '') \
         .replace('IMAGES_HTML', images_html) \
         .replace('BUTTON_HTML', button_html) \
         .replace('URL_FOR_STYLE_CSS', url_for_style_css) \
