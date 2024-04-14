@@ -53,6 +53,10 @@ a {
     line-height: 1.5;
 }
 
+select {
+    font-size: 2em;
+}
+
 /** sizes for tablet and phone **/
 @media screen and (max-width: 768px) {
     p {
@@ -77,6 +81,10 @@ a {
     a {
         font-size: 2em;
         line-height: 1.5;
+    }
+
+    select {
+        font-size: 2em;
     }
 }
 
@@ -103,6 +111,10 @@ a {
     a {
         font-size: 1.5em;
         line-height: 1.5;
+    }
+
+    select {
+        font-size: 1.5em;
     }
 }
 
@@ -142,6 +154,13 @@ input {
     border-bottom: 2px solid #999999;
     background-color: #1A1A1A;
     width: 75%;
+}
+
+select {
+    color: #F5F5F5;
+    border: none;
+    background-color: #1A1A1A;
+    max-width: 75%;
 }
 
 /* The toast - position it at the bottom and in the middle of the screen */

@@ -13,7 +13,9 @@ I18N = {
         "Mark all as read": "标记全部为已读",
         "Are you sure you want to mark all as read?": "确定要标记全部为已读吗？",
         "✨ All read ✨": "✨ 全部已读 ✨",
-        "✨ Today's images all read ✨": "✨ 今日图片全部已读 ✨"
+        "✨ Today's images all read ✨": "✨ 今日图片全部已读 ✨",
+        "All time": "全部",
+        "Today": "今天"
     }
 }
 
@@ -63,13 +65,6 @@ ALL_READ_HTML_TEMPLATE = """<div class="stream">
     <p>ALL_READ_MESSAGE</p>
 </div>"""
 
-LOGOUT_BUTTON_TEMPLATE = """<div
-    class="button"
-    style="width: 20%"
-    hx-post="/deauth"
-    hx-swap="none"
->LOGOUT</div>"""
-
 INDEX_TEMPLATE = """<!DOCTYPE html>
 <html>
     <head>
@@ -91,12 +86,17 @@ INDEX_TEMPLATE = """<!DOCTYPE html>
         <div class="stream header">
             <p>COUNTRSS_WATERFALL <a href="https://github.com/sekai-soft/rss-waterfall" target="_blank" style="font-size: 1em;">&lt;/&gt;</a></p>
             <select id="timeSelect">
-                <option value="all">All</option>
-                <option value="today">Today</option>
-            </select>
-            LOGOUT_BUTTON
+                <option value="all" TIME_OPTION_ALL_TIME_SELECT_ATTRIBUTE>TIME_OPTION_ALL_TIME</option>
+                <option value="today" TIME_OPTION_TODAY_SELECT_ATTRIBUTE>TIME_OPTION_TODAY</option>
+            </select>                
+            <div
+                class="button"
+                style="width: 20%; visibility: LOGOUT_BUTTON_VISIBILITY"
+                hx-post="/deauth"
+                hx-swap="none"
+            >LOGOUT</div>
         </div>
-        MOTIVATIONAL_BANNER
+        ALL_READ
         <div class="grid stream" id="grid">
             <div class="grid-sizer"></div>
             IMAGES_HTML
@@ -203,9 +203,12 @@ def render_index(
         .replace('RSS_WATERFALL', get_string('RSS Waterfall', lang)) \
         .replace('A_PINTEREST_XIAOHONGSHU_PHOTO_WALL_STYLE_RSS_READER', get_string('A Pinterest/Xiaohongshu photo wall style RSS reader', lang)) \
         .replace('COUNT', f'({len(all_images)}) ' if not nothing_left else '') \
-        .replace('LOGOUT_BUTTON', LOGOUT_BUTTON_TEMPLATE
-                 .replace('LOGOUT', get_string('Logout', lang)) if has_auth_cookie else '') \
-        .replace('MOTIVATIONAL_BANNER', ALL_READ_HTML_TEMPLATE
+        .replace('TIME_OPTION_ALL_TIME_SELECT_ATTRIBUTE', 'selected="selected"' if not today else '') \
+        .replace('TIME_OPTION_ALL_TIME', get_string('All time', lang)) \
+        .replace('TIME_OPTION_TODAY_SELECT_ATTRIBUTE', 'selected="selected"' if today else '') \
+        .replace('TIME_OPTION_TODAY', get_string('Today', lang)) \
+        .replace('LOGOUT_BUTTON_VISIBILITY', 'visible' if has_auth_cookie else 'hidden') \
+        .replace('ALL_READ', ALL_READ_HTML_TEMPLATE
                  .replace('ALL_READ_MESSAGE',
                           (get_string("✨ Today's images all read ✨", lang) if today else get_string('✨ All read ✨', lang))) if nothing_left else '') \
         .replace('IMAGES_HTML', images_html) \
