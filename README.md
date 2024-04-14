@@ -34,16 +34,16 @@ Here is an example `docker-compose.yml` file
 ```yml
 services:
     rss-waterfall:
-    image: ghcr.io/sekai-soft/rss-waterfall:latest
-    container_name: rss-waterfall
-    environment:
-      - PORT=80
-      - FEVER_ENDPOINT=http://miniflux/fever
-      - FEVER_USERNAME=miniflux
-      - FEVER_PASSWORD=test123
-      - POCKET_CONSUMER_KEY=
-      - POCKET_ACCESS_TOKEN=
-    restart: unless-stopped
+        image: ghcr.io/sekai-soft/rss-waterfall:latest
+        ports:
+            - "5000:5000"
+        environment:
+            - FEVER_ENDPOINT=http://miniflux/fever
+            - FEVER_USERNAME=miniflux
+            - FEVER_PASSWORD=test123
+            - POCKET_CONSUMER_KEY=
+            - POCKET_ACCESS_TOKEN=
+        restart: unless-stopped
 ```
 
 ### Example Fever endpoints

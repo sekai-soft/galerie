@@ -34,16 +34,16 @@ Docker 镜像是 `ghcr.io/sekai-soft/rss-waterfall:latest` ，并且 x86-64 和 
 ```yml
 services:
     rss-waterfall:
-    image: ghcr.io/sekai-soft/rss-waterfall:latest
-    container_name: rss-waterfall
-    environment:
-      - PORT=80
-      - FEVER_ENDPOINT=http://miniflux/fever
-      - FEVER_USERNAME=miniflux
-      - FEVER_PASSWORD=test123
-      - POCKET_CONSUMER_KEY=
-      - POCKET_ACCESS_TOKEN=
-    restart: unless-stopped
+        image: ghcr.io/sekai-soft/rss-waterfall:latest
+        ports:
+            - "5000:5000"
+        environment:
+            - FEVER_ENDPOINT=http://miniflux/fever
+            - FEVER_USERNAME=miniflux
+            - FEVER_PASSWORD=test123
+            - POCKET_CONSUMER_KEY=
+            - POCKET_ACCESS_TOKEN=
+        restart: unless-stopped
 ```
 
 ### Fever 节点示例
