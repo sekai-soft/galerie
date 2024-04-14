@@ -20,7 +20,7 @@ I18N = {
 def get_string(en_string: str, lang: str) -> str:
     return I18N.get(lang, {}).get(en_string, en_string)
 
-GRID_ITEM_DBLCLICK_ATTRIBUTE_TEMPLATE = """ x-on:dblclick.prevent="clearTimeout(timer); fetch('/suki?url=ENCODED_URL&TAG_ARGS', {method: 'POST'}).then(() => window.toast('Added UID to Pocket'))" """
+GRID_ITEM_DBLCLICK_ATTRIBUTE_TEMPLATE = """ x-on:dblclick.prevent="clearTimeout(timer); fetch('/pocket?url=ENCODED_URL&TAG_ARGS', {method: 'POST'}).then(() => window.toast('Added UID to Pocket'))" """
 
 GRID_ITEM_TEMPLATE = """<div
     class="grid-item"
@@ -33,28 +33,28 @@ GRID_ITEM_TEMPLATE = """<div
 OAWRI_BUTTON_TEMPLATE = """<div
     class="button"
     style="margin-left: 4px"
-    hx-confirm="OWARI_CONFIRM"
-    hx-post="/owari?session_max_uid=SESSION_MAX_UID&min_uid=MIN_UID"
+    hx-confirm="MARK_AS_READ_CONFIRM"
+    hx-post="/mark_as_read?session_max_uid=SESSION_MAX_UID&min_uid=MIN_UID"
     hx-disabled-elt="this"
->OWARI_LABEL <span class="htmx-indicator">...</span></div>"""
+>MARK_AS_READ_LABEL <span class="htmx-indicator">...</span></div>"""
 
-MOTTO_BUTTONS_CONTAINER_TEMPLATE = """<div
+LOAD_MORE_BUTTONS_CONTAINER_TEMPLATE = """<div
     class="button-container stream"
-    id="motto"
+    id="buttons"
     hx-swap-oob="true"
 >
     <div
         class="button"
-        hx-get="/motto?session_max_uid=SESSION_MAX_UID&max_uid=MAX_UID"
+        hx-get="/load_more?session_max_uid=SESSION_MAX_UID&max_uid=MAX_UIDTODAY_PARAM"
         hx-target="#grid"
         hx-swap="beforeend"
         hx-disabled-elt="this"
     >LOAD_COUNT_MORE <span class="htmx-indicator">...</span></div>
 """ + OAWRI_BUTTON_TEMPLATE + """</div>"""
 
-OWARI_BUTTONS_TEMPLATE = """<div
+MARK_AS_READ_BUTTONS_TEMPLATE = """<div
     class="button-container stream"
-    id="motto"
+    id="buttons"
     hx-swap-oob="true"
 >""" + OAWRI_BUTTON_TEMPLATE + """</div>"""
 
@@ -69,7 +69,7 @@ LOGOUT_BUTTON_TEMPLATE = """<div
     hx-swap="none"
 >LOGOUT</div>"""
 
-INDEX_TEMPLATE = f"""<!DOCTYPE html>
+INDEX_TEMPLATE = """<!DOCTYPE html>
 <html>
     <head>
         <meta charset="UTF-8">
@@ -84,10 +84,15 @@ INDEX_TEMPLATE = f"""<!DOCTYPE html>
         <script src="https://cdn.jsdelivr.net/npm/imagesloaded@5.0.0/imagesloaded.pkgd.min.js"></script>
         <script src="https://cdn.jsdelivr.net/npm/htmx.org@1.9.11/dist/htmx.min.js"></script>
         <script defer src="https://cdn.jsdelivr.net/npm/alpinejs@3.13.8/dist/cdn.min.js"></script>
+        <script src="https://cdn.jsdelivr.net/npm/js-cookie@3.0.5/dist/js.cookie.min.js"></script>
     </head>
     <body>
         <div class="stream header">
             <p>COUNTRSS_WATERFALL <a href="https://github.com/sekai-soft/rss-waterfall" target="_blank" style="font-size: 1em;">&lt;/&gt;</a></p>
+            <select id="timeSelect">
+                <option value="all">All</option>
+                <option value="today">Today</option>
+            </select>
             LOGOUT_BUTTON
         </div>
         MOTIVATIONAL_BANNER
@@ -123,27 +128,27 @@ def render_images_html(remaining_images: List[Image], max_images: int, double_cl
     return images_html
 
 
-def render_motto_buttons_container_html(count: int, max_uid: str, min_uid: str, session_max_uid: str, lang: str) -> str:
+def render_load_more_buttons_container_html(count: int, max_uid: str, min_uid: str, session_max_uid: str, lang: str, today: bool) -> str:
     # order of SESSION_MAX_UID and MAX_UID cannot be change
     # otherwise max_uid will be in SESSION_MAX_UID
     # because MAX_UID is a substring of SESSION_MAX_UID
-    res = MOTTO_BUTTONS_CONTAINER_TEMPLATE \
+    return LOAD_MORE_BUTTONS_CONTAINER_TEMPLATE \
         .replace('LOAD_COUNT_MORE', get_string("Load COUNT more", lang)) \
         .replace('SESSION_MAX_UID', session_max_uid) \
         .replace('MAX_UID', max_uid) \
+        .replace('TODAY_PARAM', '&today=1' if today else '') \
         .replace('MIN_UID', min_uid) \
-        .replace('OWARI_CONFIRM', get_string("Are you sure you want to mark above as read?", lang)) \
-        .replace('OWARI_LABEL', get_string("Mark above as read", lang))
-    return res \
+        .replace('MARK_AS_READ_CONFIRM', get_string("Are you sure you want to mark above as read?", lang)) \
+        .replace('MARK_AS_READ_LABEL', get_string("Mark above as read", lang)) \
         .replace('COUNT', str(count))
 
 
-def render_owari_buttons_container_html(min_uid: str, session_max_uid: str, lang: str) -> str:
-    return OWARI_BUTTONS_TEMPLATE \
+def render_mark_as_read_buttons_container_html(min_uid: str, session_max_uid: str, lang: str) -> str:
+    return MARK_AS_READ_BUTTONS_TEMPLATE \
         .replace('SESSION_MAX_UID', session_max_uid) \
         .replace('MIN_UID', min_uid) \
-        .replace('OWARI_CONFIRM', get_string("Are you sure you want to mark all as read?", lang)) \
-        .replace('OWARI_LABEL', get_string("Mark all as read", lang))
+        .replace('MARK_AS_READ_CONFIRM', get_string("Are you sure you want to mark all as read?", lang)) \
+        .replace('MARK_AS_READ_LABEL', get_string("Mark all as read", lang))
 
 
 def _find_last_min_uid(all_or_remaining_images: List[Image], max_images: int) -> Tuple[str, int]:
@@ -157,7 +162,7 @@ def _find_last_min_uid(all_or_remaining_images: List[Image], max_images: int) ->
     return all_or_remaining_images[0].uid
 
 
-def render_button_html(all_or_remaining_images: List[Image], max_images: int, session_max_uid: str, lang: str) -> str:
+def render_button_html(all_or_remaining_images: List[Image], max_images: int, session_max_uid: str, lang: str, today: bool) -> str:
     if len(all_or_remaining_images) > max_images:
         count = len(all_or_remaining_images) - max_images
         max_uid = all_or_remaining_images[max_images - 1].uid
@@ -170,10 +175,10 @@ def render_button_html(all_or_remaining_images: List[Image], max_images: int, se
             # hence, we need to find the item/image previous to this image
             # and use its uid as min_uid
             min_uid = _find_last_min_uid(all_or_remaining_images, max_images)
-        return render_motto_buttons_container_html(count, max_uid, min_uid, session_max_uid, lang)
+        return render_load_more_buttons_container_html(count, max_uid, min_uid, session_max_uid, lang, today)
     else:
         min_uid = all_or_remaining_images[-1].uid
-        return render_owari_buttons_container_html(min_uid, session_max_uid, lang)
+        return render_mark_as_read_buttons_container_html(min_uid, session_max_uid, lang)
 
 
 def render_index(
@@ -184,10 +189,11 @@ def render_index(
         url_for_script_js: str,
         double_click_action: bool,
         has_auth_cookie: bool,
-        lang: str) -> str:
+        lang: str,
+        today: bool) -> str:
     images_html = render_images_html(all_images, max_images, double_click_action)
     if all_images:
-        button_html = render_button_html(all_images, max_images, all_images[0].uid, lang)
+        button_html = render_button_html(all_images, max_images, all_images[0].uid, lang, today)
     else:
         button_html = ''
     nothing_left = not all_images

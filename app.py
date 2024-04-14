@@ -1,6 +1,8 @@
 import os
 import base64
 import json
+import pytz
+from datetime import datetime
 from functools import wraps
 from dotenv import load_dotenv
 from urllib.parse import unquote, unquote_plus
@@ -20,6 +22,7 @@ def load_fever_auth():
     env_username = os.getenv('FEVER_USERNAME')
     env_password = os.getenv('FEVER_PASSWORD')
     if env_endpoint and env_username and env_password:
+        return env_endpoint, env_username, env_password
         return env_endpoint, env_username, env_password
 
     auth_cookie = request.cookies.get('auth')
@@ -67,14 +70,18 @@ def get_string(en_string: str, lang: str) -> str:
     return I18N.get(lang, {}).get(en_string, en_string)
 
 
+def get_lang():
+    return request.accept_languages.best_match(['en', 'zh'])
+
+
 def catches_exceptions(f):
     @wraps(f)
     def decorated_function(*args, **kwargs):
         try:
             return f(*args, **kwargs)
-        except Exception as e: 
-            lang = request.accept_languages.best_match(['en', 'zh'])
-            resp = make_response(f"{get_string("Unknown server error", lang)}\n{str(e)}")
+        except Exception as e:
+            print(e)
+            resp = make_response(f"{get_string("Unknown server error", get_lang())}\n{str(e)}")
             resp.status_code = 500
             return resp
     return decorated_function
@@ -89,11 +96,11 @@ def login():
     return render_login(
         url_for('static', filename='style.css'),
         url_for('static', filename='favicon.png'),
-        request.accept_languages.best_match(['en', 'zh']))
+        get_lang())
+
 
 @app.route('/auth', methods=['POST'])
 def auth():
-    lang = request.accept_languages.best_match(['en', 'zh'])
     endpoint = request.form.get('endpoint')
     username = request.form.get('username')
     password = request.form.get('password')
@@ -113,12 +120,12 @@ def auth():
     except FeverAuthError:
         resp =  make_response()
         resp.status_code = 401
-        resp.headers['HX-Trigger'] = json.dumps({"showMessage": get_string("Failed to authenticate with Fever API", lang)})
+        resp.headers['HX-Trigger'] = json.dumps({"showMessage": get_string("Failed to authenticate with Fever API", get_lang())})
         return resp
     except Exception as e:
         resp =  make_response()
         resp.status_code = 500
-        resp.headers['HX-Trigger'] = json.dumps({"showMessage": f"{get_string("Unknown server error", lang)}\n{str(e)}"})
+        resp.headers['HX-Trigger'] = json.dumps({"showMessage": f"{get_string("Unknown server error", get_lang())}\n{str(e)}"})
         return resp
 
 
@@ -130,11 +137,22 @@ def deauth():
     return resp
 
 
+def get_start_of_day_in_epoch(iana_timezone: str) -> int:
+    dt = datetime.now(pytz.timezone(iana_timezone))
+    start_of_day = dt.replace(hour=0, minute=0, second=0, microsecond=0)
+    epoch_time = int(start_of_day.timestamp())
+    return epoch_time
+
+
 @app.route("/")
 @requires_auth
 @catches_exceptions
 def index():
-    all_images = get_images(g.fever_endpoint, g.fever_username, g.fever_password)
+    after = None
+    if request.args.get('today') == "1":
+        browser_tz = request.cookies.get('tz')
+        after = get_start_of_day_in_epoch(browser_tz)
+    all_images = get_images(g.fever_endpoint, g.fever_username, g.fever_password, after)
     return render_index(
         all_images,
         max_images, 
@@ -143,28 +161,35 @@ def index():
         url_for('static', filename='script.js'),
         pocket_client is not None,
         request.cookies.get('auth') is not None,
-        request.accept_languages.best_match(['en', 'zh']))
+        get_lang(),
+        request.args.get('today') == "1")
 
 
-@app.route('/motto')
+@app.route('/load_more')
 @requires_auth
 @catches_exceptions
-def motto():
+def load_more():
+    after = None
+    if request.args.get('today') == "1":
+        browser_tz = request.cookies.get('tz')
+        after = get_start_of_day_in_epoch(browser_tz)
+    all_images = get_images(g.fever_endpoint, g.fever_username, g.fever_password, after)
+
     max_uid = request.args.get('max_uid')
-    session_max_uid = request.args.get('session_max_uid')
-    all_images = get_images(g.fever_endpoint, g.fever_username, g.fever_password)
     max_uid_index = -1
     for i, image in enumerate(all_images):
         if image.uid == max_uid:
             max_uid_index = i
             break
+
     remaining_images = all_images[max_uid_index + 1:]
+    session_max_uid = request.args.get('session_max_uid')
     return render_images_html(remaining_images, max_images, pocket_client is not None) + \
-        render_button_html(remaining_images, max_images, session_max_uid, request.accept_languages.best_match(['en', 'zh']))
+        render_button_html(remaining_images, max_images, session_max_uid, get_lang(), request.args.get('today') == "1")
 
 
-@app.route('/suki', methods=['POST'])
-def suki():
+@app.route('/pocket', methods=['POST'])
+def pocket():
     if not pocket_client:
         return 'Pocket was not configured. How did you get here?'
     encoded_url = request.args.get('url')
@@ -175,17 +200,17 @@ def suki():
     return f'Added {url} to Pocket'
 
 
-@app.route('/owari', methods=['POST'])
+@app.route('/mark_as_read', methods=['POST'])
 @requires_auth
 @catches_exceptions
-def owari():
+def mark_as_read():
     session_max_uid = request.args.get('session_max_uid')
     min_uid = request.args.get('min_uid')
     max_item_id = uid_to_item_id(session_max_uid)
     min_item_id = uid_to_item_id(min_uid)
     
     mark_as_read_item_ids = []
-    all_images = get_images(g.fever_endpoint, g.fever_username, g.fever_password)
+    all_images = get_images(g.fever_endpoint, g.fever_username, g.fever_password, None)
     for image in all_images:
         item_id = uid_to_item_id(image.uid)
         if min_item_id <= item_id <= max_item_id:

@@ -1,4 +1,4 @@
-from typing import List, Dict
+from typing import List, Dict, Optional
 from dataclasses import dataclass
 from bs4 import BeautifulSoup
 from .fever import get_unread_items
@@ -37,9 +37,10 @@ def extract_images(html: str, item: Dict) -> List[Image]:
     return items
 
 
-def get_images(fever_endpoint: str, fever_username: str, fever_password: str) -> List[Image]:
+def get_images(fever_endpoint: str, fever_username: str, fever_password: str, after: Optional[int]) -> List[Image]:
     images = []
     for item in get_unread_items(fever_endpoint, fever_username, fever_password):
-        html = item['html']
-        images += extract_images(html, item)
+        if not after or after < item['created_on_time']:
+            html = item['html']
+            images += extract_images(html, item)
     return images

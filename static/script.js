@@ -1,3 +1,5 @@
+Cookies.set('tz', Intl.DateTimeFormat().resolvedOptions().timeZone)
+
 const grid = $('.grid').masonry({
   itemSelector: '.grid-item',
   columnWidth: '.grid-sizer',
@@ -17,6 +19,15 @@ $(document).on('htmx:afterSettle', (event) => {
     });
   }
 });
+
+$('#timeSelect').on('change', (event) => {
+  const time = event.target.value;
+  if (time === 'all') {
+    window.location.href = '/';
+  } else if (time === 'today') {
+    window.location.href = `/?today=1`;
+  }
+})
 
 window.toast = (message) => {
   const toastEl = $('#toast')
