@@ -91,7 +91,7 @@ INDEX_TEMPLATE = """<!DOCTYPE html>
             </select>                
             <div
                 class="button"
-                style="width: 20%; visibility: LOGOUT_BUTTON_VISIBILITY"
+                style="visibility: LOGOUT_BUTTON_VISIBILITY"
                 hx-post="/deauth"
                 hx-swap="none"
             >LOGOUT</div>

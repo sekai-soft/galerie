@@ -17,11 +17,7 @@ body {
     -ms-overflow-style: none;  /* IE and Edge */
 }
 
-.code-font {
-    font-family: 'Consolas', 'Menlo', monospace;
-}
-
-/** sizes **/
+/** sizes for > iPad **/
 p {
     font-size: 2em;
     line-height: 1.5;
@@ -45,7 +41,7 @@ input {
 }
 
 .grid-sizer, .grid-item {
-    width: 32.666666666666%;
+    width: calc((100% - 8px) / 3)
 }
 
 a {
@@ -57,7 +53,11 @@ select {
     font-size: 2em;
 }
 
-/** sizes for tablet and phone **/
+.button {
+    font-size: 2em;
+}
+
+/** sizes for > iPhone 12 Pro <= iPad **/
 @media screen and (max-width: 768px) {
     p {
         font-size: 2em;
@@ -75,7 +75,7 @@ select {
     }
     
     .grid-sizer, .grid-item {
-        width: 49.5%;
+        width: calc((100% - 8px) / 3)
     }
 
     a {
@@ -86,18 +86,22 @@ select {
     select {
         font-size: 2em;
     }
+
+    .button {
+        font-size: 2em;
+    }    
 }
 
-/** sizes for phone **/
-@media screen and (max-width: 414px) {
+/** sizes for <= iPhone 12 Pro **/
+@media screen and (max-width: 390px) {
     p {
-        font-size: 1.5em;
-        line-height: 1.5;
+        font-size: 1em;
+        line-height: 1;
     }
 
     input {
-        font-size: 1.5em;
-        line-height: 1.5;
+        font-size: 1em;
+        line-height: 1;
     }
 
     .stream {
@@ -105,17 +109,26 @@ select {
     }
     
     .grid-sizer, .grid-item {
-        width: 49%;
+        width: calc((100% - 4px) / 2)
     }
 
     a {
-        font-size: 1.5em;
-        line-height: 1.5;
+        font-size: 1em;
+        line-height: 1;
     }
 
     select {
-        font-size: 1.5em;
+        font-size: 1em;
     }
+
+    .button {
+        font-size: 1em;
+    }
+}
+
+/* other styles */
+.code-font {
+    font-family: 'Consolas', 'Menlo', monospace;
 }
 
 a {
@@ -143,9 +156,7 @@ a {
     padding: 0.5em;
     margin-top: 4px;
     cursor: pointer;
-    width: 25%;
     text-align: center;
-    font-size: 1.2em;
 }
 
 input {
@@ -161,6 +172,17 @@ select {
     border: none;
     background-color: #1A1A1A;
     max-width: 75%;
+}
+
+/** htmx-indicator **/
+.htmx-indicator{
+    display:none;
+}
+.htmx-request .htmx-indicator{
+    display:inline;
+}
+.htmx-request.htmx-indicator{
+    display:inline;
 }
 
 /* The toast - position it at the bottom and in the middle of the screen */

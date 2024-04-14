@@ -59,7 +59,7 @@ LOGIN_TEMPLATE = """<!DOCTYPE html>
                 >
                 <div
                     class="button"
-                    style="margin-top: 2em"
+                    style="margin-top: 2em; width: 50%"
                     hx-post="/auth"
                     hx-swap="none"
                     hx-disabled-elt="this"
