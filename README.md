@@ -17,11 +17,6 @@ A Pinterest/Xiaohongshu photo wall style RSS reader
 * Mark all items as read when you are done
 * (Optional) Connect to Pocket and quickly add items to read-it-later by double-tapping on the image
 
-## Unimplemented ideas
-Comment or react on the issue to let me know you want it 😀 (but also feel free to add your own of course)
-* [Public instance (no need to run your own the server)](https://github.com/sekai-soft/rss-waterfall/issues/2)
-* [Support other RSS aggregators (non self-hosted ones such as Inoreader and Feedly)](https://github.com/sekai-soft/rss-waterfall/issues/1)
-
 ## Run your own server
 The Docker image is `ghcr.io/sekai-soft/rss-waterfall:latest` and it's available in both x86-64 and arm64
 
