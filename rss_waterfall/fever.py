@@ -11,8 +11,7 @@ class FeverAuthError(Exception):
 
 
 def fever_auth(endpoint: str, username: str, password: str) -> str:
-    username_plus_password = username + ':' + password
-    api_key = hashlib.md5(username_plus_password.encode()).hexdigest()
+    api_key = fever_get_api_key(username, password)
 
     auth_res = requests.post(endpoint + '/?api', data={'api_key': api_key})
     auth_res.raise_for_status()
@@ -22,6 +21,11 @@ def fever_auth(endpoint: str, username: str, password: str) -> str:
     return api_key
 
 
+def fever_get_api_key(username: str, password: str):
+    username_plus_password = username + ':' + password
+    return hashlib.md5(username_plus_password.encode()).hexdigest()
+
+
 def get_groups(endpoint: str, api_key: str) -> Tuple[List[dict], List[dict]]:
     groups_res = requests.post(endpoint + '/?api&groups', data={'api_key': api_key})
     groups_res.raise_for_status()
@@ -29,7 +33,7 @@ def get_groups(endpoint: str, api_key: str) -> Tuple[List[dict], List[dict]]:
 
 
 def get_unread_items(endpoint: str, username: str, password: str) -> List[dict]:
-    api_key = fever_auth(endpoint, username, password)
+    api_key = fever_get_api_key(username, password)
     
     groups, feeds_groups = get_groups(endpoint, api_key)
     group_by_id = {group['id']: group for group in groups}
@@ -69,7 +73,7 @@ def get_unread_items(endpoint: str, username: str, password: str) -> List[dict]:
 
 
 def mark_items_as_read(endpoint: str, username: str, password: str, item_ids: int):
-    api_key = fever_auth(endpoint, username, password)
+    api_key = fever_get_api_key(username, password)
 
     for item_id in item_ids:
         mark_res = requests.post(endpoint + '/?api&mark=item&as=read&id=' + item_id, data={'api_key': api_key})
