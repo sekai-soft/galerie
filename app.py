@@ -13,6 +13,7 @@ from pocket import Pocket
 from sentry_sdk import capture_exception
 from rss_waterfall.fever import mark_items_as_read, fever_auth, FeverAuthError
 from rss_waterfall.images import get_images, uid_to_item_id
+from rss_waterfall.groups import get_groups
 from rss_waterfall_web.index import render_index, render_images_html, render_button_html
 from rss_waterfall_web.login import render_login
 
@@ -163,6 +164,7 @@ def compute_after_for_maybe_today() -> Optional[int]:
 @catches_exceptions
 def index():
     all_images = get_images(g.fever_endpoint, g.fever_username, g.fever_password, compute_after_for_maybe_today())
+    groups = get_groups(g.fever_endpoint, g.fever_username, g.fever_password)
     return render_index(
         all_images,
         max_images, 
@@ -172,7 +174,9 @@ def index():
         pocket_client is not None,
         request.cookies.get('auth') is not None,
         get_lang(),
-        request.args.get('today') == "1")
+        request.args.get('today') == "1",
+        groups,
+        request.args.get('group'))
 
 
 @app.route('/load_more')

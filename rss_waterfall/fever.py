@@ -1,7 +1,7 @@
 import requests
 import hashlib
 import copy
-from typing import List
+from typing import List, Tuple
 
 ITEMS_QUERY_MAX_ITERS = 50
 
@@ -22,17 +22,21 @@ def fever_auth(endpoint: str, username: str, password: str) -> str:
     return api_key
 
 
+def get_groups(endpoint: str, api_key: str) -> Tuple[List[dict], List[dict]]:
+    groups_res = requests.post(endpoint + '/?api&groups', data={'api_key': api_key})
+    groups_res.raise_for_status()
+    return groups_res.json()['groups'], groups_res.json()['feeds_groups']
+
+
 def get_unread_items(endpoint: str, username: str, password: str) -> List[dict]:
     api_key = fever_auth(endpoint, username, password)
     
-    groups_res = requests.post(endpoint + '/?api&groups', data={'api_key': api_key})
-    groups_res.raise_for_status()
-    groups = groups_res.json()['groups']
+    groups, feeds_groups = get_groups(endpoint, api_key)
     group_by_id = {group['id']: group for group in groups}
     groups_by_feed_id = {}
-    for feeds_groups in groups_res.json()['feeds_groups']:
-        group_id = feeds_groups['group_id']
-        for feed_id in feeds_groups['feed_ids'].split(','):
+    for feeds_group in feeds_groups:
+        group_id = feeds_group['group_id']
+        for feed_id in feeds_group['feed_ids'].split(','):
             if feed_id not in groups_by_feed_id:
                 groups_by_feed_id[feed_id] = []
             groups_by_feed_id[feed_id].append(group_by_id[group_id])

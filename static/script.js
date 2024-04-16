@@ -20,12 +20,31 @@ $(document).on('htmx:afterSettle', (event) => {
   }
 });
 
+const updateQueryParameter = (key, value) => {
+  var url = new URL(window.location.href);
+  if (value) {
+    url.searchParams.set(key, value);
+  } else {
+    url.searchParams.delete(key);
+  }
+  window.location.href = url.toString();
+}
+
 $('#timeSelect').on('change', (event) => {
   const time = event.target.value;
   if (time === 'all') {
-    window.location.href = '/';
+    updateQueryParameter('today', null);
   } else if (time === 'today') {
-    window.location.href = `/?today=1`;
+    updateQueryParameter('today', 1);
+  }
+})
+
+$('#groupSelect').on('change', (event) => {
+  const groupId = event.target.value;
+  if (groupId === '_all') {
+    updateQueryParameter('group', null);
+  } else {
+    updateQueryParameter('group', groupId);
   }
 })
 

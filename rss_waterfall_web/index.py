@@ -1,6 +1,7 @@
-from typing import List, Tuple
+from typing import List, Tuple, Optional
 from urllib.parse import quote, quote_plus
 from rss_waterfall.images import Image, uid_to_item_id
+from rss_waterfall.groups import Group
 
 I18N = {
     "zh": {
@@ -15,7 +16,8 @@ I18N = {
         "✨ All read ✨": "✨ 全部已读 ✨",
         "✨ Today's images all read ✨": "✨ 今日图片全部已读 ✨",
         "All time": "全部",
-        "Today": "今天"
+        "Today": "今天",
+        "(All groups)": "(全部分组)"
     }
 }
 
@@ -85,10 +87,16 @@ INDEX_TEMPLATE = """<!DOCTYPE html>
     <body>
         <div class="stream header">
             <p>COUNTRSS_WATERFALL <a href="https://github.com/sekai-soft/rss-waterfall" target="_blank" style="font-size: 1em;">&lt;/&gt;</a></p>
-            <select id="timeSelect">
-                <option value="all" TIME_OPTION_ALL_TIME_SELECT_ATTRIBUTE>TIME_OPTION_ALL_TIME</option>
-                <option value="today" TIME_OPTION_TODAY_SELECT_ATTRIBUTE>TIME_OPTION_TODAY</option>
-            </select>                
+            <div>
+                <select id="timeSelect">
+                    <option value="all" TIME_OPTION_ALL_TIME_SELECT_ATTRIBUTE>TIME_OPTION_ALL_TIME</option>
+                    <option value="today" TIME_OPTION_TODAY_SELECT_ATTRIBUTE>TIME_OPTION_TODAY</option>
+                </select>
+                <select id="groupSelect" style="width: 192px">
+                    <option value="_all" GROUP_SELECT_DEFAULT_OPTION_ATTRIBUTE>GROUP_SELECT_DEFAULT_OPTION_LABEL</option>
+                    GROUP_SELECT_OPTIONS
+                </select>
+            </div>
             <div
                 class="button"
                 style="visibility: LOGOUT_BUTTON_VISIBILITY"
@@ -192,7 +200,9 @@ def render_index(
         double_click_action: bool,
         has_auth_cookie: bool,
         lang: str,
-        today: bool) -> str:
+        today: bool,
+        groups: List[Group],
+        current_group_id: str) -> str:
     images_html = render_images_html(all_images, max_images, double_click_action)
     if all_images:
         button_html = render_button_html(all_images, max_images, all_images[0].uid, lang, today)
@@ -207,6 +217,11 @@ def render_index(
         .replace('TIME_OPTION_ALL_TIME', get_string('All time', lang)) \
         .replace('TIME_OPTION_TODAY_SELECT_ATTRIBUTE', 'selected="selected"' if today else '') \
         .replace('TIME_OPTION_TODAY', get_string('Today', lang)) \
+        .replace('GROUP_SELECT_DEFAULT_OPTION_LABEL', get_string('(All groups)', lang)) \
+        .replace('GROUP_SELECT_DEFAULT_OPTION_ATTRIBUTE', 'selected="selected"' if not current_group_id else '') \
+        .replace('GROUP_SELECT_OPTIONS', ''.join(map(
+            lambda g: f'<option value="{g.gid}" {'selected="selected"' if g.gid == current_group_id else ''}>{g.title}</option>', groups
+        ))) \
         .replace('LOGOUT_BUTTON_VISIBILITY', 'visible' if has_auth_cookie else 'hidden') \
         .replace('LOGOUT', get_string('Logout', lang)) \
         .replace('ALL_READ', ALL_READ_HTML_TEMPLATE
