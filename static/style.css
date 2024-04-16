@@ -57,8 +57,8 @@ select {
     font-size: 2em;
 }
 
-/** sizes for > iPhone 12 Pro <= iPad **/
-@media screen and (max-width: 768px) {
+/** sizes for > iPhone 12 Pro Max <= iPad Pro **/
+@media screen and (max-width: 1024px) {
     p {
         font-size: 2em;
         line-height: 1.5;
@@ -92,8 +92,8 @@ select {
     }    
 }
 
-/** sizes for <= iPhone 12 Pro **/
-@media screen and (max-width: 390px) {
+/** sizes for <= iPhone 14 Pro Max **/
+@media screen and (max-width: 430px) {
     p {
         font-size: 1em;
         line-height: 1;
