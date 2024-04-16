@@ -14,7 +14,9 @@ I18N = {
         "Mark all as read": "标记全部为已读",
         "Are you sure you want to mark all as read?": "确定要标记全部为已读吗？",
         "✨ All read ✨": "✨ 全部已读 ✨",
+        "✨ All GROUP_TITLE read ✨": "✨ 今日 GROUP_TITLE 图片全部已读 ✨",
         "✨ Today's images all read ✨": "✨ 今日图片全部已读 ✨",
+        "✨ Today's GROUP_TITLE images all read ✨": "✨ 今日 GROUP_TITLE 图片全部已读 ✨",
         "All time": "全部",
         "Today": "今天",
         "(All groups)": "(全部分组)"
@@ -39,7 +41,7 @@ MARK_AS_READ_BUTTON_TEMPLATE = """<div
     class="button"
     style="margin-left: 4px"
     hx-confirm="MARK_AS_READ_CONFIRM"
-    hx-post="/mark_as_read?session_max_uid=SESSION_MAX_UID&min_uid=MIN_UIDTODAY_PARAM"
+    hx-post="/mark_as_read?session_max_uid=SESSION_MAX_UID&min_uid=MIN_UIDTODAY_PARAMGID_PARAM"
     hx-disabled-elt="this"
 >MARK_AS_READ_LABEL <span class="htmx-indicator">...</span></div>"""
 
@@ -50,7 +52,7 @@ LOAD_MORE_BUTTONS_CONTAINER_TEMPLATE = """<div
 >
     <div
         class="button"
-        hx-get="/load_more?session_max_uid=SESSION_MAX_UID&max_uid=MAX_UIDTODAY_PARAM"
+        hx-get="/load_more?session_max_uid=SESSION_MAX_UID&max_uid=MAX_UIDTODAY_PARAMGID_PARAM"
         hx-target="#grid"
         hx-swap="beforeend"
         hx-disabled-elt="this"
@@ -137,7 +139,7 @@ def render_images_html(remaining_images: List[Image], max_images: int, double_cl
     return images_html
 
 
-def render_load_more_buttons_container_html(count: int, max_uid: str, min_uid: str, session_max_uid: str, lang: str, today: bool) -> str:
+def render_load_more_buttons_container_html(count: int, max_uid: str, min_uid: str, session_max_uid: str, lang: str, today: bool, group_id: Optional[str]) -> str:
     # order of SESSION_MAX_UID and MAX_UID cannot be change
     # otherwise max_uid will be in SESSION_MAX_UID
     # because MAX_UID is a substring of SESSION_MAX_UID
@@ -146,19 +148,21 @@ def render_load_more_buttons_container_html(count: int, max_uid: str, min_uid: s
         .replace('SESSION_MAX_UID', session_max_uid) \
         .replace('MAX_UID', max_uid) \
         .replace('TODAY_PARAM', '&today=1' if today else '') \
+        .replace('GID_PARAM', f'&group={group_id}' if group_id else '') \
         .replace('MIN_UID', min_uid) \
         .replace('MARK_AS_READ_CONFIRM', get_string("Are you sure you want to mark above as read?", lang)) \
         .replace('MARK_AS_READ_LABEL', get_string("Mark above as read", lang)) \
         .replace('COUNT', str(count))
 
 
-def render_mark_as_read_buttons_container_html(min_uid: str, session_max_uid: str, lang: str, today: bool) -> str:
+def render_mark_as_read_buttons_container_html(min_uid: str, session_max_uid: str, lang: str, today: bool, group_id: Optional[str]) -> str:
     return MARK_AS_READ_BUTTONS_TEMPLATE \
         .replace('SESSION_MAX_UID', session_max_uid) \
         .replace('MIN_UID', min_uid) \
         .replace('MARK_AS_READ_CONFIRM', get_string("Are you sure you want to mark all as read?", lang)) \
         .replace('MARK_AS_READ_LABEL', get_string("Mark all as read", lang)) \
         .replace('TODAY_PARAM', '&today=1' if today else '') \
+        .replace('GID_PARAM', f'&group={group_id}' if group_id else '')
 
 
 def _find_last_min_uid(all_or_remaining_images: List[Image], max_images: int) -> Tuple[str, int]:
@@ -172,7 +176,7 @@ def _find_last_min_uid(all_or_remaining_images: List[Image], max_images: int) ->
     return all_or_remaining_images[0].uid
 
 
-def render_button_html(all_or_remaining_images: List[Image], max_images: int, session_max_uid: str, lang: str, today: bool) -> str:
+def render_button_html(all_or_remaining_images: List[Image], max_images: int, session_max_uid: str, lang: str, today: bool, group_id: Optional[str]) -> str:
     if len(all_or_remaining_images) > max_images:
         count = len(all_or_remaining_images) - max_images
         max_uid = all_or_remaining_images[max_images - 1].uid
@@ -185,11 +189,24 @@ def render_button_html(all_or_remaining_images: List[Image], max_images: int, se
             # hence, we need to find the item/image previous to this image
             # and use its uid as min_uid
             min_uid = _find_last_min_uid(all_or_remaining_images, max_images)
-        return render_load_more_buttons_container_html(count, max_uid, min_uid, session_max_uid, lang, today)
+        return render_load_more_buttons_container_html(count, max_uid, min_uid, session_max_uid, lang, today, group_id)
     else:
         min_uid = all_or_remaining_images[-1].uid
-        return render_mark_as_read_buttons_container_html(min_uid, session_max_uid, lang, today)
+        return render_mark_as_read_buttons_container_html(min_uid, session_max_uid, lang, today, group_id)
 
+
+def _all_read_message(today: bool, group: Optional[Group], lang: str):
+    if today:
+        if group:
+            return get_string("✨ Today's GROUP_TITLE images all read ✨", lang).replace('GROUP_TITLE', group.title)
+        else:
+            return get_string("✨ Today's images all read ✨", lang)
+    else:
+        if group:
+            return get_string("✨ All GROUP_TITLE read ✨", lang).replace('GROUP_TITLE', group.title)
+        else:
+            return get_string('✨ All read ✨', lang)
+    
 
 def render_index(
         all_images: List[Image],
@@ -201,11 +218,11 @@ def render_index(
         has_auth_cookie: bool,
         lang: str,
         today: bool,
-        groups: List[Group],
-        current_group_id: str) -> str:
+        all_groups: List[Group],
+        selected_group: Optional[Group]) -> str:
     images_html = render_images_html(all_images, max_images, double_click_action)
     if all_images:
-        button_html = render_button_html(all_images, max_images, all_images[0].uid, lang, today)
+        button_html = render_button_html(all_images, max_images, all_images[0].uid, lang, today, selected_group.gid if selected_group else None)
     else:
         button_html = ''
     nothing_left = not all_images
@@ -218,15 +235,15 @@ def render_index(
         .replace('TIME_OPTION_TODAY_SELECT_ATTRIBUTE', 'selected="selected"' if today else '') \
         .replace('TIME_OPTION_TODAY', get_string('Today', lang)) \
         .replace('GROUP_SELECT_DEFAULT_OPTION_LABEL', get_string('(All groups)', lang)) \
-        .replace('GROUP_SELECT_DEFAULT_OPTION_ATTRIBUTE', 'selected="selected"' if not current_group_id else '') \
+        .replace('GROUP_SELECT_DEFAULT_OPTION_ATTRIBUTE', 'selected="selected"' if not selected_group else '') \
         .replace('GROUP_SELECT_OPTIONS', ''.join(map(
-            lambda g: f'<option value="{g.gid}" {'selected="selected"' if g.gid == current_group_id else ''}>{g.title}</option>', groups
+            lambda g: f'<option value="{g.gid}" {'selected="selected"' if selected_group and g.gid == selected_group.gid else ''}>{g.title}</option>', all_groups
         ))) \
         .replace('LOGOUT_BUTTON_VISIBILITY', 'visible' if has_auth_cookie else 'hidden') \
         .replace('LOGOUT', get_string('Logout', lang)) \
-        .replace('ALL_READ', ALL_READ_HTML_TEMPLATE
-                 .replace('ALL_READ_MESSAGE',
-                          (get_string("✨ Today's images all read ✨", lang) if today else get_string('✨ All read ✨', lang))) if nothing_left else '') \
+        .replace('ALL_READ', ALL_READ_HTML_TEMPLATE.replace(
+            'ALL_READ_MESSAGE',
+            _all_read_message(today, selected_group, lang) if nothing_left else '')) \
         .replace('IMAGES_HTML', images_html) \
         .replace('BUTTON_HTML', button_html) \
         .replace('URL_FOR_STYLE_CSS', url_for_style_css) \

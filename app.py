@@ -13,7 +13,7 @@ from pocket import Pocket
 from sentry_sdk import capture_exception
 from rss_waterfall.fever import mark_items_as_read, fever_auth, FeverAuthError
 from rss_waterfall.images import get_images, uid_to_item_id
-from rss_waterfall.groups import get_groups
+from rss_waterfall.groups import get_group
 from rss_waterfall_web.index import render_index, render_images_html, render_button_html
 from rss_waterfall_web.login import render_login
 
@@ -163,8 +163,8 @@ def compute_after_for_maybe_today() -> Optional[int]:
 @requires_auth
 @catches_exceptions
 def index():
-    all_images = get_images(g.fever_endpoint, g.fever_username, g.fever_password, compute_after_for_maybe_today())
-    groups = get_groups(g.fever_endpoint, g.fever_username, g.fever_password)
+    all_images = get_images(g.fever_endpoint, g.fever_username, g.fever_password, compute_after_for_maybe_today(), request.args.get('group'))
+    selected_group, groups = get_group(g.fever_endpoint, g.fever_username, g.fever_password, request.args.get('group'))
     return render_index(
         all_images,
         max_images, 
@@ -176,14 +176,14 @@ def index():
         get_lang(),
         request.args.get('today') == "1",
         groups,
-        request.args.get('group'))
+        selected_group)
 
 
 @app.route('/load_more')
 @requires_auth
 @catches_exceptions
 def load_more():
-    all_images = get_images(g.fever_endpoint, g.fever_username, g.fever_password, compute_after_for_maybe_today())
+    all_images = get_images(g.fever_endpoint, g.fever_username, g.fever_password, compute_after_for_maybe_today(), request.args.get('group'))
 
     max_uid = request.args.get('max_uid')
     max_uid_index = -1
@@ -195,7 +195,7 @@ def load_more():
     remaining_images = all_images[max_uid_index + 1:]
     session_max_uid = request.args.get('session_max_uid')
     return render_images_html(remaining_images, max_images, pocket_client is not None) + \
-        render_button_html(remaining_images, max_images, session_max_uid, get_lang(), request.args.get('today') == "1")
+        render_button_html(remaining_images, max_images, session_max_uid, get_lang(), request.args.get('today') == "1", request.args.get('group'))
 
 
 @app.route('/pocket', methods=['POST'])
@@ -220,7 +220,7 @@ def mark_as_read():
     min_item_id = uid_to_item_id(min_uid)
     
     mark_as_read_item_ids = []
-    all_images = get_images(g.fever_endpoint, g.fever_username, g.fever_password, compute_after_for_maybe_today())
+    all_images = get_images(g.fever_endpoint, g.fever_username, g.fever_password, compute_after_for_maybe_today(), request.args.get('group'))
     for image in all_images:
         item_id = uid_to_item_id(image.uid)
         if min_item_id <= item_id <= max_item_id:

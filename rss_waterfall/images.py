@@ -37,10 +37,13 @@ def extract_images(html: str, item: Dict) -> List[Image]:
     return items
 
 
-def get_images(fever_endpoint: str, fever_username: str, fever_password: str, after: Optional[int]) -> List[Image]:
+def get_images(fever_endpoint: str, fever_username: str, fever_password: str, after: Optional[int], group_id: Optional[str]) -> List[Image]:
     images = []
     for item in get_unread_items(fever_endpoint, fever_username, fever_password):
-        if not after or after < item['created_on_time']:
+        should_include_for_after = not after or after < item['created_on_time']
+        # the str(group['id']) is Fever API specific because Fever API's group IDs are int's but group_id is str
+        should_include_for_group = not group_id or group_id in [str(group['id']) for group in item['groups']]
+        if should_include_for_after and should_include_for_group:
             html = item['html']
             images += extract_images(html, item)
     return images
