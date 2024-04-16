@@ -208,6 +208,7 @@ def render_index(
         .replace('TIME_OPTION_TODAY_SELECT_ATTRIBUTE', 'selected="selected"' if today else '') \
         .replace('TIME_OPTION_TODAY', get_string('Today', lang)) \
         .replace('LOGOUT_BUTTON_VISIBILITY', 'visible' if has_auth_cookie else 'hidden') \
+        .replace('LOGOUT', get_string('Logout', lang)) \
         .replace('ALL_READ', ALL_READ_HTML_TEMPLATE
                  .replace('ALL_READ_MESSAGE',
                           (get_string("✨ Today's images all read ✨", lang) if today else get_string('✨ All read ✨', lang))) if nothing_left else '') \
