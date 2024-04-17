@@ -1,10 +1,8 @@
-# RSS Waterfall
+# Galerie
 一款 Pinterest/小红书照片墙式的 RSS 阅读器
 
-[![en](https://img.shields.io/badge/lang-en-blue.svg)](https://github.com/sekai-soft/rss-waterfall/blob/master/README.md)
-[![zh](https://img.shields.io/badge/中文文档-red.svg)](https://github.com/sekai-soft/rss-waterfall/blob/master/README.zh.md)
-[![zh](https://img.shields.io/badge/docker-amd64-orange)](https://github.com/sekai-soft/rss-waterfall/pkgs/container/rss-waterfall)
-[![zh](https://img.shields.io/badge/docker-arm64-teal)](https://github.com/sekai-soft/rss-waterfall/pkgs/container/rss-waterfall)
+[![zh](https://img.shields.io/badge/docker-amd64-orange)](https://github.com/sekai-soft/galerie/pkgs/container/galerie)
+[![zh](https://img.shields.io/badge/docker-arm64-teal)](https://github.com/sekai-soft/galerie/pkgs/container/galerie)
 
 <img src="./screenshot.png" alt="程序截图" width="768"/>
 
@@ -18,7 +16,7 @@
 * （可选）连接到 Pocket ，双击图片即可快速将项目添加至稍后阅读
 
 ## 运行你自己的服务器
-Docker 镜像是 `ghcr.io/sekai-soft/rss-waterfall:latest` ，并且 x86-64 和 arm64 都可用
+Docker 镜像是 `ghcr.io/sekai-soft/galerie:latest` ，并且 x86-64 和 arm64 都可用
 
 以下是该容器接受的环境变量
 | 名称                  | 必要 | 评论                                                                          |
@@ -33,8 +31,8 @@ Docker 镜像是 `ghcr.io/sekai-soft/rss-waterfall:latest` ，并且 x86-64 和 
 以下是 `docker-compose.yml` 文件示例
 ```yml
 services:
-    rss-waterfall:
-        image: ghcr.io/sekai-soft/rss-waterfall:latest
+    galerie:
+        image: ghcr.io/sekai-soft/galerie:latest
         ports:
             - "5000:5000"
         environment:

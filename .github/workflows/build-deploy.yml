@@ -27,7 +27,7 @@ jobs:
         with:
           context: .
           platforms: linux/amd64
-          tags: ghcr.io/${{ github.repository }}:latest-amd64
+          tags: ghcr.io/${{ github.repository }}:latest-amd64,ghcr.io/${{ github.repository_owner }}/rss-waterfall:latest-amd64
           push: true
       - name: Export digest
         run: |
@@ -60,7 +60,7 @@ jobs:
         with:
           context: .
           platforms: linux/arm64
-          tags: ghcr.io/${{ github.repository }}:latest-arm64
+          tags: ghcr.io/${{ github.repository }}:latest-arm64,ghcr.io/${{ github.repository_owner }}/rss-waterfall:latest-arm64
           push: true
       - name: Export digest
         run: |
@@ -100,6 +100,7 @@ jobs:
         working-directory: /tmp/digests
         run: |
           docker buildx imagetools create -t ghcr.io/${{ github.repository }}:latest $(printf 'ghcr.io/${{ github.repository }}@sha256:%s ' *)
+          docker buildx imagetools create -t ghcr.io/${{ github.repository_owner }}/rss-waterfall:latest $(printf 'ghcr.io/${{ github.repository_owner }}/rss-waterfall@sha256:%s ' *)
 
   deploy-fly:
     runs-on: ubuntu-latest

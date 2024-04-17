@@ -1,11 +1,11 @@
 from typing import List, Tuple, Optional
 from urllib.parse import quote, quote_plus
-from rss_waterfall.images import Image, uid_to_item_id
-from rss_waterfall.groups import Group
+from galerie.images import Image, uid_to_item_id
+from galerie.groups import Group
 
 I18N = {
     "zh": {
-        "RSS Waterfall": "RSS 瀑布流",
+        "Galerie": "Galerie",
         "A Pinterest/Xiaohongshu photo wall style RSS reader": "一款 Pinterest/小红书照片墙式的 RSS 阅读器",
         "Logout": "登出",
         "Load COUNT more": "加载 COUNT 张更多",
@@ -75,7 +75,7 @@ INDEX_TEMPLATE = """<!DOCTYPE html>
         <meta charset="UTF-8">
         <meta name="viewport" content="width=device-width, initial-scale=1.0">
         <meta http-equiv="X-UA-Compatible" content="ie=edge">
-        <title>COUNTRSS_WATERFALL</title>
+        <title>COUNTGALERIE</title>
         <meta name="description" content="A_PINTEREST_XIAOHONGSHU_PHOTO_WALL_STYLE_RSS_READER">
         <link rel="icon" type="image/png" href="URL_FOR_FAVICON_PNG">
         <link rel="stylesheet" type="text/css" href="URL_FOR_STYLE_CSS">
@@ -88,7 +88,7 @@ INDEX_TEMPLATE = """<!DOCTYPE html>
     </head>
     <body>
         <div class="stream header">
-            <p>COUNTRSS_WATERFALL <a href="https://github.com/sekai-soft/rss-waterfall" target="_blank" style="font-size: 1em;">&lt;/&gt;</a></p>
+            <p>COUNTGALERIE <a href="https://github.com/sekai-soft/galerie" target="_blank" style="font-size: 1em;">&lt;/&gt;</a></p>
             <div>
                 <select id="timeSelect">
                     <option value="all" TIME_OPTION_ALL_TIME_SELECT_ATTRIBUTE>TIME_OPTION_ALL_TIME</option>
@@ -227,7 +227,7 @@ def render_index(
         button_html = ''
     nothing_left = not all_images
     return INDEX_TEMPLATE \
-        .replace('RSS_WATERFALL', get_string('RSS Waterfall', lang)) \
+        .replace('GALERIE', get_string('Galerie', lang)) \
         .replace('A_PINTEREST_XIAOHONGSHU_PHOTO_WALL_STYLE_RSS_READER', get_string('A Pinterest/Xiaohongshu photo wall style RSS reader', lang)) \
         .replace('COUNT', f'({len(all_images)}) ' if not nothing_left else '') \
         .replace('TIME_OPTION_ALL_TIME_SELECT_ATTRIBUTE', 'selected="selected"' if not today else '') \

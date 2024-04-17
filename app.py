@@ -11,11 +11,11 @@ from urllib.parse import unquote, unquote_plus
 from flask import Flask, request, url_for, Response, g, redirect, make_response
 from pocket import Pocket
 from sentry_sdk import capture_exception
-from rss_waterfall.fever import mark_items_as_read, fever_auth, FeverAuthError
-from rss_waterfall.images import get_images, uid_to_item_id
-from rss_waterfall.groups import get_group
-from rss_waterfall_web.index import render_index, render_images_html, render_button_html
-from rss_waterfall_web.login import render_login
+from galerie.fever import mark_items_as_read, fever_auth, FeverAuthError
+from galerie.images import get_images, uid_to_item_id
+from galerie.groups import get_group
+from galerie_web.index import render_index, render_images_html, render_button_html
+from galerie_web.login import render_login
 
 if os.getenv('SENTRY_DSN'):
     sentry_sdk.init(

@@ -1,10 +1,9 @@
-# RSS Waterfall
+# Galerie
 A Pinterest/Xiaohongshu photo wall style RSS reader
 
-[![en](https://img.shields.io/badge/lang-en-blue.svg)](https://github.com/sekai-soft/rss-waterfall/blob/master/README.md)
-[![zh](https://img.shields.io/badge/中文文档-red.svg)](https://github.com/sekai-soft/rss-waterfall/blob/master/README.zh.md)
-[![zh](https://img.shields.io/badge/docker-amd64-orange)](https://github.com/sekai-soft/rss-waterfall/pkgs/container/rss-waterfall)
-[![zh](https://img.shields.io/badge/docker-arm64-teal)](https://github.com/sekai-soft/rss-waterfall/pkgs/container/rss-waterfall)
+[![zh](https://img.shields.io/badge/中文文档-red.svg)](https://github.com/sekai-soft/galerie/blob/master/README.zh.md)
+[![zh](https://img.shields.io/badge/docker-amd64-orange)](https://github.com/sekai-soft/galerie/pkgs/container/galerie)
+[![zh](https://img.shields.io/badge/docker-arm64-teal)](https://github.com/sekai-soft/galerie/pkgs/container/galerie)
 
 <img src="./screenshot.png" alt="Screenshot of the application" width="768"/>
 
@@ -18,7 +17,7 @@ A Pinterest/Xiaohongshu photo wall style RSS reader
 * (Optional) Connect to Pocket and quickly add items to read-it-later by double-tapping on the image
 
 ## Run your own server
-The Docker image is `ghcr.io/sekai-soft/rss-waterfall:latest` and it's available in both x86-64 and arm64
+The Docker image is `ghcr.io/sekai-soft/galerie:latest` and it's available in both x86-64 and arm64
 
 Here is a table of environment variables that the container takes
 | Name                  | Required | Comment                                                                                                     |
@@ -33,8 +32,8 @@ Here is a table of environment variables that the container takes
 Here is an example `docker-compose.yml` file
 ```yml
 services:
-    rss-waterfall:
-        image: ghcr.io/sekai-soft/rss-waterfall:latest
+    galerie:
+        image: ghcr.io/sekai-soft/galerie:latest
         ports:
             - "5000:5000"
         environment:
