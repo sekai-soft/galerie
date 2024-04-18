@@ -11,8 +11,8 @@ from urllib.parse import unquote, unquote_plus
 from flask import Flask, request, url_for, Response, g, redirect, make_response
 from pocket import Pocket
 from sentry_sdk import capture_exception
-from galerie.fever import mark_items_as_read, get_group, fever_auth, FeverAuthError
-from galerie.images import get_images, uid_to_item_id
+from galerie.fever import get_images, mark_items_as_read, get_group, fever_auth, FeverAuthError
+from galerie.image import uid_to_item_id
 from galerie_web.index import render_index, render_images_html, render_button_html
 from galerie_web.login import render_login
 
@@ -215,17 +215,16 @@ def pocket():
 def mark_as_read():
     session_max_uid = request.args.get('session_max_uid')
     min_uid = request.args.get('min_uid')
-    max_item_id = uid_to_item_id(session_max_uid)
-    min_item_id = uid_to_item_id(min_uid)
-    
-    mark_as_read_item_ids = []
-    all_images = get_images(g.fever_endpoint, g.fever_username, g.fever_password, compute_after_for_maybe_today(), request.args.get('group'))
-    for image in all_images:
-        item_id = uid_to_item_id(image.uid)
-        if min_item_id <= item_id <= max_item_id:
-            mark_as_read_item_ids.append(item_id)
 
-    mark_items_as_read(g.fever_endpoint, g.fever_username, g.fever_password, mark_as_read_item_ids)
-    resp = Response(f'Marked {len(mark_as_read_item_ids)} items as read')
+    count = mark_items_as_read(
+        g.fever_endpoint,
+        g.fever_username,
+        g.fever_password,
+        compute_after_for_maybe_today(),
+        request.args.get('group'),
+        session_max_uid,
+        min_uid)
+
+    resp = Response(f'Marked {count} items as read')
     resp.headers['HX-Refresh'] = "true"
     return resp

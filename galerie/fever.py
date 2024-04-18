@@ -3,6 +3,7 @@ import hashlib
 from typing import List, Tuple, Optional
 from .item import Item
 from .group import Group
+from .image import extract_images, Image, uid_to_item_id
 
 ITEMS_QUERY_MAX_ITERS = 50
 
@@ -54,7 +55,7 @@ def get_group(endpoint: str, username: str, password: str, group_id: str) -> Tup
     return None, groups
 
 
-def get_unread_items(endpoint: str, username: str, password: str) -> List[Item]:
+def _get_unread_items(endpoint: str, username: str, password: str) -> List[Item]:
     api_key = fever_get_api_key(username, password)
     
     groups, feeds_groups = _get_groups(endpoint, username, password)
@@ -100,9 +101,30 @@ def get_unread_items(endpoint: str, username: str, password: str) -> List[Item]:
     return list(reversed(unread_items))
 
 
-def mark_items_as_read(endpoint: str, username: str, password: str, item_ids: int):
-    api_key = fever_get_api_key(username, password)
+def get_images(endpoint: str, username: str, password: str, after: Optional[int], group_id: Optional[str]) -> List[Image]:
+    images = []
+    for item in _get_unread_items(endpoint, username, password):
+        should_include_for_after = not after or after < item.created_timestamp_seconds
+        should_include_for_group = not group_id or group_id in [group.gid for group in item.groups]
+        if should_include_for_after and should_include_for_group:
+            html = item.html
+            images += extract_images(html, item)
+    return images
 
-    for item_id in item_ids:
+
+def mark_items_as_read(endpoint: str, username: str, password: str, after: Optional[int], group_id: Optional[str], session_max_uid: str, min_uid: str) -> int:
+    max_item_id = uid_to_item_id(session_max_uid)
+    min_item_id = uid_to_item_id(min_uid)
+
+    mark_as_read_item_ids = []
+    for image in get_images(endpoint, username, password, after, group_id):
+        item_id = uid_to_item_id(image.uid)
+        if min_item_id <= item_id <= max_item_id:
+            mark_as_read_item_ids.append(item_id)
+
+    api_key = fever_get_api_key(username, password)
+    for item_id in mark_as_read_item_ids:
         mark_res = requests.post(endpoint + '/?api&mark=item&as=read&id=' + item_id, data={'api_key': api_key})
         mark_res.raise_for_status()
+
+    return len(mark_as_read_item_ids)
