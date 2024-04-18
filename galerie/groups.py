@@ -1,12 +1,6 @@
 from typing import List, Optional, Tuple
-from dataclasses import dataclass
 from .fever import fever_get_api_key, get_groups as fever_get_groups
-
-
-@dataclass
-class Group:
-    title: str
-    gid: str
+from .group import Group
 
 
 def get_groups(fever_endpoint: str, fever_username: str, fever_password: str) -> List[Group]:

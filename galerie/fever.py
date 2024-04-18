@@ -1,7 +1,8 @@
 import requests
 import hashlib
-import copy
 from typing import List, Tuple
+from .item import Item
+from .group import Group
 
 ITEMS_QUERY_MAX_ITERS = 50
 
@@ -32,7 +33,7 @@ def get_groups(endpoint: str, api_key: str) -> Tuple[List[dict], List[dict]]:
     return groups_res.json()['groups'], groups_res.json()['feeds_groups']
 
 
-def get_unread_items(endpoint: str, username: str, password: str) -> List[dict]:
+def get_unread_items(endpoint: str, username: str, password: str) -> List[Item]:
     api_key = fever_get_api_key(username, password)
     
     groups, feeds_groups = get_groups(endpoint, api_key)
@@ -64,9 +65,19 @@ def get_unread_items(endpoint: str, username: str, password: str) -> List[dict]:
             break
         for item in items:
             if item['id'] in unread_item_ids:
-                item_with_group = copy.deepcopy(item)
-                item_with_group['groups'] = groups_by_feed_id.get(str(item['feed_id']), [])
-                unread_items.append(item_with_group)
+                item_groups = groups_by_feed_id.get(str(item['feed_id']), [])
+                unread_items.append(Item(
+                    created_timestamp_seconds=item['created_on_time'],
+                    html=item['html'],
+                    # the str casting here is Fever API specific because Fever API's IDs are int's but str is required
+                    iid=str(item['id']),
+                    url=item['url'],
+                    groups=list(map(lambda ig: Group(
+                        title=ig['title'],
+                        # the str casting here is Fever API specific because Fever API's IDs are int's but str is required
+                        gid=str(ig['id'])
+                    ), item_groups)),
+                ))
         since_id = max([i['id'] for i in items])
     # unread_items is ordered by oldest first
     return list(reversed(unread_items))
