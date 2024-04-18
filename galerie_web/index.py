@@ -1,7 +1,7 @@
 from typing import List, Tuple, Optional
 from urllib.parse import quote, quote_plus
 from galerie.images import Image, uid_to_item_id
-from galerie.groups import Group
+from galerie.group import Group
 
 I18N = {
     "zh": {

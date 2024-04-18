@@ -1,6 +1,6 @@
 import requests
 import hashlib
-from typing import List, Tuple
+from typing import List, Tuple, Optional
 from .item import Item
 from .group import Group
 
@@ -26,17 +26,38 @@ def fever_get_api_key(username: str, password: str):
     username_plus_password = username + ':' + password
     return hashlib.md5(username_plus_password.encode()).hexdigest()
 
-
-def get_groups(endpoint: str, api_key: str) -> Tuple[List[dict], List[dict]]:
+def _get_groups(endpoint: str, username: str, password: str) -> Tuple[List[dict], List[dict]]:
+    api_key = fever_get_api_key(username, password)
     groups_res = requests.post(endpoint + '/?api&groups', data={'api_key': api_key})
     groups_res.raise_for_status()
     return groups_res.json()['groups'], groups_res.json()['feeds_groups']
 
 
+def _group_dict_to_group(group_dict: dict) -> Group:
+    return Group(
+        title=group_dict['title'],
+        # the str casting here is Fever API specific because Fever API's IDs are int's but str is required
+        gid=str(group_dict['id'])
+    )
+
+
+def get_groups(endpoint: str, username: str, password: str):
+    groups, _ = _get_groups(endpoint, username, password)
+    return list(map(_group_dict_to_group, groups))
+
+
+def get_group(endpoint: str, username: str, password: str, group_id: str) -> Tuple[Optional[Group], List[Group]]:
+    groups = get_groups(endpoint, username, password)
+    for group in groups:
+        if group.gid == group_id:
+            return group, groups
+    return None, groups
+
+
 def get_unread_items(endpoint: str, username: str, password: str) -> List[Item]:
     api_key = fever_get_api_key(username, password)
     
-    groups, feeds_groups = get_groups(endpoint, api_key)
+    groups, feeds_groups = _get_groups(endpoint, username, password)
     group_by_id = {group['id']: group for group in groups}
     groups_by_feed_id = {}
     for feeds_group in feeds_groups:
@@ -72,11 +93,7 @@ def get_unread_items(endpoint: str, username: str, password: str) -> List[Item]:
                     # the str casting here is Fever API specific because Fever API's IDs are int's but str is required
                     iid=str(item['id']),
                     url=item['url'],
-                    groups=list(map(lambda ig: Group(
-                        title=ig['title'],
-                        # the str casting here is Fever API specific because Fever API's IDs are int's but str is required
-                        gid=str(ig['id'])
-                    ), item_groups)),
+                    groups=list(map(_group_dict_to_group, item_groups)),
                 ))
         since_id = max([i['id'] for i in items])
     # unread_items is ordered by oldest first
