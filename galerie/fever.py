@@ -3,9 +3,8 @@ import hashlib
 from typing import List, Tuple, Optional
 from .item import Item
 from .group import Group
-from .image import extract_images, Image, uid_to_item_id
-
-ITEMS_QUERY_MAX_ITERS = 50
+from .image import uid_to_item_id
+from .feed_filter import FeedFilter
 
 
 class FeverAuthError(Exception):
@@ -42,6 +41,17 @@ def _group_dict_to_group(group_dict: dict) -> Group:
     )
 
 
+def _item_dict_to_item(item_dict: dict, group_dicts: List[dict]) -> Item:
+    return Item(
+        created_timestamp_seconds=item_dict['created_on_time'],
+        html=item_dict['html'],
+        # the str casting here is Fever API specific because Fever API's IDs are int's but str is required
+        iid=str(item_dict['id']),
+        url=item_dict['url'],
+        groups=list(map(_group_dict_to_group, group_dicts)),
+    )
+
+
 def get_groups(endpoint: str, username: str, password: str):
     groups, _ = _get_groups(endpoint, username, password)
     return list(map(_group_dict_to_group, groups))
@@ -55,7 +65,7 @@ def get_group(endpoint: str, username: str, password: str, group_id: str) -> Tup
     return None, groups
 
 
-def _get_unread_items(endpoint: str, username: str, password: str) -> List[Item]:
+def get_unread_items_by_iid_ascending(endpoint: str, username: str, password: str, count: int, from_iid_exclusive: Optional[str], feed_filter: FeedFilter) -> List[Item]:
     api_key = fever_get_api_key(username, password)
     
     groups, feeds_groups = _get_groups(endpoint, username, password)
@@ -73,43 +83,49 @@ def _get_unread_items(endpoint: str, username: str, password: str) -> List[Item]
     unread_item_ids = unread_item_ids_res.json()['unread_item_ids']
     if unread_item_ids == '':
         return []
-    unread_item_ids = list(map(int, unread_item_ids.split(',')))
-    # &items&since_id query looks like it's exclusive, e.g. since_id's item will not be included
-    # hence need to -1 to make sure since_id's item is also included
-    since_id = min(unread_item_ids) - 1
 
-    unread_items = []
-    for _ in range(ITEMS_QUERY_MAX_ITERS):
-        items_res = requests.post(endpoint + '/?api&items&since_id=' + str(since_id), data={'api_key': api_key})
+    unread_item_ids = list(sorted(map(int, unread_item_ids.split(','))))
+    if not from_iid_exclusive:
+        # start from beginning
+        # the &items&since_id query later looks like it's exclusive, e.g. min(unread_item_ids) item will not be included
+        # hence need to -1 to make sure the min(unread_item_ids) item is also included
+        from_iid_exclusive = min(unread_item_ids) - 1
+    else:
+        from_iid_exclusive = int(from_iid_exclusive)
+
+    unread_items = []  # type: List[Item]
+    while len(unread_items) < count:
+        items_res = requests.post(f'{endpoint}/?api&items&since_id={from_iid_exclusive}', data={'api_key': api_key})
         items_res.raise_for_status()
         items = items_res.json()['items']
         if len(items) == 0:
             break
+        batch_items = []
         for item in items:
-            if item['id'] in unread_item_ids:
-                item_groups = groups_by_feed_id.get(str(item['feed_id']), [])
-                unread_items.append(Item(
-                    created_timestamp_seconds=item['created_on_time'],
-                    html=item['html'],
-                    # the str casting here is Fever API specific because Fever API's IDs are int's but str is required
-                    iid=str(item['id']),
-                    url=item['url'],
-                    groups=list(map(_group_dict_to_group, item_groups)),
-                ))
-        since_id = max([i['id'] for i in items])
-    # unread_items is ordered by oldest first
-    return list(reversed(unread_items))
-
-
-def get_images(endpoint: str, username: str, password: str, after: Optional[int], group_id: Optional[str]) -> List[Image]:
-    images = []
-    for item in _get_unread_items(endpoint, username, password):
-        should_include_for_after = not after or after < item.created_timestamp_seconds
-        should_include_for_group = not group_id or group_id in [group.gid for group in item.groups]
-        if should_include_for_after and should_include_for_group:
-            html = item.html
-            images += extract_images(html, item)
-    return images
+            item_groups = groups_by_feed_id.get(str(item['feed_id']), [])
+            batch_items.append(_item_dict_to_item(item, item_groups))
+        eligible_items = []
+        for item in batch_items:
+            is_unread = int(item.iid) in unread_item_ids
+            is_after = not feed_filter.created_after_seconds or feed_filter.created_after_seconds < item.created_timestamp_seconds
+            is_group = not feed_filter.group_id or feed_filter.group_id in [group.gid for group in item.groups]
+            if is_unread and is_after and is_group:
+                eligible_items.append(item)
+        eligible_items = eligible_items[:count - len(unread_items)]
+        if eligible_items:
+            last_eligible_item = eligible_items[-1]
+            last_eligible_item_index = unread_item_ids.index(int(last_eligible_item.iid))
+            next_eligible_item_id = unread_item_ids[last_eligible_item_index + 1]
+            from_iid_exclusive = next_eligible_item_id - 1
+        elif from_iid_exclusive in unread_item_ids:
+            from_iid_exclusive_index = unread_item_ids.index(from_iid_exclusive)
+            from_iid_exclusive = unread_item_ids[from_iid_exclusive_index + 1]
+        else:
+            from_iid_exclusive_index = unread_item_ids.index(from_iid_exclusive + 1)
+            next_eligible_item_id = unread_item_ids[from_iid_exclusive_index + 1]
+            from_iid_exclusive = next_eligible_item_id - 1
+        unread_items += eligible_items
+    return unread_items
 
 
 def mark_items_as_read(endpoint: str, username: str, password: str, after: Optional[int], group_id: Optional[str], session_max_uid: str, min_uid: str) -> int:

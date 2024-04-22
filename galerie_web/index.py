@@ -119,8 +119,7 @@ INDEX_TEMPLATE = """<!DOCTYPE html>
 """
 
 
-def render_images_html(remaining_images: List[Image], max_images: int, double_click_action: bool) -> str:
-    images = remaining_images[:max_images]
+def render_images_html(images: List[Image], double_click_action: bool) -> str:
     images_html = ''
     for image in images:
         images_html += GRID_ITEM_TEMPLATE \
@@ -176,23 +175,13 @@ def _find_last_min_uid(all_or_remaining_images: List[Image], max_images: int) ->
     return all_or_remaining_images[0].uid
 
 
-def render_button_html(all_or_remaining_images: List[Image], max_images: int, session_max_uid: str, lang: str, today: bool, group_id: Optional[str]) -> str:
-    if len(all_or_remaining_images) > max_images:
-        count = len(all_or_remaining_images) - max_images
-        max_uid = all_or_remaining_images[max_images - 1].uid
-        min_uid = all_or_remaining_images[max_images].uid
-        if uid_to_item_id(max_uid) != uid_to_item_id(min_uid):
-            # it is possible that the image at max_imags is not the last image of the associated feed
-            # if we do not find the item/image previous to this image
-            # marking all items as read including this image
-            # will also make the remaining images of the associated item not render at all
-            # hence, we need to find the item/image previous to this image
-            # and use its uid as min_uid
-            min_uid = _find_last_min_uid(all_or_remaining_images, max_images)
-        return render_load_more_buttons_container_html(count, max_uid, min_uid, session_max_uid, lang, today, group_id)
-    else:
-        min_uid = all_or_remaining_images[-1].uid
+def render_button_html(images: List[Image], max_images: int, session_max_uid: str, lang: str, today: bool, group_id: Optional[str]) -> str:
+    if len(images) < max_images:
+        min_uid = images[-1].uid
         return render_mark_as_read_buttons_container_html(min_uid, session_max_uid, lang, today, group_id)
+    count = len(images) - max_images
+    max_uid = images[max_images - 1].uid
+    return render_load_more_buttons_container_html(count, max_uid, '', session_max_uid, lang, today, group_id)        
 
 
 def _all_read_message(today: bool, group: Optional[Group], lang: str):
@@ -209,7 +198,7 @@ def _all_read_message(today: bool, group: Optional[Group], lang: str):
     
 
 def render_index(
-        all_images: List[Image],
+        images: List[Image],
         max_images: int,
         url_for_style_css: str,
         url_for_favicon_png: str,
@@ -220,16 +209,16 @@ def render_index(
         today: bool,
         all_groups: List[Group],
         selected_group: Optional[Group]) -> str:
-    images_html = render_images_html(all_images, max_images, double_click_action)
-    if all_images:
-        button_html = render_button_html(all_images, max_images, all_images[0].uid, lang, today, selected_group.gid if selected_group else None)
+    images_html = render_images_html(images, double_click_action)
+    if images:
+        button_html = render_button_html(images, max_images, images[0].uid, lang, today, selected_group.gid if selected_group else None)
     else:
         button_html = ''
-    nothing_left = not all_images
+    empty = not images
     return INDEX_TEMPLATE \
         .replace('GALERIE', get_string('Galerie', lang)) \
         .replace('A_PINTEREST_XIAOHONGSHU_PHOTO_WALL_STYLE_RSS_READER', get_string('A Pinterest/Xiaohongshu photo wall style RSS reader', lang)) \
-        .replace('COUNT', f'({len(all_images)}) ' if not nothing_left else '') \
+        .replace('COUNT', f'({len(images)}) ' if not empty else '') \
         .replace('TIME_OPTION_ALL_TIME_SELECT_ATTRIBUTE', 'selected="selected"' if not today else '') \
         .replace('TIME_OPTION_ALL_TIME', get_string('All time', lang)) \
         .replace('TIME_OPTION_TODAY_SELECT_ATTRIBUTE', 'selected="selected"' if today else '') \
@@ -243,7 +232,7 @@ def render_index(
         .replace('LOGOUT', get_string('Logout', lang)) \
         .replace('ALL_READ', ALL_READ_HTML_TEMPLATE.replace(
             'ALL_READ_MESSAGE',
-            _all_read_message(today, selected_group, lang) if nothing_left else '')) \
+            _all_read_message(today, selected_group, lang) if empty else '')) \
         .replace('IMAGES_HTML', images_html) \
         .replace('BUTTON_HTML', button_html) \
         .replace('URL_FOR_STYLE_CSS', url_for_style_css) \
