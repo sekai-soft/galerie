@@ -106,19 +106,18 @@ def get_unread_items_by_iid_ascending(endpoint: str, username: str, password: st
             item_groups = groups_by_feed_id.get(str(item['feed_id']), [])
             batch_items.append(_item_dict_to_item(item, item_groups))
         batch_unread_items = []
-        encountered_any_unread_item = False
         for item in batch_items:
             is_unread = int(item.iid) in unread_item_ids
             is_after = not feed_filter.created_after_seconds or feed_filter.created_after_seconds < item.created_timestamp_seconds
             is_group = not feed_filter.group_id or feed_filter.group_id in [group.gid for group in item.groups]
             if is_unread:
-                encountered_any_unread_item = True
+                # we are guaranteed to have at least one unread item
+                # because since_id was guaranteed to exclusively start from an unread item
+                # hence unread_item_id_index will always advance
                 unread_item_id_index += 1
-            if is_unread and is_after and is_group:
-                batch_unread_items.append(item)
+                if is_after and is_group:
+                    batch_unread_items.append(item)
         batch_unread_items = batch_unread_items[:count - len(unread_items)]
-        if not encountered_any_unread_item:
-            unread_item_id_index += 1
         unread_items += batch_unread_items
 
     return unread_items
