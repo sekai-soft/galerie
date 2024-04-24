@@ -83,19 +83,20 @@ def get_unread_items_by_iid_ascending(endpoint: str, username: str, password: st
     unread_item_ids = unread_item_ids_res.json()['unread_item_ids']
     if unread_item_ids == '':
         return []
-
     unread_item_ids = list(sorted(map(int, unread_item_ids.split(','))))
+
     if not from_iid_exclusive:
         # start from beginning
-        # the &items&since_id query later looks like it's exclusive, e.g. min(unread_item_ids) item will not be included
-        # hence need to -1 to make sure the min(unread_item_ids) item is also included
-        from_iid_exclusive = min(unread_item_ids) - 1
+        unread_item_id_index = 0
     else:
-        from_iid_exclusive = int(from_iid_exclusive)
+        unread_item_id_index = unread_item_ids.index(int(from_iid_exclusive)) + 1
 
     unread_items = []  # type: List[Item]
-    while len(unread_items) < count:
-        items_res = requests.post(f'{endpoint}/?api&items&since_id={from_iid_exclusive}', data={'api_key': api_key})
+    while unread_item_id_index < len(unread_item_ids) and len(unread_items) < count:
+        # the &items&since_id query later looks like it's exclusive, e.g. the unread_item_ids[unread_item_id_index] item will not be included
+        # hence need to -1 to make sure the unread_item_ids[unread_item_id_index] item is also included
+        since_id = unread_item_ids[unread_item_id_index] - 1
+        items_res = requests.post(f'{endpoint}/?api&items&since_id={since_id}', data={'api_key': api_key})
         items_res.raise_for_status()
         items = items_res.json()['items']
         if len(items) == 0:
@@ -104,34 +105,26 @@ def get_unread_items_by_iid_ascending(endpoint: str, username: str, password: st
         for item in items:
             item_groups = groups_by_feed_id.get(str(item['feed_id']), [])
             batch_items.append(_item_dict_to_item(item, item_groups))
-        eligible_items = []
+        batch_unread_items = []
+        encountered_any_unread_item = False
         for item in batch_items:
             is_unread = int(item.iid) in unread_item_ids
             is_after = not feed_filter.created_after_seconds or feed_filter.created_after_seconds < item.created_timestamp_seconds
             is_group = not feed_filter.group_id or feed_filter.group_id in [group.gid for group in item.groups]
+            if is_unread:
+                encountered_any_unread_item = True
+                unread_item_id_index += 1
             if is_unread and is_after and is_group:
-                eligible_items.append(item)
-        eligible_items = eligible_items[:count - len(unread_items)]
-        if eligible_items:
-            last_eligible_item = eligible_items[-1]
-            last_eligible_item_index = unread_item_ids.index(int(last_eligible_item.iid))
-            next_eligible_item_id = unread_item_ids[last_eligible_item_index + 1]
-            from_iid_exclusive = next_eligible_item_id - 1
-        elif from_iid_exclusive in unread_item_ids:
-            from_iid_exclusive_index = unread_item_ids.index(from_iid_exclusive)
-            from_iid_exclusive = unread_item_ids[from_iid_exclusive_index + 1]
-        else:
-            from_iid_exclusive_index = unread_item_ids.index(from_iid_exclusive + 1)
-            next_eligible_item_id = unread_item_ids[from_iid_exclusive_index + 1]
-            from_iid_exclusive = next_eligible_item_id - 1
-        unread_items += eligible_items
+                batch_unread_items.append(item)
+        batch_unread_items = batch_unread_items[:count - len(unread_items)]
+        if not encountered_any_unread_item:
+            unread_item_id_index += 1
+        unread_items += batch_unread_items
+
     return unread_items
 
 
-def mark_items_as_read(endpoint: str, username: str, password: str, after: Optional[int], group_id: Optional[str], session_max_uid: str, min_uid: str) -> int:
-    max_item_id = uid_to_item_id(session_max_uid)
-    min_item_id = uid_to_item_id(min_uid)
-
+def mark_items_as_read(endpoint: str, username: str, password: str, to_iid_inclusive: Optional[str], feed_filter: FeedFilter) -> int:
     mark_as_read_item_ids = []
     for image in get_images(endpoint, username, password, after, group_id):
         item_id = uid_to_item_id(image.uid)
