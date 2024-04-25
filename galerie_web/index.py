@@ -75,7 +75,7 @@ INDEX_TEMPLATE = """<!DOCTYPE html>
         <meta charset="UTF-8">
         <meta name="viewport" content="width=device-width, initial-scale=1.0">
         <meta http-equiv="X-UA-Compatible" content="ie=edge">
-        <title>COUNTGALERIE</title>
+        <title>GALERIE</title>
         <meta name="description" content="A_PINTEREST_XIAOHONGSHU_PHOTO_WALL_STYLE_RSS_READER">
         <link rel="icon" type="image/png" href="URL_FOR_FAVICON_PNG">
         <link rel="stylesheet" type="text/css" href="URL_FOR_STYLE_CSS">
@@ -88,7 +88,7 @@ INDEX_TEMPLATE = """<!DOCTYPE html>
     </head>
     <body>
         <div class="stream header">
-            <p>COUNTGALERIE <a href="https://github.com/sekai-soft/galerie" target="_blank" style="font-size: 1em;">&lt;/&gt;</a></p>
+            <p>GALERIE <a href="https://github.com/sekai-soft/galerie" target="_blank" style="font-size: 1em;">&lt;/&gt;</a></p>
             <div>
                 <select id="timeSelect">
                     <option value="all" TIME_OPTION_ALL_TIME_SELECT_ATTRIBUTE>TIME_OPTION_ALL_TIME</option>
@@ -203,11 +203,9 @@ def render_index(
         button_html = render_button_html(images, max_images, images[0].uid, lang, today, selected_group.gid if selected_group else None)
     else:
         button_html = ''
-    empty = not images
     return INDEX_TEMPLATE \
         .replace('GALERIE', get_string('Galerie', lang)) \
         .replace('A_PINTEREST_XIAOHONGSHU_PHOTO_WALL_STYLE_RSS_READER', get_string('A Pinterest/Xiaohongshu photo wall style RSS reader', lang)) \
-        .replace('COUNT', f'({len(images)}) ' if not empty else '') \
         .replace('TIME_OPTION_ALL_TIME_SELECT_ATTRIBUTE', 'selected="selected"' if not today else '') \
         .replace('TIME_OPTION_ALL_TIME', get_string('All time', lang)) \
         .replace('TIME_OPTION_TODAY_SELECT_ATTRIBUTE', 'selected="selected"' if today else '') \
@@ -221,7 +219,7 @@ def render_index(
         .replace('LOGOUT', get_string('Logout', lang)) \
         .replace('ALL_READ', ALL_READ_HTML_TEMPLATE.replace(
             'ALL_READ_MESSAGE',
-            _all_read_message(today, selected_group, lang) if empty else '')) \
+            _all_read_message(today, selected_group, lang) if not images else '')) \
         .replace('IMAGES_HTML', images_html) \
         .replace('BUTTON_HTML', button_html) \
         .replace('URL_FOR_STYLE_CSS', url_for_style_css) \
