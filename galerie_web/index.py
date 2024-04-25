@@ -8,7 +8,7 @@ I18N = {
         "Galerie": "Galerie",
         "A Pinterest/Xiaohongshu photo wall style RSS reader": "一款 Pinterest/小红书照片墙式的 RSS 阅读器",
         "Logout": "登出",
-        "Load COUNT more": "加载 COUNT 张更多",
+        "Load more": "加载更多",
         "Mark above as read": "标记以上为已读",
         "Are you sure you want to mark above as read?": "确定要标记以上为已读吗？",
         "Mark all as read": "标记全部为已读",
@@ -52,11 +52,11 @@ LOAD_MORE_BUTTONS_CONTAINER_TEMPLATE = """<div
 >
     <div
         class="button"
-        hx-get="/load_more?session_max_uid=SESSION_MAX_UID&max_uid=MAX_UIDTODAY_PARAMGID_PARAM"
+        hx-get="/load_more?session_max_uid=SESSION_MAX_UID&from_iid=FROM_IIDTODAY_PARAMGID_PARAM"
         hx-target="#grid"
         hx-swap="beforeend"
         hx-disabled-elt="this"
-    >LOAD_COUNT_MORE <span class="htmx-indicator">...</span></div>
+    >LOAD_MORE <span class="htmx-indicator">...</span></div>
 """ + MARK_AS_READ_BUTTON_TEMPLATE + """</div>"""
 
 MARK_AS_READ_BUTTONS_TEMPLATE = """<div
@@ -138,20 +138,16 @@ def render_images_html(images: List[Image], double_click_action: bool) -> str:
     return images_html
 
 
-def render_load_more_buttons_container_html(count: int, max_uid: str, min_uid: str, session_max_uid: str, lang: str, today: bool, group_id: Optional[str]) -> str:
-    # order of SESSION_MAX_UID and MAX_UID cannot be change
-    # otherwise max_uid will be in SESSION_MAX_UID
-    # because MAX_UID is a substring of SESSION_MAX_UID
+def render_load_more_buttons_container_html(from_iid_exclusive: str, min_uid: str, session_max_uid: str, lang: str, today: bool, group_id: Optional[str]) -> str:
     return LOAD_MORE_BUTTONS_CONTAINER_TEMPLATE \
-        .replace('LOAD_COUNT_MORE', get_string("Load COUNT more", lang)) \
+        .replace('LOAD_MORE', get_string("Load more", lang)) \
         .replace('SESSION_MAX_UID', session_max_uid) \
-        .replace('MAX_UID', max_uid) \
+        .replace('FROM_IID', from_iid_exclusive) \
         .replace('TODAY_PARAM', '&today=1' if today else '') \
         .replace('GID_PARAM', f'&group={group_id}' if group_id else '') \
         .replace('MIN_UID', min_uid) \
         .replace('MARK_AS_READ_CONFIRM', get_string("Are you sure you want to mark above as read?", lang)) \
         .replace('MARK_AS_READ_LABEL', get_string("Mark above as read", lang)) \
-        .replace('COUNT', str(count))
 
 
 def render_mark_as_read_buttons_container_html(min_uid: str, session_max_uid: str, lang: str, today: bool, group_id: Optional[str]) -> str:
@@ -164,24 +160,17 @@ def render_mark_as_read_buttons_container_html(min_uid: str, session_max_uid: st
         .replace('GID_PARAM', f'&group={group_id}' if group_id else '')
 
 
-def _find_last_min_uid(all_or_remaining_images: List[Image], max_images: int) -> Tuple[str, int]:
-    min_uid = all_or_remaining_images[max_images - 1].uid
-    item_id_for_min_uid = uid_to_item_id(min_uid)
-    for index in range(max_images - 1, -1, -1):
-        image = all_or_remaining_images[index]
-        item_id = uid_to_item_id(image.uid)
-        if item_id != item_id_for_min_uid:
-            return image.uid
-    return all_or_remaining_images[0].uid
-
-
 def render_button_html(images: List[Image], max_images: int, session_max_uid: str, lang: str, today: bool, group_id: Optional[str]) -> str:
     if len(images) < max_images:
         min_uid = images[-1].uid
         return render_mark_as_read_buttons_container_html(min_uid, session_max_uid, lang, today, group_id)
-    count = len(images) - max_images
-    max_uid = images[max_images - 1].uid
-    return render_load_more_buttons_container_html(count, max_uid, '', session_max_uid, lang, today, group_id)        
+    return render_load_more_buttons_container_html(
+        uid_to_item_id(images[-1].uid),
+        '',
+        session_max_uid,
+        lang,
+        today,
+        group_id)
 
 
 def _all_read_message(today: bool, group: Optional[Group], lang: str):

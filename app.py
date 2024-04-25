@@ -196,14 +196,12 @@ def index():
 @catches_exceptions
 def load_more():
     session_max_uid = request.args.get('session_max_uid')
-    max_uid = request.args.get('max_uid')
-    from_iid_exclusive = uid_to_item_id(max_uid)
     unread_items = get_unread_items_by_iid_ascending(
         g.fever_endpoint,
         g.fever_username,
         g.fever_password,
         max_images,
-        from_iid_exclusive,
+        request.args.get('from_iid'),
         FeedFilter(
             compute_after_for_maybe_today(),
             request.args.get('group')
