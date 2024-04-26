@@ -41,18 +41,18 @@ MARK_AS_READ_BUTTON_TEMPLATE = """<div
     class="button"
     style="margin-left: 4px"
     hx-confirm="MARK_AS_READ_CONFIRM"
-    hx-post="/mark_as_read?session_max_uid=SESSION_MAX_UID&min_uid=MIN_UIDTODAY_PARAMGID_PARAM"
+    hx-post="/mark_as_read?to_iid=TO_IIDTODAY_PARAMGID_PARAM"
     hx-disabled-elt="this"
 >MARK_AS_READ_LABEL <span class="htmx-indicator">...</span></div>"""
 
-LOAD_MORE_BUTTONS_CONTAINER_TEMPLATE = """<div
+LOAD_MORE_AND_MARK_AS_READ_BUTTONS_CONTAINER_TEMPLATE = """<div
     class="button-container stream"
     id="buttons"
     hx-swap-oob="true"
 >
     <div
         class="button"
-        hx-get="/load_more?session_max_uid=SESSION_MAX_UID&from_iid=FROM_IIDTODAY_PARAMGID_PARAM"
+        hx-get="/load_more?from_iid=FROM_IIDTODAY_PARAMGID_PARAM"
         hx-target="#grid"
         hx-swap="beforeend"
         hx-disabled-elt="this"
@@ -138,36 +138,36 @@ def render_images_html(images: List[Image], double_click_action: bool) -> str:
     return images_html
 
 
-def render_load_more_buttons_container_html(from_iid_exclusive: str, min_uid: str, session_max_uid: str, lang: str, today: bool, group_id: Optional[str]) -> str:
-    return LOAD_MORE_BUTTONS_CONTAINER_TEMPLATE \
+def render_load_more_and_mark_as_read_buttons_container_html(from_iid_exclusive: str, to_iid_inclusive: str, lang: str, today: bool, group_id: Optional[str]) -> str:
+    return LOAD_MORE_AND_MARK_AS_READ_BUTTONS_CONTAINER_TEMPLATE \
         .replace('LOAD_MORE', get_string("Load more", lang)) \
-        .replace('SESSION_MAX_UID', session_max_uid) \
         .replace('FROM_IID', from_iid_exclusive) \
+        .replace('TO_IID', to_iid_inclusive) \
         .replace('TODAY_PARAM', '&today=1' if today else '') \
         .replace('GID_PARAM', f'&group={group_id}' if group_id else '') \
-        .replace('MIN_UID', min_uid) \
         .replace('MARK_AS_READ_CONFIRM', get_string("Are you sure you want to mark above as read?", lang)) \
         .replace('MARK_AS_READ_LABEL', get_string("Mark above as read", lang)) \
 
 
-def render_mark_as_read_buttons_container_html(min_uid: str, session_max_uid: str, lang: str, today: bool, group_id: Optional[str]) -> str:
+def render_mark_as_read_buttons_container_html(to_iid_inclusive: str, lang: str, today: bool, group_id: Optional[str]) -> str:
     return MARK_AS_READ_BUTTONS_TEMPLATE \
-        .replace('SESSION_MAX_UID', session_max_uid) \
-        .replace('MIN_UID', min_uid) \
+        .replace('TO_IID', to_iid_inclusive) \
         .replace('MARK_AS_READ_CONFIRM', get_string("Are you sure you want to mark all as read?", lang)) \
         .replace('MARK_AS_READ_LABEL', get_string("Mark all as read", lang)) \
         .replace('TODAY_PARAM', '&today=1' if today else '') \
         .replace('GID_PARAM', f'&group={group_id}' if group_id else '')
 
 
-def render_button_html(images: List[Image], max_images: int, session_max_uid: str, lang: str, today: bool, group_id: Optional[str]) -> str:
+def render_button_html(images: List[Image], max_images: int, lang: str, today: bool, group_id: Optional[str]) -> str:
     if len(images) < max_images:
-        min_uid = images[-1].uid
-        return render_mark_as_read_buttons_container_html(min_uid, session_max_uid, lang, today, group_id)
-    return render_load_more_buttons_container_html(
+        return render_mark_as_read_buttons_container_html(
+            uid_to_item_id(images[-1].uid),
+            lang,
+            today,
+            group_id)
+    return render_load_more_and_mark_as_read_buttons_container_html(
         uid_to_item_id(images[-1].uid),
-        '',
-        session_max_uid,
+        uid_to_item_id(images[-1].uid),
         lang,
         today,
         group_id)
@@ -200,7 +200,7 @@ def render_index(
         selected_group: Optional[Group]) -> str:
     images_html = render_images_html(images, double_click_action)
     if images:
-        button_html = render_button_html(images, max_images, images[0].uid, lang, today, selected_group.gid if selected_group else None)
+        button_html = render_button_html(images, max_images, lang, today, selected_group.gid if selected_group else None)
     else:
         button_html = ''
     return INDEX_TEMPLATE \

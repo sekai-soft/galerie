@@ -26,6 +26,7 @@ def fever_get_api_key(username: str, password: str):
     username_plus_password = username + ':' + password
     return hashlib.md5(username_plus_password.encode()).hexdigest()
 
+
 def _get_groups(endpoint: str, username: str, password: str) -> Tuple[List[dict], List[dict]]:
     api_key = fever_get_api_key(username, password)
     groups_res = requests.post(endpoint + '/?api&groups', data={'api_key': api_key})
@@ -124,15 +125,58 @@ def get_unread_items_by_iid_ascending(endpoint: str, username: str, password: st
 
 
 def mark_items_as_read(endpoint: str, username: str, password: str, to_iid_inclusive: Optional[str], feed_filter: FeedFilter) -> int:
-    mark_as_read_item_ids = []
-    for image in get_images(endpoint, username, password, after, group_id):
-        item_id = uid_to_item_id(image.uid)
-        if min_item_id <= item_id <= max_item_id:
-            mark_as_read_item_ids.append(item_id)
-
     api_key = fever_get_api_key(username, password)
-    for item_id in mark_as_read_item_ids:
-        mark_res = requests.post(endpoint + '/?api&mark=item&as=read&id=' + item_id, data={'api_key': api_key})
-        mark_res.raise_for_status()
 
-    return len(mark_as_read_item_ids)
+    groups, feeds_groups = _get_groups(endpoint, username, password)
+    group_by_id = {group['id']: group for group in groups}
+    groups_by_feed_id = {}
+    for feeds_group in feeds_groups:
+        group_id = feeds_group['group_id']
+        for feed_id in feeds_group['feed_ids'].split(','):
+            if feed_id not in groups_by_feed_id:
+                groups_by_feed_id[feed_id] = []
+            groups_by_feed_id[feed_id].append(group_by_id[group_id])
+
+    unread_item_ids_res = requests.post(endpoint + '/?api&unread_item_ids', data={'api_key': api_key})
+    unread_item_ids_res.raise_for_status()
+    unread_item_ids = unread_item_ids_res.json()['unread_item_ids']
+    if unread_item_ids == '':
+        return []
+    unread_item_ids = list(sorted(map(int, unread_item_ids.split(','))))
+
+    if not to_iid_inclusive:
+        # end at end
+        end_at_iid_index_exclusive = len(unread_item_ids)
+    else:
+        end_at_iid_index_exclusive = unread_item_ids.index(int(to_iid_inclusive)) + 1
+
+    marked_as_read_count = 0
+    unread_item_id_index = 0
+    while unread_item_id_index < end_at_iid_index_exclusive:
+        # the &items&since_id query later looks like it's exclusive, e.g. the unread_item_ids[unread_item_id_index] item will not be included
+        # hence need to -1 to make sure the unread_item_ids[unread_item_id_index] item is also included
+        since_id = unread_item_ids[unread_item_id_index] - 1
+        items_res = requests.post(f'{endpoint}/?api&items&since_id={since_id}', data={'api_key': api_key})
+        items_res.raise_for_status()
+        items = items_res.json()['items']
+        if len(items) == 0:
+            break
+        batch_items = []
+        for item in items:
+            item_groups = groups_by_feed_id.get(str(item['feed_id']), [])
+            batch_items.append(_item_dict_to_item(item, item_groups))
+        for item in batch_items:
+            is_unread = int(item.iid) in unread_item_ids
+            is_after = not feed_filter.created_after_seconds or feed_filter.created_after_seconds < item.created_timestamp_seconds
+            is_group = not feed_filter.group_id or feed_filter.group_id in [group.gid for group in item.groups]
+            if is_unread:
+                # we are guaranteed to have at least one unread item
+                # because since_id was guaranteed to exclusively start from an unread item
+                # hence unread_item_id_index will always advance
+                unread_item_id_index += 1
+                if is_after and is_group:
+                    mark_res = requests.post(endpoint + '/?api&mark=item&as=read&id=' + item.iid, data={'api_key': api_key})      
+                    mark_res.raise_for_status()
+                    marked_as_read_count += 1
+    
+    return marked_as_read_count

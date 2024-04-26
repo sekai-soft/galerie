@@ -195,7 +195,6 @@ def index():
 @requires_auth
 @catches_exceptions
 def load_more():
-    session_max_uid = request.args.get('session_max_uid')
     unread_items = get_unread_items_by_iid_ascending(
         g.fever_endpoint,
         g.fever_username,
@@ -209,7 +208,7 @@ def load_more():
     images = extract_images(unread_items)
 
     return render_images_html(images, pocket_client is not None) + \
-        render_button_html(images, max_images, session_max_uid, get_lang(), request.args.get('today') == "1", request.args.get('group'))
+        render_button_html(images, max_images, get_lang(), request.args.get('today') == "1", request.args.get('group'))
 
 
 @app.route('/pocket', methods=['POST'])
@@ -228,17 +227,15 @@ def pocket():
 @requires_auth
 @catches_exceptions
 def mark_as_read():
-    session_max_uid = request.args.get('session_max_uid')
-    min_uid = request.args.get('min_uid')
-
     count = mark_items_as_read(
         g.fever_endpoint,
         g.fever_username,
         g.fever_password,
-        compute_after_for_maybe_today(),
-        request.args.get('group'),
-        session_max_uid,
-        min_uid)
+        request.args.get('to_iid'),
+        FeedFilter(
+            compute_after_for_maybe_today(),
+            request.args.get('group')
+        ))
 
     resp = Response(f'Marked {count} items as read')
     resp.headers['HX-Refresh'] = "true"
