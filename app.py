@@ -11,7 +11,7 @@ from urllib.parse import unquote, unquote_plus
 from flask import Flask, request, url_for, Response, g, redirect, make_response
 from pocket import Pocket
 from sentry_sdk import capture_exception
-from galerie.fever import get_unread_items_by_iid_ascending, mark_items_as_read, get_group, auth, FeverAuthError, get_groups
+from galerie.fever import get_unread_items_by_iid_ascending, mark_items_as_read, get_group, auth, FeverAuthError, get_groups, get_unread_items_count
 from galerie.image import extract_images
 from galerie.feed_filter import FeedFilter
 from galerie_web.index import render_index, render_images_html, render_button_html
@@ -165,16 +165,21 @@ def compute_after_for_maybe_today() -> Optional[int]:
 @requires_auth
 @catches_exceptions
 def index():
+    feed_filter = FeedFilter(
+        compute_after_for_maybe_today(),
+        request.args.get('group'))
     unread_items = get_unread_items_by_iid_ascending(
         g.fever_endpoint,
         g.fever_username,
         g.fever_password,
         max_images,
         None,
-        FeedFilter(
-            compute_after_for_maybe_today(),
-            request.args.get('group')
-        ))
+        feed_filter)
+    unread_count = get_unread_items_count(
+        g.fever_endpoint,
+        g.fever_username,
+        g.fever_password,
+        feed_filter)
     images = extract_images(unread_items)
     groups = get_groups(g.fever_endpoint, g.fever_username, g.fever_password)
     selected_group = get_group(g.fever_endpoint, g.fever_username, g.fever_password, request.args.get('group'))
@@ -189,7 +194,8 @@ def index():
         get_lang(),
         request.args.get('today') == "1",
         groups,
-        selected_group)
+        selected_group,
+        unread_count)
 
 
 @app.route('/load_more')

@@ -122,6 +122,14 @@ def get_unread_items_by_iid_ascending(endpoint: str, username: str, password: st
     return unread_items
 
 
+def get_unread_items_count(endpoint: str, username: str, password: str, _: FeedFilter) -> int:
+    unread_item_ids_res = _call_fever(endpoint, username, password, '/?api&unread_item_ids')
+    unread_item_ids = unread_item_ids_res['unread_item_ids']
+    if unread_item_ids == '':
+        return 0
+    return len(unread_item_ids.split(','))
+
+
 def mark_items_as_read(endpoint: str, username: str, password: str, to_iid_inclusive: Optional[str], feed_filter: FeedFilter) -> int:
     groups, feeds_groups = _get_groups(endpoint, username, password)
     group_by_id = {group['id']: group for group in groups}
