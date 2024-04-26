@@ -1,5 +1,5 @@
 import responses
-from .fever import get_unread_items_by_iid_ascending
+from .fever_aggregator import FeverAggregator
 from .feed_filter import FeedFilter
 
 
@@ -13,8 +13,7 @@ def consecutive_items(from_index_inclusive: int, to_index_exclusive: int):
 @responses.activate
 def test_get_unread_items_by_iid_ascending():
     endpoint = "http://fever"
-    username = "username"
-    password = "password"
+    fever_aggregator = FeverAggregator(endpoint, "username", "password")
     count = 5
     unread_item_ids = [1, 2, 3, 4, 5, 6, 8, 9, 10, 11]
     unread_item_ids = list(map(str, unread_item_ids))
@@ -63,19 +62,13 @@ def test_get_unread_items_by_iid_ascending():
         json={"items": consecutive_items(11, 13)})
 
     unread_items = []
-    items = get_unread_items_by_iid_ascending(
-        endpoint,
-        username,
-        password,
+    items = fever_aggregator.get_unread_items_by_iid_ascending(
         count=count,
         from_iid_exclusive=None,
         feed_filter=FeedFilter(None, None))
     unread_items += items
     while items:
-        items = get_unread_items_by_iid_ascending(
-            endpoint,
-            username,
-            password,
+        items = fever_aggregator.get_unread_items_by_iid_ascending(
             count=count,
             from_iid_exclusive=items[-1].iid,
             feed_filter=FeedFilter(None, None))

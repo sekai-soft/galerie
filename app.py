@@ -11,7 +11,8 @@ from urllib.parse import unquote, unquote_plus
 from flask import Flask, request, url_for, Response, g, redirect, make_response
 from pocket import Pocket
 from sentry_sdk import capture_exception
-from galerie.fever import get_unread_items_by_iid_ascending, mark_items_as_read, get_group, auth, FeverAuthError, get_groups, get_unread_items_count
+from galerie.rss_aggregator import AuthError
+from galerie.fever_aggregator import FeverAggregator
 from galerie.image import extract_images
 from galerie.feed_filter import FeedFilter
 from galerie_web.index import render_index, render_images_html, render_button_html
@@ -26,34 +27,40 @@ app = Flask(__name__, static_url_path='/static')
 load_dotenv()
 
 
-def load_fever_auth():
+def get_aggregator(
+        logging_in_endpoint: Optional[str] = None,
+        logging_in_username: Optional[str] = None,
+        logging_in_password: Optional[str] = None) -> Optional[FeverAggregator]:
     env_endpoint = os.getenv('FEVER_ENDPOINT')
     env_username = os.getenv('FEVER_USERNAME')
     env_password = os.getenv('FEVER_PASSWORD')
     if env_endpoint and env_username and env_password:
-        return env_endpoint, env_username, env_password
+        return FeverAggregator(env_endpoint, env_username, env_password)
+
+    if logging_in_endpoint and logging_in_username is not None and logging_in_password is not None:
+        return FeverAggregator(logging_in_endpoint, logging_in_username, logging_in_password)
 
     auth_cookie = request.cookies.get('auth')
     if not auth_cookie:
-        return False
+        return None
     auth = base64.b64decode(auth_cookie).decode('utf-8')
     auth = json.loads(auth)
     cookie_endpoint = auth.get('endpoint')
     cookie_username = auth.get('username')
     cookie_password = auth.get('password')
     if cookie_endpoint and cookie_username and cookie_password:
-        return cookie_endpoint, cookie_username, cookie_password
+        return FeverAggregator(cookie_endpoint, cookie_username, cookie_password)
 
-    return False
+    return None
 
 
 def requires_auth(f):
     @wraps(f)
     def decorated_function(*args, **kwargs):
-        fever_auth = load_fever_auth()
-        if not fever_auth:
+        aggregator = get_aggregator()
+        if not aggregator:
             return redirect('/login')
-        g.fever_endpoint, g.fever_username, g.fever_password = fever_auth
+        g.aggregator = aggregator
         return f(*args, **kwargs)
     return decorated_function
 
@@ -100,8 +107,8 @@ def catches_exceptions(f):
 @app.route("/login")
 @catches_exceptions
 def login():
-    fever_auth = load_fever_auth()
-    if fever_auth:
+    aggregator = get_aggregator()
+    if aggregator:
         return redirect('/')
     return render_login(
         url_for('static', filename='style.css'),
@@ -112,28 +119,27 @@ def login():
 @app.route('/auth', methods=['POST'])
 def auth():
     endpoint = request.form.get('endpoint')
-    username = request.form.get('username')
-    password = request.form.get('password')
+    username = request.form.get('username', '')
+    password = request.form.get('password', '')
     try:
-        auth(endpoint, username, password)
-        resp = make_response()
-        auth_str = json.dumps({
-            'endpoint': endpoint,
-            'username': username,
-            'password': password
-        })
-        auth_bytes = auth_str.encode("utf-8")
+        persisted_auth = get_aggregator(
+            logging_in_endpoint=endpoint,
+            logging_in_username=username,
+            logging_in_password=password).persisted_auth()
+        auth_bytes = persisted_auth.encode("utf-8")
         b64_auth_bytes = base64.b64encode(auth_bytes)
+
+        resp = make_response()
         resp.set_cookie('auth', b64_auth_bytes.decode('utf-8'))
         resp.headers['HX-Redirect'] = '/'
         return resp
-    except FeverAuthError:
-        resp =  make_response()
+    except AuthError:
+        resp = make_response()
         resp.status_code = 401
         resp.headers['HX-Trigger'] = json.dumps({"showMessage": get_string("Failed to authenticate with Fever API", get_lang())})
         return resp
     except Exception as e:
-        resp =  make_response()
+        resp = make_response()
         resp.status_code = 500
         resp.headers['HX-Trigger'] = json.dumps({"showMessage": f"{get_string("Unknown server error", get_lang())}\n{str(e)}"})
         return resp
@@ -168,21 +174,14 @@ def index():
     feed_filter = FeedFilter(
         compute_after_for_maybe_today(),
         request.args.get('group'))
-    unread_items = get_unread_items_by_iid_ascending(
-        g.fever_endpoint,
-        g.fever_username,
-        g.fever_password,
+    unread_items = g.aggregator.get_unread_items_by_iid_ascending(
         max_images,
         None,
         feed_filter)
-    unread_count = get_unread_items_count(
-        g.fever_endpoint,
-        g.fever_username,
-        g.fever_password,
-        feed_filter)
+    unread_count = g.aggregator.get_unread_items_count(feed_filter)
     images = extract_images(unread_items)
-    groups = get_groups(g.fever_endpoint, g.fever_username, g.fever_password)
-    selected_group = get_group(g.fever_endpoint, g.fever_username, g.fever_password, request.args.get('group'))
+    groups = g.aggregator.get_groups()
+    selected_group = g.aggregator.get_group(request.args.get('group'))
     return render_index(
         images,
         max_images,
@@ -202,10 +201,7 @@ def index():
 @requires_auth
 @catches_exceptions
 def load_more():
-    unread_items = get_unread_items_by_iid_ascending(
-        g.fever_endpoint,
-        g.fever_username,
-        g.fever_password,
+    unread_items = g.aggregator.get_unread_items_by_iid_ascending(
         max_images,
         request.args.get('from_iid'),
         FeedFilter(
@@ -234,10 +230,7 @@ def pocket():
 @requires_auth
 @catches_exceptions
 def mark_as_read():
-    count = mark_items_as_read(
-        g.fever_endpoint,
-        g.fever_username,
-        g.fever_password,
+    count = g.aggregator.mark_items_as_read(
         request.args.get('to_iid'),
         FeedFilter(
             compute_after_for_maybe_today(),
