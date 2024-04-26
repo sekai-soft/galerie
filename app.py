@@ -11,7 +11,7 @@ from urllib.parse import unquote, unquote_plus
 from flask import Flask, request, url_for, Response, g, redirect, make_response
 from pocket import Pocket
 from sentry_sdk import capture_exception
-from galerie.fever import get_unread_items_by_iid_ascending, mark_items_as_read, get_group, fever_auth, FeverAuthError
+from galerie.fever import get_unread_items_by_iid_ascending, mark_items_as_read, get_group, auth, FeverAuthError
 from galerie.image import extract_images, uid_to_item_id
 from galerie.feed_filter import FeedFilter
 from galerie_web.index import render_index, render_images_html, render_button_html
@@ -115,7 +115,7 @@ def auth():
     username = request.form.get('username')
     password = request.form.get('password')
     try:
-        fever_auth(endpoint, username, password)
+        auth(endpoint, username, password)
         resp = make_response()
         auth_str = json.dumps({
             'endpoint': endpoint,

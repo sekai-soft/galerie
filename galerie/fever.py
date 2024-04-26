@@ -1,9 +1,9 @@
+import os
 import requests
 import hashlib
 from typing import List, Tuple, Optional
 from .item import Item
 from .group import Group
-from .image import uid_to_item_id
 from .feed_filter import FeedFilter
 
 
@@ -11,27 +11,29 @@ class FeverAuthError(Exception):
     pass
 
 
-def fever_auth(endpoint: str, username: str, password: str) -> str:
-    api_key = fever_get_api_key(username, password)
-
-    auth_res = requests.post(endpoint + '/?api', data={'api_key': api_key})
-    auth_res.raise_for_status()
-    auth_res = auth_res.json()
-    if 'auth' not in auth_res or auth_res['auth'] != 1:
-        raise FeverAuthError()
-    return api_key
-
-
-def fever_get_api_key(username: str, password: str):
+def _get_api_key(username: str, password: str):
     username_plus_password = username + ':' + password
     return hashlib.md5(username_plus_password.encode()).hexdigest()
 
 
+def _call_fever(endpoint: str, username: str, password: str, path: str):
+    api_key = _get_api_key(username, password)
+    if os.getenv('DEBUG', '0') == '1':
+        print(f'Calling fever {path}')
+    res = requests.post(endpoint + path, data={'api_key': api_key})
+    res.raise_for_status()
+    return res.json()
+
+
+def auth(endpoint: str, username: str, password: str) -> str:
+    auth_res = _call_fever(endpoint, username, password, '/?api')
+    if 'auth' not in auth_res or auth_res['auth'] != 1:
+        raise FeverAuthError()
+
+
 def _get_groups(endpoint: str, username: str, password: str) -> Tuple[List[dict], List[dict]]:
-    api_key = fever_get_api_key(username, password)
-    groups_res = requests.post(endpoint + '/?api&groups', data={'api_key': api_key})
-    groups_res.raise_for_status()
-    return groups_res.json()['groups'], groups_res.json()['feeds_groups']
+    groups_res = _call_fever(endpoint, username, password, '/?api&groups')
+    return groups_res['groups'], groups_res['feeds_groups']
 
 
 def _group_dict_to_group(group_dict: dict) -> Group:
@@ -66,9 +68,7 @@ def get_group(endpoint: str, username: str, password: str, group_id: str) -> Tup
     return None, groups
 
 
-def get_unread_items_by_iid_ascending(endpoint: str, username: str, password: str, count: int, from_iid_exclusive: Optional[str], feed_filter: FeedFilter) -> List[Item]:
-    api_key = fever_get_api_key(username, password)
-    
+def get_unread_items_by_iid_ascending(endpoint: str, username: str, password: str, count: int, from_iid_exclusive: Optional[str], feed_filter: FeedFilter) -> List[Item]:   
     groups, feeds_groups = _get_groups(endpoint, username, password)
     group_by_id = {group['id']: group for group in groups}
     groups_by_feed_id = {}
@@ -79,9 +79,8 @@ def get_unread_items_by_iid_ascending(endpoint: str, username: str, password: st
                 groups_by_feed_id[feed_id] = []
             groups_by_feed_id[feed_id].append(group_by_id[group_id])
 
-    unread_item_ids_res = requests.post(endpoint + '/?api&unread_item_ids', data={'api_key': api_key})
-    unread_item_ids_res.raise_for_status()
-    unread_item_ids = unread_item_ids_res.json()['unread_item_ids']
+    unread_item_ids_res = _call_fever(endpoint, username, password, '/?api&unread_item_ids')
+    unread_item_ids = unread_item_ids_res['unread_item_ids']
     if unread_item_ids == '':
         return []
     unread_item_ids = list(sorted(map(int, unread_item_ids.split(','))))
@@ -97,9 +96,8 @@ def get_unread_items_by_iid_ascending(endpoint: str, username: str, password: st
         # the &items&since_id query later looks like it's exclusive, e.g. the unread_item_ids[unread_item_id_index] item will not be included
         # hence need to -1 to make sure the unread_item_ids[unread_item_id_index] item is also included
         since_id = unread_item_ids[unread_item_id_index] - 1
-        items_res = requests.post(f'{endpoint}/?api&items&since_id={since_id}', data={'api_key': api_key})
-        items_res.raise_for_status()
-        items = items_res.json()['items']
+        items_res = _call_fever(endpoint, username, password, f'/?api&items&since_id={since_id}')
+        items = items_res['items']
         if len(items) == 0:
             break
         batch_items = []
@@ -125,8 +123,6 @@ def get_unread_items_by_iid_ascending(endpoint: str, username: str, password: st
 
 
 def mark_items_as_read(endpoint: str, username: str, password: str, to_iid_inclusive: Optional[str], feed_filter: FeedFilter) -> int:
-    api_key = fever_get_api_key(username, password)
-
     groups, feeds_groups = _get_groups(endpoint, username, password)
     group_by_id = {group['id']: group for group in groups}
     groups_by_feed_id = {}
@@ -137,9 +133,8 @@ def mark_items_as_read(endpoint: str, username: str, password: str, to_iid_inclu
                 groups_by_feed_id[feed_id] = []
             groups_by_feed_id[feed_id].append(group_by_id[group_id])
 
-    unread_item_ids_res = requests.post(endpoint + '/?api&unread_item_ids', data={'api_key': api_key})
-    unread_item_ids_res.raise_for_status()
-    unread_item_ids = unread_item_ids_res.json()['unread_item_ids']
+    unread_item_ids_res = _call_fever(endpoint, username, password, '/?api&unread_item_ids')
+    unread_item_ids = unread_item_ids_res['unread_item_ids']
     if unread_item_ids == '':
         return []
     unread_item_ids = list(sorted(map(int, unread_item_ids.split(','))))
@@ -156,9 +151,8 @@ def mark_items_as_read(endpoint: str, username: str, password: str, to_iid_inclu
         # the &items&since_id query later looks like it's exclusive, e.g. the unread_item_ids[unread_item_id_index] item will not be included
         # hence need to -1 to make sure the unread_item_ids[unread_item_id_index] item is also included
         since_id = unread_item_ids[unread_item_id_index] - 1
-        items_res = requests.post(f'{endpoint}/?api&items&since_id={since_id}', data={'api_key': api_key})
-        items_res.raise_for_status()
-        items = items_res.json()['items']
+        items_res = _call_fever(endpoint, username, password, f'/?api&items&since_id={since_id}')
+        items = items_res['items']
         if len(items) == 0:
             break
         batch_items = []
@@ -175,8 +169,7 @@ def mark_items_as_read(endpoint: str, username: str, password: str, to_iid_inclu
                 # hence unread_item_id_index will always advance
                 unread_item_id_index += 1
                 if is_after and is_group:
-                    mark_res = requests.post(endpoint + '/?api&mark=item&as=read&id=' + item.iid, data={'api_key': api_key})      
-                    mark_res.raise_for_status()
+                    _call_fever(endpoint, username, password, f'/?api&mark=item&as=read&id={item.iid}')
                     marked_as_read_count += 1
     
     return marked_as_read_count
