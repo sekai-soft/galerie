@@ -98,7 +98,7 @@ def get_unread_items_by_iid_ascending(endpoint: str, username: str, password: st
         since_id = unread_item_ids[unread_item_id_index] - 1
         items_res = _call_fever(endpoint, username, password, f'/?api&items&since_id={since_id}')
         items = items_res['items']
-        if len(items) == 0:
+        if not items:
             break
         batch_items = []
         for item in items:
@@ -153,7 +153,7 @@ def mark_items_as_read(endpoint: str, username: str, password: str, to_iid_inclu
         since_id = unread_item_ids[unread_item_id_index] - 1
         items_res = _call_fever(endpoint, username, password, f'/?api&items&since_id={since_id}')
         items = items_res['items']
-        if len(items) == 0:
+        if not items:
             break
         batch_items = []
         for item in items:
