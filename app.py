@@ -11,8 +11,9 @@ from urllib.parse import unquote, unquote_plus
 from flask import Flask, request, url_for, Response, g, redirect, make_response
 from pocket import Pocket
 from sentry_sdk import capture_exception
-from galerie.fever import get_images, mark_items_as_read, get_group, fever_auth, FeverAuthError
-from galerie.image import uid_to_item_id
+from galerie.fever import get_unread_items_by_iid_ascending, mark_items_as_read, get_group, auth, FeverAuthError
+from galerie.image import extract_images, uid_to_item_id
+from galerie.feed_filter import FeedFilter
 from galerie_web.index import render_index, render_images_html, render_button_html
 from galerie_web.login import render_login
 
@@ -87,6 +88,8 @@ def catches_exceptions(f):
         try:
             return f(*args, **kwargs)
         except Exception as e:
+            if os.getenv('DEBUG', '0') == '1':
+                raise e
             capture_exception(e)
             resp = make_response(f"{get_string("Unknown server error", get_lang())}\n{str(e)}")
             resp.status_code = 500
@@ -112,7 +115,7 @@ def auth():
     username = request.form.get('username')
     password = request.form.get('password')
     try:
-        fever_auth(endpoint, username, password)
+        auth(endpoint, username, password)
         resp = make_response()
         auth_str = json.dumps({
             'endpoint': endpoint,
@@ -162,11 +165,21 @@ def compute_after_for_maybe_today() -> Optional[int]:
 @requires_auth
 @catches_exceptions
 def index():
-    all_images = get_images(g.fever_endpoint, g.fever_username, g.fever_password, compute_after_for_maybe_today(), request.args.get('group'))
+    unread_items = get_unread_items_by_iid_ascending(
+        g.fever_endpoint,
+        g.fever_username,
+        g.fever_password,
+        max_images,
+        None,
+        FeedFilter(
+            compute_after_for_maybe_today(),
+            request.args.get('group')
+        ))
+    images = extract_images(unread_items)
     selected_group, groups = get_group(g.fever_endpoint, g.fever_username, g.fever_password, request.args.get('group'))
     return render_index(
-        all_images,
-        max_images, 
+        images,
+        max_images,
         url_for('static', filename='style.css'),
         url_for('static', filename='favicon.png'),
         url_for('static', filename='script.js'),
@@ -182,19 +195,20 @@ def index():
 @requires_auth
 @catches_exceptions
 def load_more():
-    all_images = get_images(g.fever_endpoint, g.fever_username, g.fever_password, compute_after_for_maybe_today(), request.args.get('group'))
+    unread_items = get_unread_items_by_iid_ascending(
+        g.fever_endpoint,
+        g.fever_username,
+        g.fever_password,
+        max_images,
+        request.args.get('from_iid'),
+        FeedFilter(
+            compute_after_for_maybe_today(),
+            request.args.get('group')
+        ))
+    images = extract_images(unread_items)
 
-    max_uid = request.args.get('max_uid')
-    max_uid_index = -1
-    for i, image in enumerate(all_images):
-        if image.uid == max_uid:
-            max_uid_index = i
-            break
-
-    remaining_images = all_images[max_uid_index + 1:]
-    session_max_uid = request.args.get('session_max_uid')
-    return render_images_html(remaining_images, max_images, pocket_client is not None) + \
-        render_button_html(remaining_images, max_images, session_max_uid, get_lang(), request.args.get('today') == "1", request.args.get('group'))
+    return render_images_html(images, pocket_client is not None) + \
+        render_button_html(images, max_images, get_lang(), request.args.get('today') == "1", request.args.get('group'))
 
 
 @app.route('/pocket', methods=['POST'])
@@ -213,17 +227,15 @@ def pocket():
 @requires_auth
 @catches_exceptions
 def mark_as_read():
-    session_max_uid = request.args.get('session_max_uid')
-    min_uid = request.args.get('min_uid')
-
     count = mark_items_as_read(
         g.fever_endpoint,
         g.fever_username,
         g.fever_password,
-        compute_after_for_maybe_today(),
-        request.args.get('group'),
-        session_max_uid,
-        min_uid)
+        request.args.get('to_iid'),
+        FeedFilter(
+            compute_after_for_maybe_today(),
+            request.args.get('group')
+        ))
 
     resp = Response(f'Marked {count} items as read')
     resp.headers['HX-Refresh'] = "true"
