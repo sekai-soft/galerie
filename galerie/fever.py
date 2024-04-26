@@ -55,17 +55,17 @@ def _item_dict_to_item(item_dict: dict, group_dicts: List[dict]) -> Item:
     )
 
 
-def get_groups(endpoint: str, username: str, password: str):
+def get_groups(endpoint: str, username: str, password: str) -> List[Group]:
     groups, _ = _get_groups(endpoint, username, password)
     return list(map(_group_dict_to_group, groups))
 
 
-def get_group(endpoint: str, username: str, password: str, group_id: str) -> Tuple[Optional[Group], List[Group]]:
+def get_group(endpoint: str, username: str, password: str, group_id: str) -> Optional[Group]:
     groups = get_groups(endpoint, username, password)
     for group in groups:
         if group.gid == group_id:
-            return group, groups
-    return None, groups
+            return group
+    return None
 
 
 def get_unread_items_by_iid_ascending(endpoint: str, username: str, password: str, count: int, from_iid_exclusive: Optional[str], feed_filter: FeedFilter) -> List[Item]:   
@@ -120,6 +120,14 @@ def get_unread_items_by_iid_ascending(endpoint: str, username: str, password: st
         unread_items += batch_unread_items
 
     return unread_items
+
+
+def get_unread_items_count(endpoint: str, username: str, password: str, _: FeedFilter) -> int:
+    unread_item_ids_res = _call_fever(endpoint, username, password, '/?api&unread_item_ids')
+    unread_item_ids = unread_item_ids_res['unread_item_ids']
+    if unread_item_ids == '':
+        return 0
+    return len(unread_item_ids.split(','))
 
 
 def mark_items_as_read(endpoint: str, username: str, password: str, to_iid_inclusive: Optional[str], feed_filter: FeedFilter) -> int:

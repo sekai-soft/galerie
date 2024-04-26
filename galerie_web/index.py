@@ -5,7 +5,7 @@ from galerie.group import Group
 
 I18N = {
     "zh": {
-        "Galerie": "Galerie",
+        "(COUNT) Galerie": "(COUNT) Galerie",
         "A Pinterest/Xiaohongshu photo wall style RSS reader": "一款 Pinterest/小红书照片墙式的 RSS 阅读器",
         "Logout": "登出",
         "Load more": "加载更多",
@@ -197,14 +197,15 @@ def render_index(
         lang: str,
         today: bool,
         all_groups: List[Group],
-        selected_group: Optional[Group]) -> str:
+        selected_group: Optional[Group],
+        count: int) -> str:
     images_html = render_images_html(images, double_click_action)
     if images:
         button_html = render_button_html(images, max_images, lang, today, selected_group.gid if selected_group else None)
     else:
         button_html = ''
     return INDEX_TEMPLATE \
-        .replace('GALERIE', get_string('Galerie', lang)) \
+        .replace('GALERIE', get_string('(COUNT) Galerie', lang)) \
         .replace('A_PINTEREST_XIAOHONGSHU_PHOTO_WALL_STYLE_RSS_READER', get_string('A Pinterest/Xiaohongshu photo wall style RSS reader', lang)) \
         .replace('TIME_OPTION_ALL_TIME_SELECT_ATTRIBUTE', 'selected="selected"' if not today else '') \
         .replace('TIME_OPTION_ALL_TIME', get_string('All time', lang)) \
@@ -224,4 +225,5 @@ def render_index(
         .replace('BUTTON_HTML', button_html) \
         .replace('URL_FOR_STYLE_CSS', url_for_style_css) \
         .replace('URL_FOR_FAVICON_PNG', url_for_favicon_png) \
-        .replace('URL_FOR_SCRIPT_JS', url_for_script_js)
+        .replace('URL_FOR_SCRIPT_JS', url_for_script_js) \
+        .replace('COUNT', str(count))
