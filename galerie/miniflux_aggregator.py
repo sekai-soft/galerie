@@ -72,8 +72,17 @@ class MinifluxAggregator(RssAggregator):
         )
         return list(map(_entry_dict_to_item, entries['entries']))
     
-    def get_unread_items_by_iid_descending(self, count: int, to_iid_exclusive: Optional[str], feed_filter: FeedFilter) -> List[Item]:
-        raise NotImplementedError()
+    def get_unread_items_by_iid_descending(self, count: int, from_iid_exclusive: Optional[str], feed_filter: FeedFilter) -> List[Item]:
+        entries = self.client.get_entries(
+            status='unread',
+            order='id',
+            direction='desc',
+            limit=count,
+            before_entry_id=None if from_iid_exclusive is None else int(from_iid_exclusive),
+            published_after=feed_filter.created_after_seconds,
+            category_id=None if feed_filter.group_id is None else int(feed_filter.group_id)
+        )
+        return list(map(_entry_dict_to_item, entries['entries']))
 
     def supports_get_unread_items_by_iid_descending(self) -> bool:
         return True

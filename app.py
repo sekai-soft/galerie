@@ -91,7 +91,7 @@ if 'POCKET_CONSUMER_KEY' in os.environ and 'POCKET_ACCESS_TOKEN' in os.environ:
     pocket_access_token = os.getenv('POCKET_ACCESS_TOKEN')
     pocket_client = Pocket(pocket_consumer_key, pocket_access_token)
 
-max_images = int(os.getenv('MAX_IMAGES', '15'))
+max_items = int(os.getenv('MAX_IMAGES', '15'))
 
 I18N = {
     "zh": {
@@ -191,20 +191,30 @@ def compute_after_for_maybe_today() -> Optional[int]:
 @requires_auth
 @catches_exceptions
 def index():
+    if not g.aggregator.supports_get_unread_items_by_iid_descending():
+        sort_by_desc = False
+    else:
+        sort_by_desc = request.args.get('sort', 'desc') == 'desc'
+
     feed_filter = FeedFilter(
         compute_after_for_maybe_today(),
         request.args.get('group'))
-    unread_items = g.aggregator.get_unread_items_by_iid_ascending(
-        max_images,
-        None,
-        feed_filter)
+    if sort_by_desc:
+        unread_items = g.aggregator.get_unread_items_by_iid_descending(
+            max_items,
+            None,
+            feed_filter)
+    else:
+        unread_items = g.aggregator.get_unread_items_by_iid_ascending(
+            max_items,
+            None,
+            feed_filter)
     unread_count = g.aggregator.get_unread_items_count(feed_filter)
     images = extract_images(unread_items)
     groups = g.aggregator.get_groups()
     selected_group = g.aggregator.get_group(request.args.get('group'))
     return render_index(
         images,
-        max_images,
         url_for('static', filename='style.css'),
         url_for('static', filename='favicon.png'),
         url_for('static', filename='script.js'),
@@ -215,24 +225,39 @@ def index():
         groups,
         selected_group,
         unread_count,
-        g.aggregator.supports_get_unread_items_by_iid_descending())
+        g.aggregator.supports_get_unread_items_by_iid_descending(),
+        sort_by_desc)
 
 
 @app.route('/load_more')
 @requires_auth
 @catches_exceptions
 def load_more():
-    unread_items = g.aggregator.get_unread_items_by_iid_ascending(
-        max_images,
-        request.args.get('from_iid'),
-        FeedFilter(
-            compute_after_for_maybe_today(),
-            request.args.get('group')
-        ))
+    if not g.aggregator.supports_get_unread_items_by_iid_descending():
+        sort_by_desc = False
+    else:
+        sort_by_desc = request.args.get('sort', 'desc') == 'desc'
+
+    if sort_by_desc:
+        unread_items = g.aggregator.get_unread_items_by_iid_descending(
+            max_items,
+            request.args.get('from_iid'),
+            FeedFilter(
+                compute_after_for_maybe_today(),
+                request.args.get('group')
+            ))
+    else:
+        unread_items = g.aggregator.get_unread_items_by_iid_ascending(
+            max_items,
+            request.args.get('from_iid'),
+            FeedFilter(
+                compute_after_for_maybe_today(),
+                request.args.get('group')
+            ))
     images = extract_images(unread_items)
 
     return render_images_html(images, pocket_client is not None) + \
-        render_button_html(images, max_images, get_lang(), request.args.get('today') == "1", request.args.get('group'))
+        render_button_html(images, get_lang(), request.args.get('today') == "1", request.args.get('group'))
 
 
 @app.route('/pocket', methods=['POST'])

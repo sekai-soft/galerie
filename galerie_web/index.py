@@ -99,8 +99,8 @@ INDEX_TEMPLATE = """<!DOCTYPE html>
                     GROUP_SELECT_OPTIONS
                 </select>
                 <select id="sortSelect">
-                    <option value="asc" SORT_SELECT_ASC_OPTION_ATTRIBUTE>⏰🔼</option>
                     <option value="desc" SORT_SELECT_DESC_OPTION_ATTRIBUTE>⏰🔽</option>
+                    <option value="asc" SORT_SELECT_ASC_OPTION_ATTRIBUTE>⏰🔼</option>
                 </select>
             </div>
             <div
@@ -162,10 +162,10 @@ def render_mark_as_read_buttons_container_html(to_iid_inclusive: str, lang: str,
         .replace('GID_PARAM', f'&group={group_id}' if group_id else '')
 
 
-def render_button_html(images: List[Image], max_images: int, lang: str, today: bool, group_id: Optional[str]) -> str:
-    if len(images) < max_images:
+def render_button_html(images: List[Image], lang: str, today: bool, group_id: Optional[str]) -> str:
+    if not images:
         return render_mark_as_read_buttons_container_html(
-            uid_to_item_id(images[-1].uid),
+            '',
             lang,
             today,
             group_id)
@@ -192,7 +192,6 @@ def _all_read_message(today: bool, group: Optional[Group], lang: str):
 
 def render_index(
         images: List[Image],
-        max_images: int,
         url_for_style_css: str,
         url_for_favicon_png: str,
         url_for_script_js: str,
@@ -203,10 +202,11 @@ def render_index(
         all_groups: List[Group],
         selected_group: Optional[Group],
         count: int,
-        supports_sort_desc: bool) -> str:
+        supports_sort_desc: bool,
+        sort_by_desc: bool) -> str:
     images_html = render_images_html(images, double_click_action)
     if images:
-        button_html = render_button_html(images, max_images, lang, today, selected_group.gid if selected_group else None)
+        button_html = render_button_html(images, lang, today, selected_group.gid if selected_group else None)
     else:
         button_html = ''
     return INDEX_TEMPLATE \
@@ -232,5 +232,6 @@ def render_index(
         .replace('URL_FOR_FAVICON_PNG', url_for_favicon_png) \
         .replace('URL_FOR_SCRIPT_JS', url_for_script_js) \
         .replace('COUNT', str(count)) \
-        .replace('SORT_SELECT_ASC_OPTION_ATTRIBUTE', 'selected="selected"') \
-        .replace('SORT_SELECT_DESC_OPTION_ATTRIBUTE', '' if supports_sort_desc else 'disabled')
+        .replace('SORT_SELECT_DESC_OPTION_ATTRIBUTE',
+                 ('' if supports_sort_desc else 'disabled') + ('selected="selected"' if sort_by_desc else '')) \
+        .replace('SORT_SELECT_ASC_OPTION_ATTRIBUTE', 'selected="selected"' if not sort_by_desc else '')

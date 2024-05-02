@@ -48,6 +48,15 @@ $('#groupSelect').on('change', (event) => {
   }
 })
 
+$('#sortSelect').on('change', (event) => {
+  const sort = event.target.value;
+  if (sort === 'desc') {
+    updateQueryParameter('sort', null);
+  } else if (sort === 'asc') {
+    updateQueryParameter('sort', 'asc');
+  }
+})
+
 window.toast = (message) => {
   const toastEl = $('#toast')
   toastEl.addClass('show');

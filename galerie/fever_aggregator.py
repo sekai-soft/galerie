@@ -132,7 +132,7 @@ class FeverAggregator(RssAggregator):
 
         return unread_items
 
-    def get_unread_items_by_iid_descending(self, count: int, to_iid_exclusive: Optional[str], feed_filter: FeedFilter) -> List[Item]:
+    def get_unread_items_by_iid_descending(self, count: int, from_iid_exclusive: Optional[str], feed_filter: FeedFilter) -> List[Item]:
         raise NotImplementedError()
 
     def supports_get_unread_items_by_iid_descending(self) -> bool:
