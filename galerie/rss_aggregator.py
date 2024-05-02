@@ -26,6 +26,14 @@ class RssAggregator(ABC):
         pass
 
     @abstractmethod
+    def get_unread_items_by_iid_descending(self, count: int, to_iid_exclusive: Optional[str], feed_filter: FeedFilter) -> List[Item]:
+        pass
+    
+    @abstractmethod
+    def supports_get_unread_items_by_iid_descending() -> bool:
+        pass
+
+    @abstractmethod
     def get_unread_items_count(self, feed_filter: FeedFilter) -> int:
         pass
     

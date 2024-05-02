@@ -194,7 +194,8 @@ def index():
         request.args.get('today') == "1",
         groups,
         selected_group,
-        unread_count)
+        unread_count,
+        g.aggregator.supports_get_unread_items_by_iid_descending())
 
 
 @app.route('/load_more')

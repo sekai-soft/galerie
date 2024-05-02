@@ -98,6 +98,10 @@ INDEX_TEMPLATE = """<!DOCTYPE html>
                     <option value="_all" GROUP_SELECT_DEFAULT_OPTION_ATTRIBUTE>GROUP_SELECT_DEFAULT_OPTION_LABEL</option>
                     GROUP_SELECT_OPTIONS
                 </select>
+                <select id="sortSelect">
+                    <option value="asc" selected="selected">⏰🔼</option>
+                    SORT_SELECT_DESC_OPTION
+                </select>
             </div>
             <div
                 class="button"
@@ -198,7 +202,8 @@ def render_index(
         today: bool,
         all_groups: List[Group],
         selected_group: Optional[Group],
-        count: int) -> str:
+        count: int,
+        supports_sort_desc: bool) -> str:
     images_html = render_images_html(images, double_click_action)
     if images:
         button_html = render_button_html(images, max_images, lang, today, selected_group.gid if selected_group else None)
@@ -226,4 +231,5 @@ def render_index(
         .replace('URL_FOR_STYLE_CSS', url_for_style_css) \
         .replace('URL_FOR_FAVICON_PNG', url_for_favicon_png) \
         .replace('URL_FOR_SCRIPT_JS', url_for_script_js) \
-        .replace('COUNT', str(count))
+        .replace('COUNT', str(count)) \
+        .replace('SORT_SELECT_DESC_OPTION', '<option value="desc" disabled>⏰🔽</option>' if supports_sort_desc else '')
