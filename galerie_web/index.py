@@ -99,8 +99,8 @@ INDEX_TEMPLATE = """<!DOCTYPE html>
                     GROUP_SELECT_OPTIONS
                 </select>
                 <select id="sortSelect">
-                    <option value="asc" selected="selected">⏰🔼</option>
-                    SORT_SELECT_DESC_OPTION
+                    <option value="asc" SORT_SELECT_ASC_OPTION_ATTRIBUTE>⏰🔼</option>
+                    <option value="desc" SORT_SELECT_DESC_OPTION_ATTRIBUTE>⏰🔽</option>
                 </select>
             </div>
             <div
@@ -232,4 +232,5 @@ def render_index(
         .replace('URL_FOR_FAVICON_PNG', url_for_favicon_png) \
         .replace('URL_FOR_SCRIPT_JS', url_for_script_js) \
         .replace('COUNT', str(count)) \
-        .replace('SORT_SELECT_DESC_OPTION', '<option value="desc" disabled>⏰🔽</option>' if supports_sort_desc else '')
+        .replace('SORT_SELECT_ASC_OPTION_ATTRIBUTE', 'selected="selected"') \
+        .replace('SORT_SELECT_DESC_OPTION_ATTRIBUTE', '' if supports_sort_desc else 'disabled')

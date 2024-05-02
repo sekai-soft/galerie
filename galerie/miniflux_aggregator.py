@@ -70,7 +70,7 @@ class MinifluxAggregator(RssAggregator):
             published_after=feed_filter.created_after_seconds,
             category_id=None if feed_filter.group_id is None else int(feed_filter.group_id)
         )
-        return list(map(_entry_dict_to_item, entries))
+        return list(map(_entry_dict_to_item, entries['entries']))
     
     def get_unread_items_by_iid_descending(self, count: int, to_iid_exclusive: Optional[str], feed_filter: FeedFilter) -> List[Item]:
         raise NotImplementedError()

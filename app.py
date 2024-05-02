@@ -11,8 +11,9 @@ from urllib.parse import unquote, unquote_plus
 from flask import Flask, request, url_for, Response, g, redirect, make_response
 from pocket import Pocket
 from sentry_sdk import capture_exception
-from galerie.rss_aggregator import AuthError
+from galerie.rss_aggregator import AuthError, RssAggregator
 from galerie.fever_aggregator import FeverAggregator
+from galerie.miniflux_aggregator import MinifluxAggregator
 from galerie.image import extract_images
 from galerie.feed_filter import FeedFilter
 from galerie_web.index import render_index, render_images_html, render_button_html
@@ -27,7 +28,16 @@ app = Flask(__name__, static_url_path='/static')
 load_dotenv()
 
 
-def get_aggregator(
+def try_get_miniflux_aggregator() -> Optional[MinifluxAggregator]:
+    env_endpoint = os.getenv('MINIFLUX_ENDPOINT')
+    env_username = os.getenv('MINIFLUX_USERNAME')
+    env_password = os.getenv('MINIFLUX_PASSWORD')
+    if env_endpoint and env_username and env_password:
+        return MinifluxAggregator(env_endpoint, env_username, env_password)
+    return None
+
+
+def try_get_fever_aggregator(
         logging_in_endpoint: Optional[str] = None,
         logging_in_username: Optional[str] = None,
         logging_in_password: Optional[str] = None) -> Optional[FeverAggregator]:
@@ -52,6 +62,16 @@ def get_aggregator(
         return FeverAggregator(cookie_endpoint, cookie_username, cookie_password)
 
     return None
+
+
+def get_aggregator(
+    logging_in_endpoint: Optional[str] = None,
+    logging_in_username: Optional[str] = None,
+    logging_in_password: Optional[str] = None) -> Optional[RssAggregator]:
+    aggregator = try_get_miniflux_aggregator()
+    if aggregator:
+        return aggregator
+    return try_get_fever_aggregator(logging_in_endpoint, logging_in_username, logging_in_password)
 
 
 def requires_auth(f):
