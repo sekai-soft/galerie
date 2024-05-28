@@ -145,7 +145,7 @@ class FeverAggregator(RssAggregator):
             return 0
         return len(unread_item_ids.split(','))
     
-    def mark_items_as_read(self, to_iid_inclusive: Optional[str], feed_filter: FeedFilter) -> int:
+    def mark_items_as_read_by_iid_ascending_and_feed_filter(self, to_iid_inclusive: Optional[str], feed_filter: FeedFilter) -> int:
         groups, feeds_groups = self._get_groups()
         group_by_id = {group['id']: group for group in groups}
         groups_by_feed_id = {}
@@ -196,3 +196,6 @@ class FeverAggregator(RssAggregator):
                         marked_as_read_count += 1
         
         return marked_as_read_count
+
+    def supports_mark_items_as_read_by_iid_ascending_and_feed_filter(self) -> bool:
+        return True

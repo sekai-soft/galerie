@@ -226,7 +226,8 @@ def index():
         selected_group,
         unread_count,
         g.aggregator.supports_get_unread_items_by_iid_descending(),
-        sort_by_desc)
+        sort_by_desc,
+        g.aggregator.supports_mark_items_as_read_by_iid_ascending_and_feed_filter())
 
 
 @app.route('/load_more')
@@ -257,7 +258,12 @@ def load_more():
     images = extract_images(unread_items)
 
     return render_images_html(images, pocket_client is not None) + \
-        render_button_html(images, get_lang(), request.args.get('today') == "1", request.args.get('group'))
+        render_button_html(
+            images,
+            get_lang(),
+            request.args.get('today') == "1",
+            request.args.get('group'),
+            g.aggregator.supports_mark_items_as_read_by_iid_ascending_and_feed_filter())
 
 
 @app.route('/pocket', methods=['POST'])
@@ -276,7 +282,7 @@ def pocket():
 @requires_auth
 @catches_exceptions
 def mark_as_read():
-    count = g.aggregator.mark_items_as_read(
+    count = g.aggregator.mark_items_as_read_by_iid_ascending_and_feed_filter(
         request.args.get('to_iid'),
         FeedFilter(
             compute_after_for_maybe_today(),

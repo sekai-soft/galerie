@@ -97,5 +97,8 @@ class MinifluxAggregator(RssAggregator):
         )
         return entries['total']
     
-    def mark_items_as_read(self, to_iid_inclusive: Optional[str], feed_filter: FeedFilter) -> int:
+    def mark_items_as_read_by_iid_ascending_and_feed_filter(self, to_iid_inclusive: Optional[str], feed_filter: FeedFilter) -> int:
         pass
+
+    def supports_mark_items_as_read_by_iid_ascending_and_feed_filter(self) -> bool:
+        return False

@@ -45,25 +45,31 @@ MARK_AS_READ_BUTTON_TEMPLATE = """<div
     hx-disabled-elt="this"
 >MARK_AS_READ_LABEL <span class="htmx-indicator">...</span></div>"""
 
-LOAD_MORE_AND_MARK_AS_READ_BUTTONS_CONTAINER_TEMPLATE = """<div
-    class="button-container stream"
-    id="buttons"
-    hx-swap-oob="true"
->
-    <div
-        class="button"
-        hx-get="/load_more?from_iid=FROM_IIDTODAY_PARAMGID_PARAM"
-        hx-target="#grid"
-        hx-swap="beforeend"
-        hx-disabled-elt="this"
-    >LOAD_MORE <span class="htmx-indicator">...</span></div>
-""" + MARK_AS_READ_BUTTON_TEMPLATE + """</div>"""
+LOAD_MORE_BUTTON_TEMPLATE = """<div
+    class="button"
+    hx-get="/load_more?from_iid=FROM_IIDTODAY_PARAMGID_PARAM"
+    hx-target="#grid"
+    hx-swap="beforeend"
+    hx-disabled-elt="this"
+>LOAD_MORE <span class="htmx-indicator">...</span></div>"""
 
-MARK_AS_READ_BUTTONS_TEMPLATE = """<div
+MARK_AS_READ_BUTTON_CONTAINER_TEMPLATE = """<div
     class="button-container stream"
     id="buttons"
     hx-swap-oob="true"
 >""" + MARK_AS_READ_BUTTON_TEMPLATE + """</div>"""
+
+LOAD_MORE_BUTTON_CONTAINER_TEMPLATE = """<div
+    class="button-container stream"
+    id="buttons"
+    hx-swap-oob="true"
+>""" + LOAD_MORE_BUTTON_TEMPLATE + """</div>"""
+
+LOAD_MORE_AND_MARK_AS_READ_BUTTONS_CONTAINER_TEMPLATE = """<div
+    class="button-container stream"
+    id="buttons"
+    hx-swap-oob="true"
+>""" + LOAD_MORE_BUTTON_TEMPLATE + MARK_AS_READ_BUTTON_TEMPLATE + """</div>"""
 
 ALL_READ_HTML_TEMPLATE = """<div class="stream">
     <p>ALL_READ_MESSAGE</p>
@@ -142,6 +148,23 @@ def render_images_html(images: List[Image], double_click_action: bool) -> str:
     return images_html
 
 
+def render_mark_as_read_button_container_html(to_iid_inclusive: str, lang: str, today: bool, group_id: Optional[str]) -> str:
+    return MARK_AS_READ_BUTTON_CONTAINER_TEMPLATE \
+        .replace('TO_IID', to_iid_inclusive) \
+        .replace('MARK_AS_READ_CONFIRM', get_string("Are you sure you want to mark all as read?", lang)) \
+        .replace('MARK_AS_READ_LABEL', get_string("Mark all as read", lang)) \
+        .replace('TODAY_PARAM', '&today=1' if today else '') \
+        .replace('GID_PARAM', f'&group={group_id}' if group_id else '')
+
+
+def render_load_more_button_container_html(from_iid_exclusive: str, lang: str, today: bool, group_id: Optional[str]) -> str:
+    return LOAD_MORE_BUTTON_CONTAINER_TEMPLATE \
+        .replace('LOAD_MORE', get_string("Load more", lang)) \
+        .replace('FROM_IID', from_iid_exclusive) \
+        .replace('TODAY_PARAM', '&today=1' if today else '') \
+        .replace('GID_PARAM', f'&group={group_id}' if group_id else '') \
+
+
 def render_load_more_and_mark_as_read_buttons_container_html(from_iid_exclusive: str, to_iid_inclusive: str, lang: str, today: bool, group_id: Optional[str]) -> str:
     return LOAD_MORE_AND_MARK_AS_READ_BUTTONS_CONTAINER_TEMPLATE \
         .replace('LOAD_MORE', get_string("Load more", lang)) \
@@ -153,19 +176,16 @@ def render_load_more_and_mark_as_read_buttons_container_html(from_iid_exclusive:
         .replace('MARK_AS_READ_LABEL', get_string("Mark above as read", lang)) \
 
 
-def render_mark_as_read_buttons_container_html(to_iid_inclusive: str, lang: str, today: bool, group_id: Optional[str]) -> str:
-    return MARK_AS_READ_BUTTONS_TEMPLATE \
-        .replace('TO_IID', to_iid_inclusive) \
-        .replace('MARK_AS_READ_CONFIRM', get_string("Are you sure you want to mark all as read?", lang)) \
-        .replace('MARK_AS_READ_LABEL', get_string("Mark all as read", lang)) \
-        .replace('TODAY_PARAM', '&today=1' if today else '') \
-        .replace('GID_PARAM', f'&group={group_id}' if group_id else '')
-
-
-def render_button_html(images: List[Image], lang: str, today: bool, group_id: Optional[str]) -> str:
+def render_button_html(images: List[Image], lang: str, today: bool, group_id: Optional[str], supports_mark_above_as_read: bool) -> str:
     if not images:
-        return render_mark_as_read_buttons_container_html(
+        return render_mark_as_read_button_container_html(
             '',
+            lang,
+            today,
+            group_id)
+    if not supports_mark_above_as_read:
+        return render_load_more_button_container_html(
+            uid_to_item_id(images[-1].uid),
             lang,
             today,
             group_id)
@@ -203,10 +223,11 @@ def render_index(
         selected_group: Optional[Group],
         count: int,
         supports_sort_desc: bool,
-        sort_by_desc: bool) -> str:
+        sort_by_desc: bool,
+        supports_mark_above_as_read: bool) -> str:
     images_html = render_images_html(images, double_click_action)
     if images:
-        button_html = render_button_html(images, lang, today, selected_group.gid if selected_group else None)
+        button_html = render_button_html(images, lang, today, selected_group.gid if selected_group else None, supports_mark_above_as_read)
     else:
         button_html = ''
     return INDEX_TEMPLATE \

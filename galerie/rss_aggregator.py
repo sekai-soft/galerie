@@ -38,5 +38,9 @@ class RssAggregator(ABC):
         pass
     
     @abstractmethod
-    def mark_items_as_read(self, to_iid_inclusive: Optional[str], feed_filter: FeedFilter) -> int:
+    def mark_items_as_read_by_iid_ascending_and_feed_filter(self, to_iid_inclusive: Optional[str], feed_filter: FeedFilter) -> int:
+        pass
+    
+    @abstractmethod
+    def supports_mark_items_as_read_by_iid_ascending_and_feed_filter(self) -> bool:
         pass
