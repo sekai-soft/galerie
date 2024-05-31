@@ -16,7 +16,7 @@ from galerie.fever_aggregator import FeverAggregator
 from galerie.miniflux_aggregator import MinifluxAggregator
 from galerie.image import extract_images
 from galerie.feed_filter import FeedFilter
-from galerie_web.index import render_index, render_images_html, render_button_html
+from galerie_web.index import render_index, render_images_html, render_button_html, IndexPageParameters
 from galerie_web.login import render_login
 
 if os.getenv('SENTRY_DSN'):
@@ -260,10 +260,11 @@ def load_more():
     return render_images_html(images, pocket_client is not None) + \
         render_button_html(
             images,
-            get_lang(),
-            request.args.get('today') == "1",
-            request.args.get('group'),
-            g.aggregator.supports_mark_items_as_read_by_iid_ascending_and_feed_filter())
+            g.aggregator.supports_mark_items_as_read_by_iid_ascending_and_feed_filter(),
+            IndexPageParameters(
+                lang=get_lang(),
+                today=request.args.get('today') == "1",
+                group_id=request.args.get('group')))
 
 
 @app.route('/pocket', methods=['POST'])

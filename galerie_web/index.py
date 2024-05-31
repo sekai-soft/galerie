@@ -1,4 +1,5 @@
-from typing import List, Tuple, Optional
+from typing import List, Optional
+from dataclasses import dataclass
 from urllib.parse import quote, quote_plus
 from galerie.image import Image, uid_to_item_id
 from galerie.group import Group
@@ -150,53 +151,54 @@ def render_images_html(images: List[Image], double_click_action: bool) -> str:
     return images_html
 
 
-def render_mark_all_as_read_button_container_html(to_iid_inclusive: str, lang: str, today: bool, group_id: Optional[str]) -> str:
+@dataclass
+class IndexPageParameters:
+    lang: str
+    today: bool
+    group_id: Optional[str]
+
+
+def render_mark_all_as_read_button_container_html(to_iid_inclusive: str, index_page_params: IndexPageParameters) -> str:
     return MARK_AS_READ_BUTTON_CONTAINER_TEMPLATE \
         .replace('TO_IID', to_iid_inclusive) \
-        .replace('MARK_AS_READ_CONFIRM', get_string("Are you sure you want to mark all as read?", lang)) \
-        .replace('MARK_AS_READ_LABEL', get_string("Mark all as read", lang)) \
-        .replace('TODAY_PARAM', '&today=1' if today else '') \
-        .replace('GID_PARAM', f'&group={group_id}' if group_id else '')
+        .replace('MARK_AS_READ_CONFIRM', get_string("Are you sure you want to mark all as read?", index_page_params.lang)) \
+        .replace('MARK_AS_READ_LABEL', get_string("Mark all as read", index_page_params.lang)) \
+        .replace('TODAY_PARAM', '&today=1' if index_page_params.today else '') \
+        .replace('GID_PARAM', f'&group={index_page_params.group_id}' if index_page_params.group_id else '')
 
 
-def render_load_more_button_container_html(from_iid_exclusive: str, lang: str, today: bool, group_id: Optional[str]) -> str:
+def render_load_more_button_container_html(from_iid_exclusive: str, index_page_params: IndexPageParameters) -> str:
     return LOAD_MORE_BUTTON_CONTAINER_TEMPLATE \
-        .replace('LOAD_MORE', get_string("Load more", lang)) \
+        .replace('LOAD_MORE', get_string("Load more", index_page_params.lang)) \
         .replace('FROM_IID', from_iid_exclusive) \
-        .replace('TODAY_PARAM', '&today=1' if today else '') \
-        .replace('GID_PARAM', f'&group={group_id}' if group_id else '') \
+        .replace('TODAY_PARAM', '&today=1' if index_page_params.today else '') \
+        .replace('GID_PARAM', f'&group={index_page_params.group_id}' if index_page_params.group_id else '') \
 
 
-def render_load_more_and_mark_as_read_buttons_container_html(from_iid_exclusive: str, to_iid_inclusive: str, lang: str, today: bool, group_id: Optional[str]) -> str:
+def render_load_more_and_mark_as_read_buttons_container_html(from_iid_exclusive: str, to_iid_inclusive: str, index_page_params: IndexPageParameters) -> str:
     return LOAD_MORE_AND_MARK_AS_READ_BUTTONS_CONTAINER_TEMPLATE \
-        .replace('LOAD_MORE', get_string("Load more", lang)) \
+        .replace('LOAD_MORE', get_string("Load more", index_page_params.lang)) \
         .replace('FROM_IID', from_iid_exclusive) \
         .replace('TO_IID', to_iid_inclusive) \
-        .replace('TODAY_PARAM', '&today=1' if today else '') \
-        .replace('GID_PARAM', f'&group={group_id}' if group_id else '') \
-        .replace('MARK_AS_READ_CONFIRM', get_string("Are you sure you want to mark above as read?", lang)) \
-        .replace('MARK_AS_READ_LABEL', get_string("Mark above as read", lang)) \
+        .replace('TODAY_PARAM', '&today=1' if index_page_params.today else '') \
+        .replace('GID_PARAM', f'&group={index_page_params.group_id}' if index_page_params.group_id else '') \
+        .replace('MARK_AS_READ_CONFIRM', get_string("Are you sure you want to mark above as read?", index_page_params.lang)) \
+        .replace('MARK_AS_READ_LABEL', get_string("Mark above as read", index_page_params.lang)) \
 
 
-def render_button_html(images: List[Image], lang: str, today: bool, group_id: Optional[str], supports_mark_above_as_read: bool) -> str:
+def render_button_html(images: List[Image], supports_mark_above_as_read: bool, index_page_params: IndexPageParameters) -> str:
     if not images:
         return render_mark_all_as_read_button_container_html(
-            '',
-            lang,
-            today,
-            group_id)
+            to_iid_inclusive='',
+            index_page_params=index_page_params)
     if not supports_mark_above_as_read:
         return render_load_more_button_container_html(
-            uid_to_item_id(images[-1].uid),
-            lang,
-            today,
-            group_id)
+            from_iid_exclusive=uid_to_item_id(images[-1].uid),
+            index_page_params=index_page_params)
     return render_load_more_and_mark_as_read_buttons_container_html(
-        uid_to_item_id(images[-1].uid),
-        uid_to_item_id(images[-1].uid),
-        lang,
-        today,
-        group_id)
+        from_iid_exclusive=uid_to_item_id(images[-1].uid),
+        to_iid_inclusive=uid_to_item_id(images[-1].uid),
+        index_page_params=index_page_params)
 
 
 def _all_read_message(today: bool, group: Optional[Group], lang: str):
@@ -229,7 +231,13 @@ def render_index(
         supports_mark_above_as_read: bool) -> str:
     images_html = render_images_html(images, double_click_action)
     if images:
-        button_html = render_button_html(images, lang, today, selected_group.gid if selected_group else None, supports_mark_above_as_read)
+        button_html = render_button_html(
+            images,
+            supports_mark_above_as_read,
+            IndexPageParameters(
+                lang=lang,
+                today=today,
+                group_id=selected_group.gid if selected_group else None))
     else:
         button_html = ''
     return INDEX_TEMPLATE \
