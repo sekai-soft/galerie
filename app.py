@@ -266,7 +266,8 @@ def load_more():
             IndexPageParameters(
                 lang=get_lang(),
                 today=request.args.get('today') == "1",
-                group_id=request.args.get('group')))
+                group_id=request.args.get('group'),
+                sort_by_desc=sort_by_desc))
 
 
 @app.route('/pocket', methods=['POST'])

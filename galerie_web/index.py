@@ -50,7 +50,7 @@ MARK_AS_READ_BUTTON_TEMPLATE = """<div
 
 LOAD_MORE_BUTTON_TEMPLATE = """<div
     class="button"
-    hx-get="/load_more?from_iid=FROM_IIDTODAY_PARAMGID_PARAM"
+    hx-get="/load_more?from_iid=FROM_IIDTODAY_PARAMGID_PARAMSORT_PARAM"
     hx-target="#grid"
     hx-swap="beforeend"
     hx-disabled-elt="this"
@@ -156,6 +156,7 @@ class IndexPageParameters:
     lang: str
     today: bool
     group_id: Optional[str]
+    sort_by_desc: bool
 
 
 def render_mark_all_as_read_button_container_html(to_iid_inclusive: str, index_page_params: IndexPageParameters) -> str:
@@ -180,6 +181,7 @@ def render_load_more_button_container_html(from_iid_exclusive: str, index_page_p
         .replace('FROM_IID', from_iid_exclusive) \
         .replace('TODAY_PARAM', '&today=1' if index_page_params.today else '') \
         .replace('GID_PARAM', f'&group={index_page_params.group_id}' if index_page_params.group_id else '') \
+        .replace('SORT_PARAM', '&sort=desc' if index_page_params.sort_by_desc else '&sort=asc')
 
 
 def render_load_more_and_mark_as_read_buttons_container_html(from_iid_exclusive: str, to_iid_inclusive: str, index_page_params: IndexPageParameters) -> str:
@@ -191,6 +193,7 @@ def render_load_more_and_mark_as_read_buttons_container_html(from_iid_exclusive:
         .replace('GID_PARAM', f'&group={index_page_params.group_id}' if index_page_params.group_id else '') \
         .replace('MARK_AS_READ_CONFIRM', get_string("Are you sure you want to mark above as read?", index_page_params.lang)) \
         .replace('MARK_AS_READ_LABEL', get_string("Mark above as read", index_page_params.lang)) \
+        .replace('SORT_PARAM', '&sort=desc' if index_page_params.sort_by_desc else '&sort=asc')
 
 
 def render_button_html(images: List[Image], supports_mark_above_as_read: bool, supports_mark_group_as_read: bool, index_page_params: IndexPageParameters) -> str:
@@ -248,7 +251,8 @@ def render_index(
             IndexPageParameters(
                 lang=lang,
                 today=today,
-                group_id=selected_group.gid if selected_group else None))
+                group_id=selected_group.gid if selected_group else None,
+                sort_by_desc=sort_by_desc))
     else:
         button_html = ''
     return INDEX_TEMPLATE \
