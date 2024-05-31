@@ -103,8 +103,11 @@ class MinifluxAggregator(RssAggregator):
     def supports_mark_items_as_read_by_iid_ascending_and_feed_filter(self) -> bool:
         return False
 
-    def mark_items_as_read_by_group_id(self, group_id: str):
-        self.client.mark_category_entries_as_read(category_id=int(group_id))
+    def mark_items_as_read_by_group_id(self, group_id: Optional[str]):
+        if group_id is not None:
+            self.client.mark_category_entries_as_read(category_id=int(group_id))
+        else:
+            self.client.mark_user_entries_as_read(self.client.me()['id'])
 
     def supports_mark_items_as_read_by_group_id(self) -> bool:
         return True
