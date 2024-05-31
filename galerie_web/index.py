@@ -15,7 +15,7 @@ I18N = {
         "Mark all as read": "标记全部为已读",
         "Are you sure you want to mark all as read?": "确定要标记全部为已读吗？",
         "Mark this group as read": "标记这个组别为已读",
-        "Are you sure you want to mark this group as read? It will mark all entries in this group as read regardless of time.": "确定要标记这个组别为已读吗？这将无视条目的时间并且标记这个组别中的所有条目为已读。",
+        "Are you sure you want to mark this group as read? It will mark all entries in this group as read regardless of time.": "确定要标记这个组别为已读吗？这将无视条目的时间。",
         "✨ All read ✨": "✨ 全部已读 ✨",
         "✨ All GROUP_TITLE read ✨": "✨ 今日 GROUP_TITLE 图片全部已读 ✨",
         "✨ Today's images all read ✨": "✨ 今日图片全部已读 ✨",
@@ -167,6 +167,13 @@ def render_mark_all_as_read_button_container_html(to_iid_inclusive: str, index_p
         .replace('GID_PARAM', f'&group={index_page_params.group_id}' if index_page_params.group_id else '')
 
 
+def render_mark_group_as_read_button_container_html(index_page_params: IndexPageParameters) -> str:
+    return MARK_AS_READ_BUTTON_CONTAINER_TEMPLATE \
+        .replace('MARK_AS_READ_CONFIRM', get_string("Are you sure you want to mark this group as read? It will mark all entries in this group as read regardless of time.", index_page_params.lang)) \
+        .replace('MARK_AS_READ_LABEL', get_string("Mark this group as read", index_page_params.lang)) \
+        .replace('GID_PARAM', f'&group={index_page_params.group_id}' if index_page_params.group_id else '')
+
+
 def render_load_more_button_container_html(from_iid_exclusive: str, index_page_params: IndexPageParameters) -> str:
     return LOAD_MORE_BUTTON_CONTAINER_TEMPLATE \
         .replace('LOAD_MORE', get_string("Load more", index_page_params.lang)) \
@@ -186,11 +193,13 @@ def render_load_more_and_mark_as_read_buttons_container_html(from_iid_exclusive:
         .replace('MARK_AS_READ_LABEL', get_string("Mark above as read", index_page_params.lang)) \
 
 
-def render_button_html(images: List[Image], supports_mark_above_as_read: bool, index_page_params: IndexPageParameters) -> str:
+def render_button_html(images: List[Image], supports_mark_above_as_read: bool, supports_mark_group_as_read: bool, index_page_params: IndexPageParameters) -> str:
     if not images:
-        return render_mark_all_as_read_button_container_html(
-            to_iid_inclusive='',
-            index_page_params=index_page_params)
+        if not supports_mark_group_as_read:
+            return render_mark_all_as_read_button_container_html(
+                to_iid_inclusive='',
+                index_page_params=index_page_params)
+        return render_mark_group_as_read_button_container_html(index_page_params)
     if not supports_mark_above_as_read:
         return render_load_more_button_container_html(
             from_iid_exclusive=uid_to_item_id(images[-1].uid),
@@ -228,12 +237,14 @@ def render_index(
         count: int,
         supports_sort_desc: bool,
         sort_by_desc: bool,
-        supports_mark_above_as_read: bool) -> str:
+        supports_mark_above_as_read: bool,
+        supports_mark_group_as_read: bool) -> str:
     images_html = render_images_html(images, double_click_action)
     if images:
         button_html = render_button_html(
             images,
             supports_mark_above_as_read,
+            supports_mark_group_as_read,
             IndexPageParameters(
                 lang=lang,
                 today=today,

@@ -227,7 +227,8 @@ def index():
         unread_count,
         g.aggregator.supports_get_unread_items_by_iid_descending(),
         sort_by_desc,
-        g.aggregator.supports_mark_items_as_read_by_iid_ascending_and_feed_filter())
+        g.aggregator.supports_mark_items_as_read_by_iid_ascending_and_feed_filter(),
+        g.aggregator.supports_mark_items_as_read_by_group_id())
 
 
 @app.route('/load_more')
@@ -261,6 +262,7 @@ def load_more():
         render_button_html(
             images,
             g.aggregator.supports_mark_items_as_read_by_iid_ascending_and_feed_filter(),
+            g.aggregator.supports_mark_items_as_read_by_group_id(),
             IndexPageParameters(
                 lang=get_lang(),
                 today=request.args.get('today') == "1",
@@ -283,12 +285,16 @@ def pocket():
 @requires_auth
 @catches_exceptions
 def mark_as_read():
-    count = g.aggregator.mark_items_as_read_by_iid_ascending_and_feed_filter(
-        request.args.get('to_iid'),
-        FeedFilter(
-            compute_after_for_maybe_today(),
-            request.args.get('group')
-        ))
+    if g.aggregator.supports_mark_items_as_read_by_iid_ascending_and_feed_filter():
+        count = g.aggregator.mark_items_as_read_by_iid_ascending_and_feed_filter(
+            request.args.get('to_iid'),
+            FeedFilter(
+                compute_after_for_maybe_today(),
+                request.args.get('group')
+            ))
+    if g.aggregator.supports_mark_items_as_read_by_group_id():
+        g.aggregator.mark_items_as_read_by_group_id(request.args.get('group'))
+        count = 1
 
     resp = Response(f'Marked {count} items as read')
     resp.headers['HX-Refresh'] = "true"
