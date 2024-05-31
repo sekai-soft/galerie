@@ -13,6 +13,8 @@ I18N = {
         "Are you sure you want to mark above as read?": "确定要标记以上为已读吗？",
         "Mark all as read": "标记全部为已读",
         "Are you sure you want to mark all as read?": "确定要标记全部为已读吗？",
+        "Mark this group as read": "标记这个组别为已读",
+        "Are you sure you want to mark this group as read? It will mark all entries in this group as read regardless of time.": "确定要标记这个组别为已读吗？这将无视条目的时间并且标记这个组别中的所有条目为已读。",
         "✨ All read ✨": "✨ 全部已读 ✨",
         "✨ All GROUP_TITLE read ✨": "✨ 今日 GROUP_TITLE 图片全部已读 ✨",
         "✨ Today's images all read ✨": "✨ 今日图片全部已读 ✨",
@@ -148,7 +150,7 @@ def render_images_html(images: List[Image], double_click_action: bool) -> str:
     return images_html
 
 
-def render_mark_as_read_button_container_html(to_iid_inclusive: str, lang: str, today: bool, group_id: Optional[str]) -> str:
+def render_mark_all_as_read_button_container_html(to_iid_inclusive: str, lang: str, today: bool, group_id: Optional[str]) -> str:
     return MARK_AS_READ_BUTTON_CONTAINER_TEMPLATE \
         .replace('TO_IID', to_iid_inclusive) \
         .replace('MARK_AS_READ_CONFIRM', get_string("Are you sure you want to mark all as read?", lang)) \
@@ -178,7 +180,7 @@ def render_load_more_and_mark_as_read_buttons_container_html(from_iid_exclusive:
 
 def render_button_html(images: List[Image], lang: str, today: bool, group_id: Optional[str], supports_mark_above_as_read: bool) -> str:
     if not images:
-        return render_mark_as_read_button_container_html(
+        return render_mark_all_as_read_button_container_html(
             '',
             lang,
             today,

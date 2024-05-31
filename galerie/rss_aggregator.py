@@ -44,3 +44,11 @@ class RssAggregator(ABC):
     @abstractmethod
     def supports_mark_items_as_read_by_iid_ascending_and_feed_filter(self) -> bool:
         pass
+    
+    @abstractmethod
+    def mark_items_as_read_by_group_id(self, group_id: str):
+        pass
+
+    @abstractmethod
+    def supports_mark_items_as_read_by_group_id(self) -> bool:
+        pass
