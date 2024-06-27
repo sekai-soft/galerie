@@ -8,7 +8,7 @@ from datetime import datetime
 from functools import wraps
 from dotenv import load_dotenv
 from urllib.parse import unquote, unquote_plus
-from flask import Flask, request, url_for, Response, g, redirect, make_response
+from flask import Flask, request, url_for, g, redirect, make_response
 from pocket import Pocket
 from sentry_sdk import capture_exception
 from galerie.rss_aggregator import AuthError, RssAggregator
@@ -18,6 +18,7 @@ from galerie.image import extract_images
 from galerie.feed_filter import FeedFilter
 from galerie_web.index import render_index, render_images_html, render_button_html, IndexPageParameters
 from galerie_web.login import render_login
+from galerie_flask.actions_blueprint import actions_blueprint
 
 if os.getenv('SENTRY_DSN'):
     sentry_sdk.init(
@@ -25,6 +26,7 @@ if os.getenv('SENTRY_DSN'):
     )
 
 app = Flask(__name__, static_url_path='/static')
+app.register_blueprint(actions_blueprint, url_prefix='/')
 load_dotenv()
 
 
@@ -282,21 +284,21 @@ def pocket():
     return f'Added {url} to Pocket'
 
 
-@app.route('/mark_as_read', methods=['POST'])
-@requires_auth
-@catches_exceptions
-def mark_as_read():
-    if g.aggregator.supports_mark_items_as_read_by_iid_ascending_and_feed_filter():
-        count = g.aggregator.mark_items_as_read_by_iid_ascending_and_feed_filter(
-            request.args.get('to_iid'),
-            FeedFilter(
-                compute_after_for_maybe_today(),
-                request.args.get('group')
-            ))
-    if g.aggregator.supports_mark_items_as_read_by_group_id():
-        g.aggregator.mark_items_as_read_by_group_id(request.args.get('group'))
-        count = 1
+# @app.route('/mark_as_read', methods=['POST'])
+# @requires_auth
+# @catches_exceptions
+# def mark_as_read():
+#     if g.aggregator.supports_mark_items_as_read_by_iid_ascending_and_feed_filter():
+#         count = g.aggregator.mark_items_as_read_by_iid_ascending_and_feed_filter(
+#             request.args.get('to_iid'),
+#             FeedFilter(
+#                 compute_after_for_maybe_today(),
+#                 request.args.get('group')
+#             ))
+#     if g.aggregator.supports_mark_items_as_read_by_group_id():
+#         g.aggregator.mark_items_as_read_by_group_id(request.args.get('group'))
+#         count = 1
 
-    resp = Response(f'Marked {count} items as read')
-    resp.headers['HX-Refresh'] = "true"
-    return resp
+#     resp = Response(f'Marked {count} items as read')
+#     resp.headers['HX-Refresh'] = "true"
+#     return resp
