@@ -6,6 +6,7 @@ import pytz
 from typing import Optional
 from functools import wraps
 from flask import request, g, redirect, make_response
+from flask_babel import lazy_gettext as _l
 from sentry_sdk import capture_exception
 from galerie.rss_aggregator import RssAggregator
 from galerie.fever_aggregator import FeverAggregator
@@ -79,7 +80,7 @@ def catches_exceptions(f):
             if os.getenv('DEBUG', '0') == '1':
                 raise e
             capture_exception(e)
-            resp = make_response(f"Unknown server error: {str(e)}")
+            resp = make_response(_l("Unknown server error: %(e)s", e=str(e)))
             resp.status_code = 500
             return resp
     return decorated_function

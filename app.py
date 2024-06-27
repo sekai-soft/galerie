@@ -3,12 +3,14 @@ import base64
 import json
 import pytz
 import sentry_sdk
+import click
 from typing import Optional
 from datetime import datetime
 from functools import wraps
 from dotenv import load_dotenv
 from urllib.parse import unquote, unquote_plus
 from flask import Flask, request, url_for, g, redirect, make_response
+from flask_babel import Babel
 from pocket import Pocket
 from sentry_sdk import capture_exception
 from galerie.rss_aggregator import AuthError, RssAggregator
@@ -25,9 +27,50 @@ if os.getenv('SENTRY_DSN'):
         dsn=os.getenv('SENTRY_DSN'),
     )
 
+
+def get_locale():
+    return request.accept_languages.best_match(['en', 'zh']) 
+
+
 app = Flask(__name__, static_url_path='/static')
 app.register_blueprint(actions_blueprint, url_prefix='/')
+babel = Babel(app, locale_selector=get_locale)
 load_dotenv()
+
+
+@app.cli.group()
+def translate():
+    """Translation and localization commands."""
+    pass
+
+
+@translate.command()
+@click.argument('lang')
+def init(lang):
+    """Initialize a new language."""
+    if os.system('pybabel extract -F babel.cfg -k _l -o messages.pot .'):
+        raise RuntimeError('extract command failed')
+    if os.system(
+            'pybabel init -i messages.pot -d galerie_flask/translations -l ' + lang):
+        raise RuntimeError('init command failed')
+    os.remove('messages.pot')
+
+
+@translate.command()
+def update():
+    """Update all languages."""
+    if os.system('pybabel extract -F babel.cfg -k _l -o messages.pot .'):
+        raise RuntimeError('extract command failed')
+    if os.system('pybabel update -i messages.pot -d galerie_flask/translations'):
+        raise RuntimeError('update command failed')
+    os.remove('messages.pot')
+
+
+@translate.command()
+def compile():
+    """Compile all languages."""
+    if os.system('pybabel compile -d galerie_flask/translations'):
+        raise RuntimeError('compile command failed')
 
 
 def try_get_miniflux_aggregator() -> Optional[MinifluxAggregator]:
@@ -282,23 +325,3 @@ def pocket():
     tags = list(map(unquote_plus, encoded_tags))
     pocket_client.add(url, tags=tags)
     return f'Added {url} to Pocket'
-
-
-# @app.route('/mark_as_read', methods=['POST'])
-# @requires_auth
-# @catches_exceptions
-# def mark_as_read():
-#     if g.aggregator.supports_mark_items_as_read_by_iid_ascending_and_feed_filter():
-#         count = g.aggregator.mark_items_as_read_by_iid_ascending_and_feed_filter(
-#             request.args.get('to_iid'),
-#             FeedFilter(
-#                 compute_after_for_maybe_today(),
-#                 request.args.get('group')
-#             ))
-#     if g.aggregator.supports_mark_items_as_read_by_group_id():
-#         g.aggregator.mark_items_as_read_by_group_id(request.args.get('group'))
-#         count = 1
-
-#     resp = Response(f'Marked {count} items as read')
-#     resp.headers['HX-Refresh'] = "true"
-#     return resp

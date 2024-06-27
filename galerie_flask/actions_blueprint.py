@@ -1,4 +1,5 @@
-from flask import request, Response, g, Blueprint
+from flask import request, g, Blueprint, make_response
+from flask_babel import lazy_gettext as _l
 from galerie.feed_filter import FeedFilter
 from .helpers import requires_auth, catches_exceptions, compute_after_for_maybe_today
 
@@ -21,6 +22,6 @@ def mark_as_read():
         g.aggregator.mark_items_as_read_by_group_id(request.args.get('group'))
         count = 1
 
-    resp = Response(f'Marked {count} items as read')
+    resp = make_response(_l('Marked %(count)s items as read', count=count))  
     resp.headers['HX-Refresh'] = "true"
     return resp

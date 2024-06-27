@@ -8,3 +8,4 @@ sentry-sdk[flask]==1.43.0
 miniflux==1.0.1
 pytest==8.1.1
 responses==0.25.0
+flask-babel==4.0.0
