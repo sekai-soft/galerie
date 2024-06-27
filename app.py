@@ -19,7 +19,7 @@ from galerie.image import extract_images
 from galerie.feed_filter import FeedFilter
 from galerie_web.index import render_index, render_images_html, render_button_html, IndexPageParameters
 from galerie_flask.actions_blueprint import actions_blueprint
-from galerie_flask.pages_blueprint import login_blueprint
+from galerie_flask.pages_blueprint import pages_blueprint
 
 load_dotenv()
 
@@ -39,7 +39,7 @@ app.config["BABEL_TRANSLATION_DIRECTORIES"] = os.path.join(
     "translations")
 babel = Babel(app, locale_selector=get_locale)
 app.register_blueprint(actions_blueprint, url_prefix='/')
-app.register_blueprint(login_blueprint, url_prefix='/')
+app.register_blueprint(pages_blueprint, url_prefix='/')
 
 
 @app.cli.group()
