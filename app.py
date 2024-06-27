@@ -8,7 +8,6 @@ from typing import Optional
 from datetime import datetime
 from functools import wraps
 from dotenv import load_dotenv
-from urllib.parse import unquote, unquote_plus
 from flask import Flask, request, url_for, g, redirect, make_response
 from flask_babel import Babel
 from pocket import Pocket
@@ -31,7 +30,6 @@ if os.getenv('SENTRY_DSN'):
 
 
 def get_locale():
-    print(request.accept_languages.best_match(['en', 'zh']))
     return request.accept_languages.best_match(['en', 'zh']) 
 
 app = Flask(__name__, static_url_path='/static')
@@ -307,15 +305,3 @@ def load_more():
                 today=request.args.get('today') == "1",
                 group_id=request.args.get('group'),
                 sort_by_desc=sort_by_desc))
-
-
-@app.route('/pocket', methods=['POST'])
-def pocket():
-    if not pocket_client:
-        return 'Pocket was not configured. How did you get here?'
-    encoded_url = request.args.get('url')
-    url = unquote(encoded_url)
-    encoded_tags = request.args.getlist('tag')
-    tags = list(map(unquote_plus, encoded_tags))
-    pocket_client.add(url, tags=tags)
-    return f'Added {url} to Pocket'

@@ -80,6 +80,7 @@ def catches_exceptions(f):
             if os.getenv('DEBUG', '0') == '1':
                 raise e
             capture_exception(e)
+            # TODO: change to toasting
             resp = make_response(_l("Unknown server error: %(e)s", e=str(e)))
             resp.status_code = 500
             return resp
@@ -93,3 +94,9 @@ def compute_after_for_maybe_today() -> Optional[int]:
     dt = datetime.now(pytz.timezone(browser_tz))
     start_of_day = dt.replace(hour=0, minute=0, second=0, microsecond=0)
     return int(start_of_day.timestamp())
+
+
+def make_toast(*args, **kwargs) -> dict:
+    return {
+        "toast": _l(*args, **kwargs)
+    }

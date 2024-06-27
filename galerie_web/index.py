@@ -30,7 +30,7 @@ I18N = {
 def get_string(en_string: str, lang: str) -> str:
     return I18N.get(lang, {}).get(en_string, en_string)
 
-GRID_ITEM_DBLCLICK_ATTRIBUTE_TEMPLATE = """ x-on:dblclick.prevent="clearTimeout(timer); fetch('/pocket?url=ENCODED_URL&TAG_ARGS', {method: 'POST'}).then(() => window.toast('Added UID to Pocket'))" """
+GRID_ITEM_DBLCLICK_ATTRIBUTE_TEMPLATE = """ x-on:dblclick.prevent="clearTimeout(timer); const response = await fetch('/pocket?url=ENCODED_URL&TAG_ARGS', {method: 'POST'}); const json = await response.json(); window.toast(json.toast)" """
 
 GRID_ITEM_TEMPLATE = """<div
     class="grid-item"
