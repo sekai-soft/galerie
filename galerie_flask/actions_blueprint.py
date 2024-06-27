@@ -4,7 +4,7 @@ from galerie.feed_filter import FeedFilter
 from .helpers import requires_auth, catches_exceptions, compute_after_for_maybe_today
 
 
-actions_blueprint = Blueprint('actions', __name__,)
+actions_blueprint = Blueprint('actions', __name__)
 
 
 @actions_blueprint.route('/mark_as_read', methods=['POST'])

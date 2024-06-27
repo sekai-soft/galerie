@@ -1,0 +1,232 @@
+body {
+    font-family: Helvetica, Arial, sans-serif;
+    background: #1A1A1A;
+    color: #F5F5F5;
+    margin-left: 1rem;
+    margin-right: 1rem;
+}
+
+/* Hide scrollbar for Chrome, Safari, and Opera */
+body::-webkit-scrollbar {
+    display: none;
+}
+
+/* Hide scrollbar for Firefox */
+body {
+    scrollbar-width: none;
+    -ms-overflow-style: none;  /* IE and Edge */
+}
+
+/** sizes for > iPad **/
+p {
+    font-size: 2em;
+    line-height: 1.5;
+}
+
+input {
+    font-size: 2em;
+    line-height: 1.5;
+}
+
+.stream {
+    width: 66%;
+    margin: 0 auto;
+}
+
+.header {
+    display: flex;
+    flex-direction: horizontal;
+    justify-content: space-between;
+    align-items: center;
+}
+
+.grid-sizer, .grid-item {
+    width: calc((100% - 8px) / 3)
+}
+
+a {
+    font-size: 2em;
+    line-height: 1.5;
+}
+
+select {
+    font-size: 2em;
+}
+
+.button {
+    font-size: 2em;
+}
+
+/** sizes for > iPhone 12 Pro Max <= iPad Pro **/
+@media screen and (max-width: 1024px) {
+    p {
+        font-size: 2em;
+        line-height: 1.5;
+    }
+
+    input {
+        font-size: 2em;
+        line-height: 1.5;
+    }
+
+    .stream {
+        width: 100%;
+        margin: 0 auto;
+    }
+    
+    .grid-sizer, .grid-item {
+        width: calc((100% - 8px) / 3)
+    }
+
+    a {
+        font-size: 2em;
+        line-height: 1.5;
+    }
+
+    select {
+        font-size: 2em;
+    }
+
+    .button {
+        font-size: 2em;
+    }    
+}
+
+/** sizes for <= iPhone 14 Pro Max **/
+@media screen and (max-width: 430px) {
+    p {
+        font-size: 1em;
+        line-height: 1;
+    }
+
+    input {
+        font-size: 1em;
+        line-height: 1;
+    }
+
+    .stream {
+        width: 100%;
+    }
+    
+    .grid-sizer, .grid-item {
+        width: calc((100% - 4px) / 2)
+    }
+
+    a {
+        font-size: 1em;
+        line-height: 1;
+    }
+
+    select {
+        font-size: 1em;
+    }
+
+    .button {
+        font-size: 1em;
+    }
+}
+
+/* other styles */
+.code-font {
+    font-family: 'Consolas', 'Menlo', monospace;
+}
+
+a {
+    color: #F5F5F5;
+}
+
+.item-image {
+    width: 100%;
+    border-radius: 4px;
+    cursor: pointer;
+    object-fit: cover;
+}
+
+.button-container {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+}
+
+.button {
+    color: #F5F5F5;
+    background-color: #1A1A1A;
+    border: 2px solid #F5F5F5;
+    border-radius: 4px;
+    padding: 0.5em;
+    margin-top: 4px;
+    cursor: pointer;
+    text-align: center;
+}
+
+input {
+    color: #F5F5F5;
+    border: none;
+    border-bottom: 2px solid #999999;
+    background-color: #1A1A1A;
+    width: 75%;
+}
+
+select {
+    color: #F5F5F5;
+    border: none;
+    background-color: #1A1A1A;
+    max-width: 75%;
+}
+
+/** htmx-indicator **/
+.htmx-indicator{
+    display:none;
+}
+.htmx-request .htmx-indicator{
+    display:inline;
+}
+.htmx-request.htmx-indicator{
+    display:inline;
+}
+
+/* The toast - position it at the bottom and in the middle of the screen */
+#toast {
+    visibility: hidden; /* Hidden by default. Visible on click */
+    width: 25%;
+    background-color: #F5F5F5;
+    color: #1A1A1A;
+    text-align: center; /* Centered text */
+    border-radius: 4px; /* Rounded borders */
+    font-size: 1.2em;
+    padding: 0.5em;
+    position: fixed; /* Sit on bottom of the screen */
+    z-index: 1; /* Add a z-index if needed */
+    left: 70%;
+    bottom: 16px;
+}
+
+/* Show the toast when clicking on a button (class added with JavaScript) */
+#toast.show {
+    visibility: visible; /* Show the toast */
+    /* Add animation: Take 0.5 seconds to fade in and out the toast.
+    However, delay the fade out process for 2.5 seconds */
+    -webkit-animation: fadein 0.5s, fadeout 0.5s 2.5s;
+    animation: fadein 0.5s, fadeout 0.5s 2.5s;
+}
+
+/* Animations to fade the toast in and out */
+@-webkit-keyframes fadein {
+    from {bottom: 0; opacity: 0;}
+    to {bottom: 30px; opacity: 1;}
+}
+
+@keyframes fadein {
+    from {bottom: 0; opacity: 0;}
+    to {bottom: 30px; opacity: 1;}
+}
+
+@-webkit-keyframes fadeout {
+    from {bottom: 30px; opacity: 1;}
+    to {bottom: 0; opacity: 0;}
+}
+
+@keyframes fadeout {
+    from {bottom: 30px; opacity: 1;}
+    to {bottom: 0; opacity: 0;}
+}

@@ -7,7 +7,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: PROJECT VERSION\n"
 "Report-Msgid-Bugs-To: EMAIL@ADDRESS\n"
-"POT-Creation-Date: 2024-06-27 08:04+0000\n"
+"POT-Creation-Date: 2024-06-27 08:19+0000\n"
 "PO-Revision-Date: 2024-06-27 08:04+0000\n"
 "Last-Translator: FULL NAME <EMAIL@ADDRESS>\n"
 "Language: zh\n"
@@ -27,4 +27,36 @@ msgstr "标记 %(count)s 项为已读"
 #, python-format
 msgid "Unknown server error: %(e)s"
 msgstr "未知服务器错误: %(e)s"
+
+#: galerie_flask/templates/login.html:7
+msgid "Login | Galerie"
+msgstr "登录 | Galerie"
+
+#: galerie_flask/templates/login.html:8
+msgid "A Pinterest/Xiaohongshu photo wall style RSS reader"
+msgstr "一款 Pinterest/小红书照片墙式的 RSS 阅读器"
+
+#: galerie_flask/templates/login.html:16
+msgid "Please login first"
+msgstr "请先登录"
+
+#: galerie_flask/templates/login.html:18
+msgid "Endpoint URL"
+msgstr "节点 URL"
+
+#: galerie_flask/templates/login.html:18
+msgid "What is this?"
+msgstr "这是什么？"
+
+#: galerie_flask/templates/login.html:26
+msgid "Username"
+msgstr "用户名"
+
+#: galerie_flask/templates/login.html:35
+msgid "Password"
+msgstr "密码"
+
+#: galerie_flask/templates/login.html:49
+msgid "Login"
+msgstr "登录"
 

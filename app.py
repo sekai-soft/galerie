@@ -19,8 +19,10 @@ from galerie.miniflux_aggregator import MinifluxAggregator
 from galerie.image import extract_images
 from galerie.feed_filter import FeedFilter
 from galerie_web.index import render_index, render_images_html, render_button_html, IndexPageParameters
-from galerie_web.login import render_login
 from galerie_flask.actions_blueprint import actions_blueprint
+from galerie_flask.login_blueprint import login_blueprint
+
+load_dotenv()
 
 if os.getenv('SENTRY_DSN'):
     sentry_sdk.init(
@@ -29,13 +31,17 @@ if os.getenv('SENTRY_DSN'):
 
 
 def get_locale():
+    print(request.accept_languages.best_match(['en', 'zh']))
     return request.accept_languages.best_match(['en', 'zh']) 
 
-
 app = Flask(__name__, static_url_path='/static')
-app.register_blueprint(actions_blueprint, url_prefix='/')
+app.config["BABEL_TRANSLATION_DIRECTORIES"] = os.path.join(
+    os.path.abspath(os.path.dirname(__file__)),
+    "galerie_flask",
+    "translations")
 babel = Babel(app, locale_selector=get_locale)
-load_dotenv()
+app.register_blueprint(actions_blueprint, url_prefix='/')
+app.register_blueprint(login_blueprint, url_prefix='/')
 
 
 @app.cli.group()
@@ -167,18 +173,6 @@ def catches_exceptions(f):
             resp.status_code = 500
             return resp
     return decorated_function
-
-
-@app.route("/login")
-@catches_exceptions
-def login():
-    aggregator = get_aggregator()
-    if aggregator:
-        return redirect('/')
-    return render_login(
-        url_for('static', filename='style.css'),
-        url_for('static', filename='favicon.png'),
-        get_lang())
 
 
 @app.route('/auth', methods=['POST'])
