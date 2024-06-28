@@ -18,10 +18,10 @@ if 'POCKET_CONSUMER_KEY' in os.environ and 'POCKET_ACCESS_TOKEN' in os.environ:
 actions_blueprint = Blueprint('actions', __name__)
 
 
-def make_toast(status_code: int, *args, **kwargs):
+def make_toast(status_code: int, message: str):
     resp = make_response()
     resp.headers['HX-Trigger'] = json.dumps({
-        "toast": str(_l(*args, **kwargs))
+        "toast": message
     })
     resp.status_code = status_code
     return resp
@@ -42,7 +42,7 @@ def catches_exceptions(f):
             if os.getenv('DEBUG', '0') == '1':
                 raise e
             capture_exception(e)
-            return make_toast(500, "Unknown server error: %(e)s", e=str(e))
+            return make_toast(500, str(_l("Unknown server error: %(e)s", e=str(e))))
     return decorated_function
 
 
@@ -67,10 +67,10 @@ def mark_as_read():
 @catches_exceptions
 def pocket():
     if not pocket_client:
-        return make_toast(500, "Pocket was not configured")
+        return make_toast(500, str(_("Pocket was not configured")))
     encoded_url = request.args.get('url')
     url = unquote(encoded_url)
     encoded_tags = request.args.getlist('tag')
     tags = list(map(unquote_plus, encoded_tags))
     pocket_client.add(url, tags=tags)
-    return make_toast(200, 'Added %(url)s to Pocket', url=url)
+    return make_toast(200, str(_l('Added %(url)s to Pocket', url=url)))

@@ -7,7 +7,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: PROJECT VERSION\n"
 "Report-Msgid-Bugs-To: EMAIL@ADDRESS\n"
-"POT-Creation-Date: 2024-06-27 17:26+0000\n"
+"POT-Creation-Date: 2024-06-28 05:00+0000\n"
 "PO-Revision-Date: 2024-06-27 08:04+0000\n"
 "Last-Translator: FULL NAME <EMAIL@ADDRESS>\n"
 "Language: zh\n"
@@ -18,24 +18,19 @@ msgstr ""
 "Content-Transfer-Encoding: 8bit\n"
 "Generated-By: Babel 2.15.0\n"
 
-#: galerie_flask/actions_blueprint.py:33
-#, python-format
-msgid "Marked %(count)s items as read"
-msgstr "标记 %(count)s 项为已读"
-
-#: galerie_flask/actions_blueprint.py:41
-msgid "Pocket was not configured"
-msgstr "Pocket 尚未配置"
-
-#: galerie_flask/actions_blueprint.py:47
-#, python-format
-msgid "Added %(url)s to Pocket"
-msgstr "已将 %(url)s 添加到 Pocket"
-
-#: galerie_flask/helpers.py:83
+#: galerie_flask/actions_blueprint.py:45 galerie_flask/pages_blueprint.py:21
 #, python-format
 msgid "Unknown server error: %(e)s"
 msgstr "未知服务器错误: %(e)s"
+
+#: galerie_flask/actions_blueprint.py:70
+msgid "Pocket was not configured"
+msgstr "Pocket 尚未配置"
+
+#: galerie_flask/actions_blueprint.py:76
+#, python-format
+msgid "Added %(url)s to Pocket"
+msgstr "已将 %(url)s 添加到 Pocket"
 
 #: galerie_flask/templates/login.html:7
 msgid "Login | Galerie"
@@ -68,7 +63,4 @@ msgstr "密码"
 #: galerie_flask/templates/login.html:49
 msgid "Login"
 msgstr "登录"
-
-#~ msgid "Added %(url)s to Pocket"
-#~ msgstr "已将 %(url)s 添加到 Pocket"
 
