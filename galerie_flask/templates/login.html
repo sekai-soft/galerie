@@ -1,60 +1,44 @@
-<!DOCTYPE html>
-<html>
-    <head>
-        <meta charset="UTF-8">
-        <meta name="viewport" content="width=device-width, initial-scale=1.0">
-        <meta http-equiv="X-UA-Compatible" content="ie=edge">
-        <title>{{ _('Login | Galerie') }}</title>
-        <meta name="description" content="{{ _('A Pinterest/Xiaohongshu photo wall style RSS reader') }}">
-        <link rel="icon" type="image/png" href="{{ url_for('static', filename='favicon.png') }}">
-        <link rel="stylesheet" type="text/css" href="{{ url_for('static', filename='style.css') }}">
-        <script src="https://code.jquery.com/jquery-3.7.1.slim.js"></script>
-        <script src="https://cdn.jsdelivr.net/npm/masonry-layout@4.2.2/dist/masonry.pkgd.min.js"></script>
-        <script src="https://cdn.jsdelivr.net/npm/imagesloaded@5.0.0/imagesloaded.pkgd.min.js"></script>
-        <script src="https://cdn.jsdelivr.net/npm/htmx.org@1.9.11/dist/htmx.min.js"></script>
-        <script src="https://cdn.jsdelivr.net/npm/alpinejs@3.13.8/dist/cdn.min.js"></script>
-        <script src="https://cdn.jsdelivr.net/npm/js-cookie@3.0.5/dist/js.cookie.min.js"></script>
-    </head>
-    <body>
-        <div class="stream">
-            <p>{{ _('Please login first') }}</p>
-            <form>
-                <p>{{ _('Endpoint URL') }} <a href="https://github.com/sekai-soft/galerie?tab=readme-ov-file#example-fever-endpoints" target="_blank" style="font-size: 0.5em;">{{ _('What is this?') }}</a></p>
-                <input
-                    type="text"
-                    name="endpoint"
-                    required
-                    placeholder="https://miniflux.example.net/fever"
-                    class="code-font"
-                >
-                <p>{{ _('Username') }}</p>
-                <input
-                    type="text"
-                    autocomplete="username"
-                    name="username"
-                    required
-                    class="code-font"
-                    required
-                >
-                <p>{{ _('Password') }}</p>
-                <input
-                    type="password"
-                    name="password"
-                    required
-                    class="code-font"
-                >
-                <div
-                    class="button"
-                    style="margin-top: 2em; width: 50%"
-                    hx-post="/actions/auth"
-                    hx-swap="none"
-                    hx-disabled-elt="this"
-                >
-                    {{ _('Login') }} <span class="htmx-indicator">...</span>
-                </div>
-            </form>
+{% extends 'base.html' %}
+
+{% block title %}{{ _('Login | Galerie') }}{% endblock %}
+
+{% block content %}
+<div class="stream">
+    <p>{{ _('Please login first') }}</p>
+    <form>
+        <p>{{ _('Endpoint URL') }} <a href="https://github.com/sekai-soft/galerie?tab=readme-ov-file#example-fever-endpoints" target="_blank" style="font-size: 0.5em;">{{ _('What is this?') }}</a></p>
+        <input
+            type="text"
+            name="endpoint"
+            required
+            placeholder="https://miniflux.example.net/fever"
+            class="code-font"
+        >
+        <p>{{ _('Username') }}</p>
+        <input
+            type="text"
+            autocomplete="username"
+            name="username"
+            required
+            class="code-font"
+            required
+        >
+        <p>{{ _('Password') }}</p>
+        <input
+            type="password"
+            name="password"
+            required
+            class="code-font"
+        >
+        <div
+            class="button"
+            style="margin-top: 2em; width: 50%"
+            hx-post="/actions/auth"
+            hx-swap="none"
+            hx-disabled-elt="this"
+        >
+            {{ _('Login') }} <span class="htmx-indicator">...</span>
         </div>
-        <div id="toast">Default toast message</div> 
-        <script src="{{ url_for('static', filename='script.js') }}"></script>
-    </body>
-</html>
+    </form>
+</div>
+{% endblock %}
