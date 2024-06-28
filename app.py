@@ -38,8 +38,8 @@ app.config["BABEL_TRANSLATION_DIRECTORIES"] = os.path.join(
     "galerie_flask",
     "translations")
 babel = Babel(app, locale_selector=get_locale)
-app.register_blueprint(actions_blueprint, url_prefix='/')
 app.register_blueprint(pages_blueprint, url_prefix='/')
+app.register_blueprint(actions_blueprint, url_prefix='/actions')
 
 
 @app.cli.group()

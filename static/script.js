@@ -68,7 +68,7 @@ const toast = (message) => {
 }
 
 const addToPocket = async (encoded_url, tag_args) => {
-  const response = await fetch(`/pocket?url=${encoded_url}&${tag_args}`, {method: 'POST'});
+  const response = await fetch(`/actions/pocket?url=${encoded_url}&${tag_args}`, {method: 'POST'});
   // addToPocket was not called from htmx
   // hence we need to emulate the behavior of HX-Trigger header so that backend can keep using HX-Trigger
   const hxTrigger = response.headers.get('HX-Trigger');

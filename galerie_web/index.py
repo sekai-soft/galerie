@@ -44,7 +44,7 @@ MARK_AS_READ_BUTTON_TEMPLATE = """<div
     class="button"
     style="margin-left: 4px"
     hx-confirm="MARK_AS_READ_CONFIRM"
-    hx-post="/mark_as_read?to_iid=TO_IIDTODAY_PARAMGID_PARAM"
+    hx-post="/actions/mark_as_read?to_iid=TO_IIDTODAY_PARAMGID_PARAM"
     hx-disabled-elt="this"
 >MARK_AS_READ_LABEL <span class="htmx-indicator">...</span></div>"""
 
