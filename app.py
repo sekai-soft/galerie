@@ -173,43 +173,6 @@ def catches_exceptions(f):
     return decorated_function
 
 
-@app.route('/auth', methods=['POST'])
-def auth():
-    endpoint = request.form.get('endpoint')
-    username = request.form.get('username', '')
-    password = request.form.get('password', '')
-    try:
-        persisted_auth = get_aggregator(
-            logging_in_endpoint=endpoint,
-            logging_in_username=username,
-            logging_in_password=password).persisted_auth()
-        auth_bytes = persisted_auth.encode("utf-8")
-        b64_auth_bytes = base64.b64encode(auth_bytes)
-
-        resp = make_response()
-        resp.set_cookie('auth', b64_auth_bytes.decode('utf-8'))
-        resp.headers['HX-Redirect'] = '/'
-        return resp
-    except AuthError:
-        resp = make_response()
-        resp.status_code = 401
-        resp.headers['HX-Trigger'] = json.dumps({"showMessage": get_string("Failed to authenticate with Fever API", get_lang())})
-        return resp
-    except Exception as e:
-        resp = make_response()
-        resp.status_code = 500
-        resp.headers['HX-Trigger'] = json.dumps({"showMessage": f"{get_string("Unknown server error", get_lang())}\n{str(e)}"})
-        return resp
-
-
-@app.route("/deauth", methods=['POST'])
-def deauth():
-    resp = make_response()
-    resp.delete_cookie('auth')
-    resp.headers['HX-Redirect'] = '/login'
-    return resp
-
-
 def get_start_of_day_in_epoch(iana_timezone: str) -> int:
     dt = datetime.now(pytz.timezone(iana_timezone))
     start_of_day = dt.replace(hour=0, minute=0, second=0, microsecond=0)

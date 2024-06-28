@@ -8,8 +8,12 @@
         <meta name="description" content="{{ _('A Pinterest/Xiaohongshu photo wall style RSS reader') }}">
         <link rel="icon" type="image/png" href="{{ url_for('static', filename='favicon.png') }}">
         <link rel="stylesheet" type="text/css" href="{{ url_for('static', filename='style.css') }}">
+        <script src="https://code.jquery.com/jquery-3.7.1.slim.js"></script>
+        <script src="https://cdn.jsdelivr.net/npm/masonry-layout@4.2.2/dist/masonry.pkgd.min.js"></script>
+        <script src="https://cdn.jsdelivr.net/npm/imagesloaded@5.0.0/imagesloaded.pkgd.min.js"></script>
         <script src="https://cdn.jsdelivr.net/npm/htmx.org@1.9.11/dist/htmx.min.js"></script>
-        <script defer src="https://cdn.jsdelivr.net/npm/alpinejs@3.13.8/dist/cdn.min.js"></script>
+        <script src="https://cdn.jsdelivr.net/npm/alpinejs@3.13.8/dist/cdn.min.js"></script>
+        <script src="https://cdn.jsdelivr.net/npm/js-cookie@3.0.5/dist/js.cookie.min.js"></script>
     </head>
     <body>
         <div class="stream">
@@ -42,7 +46,7 @@
                 <div
                     class="button"
                     style="margin-top: 2em; width: 50%"
-                    hx-post="/auth"
+                    hx-post="/actions/auth"
                     hx-swap="none"
                     hx-disabled-elt="this"
                 >
@@ -50,10 +54,7 @@
                 </div>
             </form>
         </div>
-        <script>
-            document.body.addEventListener("showMessage", (event) => {
-                alert(event.detail.value);            
-            })
-        </script>
+        <div id="toast">Default toast message</div> 
+        <script src="{{ url_for('static', filename='script.js') }}"></script>
     </body>
 </html>
