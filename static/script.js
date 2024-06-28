@@ -57,7 +57,7 @@ $('#sortSelect').on('change', (event) => {
   }
 })
 
-window.toast = (message) => {
+const toast = (message) => {
   const toastEl = $('#toast')
   toastEl.addClass('show');
   toastEl.text(message);
@@ -66,3 +66,23 @@ window.toast = (message) => {
     toastEl.removeClass('show');
   }, 500);
 }
+
+const addToPocket = async (encoded_url, tag_args) => {
+  const response = await fetch(`/pocket?url=${encoded_url}&${tag_args}`, {method: 'POST'});
+  // addToPocket was not called from htmx
+  // hence we need to emulate the behavior of HX-Trigger header so that backend can keep using HX-Trigger
+  const hxTrigger = response.headers.get('HX-Trigger');
+  if (!hxTrigger) {
+    return;
+  }
+  const parsedHxTrigger = JSON.parse(hxTrigger);
+  const toastMessage = parsedHxTrigger.toast;
+  if (!toastMessage) {
+    return;
+  }
+  toast(toastMessage);
+}
+
+document.body.addEventListener("toast", (event) => {
+  toast(event.detail.value);            
+})

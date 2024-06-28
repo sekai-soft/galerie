@@ -5,13 +5,10 @@ import datetime
 import pytz
 from typing import Optional
 from functools import wraps
-from flask import request, g, redirect, make_response
-from flask_babel import lazy_gettext as _l
-from sentry_sdk import capture_exception
+from flask import request, g, redirect
 from galerie.rss_aggregator import RssAggregator
 from galerie.fever_aggregator import FeverAggregator
 from galerie.miniflux_aggregator import MinifluxAggregator
-
 
 
 def try_get_miniflux_aggregator() -> Optional[MinifluxAggregator]:
@@ -71,22 +68,6 @@ def requires_auth(f):
     return decorated_function
 
 
-def catches_exceptions(f):
-    @wraps(f)
-    def decorated_function(*args, **kwargs):
-        try:
-            return f(*args, **kwargs)
-        except Exception as e:
-            if os.getenv('DEBUG', '0') == '1':
-                raise e
-            capture_exception(e)
-            # TODO: change to toasting
-            resp = make_response(_l("Unknown server error: %(e)s", e=str(e)))
-            resp.status_code = 500
-            return resp
-    return decorated_function
-
-
 def compute_after_for_maybe_today() -> Optional[int]:
     if request.args.get('today') != "1":
         return None
@@ -94,9 +75,3 @@ def compute_after_for_maybe_today() -> Optional[int]:
     dt = datetime.now(pytz.timezone(browser_tz))
     start_of_day = dt.replace(hour=0, minute=0, second=0, microsecond=0)
     return int(start_of_day.timestamp())
-
-
-def make_toast(*args, **kwargs) -> dict:
-    return {
-        "toast": _l(*args, **kwargs)
-    }
