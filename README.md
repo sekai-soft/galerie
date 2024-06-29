@@ -63,3 +63,13 @@ Here are some example Fever API endpoints
 2. Go to [My Apps](https://getpocket.com/developer/apps/) and click the developer application you just created
 3. Copy the Consumer Key. This will be your `POCKET_CONSUMER_KEY`.
 4. Go to [this website](https://reader.fxneumann.de/plugins/oneclickpocket/auth.php) and obtain the access token. This will be your `POCKET_ACCESS_TOKEN`.
+
+## Development
+* Run server: `flask run --reload`
+* Run tests: `pytest`
+* Translate strings
+    1. Put raw English strings in code using `_(...)` and `_l(...)`
+    1. Run `flask translate update`
+        * See `babel.cfg` for what files are scanned
+    1. Edit updated `po` files
+    1. Run `flask translate compile` and restart server
