@@ -13,7 +13,7 @@ def consecutive_items(from_index_inclusive: int, to_index_exclusive: int):
 @responses.activate
 def test_get_unread_items_by_iid_ascending():
     endpoint = "http://fever"
-    fever_aggregator = FeverAggregator(endpoint, "username", "password")
+    fever_aggregator = FeverAggregator(endpoint, "username", "password", False)
     count = 5
     unread_item_ids = [1, 2, 3, 4, 5, 6, 8, 9, 10, 11]
     unread_item_ids = list(map(str, unread_item_ids))
