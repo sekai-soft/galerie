@@ -6,19 +6,10 @@ from urllib.parse import unquote, unquote_plus, quote, quote_plus
 from flask import request, g, Blueprint, make_response, render_template
 from flask_babel import _, lazy_gettext as _l
 from sentry_sdk import capture_exception
-from pocket import Pocket
 from galerie.feed_filter import FeedFilter
 from galerie.image import extract_images, uid_to_item_id
 from galerie.rss_aggregator import AuthError
-from .helpers import requires_auth, compute_after_for_maybe_today, get_aggregator
-
-pocket_client = None
-if 'POCKET_CONSUMER_KEY' in os.environ and 'POCKET_ACCESS_TOKEN' in os.environ:
-    pocket_consumer_key = os.getenv('POCKET_CONSUMER_KEY')
-    pocket_access_token = os.getenv('POCKET_ACCESS_TOKEN')
-    pocket_client = Pocket(pocket_consumer_key, pocket_access_token)
-
-max_items = int(os.getenv('MAX_IMAGES', '15'))
+from .helpers import requires_auth, compute_after_for_maybe_today, get_aggregator, max_items, pocket_client
 
 actions_blueprint = Blueprint('actions', __name__)
 

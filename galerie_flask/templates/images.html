@@ -1,0 +1,13 @@
+{% for image in images %}
+<div
+    class="grid-item"
+    id="{{ image.uid }}"
+    x-data="{ timer: null }"
+    x-on:click.prevent="clearTimeout(timer); timer = setTimeout(() => { window.open('{{ image.url }}', '_blank') }, 250);"
+    {% if double_click_action %}
+    x-on:dblclick.prevent="clearTimeout(timer); addToPocket('{{ image.ui_extra['quoted_url'] }}', '{{ image.ui_extra['encoded_tags'] }}');"
+    {% endif %}
+    >
+    <img class="item-image" src="{{ image.image_url }}"/>
+</div>
+{% endfor %}

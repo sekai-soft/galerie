@@ -1,14 +1,23 @@
 import os
 import base64
 import json
-import datetime
 import pytz
 from typing import Optional
 from functools import wraps
+from datetime import datetime
 from flask import request, g, redirect
+from pocket import Pocket
 from galerie.rss_aggregator import RssAggregator
 from galerie.fever_aggregator import FeverAggregator
 from galerie.miniflux_aggregator import MinifluxAggregator
+
+max_items = int(os.getenv('MAX_IMAGES', '15'))
+
+pocket_client = None
+if 'POCKET_CONSUMER_KEY' in os.environ and 'POCKET_ACCESS_TOKEN' in os.environ:
+    pocket_consumer_key = os.getenv('POCKET_CONSUMER_KEY')
+    pocket_access_token = os.getenv('POCKET_ACCESS_TOKEN')
+    pocket_client = Pocket(pocket_consumer_key, pocket_access_token)
 
 
 def try_get_miniflux_aggregator() -> Optional[MinifluxAggregator]:

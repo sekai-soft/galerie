@@ -1,0 +1,34 @@
+{% if not images %}
+<div
+    class="button-container stream"
+    id="buttons"
+    hx-swap-oob="true"
+>
+    <div
+        class="button"
+        hx-confirm="{{ mark_as_read_confirm }}"
+        hx-post="/actions/mark_as_read?to_iid={{ to_iid }}{{ today_param }}{{ gid_param }}{{ sort_param }}"
+        hx-disabled-elt="this"
+    >{{ _('Mark as read') }} <span class="htmx-indicator">...</span></div>
+</div>
+{% else %}
+<div
+    class="button-container stream"
+    id="buttons"
+    hx-swap-oob="true"
+>
+    <div
+        class="button"
+        hx-get="/actions/load_more?from_iid={{ from_iid }}{{ today_param }}{{ gid_param }}{{ sort_param }}"
+        hx-target="#grid"
+        hx-swap="beforeend"
+    >{{ _('Load more') }} <span class="htmx-indicator">...</span></div>
+    <div
+        class="button"
+        style="margin-left: 4px"
+        hx-confirm="{{ mark_as_read_confirm }}"
+        hx-post="/actions/mark_as_read?to_iid={{ to_iid }}{{ today_param }}{{ gid_param }}{{ sort_param }}"
+        hx-disabled-elt="this"
+    >{{ _('Mark as read') }} <span class="htmx-indicator">...</span></div>
+</div>
+{% endif %}
