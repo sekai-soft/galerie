@@ -25,7 +25,7 @@ def try_get_miniflux_aggregator() -> Optional[MinifluxAggregator]:
     env_username = os.getenv('MINIFLUX_USERNAME')
     env_password = os.getenv('MINIFLUX_PASSWORD')
     if env_endpoint and env_username and env_password:
-        return MinifluxAggregator(env_endpoint, env_username, env_password)
+        return MinifluxAggregator(env_endpoint, env_username, env_password, False)
     return None
 
 
@@ -37,10 +37,10 @@ def try_get_fever_aggregator(
     env_username = os.getenv('FEVER_USERNAME')
     env_password = os.getenv('FEVER_PASSWORD')
     if env_endpoint and env_username and env_password:
-        return FeverAggregator(env_endpoint, env_username, env_password)
+        return FeverAggregator(env_endpoint, env_username, env_password, False)
 
     if logging_in_endpoint and logging_in_username is not None and logging_in_password is not None:
-        return FeverAggregator(logging_in_endpoint, logging_in_username, logging_in_password)
+        return FeverAggregator(logging_in_endpoint, logging_in_username, logging_in_password, True)
 
     auth_cookie = request.cookies.get('auth')
     if not auth_cookie:
@@ -51,7 +51,7 @@ def try_get_fever_aggregator(
     cookie_username = auth.get('username')
     cookie_password = auth.get('password')
     if cookie_endpoint and cookie_username and cookie_password:
-        return FeverAggregator(cookie_endpoint, cookie_username, cookie_password)
+        return FeverAggregator(cookie_endpoint, cookie_username, cookie_password, True)
 
     return None
 

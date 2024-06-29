@@ -1,0 +1,16 @@
+{% extends 'base.html' %}
+
+{% block title %}{{ _('Settings | Galerie') }}{% endblock %}
+
+{% block content %}
+<div class="stream header">
+    <p>{{ _('Connected to') }} {{ connection_info.aggregator_type }} {{ connection_info.host }} {{ _('[Server authenticated]') if not connection_info.frontend_or_backend else '' }}</p>
+    {% if connection_info.frontend_or_backend %}
+    <div
+        class="button"
+        hx-post="/actions/deauth"
+        hx-swap="none"
+    >{{ _('Logout')}}</div>
+    {% endif %}
+</div>
+{% endblock %}

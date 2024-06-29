@@ -1,14 +1,12 @@
-import os
-import requests
-import hashlib
 import json
 import miniflux
 from datetime import datetime
-from typing import List, Tuple, Optional
+from urllib.parse import urlparse
+from typing import List, Optional
 from .item import Item
 from .group import Group
 from .feed_filter import FeedFilter
-from .rss_aggregator import RssAggregator, AuthError
+from .rss_aggregator import RssAggregator, AuthError, ConnectionInfo
 
 
 def _category_dict_to_group(category_dict: dict) -> Group:
@@ -34,11 +32,13 @@ class MinifluxAggregator(RssAggregator):
         self,
         base_url: str,
         username: str,
-        password: str):
+        password: str,
+        frontend_or_backend: bool):
         self.base_url = base_url
         self.username = username
         self.password = password
         self.client = miniflux.Client(base_url, username, password)
+        self.frontend_or_backend = frontend_or_backend
     
     def persisted_auth(self) -> str:
         try:
@@ -111,3 +111,10 @@ class MinifluxAggregator(RssAggregator):
 
     def supports_mark_items_as_read_by_group_id(self) -> bool:
         return True
+
+    def connection_info(self) -> ConnectionInfo:
+        return ConnectionInfo(
+            aggregator_type='Miniflux',
+            host=urlparse(self.base_url).hostname,
+            frontend_or_backend=self.frontend_or_backend
+        )

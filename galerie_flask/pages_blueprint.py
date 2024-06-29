@@ -1,8 +1,8 @@
 import os
 from functools import wraps
 from sentry_sdk import capture_exception
-from flask import Blueprint, redirect, render_template, make_response, g, request
-from flask_babel import _, lazy_gettext as _l
+from flask import Blueprint, redirect, render_template, g, request
+from flask_babel import _
 from galerie.feed_filter import FeedFilter
 from galerie.image import extract_images, uid_to_item_id
 from .helpers import get_aggregator, requires_auth, compute_after_for_maybe_today, max_items, pocket_client
@@ -90,3 +90,10 @@ def login():
     if aggregator:
         return redirect('/')
     return render_template('login.html')
+
+
+@pages_blueprint.route("/settings")
+@catches_exceptions
+@requires_auth
+def settings():
+    return render_template('settings.html', connection_info=g.aggregator.connection_info())

@@ -1,11 +1,19 @@
 from abc import abstractmethod, ABC
-from typing import List, Tuple, Optional
+from typing import List, Optional
+from dataclasses import dataclass
 from .item import Item
 from .group import Group
 from .feed_filter import FeedFilter
 
 
 class AuthError(Exception): pass
+
+
+@dataclass
+class ConnectionInfo:
+    aggregator_type: str
+    host: str
+    frontend_or_backend: bool
 
 
 class RssAggregator(ABC):
@@ -51,4 +59,8 @@ class RssAggregator(ABC):
 
     @abstractmethod
     def supports_mark_items_as_read_by_group_id(self) -> bool:
+        pass
+
+    @abstractmethod
+    def connection_info(self) -> ConnectionInfo:
         pass

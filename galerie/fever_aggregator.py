@@ -2,11 +2,12 @@ import os
 import requests
 import hashlib
 import json
+from urllib.parse import urlparse
 from typing import List, Tuple, Optional
 from .item import Item
 from .group import Group
 from .feed_filter import FeedFilter
-from .rss_aggregator import RssAggregator, AuthError
+from .rss_aggregator import RssAggregator, AuthError, ConnectionInfo
 
 
 def _compute_api_key(username: str, password: str):
@@ -38,11 +39,13 @@ class FeverAggregator(RssAggregator):
         self,
         endpoint: str,
         username: str,
-        password: str):
+        password: str,
+        frontend_or_backend: bool):
         self.endpoint = endpoint
         self.username = username
         self.password = password
         self.api_key = _compute_api_key(username, password)
+        self.frontend_or_backend = frontend_or_backend
 
     def persisted_auth(self) -> str:
         self._verify_auth()
@@ -205,3 +208,10 @@ class FeverAggregator(RssAggregator):
 
     def supports_mark_items_as_read_by_group_id(self) -> bool:
         return False
+
+    def connection_info(self) -> ConnectionInfo:
+        return ConnectionInfo(
+            aggregator_type='Fever',
+            host=urlparse(self.endpoint).hostname,
+            frontend_or_backend=self.frontend_or_backend
+        )
