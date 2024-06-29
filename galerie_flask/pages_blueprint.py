@@ -20,9 +20,7 @@ def catches_exceptions(f):
             if os.getenv('DEBUG', '0') == '1':
                 raise e
             capture_exception(e)
-            resp = make_response(_l("Unknown server error: %(e)s", e=str(e)))
-            resp.status_code = 500
-            return resp
+            return render_template('error.html', error=str(e))
     return decorated_function
 
 

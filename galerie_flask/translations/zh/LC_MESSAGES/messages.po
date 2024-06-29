@@ -7,7 +7,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: PROJECT VERSION\n"
 "Report-Msgid-Bugs-To: EMAIL@ADDRESS\n"
-"POT-Creation-Date: 2024-06-29 07:01+0000\n"
+"POT-Creation-Date: 2024-06-29 07:22+0000\n"
 "PO-Revision-Date: 2024-06-27 08:04+0000\n"
 "Last-Translator: FULL NAME <EMAIL@ADDRESS>\n"
 "Language: zh\n"
@@ -18,7 +18,7 @@ msgstr ""
 "Content-Transfer-Encoding: 8bit\n"
 "Generated-By: Babel 2.15.0\n"
 
-#: galerie_flask/actions_blueprint.py:35 galerie_flask/pages_blueprint.py:23
+#: galerie_flask/actions_blueprint.py:35
 #, python-format
 msgid "Unknown server error: %(e)s"
 msgstr "未知服务器错误: %(e)s"
@@ -27,11 +27,11 @@ msgstr "未知服务器错误: %(e)s"
 msgid "Failed to authenticate with Fever API"
 msgstr "无法和 Fever API 进行身份验证"
 
-#: galerie_flask/actions_blueprint.py:118 galerie_flask/pages_blueprint.py:81
+#: galerie_flask/actions_blueprint.py:118 galerie_flask/pages_blueprint.py:79
 msgid "Are you sure you want to mark above as read?"
 msgstr "确定要标记以上为已读吗？"
 
-#: galerie_flask/actions_blueprint.py:120 galerie_flask/pages_blueprint.py:83
+#: galerie_flask/actions_blueprint.py:120 galerie_flask/pages_blueprint.py:81
 msgid ""
 "Are you sure you want to mark current group as read? It will mark still "
 "undisplayed entries as read as well."
@@ -59,10 +59,15 @@ msgstr "标记为已读"
 msgid "Load more"
 msgstr "加载更多"
 
-#: galerie_flask/templates/index.html:3 galerie_flask/templates/index.html:7
+#: galerie_flask/templates/error.html:3 galerie_flask/templates/index.html:3
+#: galerie_flask/templates/index.html:7
 #, fuzzy
 msgid "Galerie"
 msgstr "登录 | Galerie"
+
+#: galerie_flask/templates/error.html:7
+msgid "Oops something went wrong"
+msgstr "糟糕，出错了"
 
 #: galerie_flask/templates/index.html:10
 msgid "All time"
@@ -76,7 +81,7 @@ msgstr "今天"
 msgid "All groups"
 msgstr "全部分组"
 
-#: galerie_flask/templates/index.html:28
+#: galerie_flask/templates/index.html:30
 msgid "✨ All read ✨"
 msgstr "✨ 全部已读 ✨"
 
@@ -96,7 +101,9 @@ msgstr "节点 URL"
 msgid ""
 "https://github.com/sekai-soft/galerie?tab=readme-ov-file#example-fever-"
 "endpoints"
-msgstr "https://github.com/sekai-soft/galerie/blob/master/README.zh.md#fever-%E8%8A%82%E7%82%B9%E7%A4%BA%E4%BE%8B"
+msgstr ""
+"https://github.com/sekai-"
+"soft/galerie/blob/master/README.zh.md#fever-%E8%8A%82%E7%82%B9%E7%A4%BA%E4%BE%8B"
 
 #: galerie_flask/templates/login.html:9
 msgid "What is this?"
