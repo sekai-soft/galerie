@@ -1,5 +1,5 @@
 from typing import List
-from dataclasses import dataclass
+from dataclasses import dataclass, field
 from bs4 import BeautifulSoup
 from .item import Item
 from .group import Group
@@ -11,6 +11,7 @@ class Image:
     uid: str
     url: str
     groups: List[Group]
+    ui_extra: dict = field(default_factory=dict)
 
 
 def uid_to_item_id(uid: str) -> str:

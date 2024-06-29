@@ -50,11 +50,11 @@ MARK_AS_READ_BUTTON_TEMPLATE = """<div
 
 LOAD_MORE_BUTTON_TEMPLATE = """<div
     class="button"
-    hx-get="/load_more?from_iid=FROM_IIDTODAY_PARAMGID_PARAMSORT_PARAM"
+    hx-get="/actions/load_more?from_iid=FROM_IIDTODAY_PARAMGID_PARAMSORT_PARAM"
     hx-target="#grid"
     hx-swap="beforeend"
     hx-disabled-elt="this"
->LOAD_MORE <span class="htmx-indicator">...</span></div>"""
+>LOAD_MORE_LABEL <span class="htmx-indicator">...</span></div>"""
 
 MARK_AS_READ_BUTTON_CONTAINER_TEMPLATE = """<div
     class="button-container stream"
@@ -92,7 +92,7 @@ INDEX_TEMPLATE = """<!DOCTYPE html>
         <script src="https://cdn.jsdelivr.net/npm/masonry-layout@4.2.2/dist/masonry.pkgd.min.js"></script>
         <script src="https://cdn.jsdelivr.net/npm/imagesloaded@5.0.0/imagesloaded.pkgd.min.js"></script>
         <script src="https://cdn.jsdelivr.net/npm/htmx.org@1.9.11/dist/htmx.min.js"></script>
-        <script src="https://cdn.jsdelivr.net/npm/alpinejs@3.13.8/dist/cdn.min.js"></script>
+        <script defer src="https://cdn.jsdelivr.net/npm/alpinejs@3.13.8/dist/cdn.min.js"></script>
         <script src="https://cdn.jsdelivr.net/npm/js-cookie@3.0.5/dist/js.cookie.min.js"></script>
     </head>
     <body>
@@ -143,7 +143,7 @@ def render_images_html(images: List[Image], double_click_action: bool) -> str:
                      GRID_ITEM_DBLCLICK_ATTRIBUTE_TEMPLATE
                         .replace(
                             'ENCODED_URL', quote(image.url)) \
-                        .replace('&TAG_ARGS', ''.join(
+                        .replace('TAG_ARGS', ''.join(
                             map(lambda group: f'&tag={quote_plus(group.title)}&tag={quote(f'group_id={group.gid}')}', image.groups)
                         ) if image.groups else '')
                         .replace('UID', image.uid) \
@@ -177,7 +177,7 @@ def render_mark_group_as_read_button_container_html(index_page_params: IndexPage
 
 def render_load_more_button_container_html(from_iid_exclusive: str, index_page_params: IndexPageParameters) -> str:
     return LOAD_MORE_BUTTON_CONTAINER_TEMPLATE \
-        .replace('LOAD_MORE', get_string("Load more", index_page_params.lang)) \
+        .replace('LOAD_MORE_LABEL', get_string("Load more", index_page_params.lang)) \
         .replace('FROM_IID', from_iid_exclusive) \
         .replace('TODAY_PARAM', '&today=1' if index_page_params.today else '') \
         .replace('GID_PARAM', f'&group={index_page_params.group_id}' if index_page_params.group_id else '') \
@@ -186,7 +186,7 @@ def render_load_more_button_container_html(from_iid_exclusive: str, index_page_p
 
 def render_load_more_and_mark_as_read_buttons_container_html(from_iid_exclusive: str, to_iid_inclusive: str, index_page_params: IndexPageParameters) -> str:
     return LOAD_MORE_AND_MARK_AS_READ_BUTTONS_CONTAINER_TEMPLATE \
-        .replace('LOAD_MORE', get_string("Load more", index_page_params.lang)) \
+        .replace('LOAD_MORE_LABEL', get_string("Load more", index_page_params.lang)) \
         .replace('FROM_IID', from_iid_exclusive) \
         .replace('TO_IID', to_iid_inclusive) \
         .replace('TODAY_PARAM', '&today=1' if index_page_params.today else '') \

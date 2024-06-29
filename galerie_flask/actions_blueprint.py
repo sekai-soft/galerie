@@ -2,12 +2,13 @@ import os
 import json
 import base64
 from functools import wraps
-from urllib.parse import unquote, unquote_plus
-from flask import request, g, Blueprint, make_response
+from urllib.parse import unquote, unquote_plus, quote, quote_plus
+from flask import request, g, Blueprint, make_response, render_template
 from flask_babel import _, lazy_gettext as _l
 from sentry_sdk import capture_exception
 from pocket import Pocket
 from galerie.feed_filter import FeedFilter
+from galerie.image import extract_images, uid_to_item_id
 from galerie.rss_aggregator import AuthError
 from .helpers import requires_auth, compute_after_for_maybe_today, get_aggregator
 
@@ -16,6 +17,8 @@ if 'POCKET_CONSUMER_KEY' in os.environ and 'POCKET_ACCESS_TOKEN' in os.environ:
     pocket_consumer_key = os.getenv('POCKET_CONSUMER_KEY')
     pocket_access_token = os.getenv('POCKET_ACCESS_TOKEN')
     pocket_client = Pocket(pocket_consumer_key, pocket_access_token)
+
+max_items = int(os.getenv('MAX_IMAGES', '15'))
 
 actions_blueprint = Blueprint('actions', __name__)
 
@@ -73,11 +76,67 @@ def deauth():
     return resp
 
 
+@actions_blueprint.route('/load_more')
+@catches_exceptions
+@requires_auth
+def load_more():
+    if not g.aggregator.supports_get_unread_items_by_iid_descending():
+        sort_by_desc = False
+    else:
+        sort_by_desc = request.args.get('sort', 'desc') == 'desc'
+
+    group = request.args.get('group')
+    from_iid = request.args.get('from_iid')
+    feed_filter = FeedFilter(
+        compute_after_for_maybe_today(),
+        group
+    )
+
+    if sort_by_desc:
+        unread_items = g.aggregator.get_unread_items_by_iid_descending(
+            max_items,
+            from_iid,
+            feed_filter)
+    else:
+        unread_items = g.aggregator.get_unread_items_by_iid_ascending(
+            max_items,
+            from_iid,
+            feed_filter)
+
+    images = extract_images(unread_items)
+    for image in images:
+        image.ui_extra['quoted_url'] = quote(image.url)
+        image.ui_extra['encoded_tags'] = ''.join(map(
+            lambda g: f'&tag={quote_plus(g.title)}&tag={quote(f'group_id={g.gid}')}', image.groups)) if image.groups else ''
+
+    last_iid_str = uid_to_item_id(images[-1].uid) if images else ''
+    kwargs = {
+        # args for image grid
+        "images": images,
+        "double_click_action": pocket_client is not None,
+        # common args for both buttons
+        'today_param': '&today=1' if request.args.get('today') == "1" else '',
+        'gid_param': group if group else '',
+        'sort_param': '&sort=desc' if sort_by_desc else '&sort=asc',
+        # args for mark as read button
+        'to_iid': last_iid_str,
+        # args for load more button
+        'from_iid': last_iid_str,
+    }
+    if g.aggregator.supports_mark_items_as_read_by_iid_ascending_and_feed_filter():
+        kwargs['mark_as_read_confirm'] = _('Are you sure you want to mark above as read?')
+    else:
+        kwargs['mark_as_read_confirm'] = _('Are you sure you want to mark current group as read? It will mark still undisplayed entries as read as well.')
+
+    return render_template('load_more.html', **kwargs)
+
+
 @actions_blueprint.route('/mark_as_read', methods=['POST'])
 @catches_exceptions
 @requires_auth
 def mark_as_read():
     if g.aggregator.supports_mark_items_as_read_by_iid_ascending_and_feed_filter():
+        print(request.args.get('to_iid'))
         g.aggregator.mark_items_as_read_by_iid_ascending_and_feed_filter(
             request.args.get('to_iid'),
             FeedFilter(
@@ -101,5 +160,5 @@ def pocket():
     url = unquote(encoded_url)
     encoded_tags = request.args.getlist('tag')
     tags = list(map(unquote_plus, encoded_tags))
-    pocket_client.add(url, tags=tags)
+    pocket_client.add(url, tags=','.join(tags))
     return make_toast(200, str(_l('Added %(url)s to Pocket', url=url)))
