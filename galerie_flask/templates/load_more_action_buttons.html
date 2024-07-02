@@ -4,12 +4,12 @@
     id="buttons"
     hx-swap-oob="true"
 >
-    <div
+    <button
         class="button"
         hx-confirm="{{ mark_as_read_confirm }}"
         hx-post="/actions/mark_as_read?to_iid={{ to_iid }}{{ today_param }}{{ gid_param }}{{ sort_param }}"
         hx-disabled-elt="this"
-    >{{ _('Mark as read') }} <span class="htmx-indicator">...</span></div>
+    >{{ _('Mark as read') }} <span class="htmx-indicator">...</span></button>
 </div>
 {% else %}
 {% include 'grid_end_buttons.html' %}

@@ -30,7 +30,7 @@
             required
             class="code-font"
         >
-        <div
+        <button
             class="button"
             style="margin-top: 2em; width: 50%"
             hx-post="/actions/auth"
@@ -38,7 +38,7 @@
             hx-disabled-elt="this"
         >
             {{ _('Login') }} <span class="htmx-indicator">...</span>
-        </div>
+        </button>
     </form>
 </div>
 {% endblock %}

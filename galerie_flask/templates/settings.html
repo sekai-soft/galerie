@@ -6,11 +6,11 @@
 <div class="stream header">
     <p>{{ _('Connected to') }} {{ connection_info.aggregator_type }} {{ connection_info.host }} {{ _('[Server authenticated]') if not connection_info.frontend_or_backend else '' }}</p>
     {% if connection_info.frontend_or_backend %}
-    <div
+    <button
         class="button"
         hx-post="/actions/deauth"
         hx-swap="none"
-    >{{ _('Logout')}}</div>
+    >{{ _('Logout')}}</button>
     {% endif %}
 </div>
 {% endblock %}
