@@ -194,6 +194,13 @@ select {
     max-width: 75%;
 }
 
+.footer {
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    align-items: center;
+}
+
 /** htmx-indicator **/
 .htmx-indicator{
     display:none;
