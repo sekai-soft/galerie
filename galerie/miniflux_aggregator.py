@@ -24,6 +24,8 @@ def _entry_dict_to_item(entry_dict: dict) -> Item:
         iid=str(entry_dict['id']),
         url=entry_dict['url'],
         groups=[_category_dict_to_group(entry_dict['feed']['category'])],
+        title=entry_dict['title'],
+        feed_title=entry_dict['feed']['title']
     )
 
 

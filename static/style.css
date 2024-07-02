@@ -46,7 +46,21 @@ input {
 }
 
 .grid-sizer, .grid-item {
-    width: calc((100% - 8px) / 3)
+    width: calc((100% - 64px) / 3)
+}
+
+.grid-item .title {
+    font-size: 1em;
+    line-height: 2;
+}
+
+.grid-item .feed-title {
+    font-size: 0.75em;
+    line-height: 1.75;
+}
+
+.grid-item {
+    margin-bottom: 32px;
 }
 
 a {
@@ -85,8 +99,22 @@ select {
     }
     
     .grid-sizer, .grid-item {
-        width: calc((100% - 8px) / 3)
+        width: calc((100% - 64px) / 3)
     }
+
+    .grid-item .title {
+        font-size: 1em;
+        line-height: 2;
+    }
+    
+    .grid-item .feed-title {
+        font-size: 0.75em;
+        line-height: 1.75;
+    }
+    
+    .grid-item {
+        margin-bottom: 32px;
+    }    
 
     a {
         font-size: 2em;
@@ -124,8 +152,22 @@ select {
     }
     
     .grid-sizer, .grid-item {
-        width: calc((100% - 4px) / 2)
+        width: calc((100% - 32px) / 2)
     }
+
+    .grid-item .title {
+        font-size: 1em;
+        line-height: 2;
+    }
+    
+    .grid-item .feed-title {
+        font-size: 0.75em;
+        line-height: 1.75;
+    }
+    
+    .grid-item {
+        margin-bottom: 32px;
+    }    
 
     a {
         font-size: 1em;
@@ -157,9 +199,17 @@ a {
 
 .item-image {
     width: 100%;
-    border-radius: 4px;
+    border-radius: 16px;
     cursor: pointer;
     object-fit: cover;
+}
+
+.grid-item a {
+    text-decoration: none;
+    display: block;
+    overflow: hidden;
+    white-space: nowrap;
+    text-overflow: ellipsis;
 }
 
 .button-container {

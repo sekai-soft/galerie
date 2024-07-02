@@ -31,6 +31,8 @@ def _item_dict_to_item(item_dict: dict, group_dicts: List[dict]) -> Item:
         iid=str(item_dict['id']),
         url=item_dict['url'],
         groups=list(map(_group_dict_to_group, group_dicts)),
+        title=item_dict['title'],
+        feed_title=item_dict['author']
     )
 
 

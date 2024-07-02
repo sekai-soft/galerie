@@ -10,3 +10,5 @@ class Item:
     iid: str
     url: str
     groups: List[Group]
+    title: str
+    feed_title: str

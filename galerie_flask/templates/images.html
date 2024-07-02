@@ -9,5 +9,7 @@
     {% endif %}
     >
     <img class="item-image" src="{{ image.image_url }}"/>
+    <a href="{{ image.url }}" target="_blank" class="title">{{ image.title }}</a>
+    <a href="{{ image.url }}" target="_blank" class="feed-title">{{ image.feed_title }}</a>
 </div>
 {% endfor %}

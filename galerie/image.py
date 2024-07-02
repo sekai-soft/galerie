@@ -11,6 +11,8 @@ class Image:
     uid: str
     url: str
     groups: List[Group]
+    title: str
+    feed_title: str
     ui_extra: dict = field(default_factory=dict)
 
 
@@ -28,5 +30,7 @@ def extract_images(items: List[Item]) -> List[Image]:
                 image_url=image_url['src'],
                 uid=f'{item.iid}-{i}',
                 url=item.url,
+                title=item.title,
+                feed_title=item.feed_title,
                 groups=item.groups))
     return images
