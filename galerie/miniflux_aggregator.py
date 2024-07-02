@@ -48,7 +48,8 @@ class MinifluxAggregator(RssAggregator):
         return json.dumps({
             'base_url': self.base_url,
             'username': self.username,
-            'password': self.password
+            'password': self.password,
+            'miniflux': True,
         })
 
     def get_groups(self) -> List[Group]:

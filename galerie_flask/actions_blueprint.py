@@ -47,11 +47,13 @@ def auth():
     endpoint = request.form.get('endpoint')
     username = request.form.get('username', '')
     password = request.form.get('password', '')
+    aggregator_type = request.form.get('type', 'fever')
     try:
         persisted_auth = get_aggregator(
             logging_in_endpoint=endpoint,
             logging_in_username=username,
-            logging_in_password=password).persisted_auth()
+            logging_in_password=password,
+            aggregator_type=aggregator_type).persisted_auth()
         auth_bytes = persisted_auth.encode("utf-8")
         b64_auth_bytes = base64.b64encode(auth_bytes)
 

@@ -6,7 +6,12 @@
 <div class="stream">
     <p>{{ _('Please login first') }}</p>
     <form>
-        <p>{{ _('Endpoint URL') }} <a href="{{ fever_endpoint_help_url }}" target="_blank" style="font-size: 0.5em;">{{ _('What is this?') }}</a></p>
+        <p>{{ _('Type of RSS Aggregator') }}</p>
+        <select name="type">
+            <option value="miniflux">Miniflux</option>
+            <option value="fever">Fever</option>
+        </select>
+        <p>{{ _('Fever Endpoint URL') }} <a href="{{ fever_endpoint_help_url }}" target="_blank" style="font-size: 0.5em;">{{ _('What is this?') }}</a></p>
         <input
             type="text"
             name="endpoint"
