@@ -5,18 +5,23 @@
 {% block content %}
 <div class="stream">
     <p>{{ _('Please login first') }}</p>
-    <form>
+    <form x-data="{ selectedType: 'miniflux' }">
         <p>{{ _('Type of RSS Aggregator') }}</p>
-        <select name="type">
+        <select name="type" x-model="selectedType">
             <option value="miniflux">Miniflux</option>
             <option value="fever">Fever</option>
         </select>
-        <p>{{ _('Fever Endpoint URL') }} <a href="{{ fever_endpoint_help_url }}" target="_blank" style="font-size: 0.5em;">{{ _('What is this?') }}</a></p>
+        <template x-if="selectedType === 'miniflux'">
+            <p>{{ _('Miniflux API Endpoint') }}</p>
+        </template>
+        <template x-if="selectedType === 'fever'">
+            <p>{{ _('Fever Endpoint URL') }} <a href="{{ fever_endpoint_help_url }}" target="_blank" style="font-size: 0.5em;">{{ _('What is this?') }}</a></p>
+        </template>
         <input
             type="text"
             name="endpoint"
             required
-            placeholder="https://miniflux.example.net/fever"
+            x-bind:placeholder="selectedType === 'miniflux' ? 'https://miniflux.example.net' : 'https://miniflux.example.net/fever'"
             class="code-font"
         >
         <p>{{ _('Username') }}</p>
