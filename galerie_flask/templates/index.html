@@ -10,20 +10,20 @@
     </div>
     <div>
         <select id="timeSelect">
-            <option value="all" {{ 'selected=selected' if not today else '' }}>{{ _('All time') }}</option>
-            <option value="today" {{ 'selected=selected' if today else '' }}>{{ _('Today') }}</option>
+            <option value="all" {{ 'selected=selected' if all else '' }}>{{ _('all time') }}</option>
+            <option value="today" {{ 'selected=selected' if not all else '' }}>{{ _('today') }}</option>
         </select>
         <select id="groupSelect" style="width: 192px">
-            <option value="_all" {{ 'selected=selected' if not selected_group else '' }}>{{ _('All groups') }}</option>
+            <option value="_all" {{ 'selected=selected' if not selected_group else '' }}>{{ _('all groups') }}</option>
             {% for g in groups %}
             <option value="{{ g.gid }}" {{ 'selected=selected' if selected_group and g.gid == selected_group.gid else '' }}>{{ g.title }}</option>
             {% endfor %}
         </select>
         <select id="sortSelect">>
             {% if supports_sort_desc %}
-            <option value="desc" {{ 'selected=selected' if sort_by_desc else '' }}>⏰🔽</option>
+            <option value="desc" {{ 'selected=selected' if sort_by_desc else '' }}>{{ _('newest first') }}</option>
             {% endif %}
-            <option value="asc" {{ 'selected=selected' if not sort_by_desc else '' }}>⏰🔼</option>
+            <option value="asc" {{ 'selected=selected' if not sort_by_desc else '' }}>{{ _('oldest first') }}</option>
         </select>
     </div>
     <a href="/settings" style="text-decoration: none;">⚙️</a>

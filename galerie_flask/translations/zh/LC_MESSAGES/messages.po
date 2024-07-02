@@ -7,7 +7,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: PROJECT VERSION\n"
 "Report-Msgid-Bugs-To: EMAIL@ADDRESS\n"
-"POT-Creation-Date: 2024-07-02 05:13+0000\n"
+"POT-Creation-Date: 2024-07-02 16:41+0000\n"
 "PO-Revision-Date: 2024-06-27 08:04+0000\n"
 "Last-Translator: FULL NAME <EMAIL@ADDRESS>\n"
 "Language: zh\n"
@@ -27,30 +27,30 @@ msgstr "未知服务器错误: %(e)s"
 msgid "Failed to authenticate with Fever API"
 msgstr "无法和 Fever API 进行身份验证"
 
-#: galerie_flask/actions_blueprint.py:125 galerie_flask/pages_blueprint.py:80
+#: galerie_flask/actions_blueprint.py:109
+msgid "All items were loaded"
+msgstr "所有条目已加载"
+
+#: galerie_flask/actions_blueprint.py:136
+msgid "Pocket was not configured"
+msgstr "Pocket 尚未配置"
+
+#: galerie_flask/actions_blueprint.py:142
+#, python-format
+msgid "Added %(url)s to Pocket"
+msgstr "已将 %(url)s 添加到 Pocket"
+
+#: galerie_flask/helpers.py:49
 msgid "Are you sure you want to mark above as read?"
 msgstr "确定要标记以上为已读吗？"
 
-#: galerie_flask/actions_blueprint.py:127 galerie_flask/pages_blueprint.py:82
+#: galerie_flask/helpers.py:51
 msgid ""
 "Are you sure you want to mark current group as read? It will mark still "
 "undisplayed entries as read as well."
 msgstr "确定要标记这个组别为已读吗？这将标记尚未显示的条目为已读。"
 
-#: galerie_flask/actions_blueprint.py:132
-msgid "All items were loaded"
-msgstr "所有条目已加载"
-
-#: galerie_flask/actions_blueprint.py:160
-msgid "Pocket was not configured"
-msgstr "Pocket 尚未配置"
-
-#: galerie_flask/actions_blueprint.py:166
-#, python-format
-msgid "Added %(url)s to Pocket"
-msgstr "已将 %(url)s 添加到 Pocket"
-
-#: galerie_flask/pages_blueprint.py:95
+#: galerie_flask/pages_blueprint.py:72
 msgid ""
 "https://github.com/sekai-soft/galerie?tab=readme-ov-file#example-fever-"
 "endpoints"
@@ -84,16 +84,24 @@ msgid "Galerie"
 msgstr "Galerie"
 
 #: galerie_flask/templates/index.html:13
-msgid "All time"
+msgid "all time"
 msgstr "全部"
 
 #: galerie_flask/templates/index.html:14
-msgid "Today"
+msgid "today"
 msgstr "今天"
 
 #: galerie_flask/templates/index.html:17
-msgid "All groups"
+msgid "all groups"
 msgstr "全部分组"
+
+#: galerie_flask/templates/index.html:24
+msgid "newest first"
+msgstr "最新优先"
+
+#: galerie_flask/templates/index.html:26
+msgid "oldest first"
+msgstr "最旧优先"
 
 #: galerie_flask/templates/index.html:33
 msgid "✨ All read ✨"
@@ -108,15 +116,15 @@ msgid "Please login first"
 msgstr "请先登录"
 
 #: galerie_flask/templates/login.html:9
-msgid "Type of RSS Aggregator"
+msgid "Type of RSS aggregator"
 msgstr "RSS 聚合器类型"
 
 #: galerie_flask/templates/login.html:15
-msgid "Miniflux API Endpoint"
+msgid "Miniflux API endpoint"
 msgstr "Miniflux API 节点"
 
 #: galerie_flask/templates/login.html:18
-msgid "Fever Endpoint URL"
+msgid "Fever endpoint URL"
 msgstr "Fever 节点 URL"
 
 #: galerie_flask/templates/login.html:18

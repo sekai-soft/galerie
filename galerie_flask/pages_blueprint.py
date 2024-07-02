@@ -5,7 +5,7 @@ from flask import Blueprint, redirect, render_template, g, request
 from flask_babel import _
 from galerie.feed_filter import FeedFilter
 from galerie.image import extract_images, uid_to_item_id
-from .helpers import requires_auth, compute_after_for_maybe_today, max_items, pocket_client
+from .helpers import requires_auth, compute_after_for_maybe_today, max_items, pocket_client, load_more_button_args, mark_as_read_button_args, images_args
 from .get_aggregator import get_aggregator
 
 
@@ -33,53 +33,30 @@ def index():
         sort_by_desc = False
     else:
         sort_by_desc = request.args.get('sort', 'desc') == 'desc'
-
     today = request.args.get('today') == "1"
-    group = request.args.get('group')
+    group = request.args.get('group') if request.args.get('group') else None
 
-    feed_filter = FeedFilter(
-        compute_after_for_maybe_today(),
-        group)
-    if sort_by_desc:
-        unread_items = g.aggregator.get_unread_items_by_iid_descending(
-            max_items,
-            None,
-            feed_filter)
-    else:
-        unread_items = g.aggregator.get_unread_items_by_iid_ascending(
-            max_items,
-            None,
-            feed_filter)
-
-    images = extract_images(unread_items)
-    groups = g.aggregator.get_groups()
     selected_group = g.aggregator.get_group(group)
-    supports_sort_desc = g.aggregator.supports_get_unread_items_by_iid_descending()
-
+    groups = g.aggregator.get_groups()
+    feed_filter = FeedFilter(compute_after_for_maybe_today(), group)
+    if sort_by_desc:
+        unread_items = g.aggregator.get_unread_items_by_iid_descending(max_items, None, feed_filter)
+    else:
+        unread_items = g.aggregator.get_unread_items_by_iid_ascending(max_items, None, feed_filter)
+    images = extract_images(unread_items)
     last_iid_str = uid_to_item_id(images[-1].uid) if images else ''
+
     kwargs = {
-        # args for header
-        "today": today,
+        # today was used later soo...
+        "all": not today,
         "selected_group": selected_group,
         "groups": groups,
-        "supports_sort_desc": supports_sort_desc,
-        "sort_by_desc": sort_by_desc,
-        # args for image grid
-        "images": images,
-        "double_click_action": pocket_client is not None,
-        # common args for both buttons
-        'today_param': '&today=1' if today else '',
-        'gid_param': group if group else '',
-        'sort_param': '&sort=desc' if sort_by_desc else '&sort=asc',
-        # args for mark as read button
-        'to_iid': last_iid_str,
-        # args for load more button
-        'from_iid': last_iid_str,
+        "supports_sort_desc": g.aggregator.supports_get_unread_items_by_iid_descending(),
+        "sort_by_desc":sort_by_desc,
     }
-    if g.aggregator.supports_mark_items_as_read_by_iid_ascending_and_feed_filter():
-        kwargs['mark_as_read_confirm'] = _('Are you sure you want to mark above as read?')
-    else:
-        kwargs['mark_as_read_confirm'] = _('Are you sure you want to mark current group as read? It will mark still undisplayed entries as read as well.')
+    images_args(kwargs, images, pocket_client is not None)
+    mark_as_read_button_args(kwargs, last_iid_str, today, group, sort_by_desc)
+    load_more_button_args(kwargs, last_iid_str, today, group, sort_by_desc)
 
     return render_template('index.html', **kwargs)
 
