@@ -3,7 +3,7 @@ import json
 import base64
 from functools import wraps
 from urllib.parse import unquote, unquote_plus, quote, quote_plus
-from flask import request, g, Blueprint, make_response, render_template
+from flask import request, g, Blueprint, make_response, render_template, Response
 from flask_babel import _, lazy_gettext as _l
 from sentry_sdk import capture_exception
 from galerie.feed_filter import FeedFilter
@@ -14,11 +14,15 @@ from .helpers import requires_auth, compute_after_for_maybe_today, get_aggregato
 actions_blueprint = Blueprint('actions', __name__)
 
 
-def make_toast(status_code: int, message: str):
-    resp = make_response()
+def make_toast_header(resp: Response, message: str):
     resp.headers['HX-Trigger'] = json.dumps({
         "toast": message
     })
+
+
+def make_toast(status_code: int, message: str):
+    resp = make_response()
+    make_toast_header(resp, message)
     resp.status_code = status_code
     return resp
 
@@ -119,7 +123,11 @@ def load_more():
     else:
         kwargs['mark_as_read_confirm'] = _('Are you sure you want to mark current group as read? It will mark still undisplayed entries as read as well.')
 
-    return render_template('load_more.html', **kwargs)
+    rendered_string = render_template('load_more.html', **kwargs)
+    resp = make_response(rendered_string)
+    if not images:
+        make_toast_header(resp, str(_("All items were loaded")))
+    return resp
 
 
 @actions_blueprint.route('/mark_as_read', methods=['POST'])

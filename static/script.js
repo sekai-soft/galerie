@@ -64,7 +64,7 @@ const toast = (message) => {
 
   setTimeout(() => {
     toastEl.removeClass('show');
-  }, 500);
+  }, 2500);
 }
 
 const addToPocket = async (encoded_url, tag_args) => {

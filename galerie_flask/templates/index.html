@@ -34,5 +34,7 @@
     <div class="grid-sizer"></div>
     {% include 'images.html' %}
 </div>
-{% include 'buttons.html' %}
+{% if images %}
+{% include 'grid_end_buttons.html' %}
+{% endif %}
 {% endblock %}
