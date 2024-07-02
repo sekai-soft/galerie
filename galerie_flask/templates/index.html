@@ -4,7 +4,10 @@
 
 {% block content %}
 <div class="stream header">
-    <p>{{ _('Galerie') }}</p>
+    <div class="logo">
+        <img src="{{ url_for('static', filename='favicon.png') }}" class="logo-image">
+        <p>{{ _('Galerie') }}</p>
+    </div>
     <div>
         <select id="timeSelect">
             <option value="all" {{ 'selected=selected' if not today else '' }}>{{ _('All time') }}</option>
@@ -16,7 +19,7 @@
             <option value="{{ g.gid }}" {{ 'selected=selected' if selected_group and g.gid == selected_group.gid else '' }}>{{ g.title }}</option>
             {% endfor %}
         </select>
-        <select id="sortSelect">
+        <select id="sortSelect">>
             {% if supports_sort_desc %}
             <option value="desc" {{ 'selected=selected' if sort_by_desc else '' }}>⏰🔽</option>
             {% endif %}
@@ -34,7 +37,7 @@
     <div class="grid-sizer"></div>
     {% include 'images.html' %}
 </div>
-{% if images %}
+{% if images %}>
 {% include 'grid_end_buttons.html' %}
 {% endif %}
 {% endblock %}

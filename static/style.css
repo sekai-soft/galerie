@@ -23,6 +23,11 @@ p {
     line-height: 1.5;
 }
 
+.logo-image {
+    height: 3.5em;
+    width: auto;
+}
+
 input {
     font-size: 2em;
     line-height: 1.5;
@@ -64,6 +69,11 @@ select {
         line-height: 1.5;
     }
 
+    .logo-image {
+        height: 3.5em;
+        width: auto;
+    }
+
     input {
         font-size: 2em;
         line-height: 1.5;
@@ -97,6 +107,11 @@ select {
     p {
         font-size: 1em;
         line-height: 1;
+    }
+
+    .logo-image {
+        height: 2em;
+        width: auto;
     }
 
     input {
@@ -133,6 +148,11 @@ select {
 
 a {
     color: #F5F5F5;
+}
+
+.logo {
+    display: flex;
+    align-items: center;
 }
 
 .item-image {
