@@ -89,7 +89,10 @@ def login():
     aggregator = get_aggregator()
     if aggregator:
         return redirect('/')
-    return render_template('login.html')
+    return render_template(
+        'login.html',
+        fever_endpoint_help_url=_('https://github.com/sekai-soft/galerie?tab=readme-ov-file#example-fever-endpoints')
+    )
 
 
 @pages_blueprint.route("/settings")
