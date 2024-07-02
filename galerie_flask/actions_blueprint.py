@@ -9,7 +9,8 @@ from sentry_sdk import capture_exception
 from galerie.feed_filter import FeedFilter
 from galerie.image import extract_images, uid_to_item_id
 from galerie.rss_aggregator import AuthError
-from .helpers import requires_auth, compute_after_for_maybe_today, get_aggregator, max_items, pocket_client
+from .helpers import requires_auth, compute_after_for_maybe_today, max_items, pocket_client
+from .get_aggregator import get_aggregator
 
 actions_blueprint = Blueprint('actions', __name__)
 

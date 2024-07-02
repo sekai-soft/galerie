@@ -5,7 +5,8 @@ from flask import Blueprint, redirect, render_template, g, request
 from flask_babel import _
 from galerie.feed_filter import FeedFilter
 from galerie.image import extract_images, uid_to_item_id
-from .helpers import get_aggregator, requires_auth, compute_after_for_maybe_today, max_items, pocket_client
+from .helpers import requires_auth, compute_after_for_maybe_today, max_items, pocket_client
+from .get_aggregator import get_aggregator
 
 
 pages_blueprint = Blueprint('pages', __name__, static_folder='static', template_folder='templates')
