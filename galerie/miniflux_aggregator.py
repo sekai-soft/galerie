@@ -17,10 +17,15 @@ def _category_dict_to_group(category_dict: dict) -> Group:
 
 
 def _entry_dict_to_item(entry_dict: dict) -> Item:
+    html = entry_dict['content']
+    if entry_dict['enclosures']:
+        for enclosure in entry_dict['enclosures']:
+            if enclosure['mime_type'].startswith('image/'):
+                html += f'<img src="{enclosure["url"]}">'
     return Item(
         created_timestamp_seconds=int(datetime.strptime(
             entry_dict['created_at'], "%Y-%m-%dT%H:%M:%S.%fZ").timestamp()),
-        html=entry_dict['content'],
+        html=html,
         iid=str(entry_dict['id']),
         url=entry_dict['url'],
         groups=[_category_dict_to_group(entry_dict['feed']['category'])],
