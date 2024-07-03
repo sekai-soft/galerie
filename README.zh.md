@@ -4,7 +4,7 @@
 [![zh](https://img.shields.io/badge/docker-amd64-orange)](https://github.com/sekai-soft/galerie/pkgs/container/galerie)
 [![zh](https://img.shields.io/badge/docker-arm64-teal)](https://github.com/sekai-soft/galerie/pkgs/container/galerie)
 
-<img src="./screenshot.png" alt="程序截图" width="768"/>
+<img src="./screenshot.zh.png" alt="程序截图" width="768"/>
 
 ## 功能
 * 支持与 Fever API 兼容的自托管 RSS 聚合器
