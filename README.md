@@ -8,26 +8,35 @@ A Pinterest/Xiaohongshu photo wall style RSS reader
 <img src="./screenshot.png" alt="Screenshot of the application" width="768"/>
 
 ## Features
-* Supports self-hosted RSS aggregators that is Fever API compatible
-    * [Miniflux](https://miniflux.app/docs/fever.html)
-    * [FreshRSS](https://freshrss.github.io/FreshRSS/en/users/06_Mobile_access.html)
-    * [Tiny Tiny RSS (via a third-party plugin)](https://github.com/DigitalDJ/tinytinyrss-fever-plugin)
+* Supports the following RSS aggregators
+    * Self-hosted [Miniflux](https://miniflux.app)
+    * Any self-hosted RSS aggregators that is Fever API compatible
+        * [FreshRSS](https://freshrss.github.io/FreshRSS/en/users/06_Mobile_access.html)
+        * [Tiny Tiny RSS (via a third-party plugin)](https://github.com/DigitalDJ/tinytinyrss-fever-plugin)
 * View images from unread RSS items in a beautiful photo wall
 * Mark all items as read when you are done
 * (Optional) Connect to Pocket and quickly add items to read-it-later by double-tapping on the image
 
+## Hosted instance
+Visit [galerie-reader.com](https://galerie-reader.com) and login with your RSS aggregator
+
 ## Run your own server
 The Docker image is `ghcr.io/sekai-soft/galerie:latest` and it's available in both x86-64 and arm64
 
+The Docker image is able to take no environment variable. If no RSS aggregator authentication related environment variable is present, it will require you to login with your RSS aggregator on web UI (just like the hosted instance).
+
 Here is a table of environment variables that the container takes
-| Name                  | Required | Comment                                                                                                     |
-| --------------------- | -------- | ----------------------------------------------------------------------------------------------------------- |
-| `FEVER_ENDPOINT`      | Yes      | URL endpoint for your Fever API. See [example Fever endpoints](#example-fever-endpoints) if you are unsure. |
-| `FEVER_USERNAME`      | Yes      | Username for your Fever API                                                                                 |
-| `FEVER_PASSWORD`      | Yes      | Password for your Fever API                                                                                 |
-| `POCKET_CONSUMER_KEY` | No       | For connecting to Pocket optionally. See ["Connect to Pocket" section](#connect-to-pocket)                  |
-| `POCKET_ACCESS_TOKEN` | No       | For connecting to Pocket optionally. See ["Connect to Pocket" section](#connect-to-pocket)                  |
-| `PORT`                | No       | The port that the server binds to. Defaults to `5000`.                                                      |
+| Name                  | Required | Comment                                                                                                                                                              |
+| --------------------- | -------- | -------------------------------------------------------------------------------------------------------------------------------------------------------------------- |
+| `MINIFLUX_ENDPOINT`   | No       | URL endpoint for your Miniflux API. `MINIFLUX_USERNAME` and `MINIFLUX_PASSWORD` has to be present.                                                                   |
+| `MINIFLUX_USERNAME`   | No       | Username for your Miniflux API                                                                                                                                       |
+| `MINIFLUX_PASSWORD`   | No       | Password for your Miniflux API                                                                                                                                       |
+| `FEVER_ENDPOINT`      | No       | URL endpoint for your Fever API. `FEVER_USERNAME` and `FEVER_PASSWORD` has to be present. See [example Fever endpoints](#example-fever-endpoints) if you are unsure. |
+| `FEVER_USERNAME`      | No       | Username for your Fever API                                                                                                                                          |
+| `FEVER_PASSWORD`      | No       | Password for your Fever API                                                                                                                                          |
+| `POCKET_CONSUMER_KEY` | No       | For connecting to Pocket optionally. See ["Connect to Pocket" section](#connect-to-pocket)                                                                           |
+| `POCKET_ACCESS_TOKEN` | No       | For connecting to Pocket optionally. See ["Connect to Pocket" section](#connect-to-pocket)                                                                           |
+| `PORT`                | No       | The port that the server binds to. Defaults to `5000`.                                                                                                               |
 
 Here is an example `docker-compose.yml` file
 ```yml
@@ -37,9 +46,9 @@ services:
         ports:
             - "5000:5000"
         environment:
-            - FEVER_ENDPOINT=http://miniflux/fever
-            - FEVER_USERNAME=miniflux
-            - FEVER_PASSWORD=test123
+            - MINIFLUX_ENDPOINT=http://miniflux
+            - MINIFLUX_USERNAME=miniflux
+            - MINIFLUX_PASSWORD=test123
             - POCKET_CONSUMER_KEY=
             - POCKET_ACCESS_TOKEN=
         restart: unless-stopped
