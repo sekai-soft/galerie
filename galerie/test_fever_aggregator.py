@@ -5,7 +5,7 @@ from .feed_filter import FeedFilter
 
 def consecutive_items(from_index_inclusive: int, to_index_exclusive: int):
     return [
-        {"id": i, "created_on_time": i, "html": f"html{i}", "url": f"url{i}", "feed_id": 1}
+        {"id": i, "created_on_time": i, "html": f"html{i}", "url": f"url{i}", "feed_id": 1, "title": "title", "author": "author"}
         for i in range(from_index_inclusive, to_index_exclusive)
     ]
 
