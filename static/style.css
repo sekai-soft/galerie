@@ -24,8 +24,9 @@ p {
 }
 
 .logo-image {
-    height: 3.5em;
+    height: 2em;
     width: auto;
+    margin-right: 1em;
 }
 
 input {
@@ -84,8 +85,9 @@ select {
     }
 
     .logo-image {
-        height: 3.5em;
+        height: 2em;
         width: auto;
+        margin-right: 1em;
     }
 
     input {
@@ -138,8 +140,9 @@ select {
     }
 
     .logo-image {
-        height: 2em;
+        height: 1em;
         width: auto;
+        margin-right: 0.75em;
     }
 
     input {
