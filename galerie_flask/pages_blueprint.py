@@ -52,7 +52,8 @@ def index():
     last_iid_str = uid_to_item_id(images[-1].uid) if images else ''
 
     kwargs = {
-        # today was used later soo...
+        "unread_count": g.aggregator.get_unread_items_count(feed_filter),
+        # today was used later so has to use the key "all" instead of "today"
         "all": not today,
         "selected_group": selected_group,
         "groups": groups,
