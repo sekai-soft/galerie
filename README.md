@@ -67,11 +67,22 @@ Here are some example Fever API endpoints
 * Tiny Tiny RSS `https://tt-rss.example.net/tt-rss/plugins.local/fever/`
 
 ### Connect to Pocket
-1. Create a new Pocket developer application [here](https://getpocket.com/developer/apps/new)
-    * Make sure that it has "Add" permission at least
-2. Go to [My Apps](https://getpocket.com/developer/apps/) and click the developer application you just created
-3. Copy the Consumer Key. This will be your `POCKET_CONSUMER_KEY`.
-4. Go to [this website](https://reader.fxneumann.de/plugins/oneclickpocket/auth.php) and obtain the access token. This will be your `POCKET_ACCESS_TOKEN`.
+There are three ways you are able to connect to Pocket
+
+* On the hosted instance, a Pocket application is already available, so you can just log in with your Pocket account
+* On your self-hosted instance
+    * You can create your own Pocket developer application and authorize yourself via OAuth
+        1. Create a new Pocket developer application [here](https://getpocket.com/developer/apps/new)
+            * Make sure that it has "Add" permission at least
+        2. Go to [My Apps](https://getpocket.com/developer/apps/) and click the developer application you just created
+        3. Copy the Consumer Key. This will be your `POCKET_CONSUMER_KEY`.
+        4. Authorize yourself via OAuth on the settings page
+    * You can create your own Pocket developer application and provide your own credentials
+        1. Create a new Pocket developer application [here](https://getpocket.com/developer/apps/new)
+            * Make sure that it has "Add" permission at least
+        2. Go to [My Apps](https://getpocket.com/developer/apps/) and click the developer application you just created
+        3. Copy the Consumer Key. This will be your `POCKET_CONSUMER_KEY`.
+        4. Go to [this website](https://reader.fxneumann.de/plugins/oneclickpocket/auth.php) and obtain the access token. This will be your `POCKET_ACCESS_TOKEN`.
 
 ## Development
 * Run server: `flask run --reload`

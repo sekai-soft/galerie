@@ -54,7 +54,7 @@ services:
 ```
 
 ### Fever 节点示例
-首先确保你已经给你的 RSS 聚合器设置过了 Fever API 兼容
+首先确保您已经给您的 RSS 聚合器设置过了 Fever API 兼容
 
 * [Miniflux](https://miniflux.app/docs/fever.html)
 * [FreshRSS](https://freshrss.github.io/FreshRSS/en/users/06_Mobile_access.html)
@@ -66,8 +66,19 @@ services:
 * Tiny Tiny RSS `https://tt-rss.example.net/tt-rss/plugins.local/fever/`
 
 ### 连接 Pocket
-1. 在 [这里](https://getpocket.com/developer/apps/new) 创建一个新的 Pocket 开发者应用
-    * 确保这个应用至少具有 "Add" 权限
-2. 前往 [My Apps](https://getpocket.com/developer/apps/) 并点击你刚刚创建的开发者应用
-3. 复制 Consumer Key。这将是你的 `POCKET_CONSUMER_KEY` 。
-4. 前往 [这个网站](https://reader.fxneumann.de/plugins/oneclickpocket/auth.php) 获取 Access token。这将是你的 `POCKET_ACCESS_TOKEN`。
+有三种方式可以连接到Pocket：
+
+* 在托管实例中，您可以用您的 Pocket 帐户登录。
+* 在自托管实例中
+    * 您可以创建自己的 Pocket Develoepr App 并通过 OAuth 给自己授权
+        1. 在[这里](https://getpocket.com/developer/apps/new)创建一个新的 Pocket Develoepr App
+            * 确保它至少具有 "Add" 权限
+        2. 访问[我的应用程序](https://getpocket.com/developer/apps/)并点击刚刚创建的 Develoepr App
+        3. 复制 Consumer Key。这将是您的`POCKET_CONSUMER_KEY`。
+        4. 在设置页面通过 OAuth 给自己授权
+    * 您可以创建自己的 Pocket Develoepr App 并提供您自己的授权
+        1. 在 [这里](https://getpocket.com/developer/apps/new) 创建一个新的 Pocket Develoepr App
+            * 确保它至少具有 "Add" 权限
+        2. 前往 [My Apps](https://getpocket.com/developer/apps/) 并点击您刚刚创建的 Develoepr App
+        3. 复制 Consumer Key。这将是您的 `POCKET_CONSUMER_KEY` 。
+        4. 前往 [这个网站](https://reader.fxneumann.de/plugins/oneclickpocket/auth.php) 获取 Access token。这将是您的 `POCKET_ACCESS_TOKEN`。
