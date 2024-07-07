@@ -4,11 +4,12 @@
 
 {% block content %}
 <div class="stream header">
-    <p>Settings</p>
+    <p>{{ _('Settings') }}</p>
+    <a href="/">{{ _('Back to homepage') }}</a>
 </div>
 <div class="stream">
-    <p>Connection info</p>
-    <p>{{ connection_info.aggregator_type }} {{ connection_info.host }} {{ _('[Server authenticated]') if not connection_info.frontend_or_backend else '' }}</p>
+    <p>{{ connection_info.aggregator_type }} {{ _('connection') }}</p>
+    <p>{{ connection_info.host }} {{ _('[Server authenticated]') if not connection_info.frontend_or_backend else '' }}</p>
     {% if connection_info.frontend_or_backend %}
     <button
         class="button"
@@ -16,6 +17,23 @@
         hx-swap="none"
     >{{ _('Logout')}}</button>
     {% endif %}
+    <p>{{ _('Pocket connection') }}</p>
+    {% if pocket_server_authenticated %}
+    <p>{{ _('Pocket connection is server authenticated') }}</p>
+    {% elif not pocket_auth %}
+    <button
+        class="button"
+        hx-post="/actions/connect_to_pocket"
+        hx-swap="none"
+    >{{ _('Connect to Pocket')}}</button>
+    {% else %}
+    <p>{{ _('Logged in as') }} {{ pocket_auth['username'] }}</p>
+    <button
+        class="button"
+        hx-post="/actions/disconnect_from_pocket"
+        hx-swap="none"
+    >{{ _('Disconnect from Pocket')}}</button>
+    {% endif %}   
     <p>Infinite scroll</p>
     <select
         name="infinite_scroll"

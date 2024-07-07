@@ -6,10 +6,11 @@ from urllib.parse import unquote, unquote_plus, quote, quote_plus
 from flask import request, g, Blueprint, make_response, render_template, Response
 from flask_babel import _, lazy_gettext as _l
 from sentry_sdk import capture_exception
+from pocket import Pocket
 from galerie.feed_filter import FeedFilter
 from galerie.image import extract_images, uid_to_item_id
 from galerie.rss_aggregator import AuthError
-from .helpers import requires_auth, compute_after_for_maybe_today, max_items, pocket_client, load_more_button_args, mark_as_read_button_args, images_args
+from .helpers import requires_auth, compute_after_for_maybe_today, max_items, get_pocket_client, load_more_button_args, mark_as_read_button_args, images_args, add_image_ui_extras
 from .get_aggregator import get_aggregator
 
 actions_blueprint = Blueprint('actions', __name__)
@@ -94,13 +95,11 @@ def load_more():
         unread_items = g.aggregator.get_unread_items_by_iid_ascending(max_items, from_iid, feed_filter)
     images = extract_images(unread_items)
     for image in images:
-        image.ui_extra['quoted_url'] = quote(image.url)
-        image.ui_extra['encoded_tags'] = ''.join(map(
-            lambda g: f'&tag={quote_plus(g.title)}&tag={quote(f'group_id={g.gid}')}', image.groups)) if image.groups else ''
+        add_image_ui_extras(image)
     last_iid_str = uid_to_item_id(images[-1].uid) if images else ''
 
     kwargs = {}
-    images_args(kwargs, images, pocket_client is not None)
+    images_args(kwargs, images, get_pocket_client() is not None)
     mark_as_read_button_args(kwargs, last_iid_str, today, group, sort_by_desc)
     load_more_button_args(kwargs, last_iid_str, today, group, sort_by_desc, infinite_scroll)
 
@@ -132,8 +131,9 @@ def mark_as_read():
 @actions_blueprint.route('/pocket', methods=['POST'])
 @catches_exceptions
 def pocket():
+    pocket_client = get_pocket_client()
     if not pocket_client:
-        return make_toast(500, str(_("Pocket was not configured")))
+        return make_toast(400, str(_("Pocket was not configured")))
     encoded_url = request.args.get('url')
     url = unquote(encoded_url)
     encoded_tags = request.args.getlist('tag')
@@ -149,4 +149,38 @@ def set_infinite_scroll():
     resp = make_response()
     resp.set_cookie('infinite_scroll', infinite_scroll)
     make_toast_header(resp, _("Setting updated"))
+    return resp
+
+
+@actions_blueprint.route('/connect_to_pocket', methods=['POST'])
+@catches_exceptions
+def connect_to_pocket():
+    if 'POCKET_CONSUMER_KEY' not in os.environ:
+        return make_toast(500, str(_("Pocket consumer key was not configured")))
+    consumer_key = os.environ['POCKET_CONSUMER_KEY']
+
+    if 'BASE_URL' not in os.environ:
+        return make_toast(500, str(_("Base URL was not configured")))
+    redirect_uri = os.environ['BASE_URL'] + '/pocket_oauth'
+
+    request_token = Pocket.get_request_token(
+        consumer_key=consumer_key,
+        redirect_uri=redirect_uri)
+    auth_url = Pocket.get_auth_url(
+        code=request_token,
+        redirect_uri=redirect_uri)
+
+    resp = make_response()
+    resp.set_cookie('pocket_request_token', request_token)
+    resp.headers['HX-Redirect'] = auth_url
+    return resp
+
+
+@actions_blueprint.route('/disconnect_from_pocket', methods=['POST'])
+@catches_exceptions
+def disconnect_from_pocket():
+    resp = make_response()
+    resp.delete_cookie('pocket_request_token')
+    resp.delete_cookie('pocket_auth')
+    resp.headers['HX-Refresh'] = "true"
     return resp

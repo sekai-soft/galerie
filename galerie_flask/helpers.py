@@ -1,8 +1,10 @@
 import os
+import json
 import pytz
 from typing import Optional, List
 from functools import wraps
 from datetime import datetime
+from urllib.parse import quote, quote_plus
 from flask import request, g, redirect
 from flask_babel import _
 from pocket import Pocket
@@ -11,11 +13,21 @@ from .get_aggregator import get_aggregator
 
 max_items = int(os.getenv('MAX_ITEMS', '15'))
 
-pocket_client = None
-if 'POCKET_CONSUMER_KEY' in os.environ and 'POCKET_ACCESS_TOKEN' in os.environ:
-    pocket_consumer_key = os.getenv('POCKET_CONSUMER_KEY')
-    pocket_access_token = os.getenv('POCKET_ACCESS_TOKEN')
-    pocket_client = Pocket(pocket_consumer_key, pocket_access_token)
+
+def is_pocket_server_authenticated():
+    return 'POCKET_CONSUMER_KEY' in os.environ and 'POCKET_ACCESS_TOKEN' in os.environ
+
+
+def get_pocket_client():
+    if is_pocket_server_authenticated():
+        pocket_consumer_key = os.environ['POCKET_CONSUMER_KEY']
+        pocket_access_token = os.environ['POCKET_ACCESS_TOKEN']
+        return Pocket(pocket_consumer_key, pocket_access_token)
+    if 'POCKET_CONSUMER_KEY' in os.environ and 'pocket_auth' in request.cookies:
+        pocket_consumer_key = os.environ['POCKET_CONSUMER_KEY']
+        pocket_auth = json.loads(request.cookies['pocket_auth'])
+        return Pocket(pocket_consumer_key, pocket_auth['access_token'])
+    return None
 
 
 def requires_auth(f):
@@ -66,3 +78,9 @@ def images_args(kwargs: dict, images: List[Image], double_click_action: bool):
         "images": images,
         "double_click_action": double_click_action,
     })
+
+
+def add_image_ui_extras(image: Image):
+    image.ui_extra['quoted_url'] = quote(image.url)
+    image.ui_extra['encoded_tags'] = ''.join(map(
+        lambda g: f'&tag={quote_plus(g.title)}&tag={quote(f'group_id={g.gid}')}', image.groups)) if image.groups else ''
