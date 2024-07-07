@@ -35,6 +35,7 @@ def index():
         sort_by_desc = request.args.get('sort', 'desc') == 'desc'
     today = request.args.get('today') == "1"
     group = request.args.get('group') if request.args.get('group') else None
+    infinite_scroll = request.cookies.get('infinite_scroll', '0') == '1'
 
     selected_group = g.aggregator.get_group(group)
     groups = g.aggregator.get_groups()
@@ -56,7 +57,7 @@ def index():
     }
     images_args(kwargs, images, pocket_client is not None)
     mark_as_read_button_args(kwargs, last_iid_str, today, group, sort_by_desc)
-    load_more_button_args(kwargs, last_iid_str, today, group, sort_by_desc)
+    load_more_button_args(kwargs, last_iid_str, today, group, sort_by_desc, infinite_scroll)
 
     return render_template('index.html', **kwargs)
 
@@ -77,4 +78,8 @@ def login():
 @catches_exceptions
 @requires_auth
 def settings():
-    return render_template('settings.html', connection_info=g.aggregator.connection_info())
+    infinite_scroll = request.cookies.get('infinite_scroll', '0') == '1'
+    return render_template(
+        'settings.html',
+        connection_info=g.aggregator.connection_info(),
+        infinite_scroll=infinite_scroll)

@@ -19,6 +19,7 @@ def get_locale():
     return request.accept_languages.best_match(['en', 'zh']) 
 
 app = Flask(__name__, static_url_path='/static')
+app.config['TEMPLATES_AUTO_RELOAD'] = True
 app.config["BABEL_TRANSLATION_DIRECTORIES"] = os.path.join(
     os.path.abspath(os.path.dirname(__file__)),
     "galerie_flask",

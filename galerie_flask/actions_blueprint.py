@@ -85,6 +85,7 @@ def load_more():
     today = request.args.get('today') == "1"
     group = request.args.get('group') if request.args.get('group') else None
     from_iid = request.args.get('from_iid')
+    infinite_scroll = request.cookies.get('infinite_scroll', '0') == '1'
    
     feed_filter = FeedFilter(compute_after_for_maybe_today(), group)
     if sort_by_desc:
@@ -101,7 +102,7 @@ def load_more():
     kwargs = {}
     images_args(kwargs, images, pocket_client is not None)
     mark_as_read_button_args(kwargs, last_iid_str, today, group, sort_by_desc)
-    load_more_button_args(kwargs, last_iid_str, today, group, sort_by_desc)
+    load_more_button_args(kwargs, last_iid_str, today, group, sort_by_desc, infinite_scroll)
 
     rendered_string = render_template('load_more.html', **kwargs)
     resp = make_response(rendered_string)
@@ -139,3 +140,13 @@ def pocket():
     tags = list(map(unquote_plus, encoded_tags))
     pocket_client.add(url, tags=','.join(tags))
     return make_toast(200, str(_l('Added %(url)s to Pocket', url=url)))
+
+
+@actions_blueprint.route('/set_infinite_scroll', methods=['POST'])
+@catches_exceptions
+def set_infinite_scroll():
+    infinite_scroll = request.form.get('infinite_scroll', '0')
+    resp = make_response()
+    resp.set_cookie('infinite_scroll', infinite_scroll)
+    make_toast_header(resp, _("Setting updated"))
+    return resp

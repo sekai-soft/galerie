@@ -6,6 +6,7 @@
     <button
         class="button"
         hx-get="/actions/load_more?from_iid={{ from_iid }}&today={{ today }}&group={{ gid }}&sort={{ sort }}"
+        hx-trigger="{{ 'revealed' if infinite_scroll else 'click' }}"
         hx-target="#grid"
         hx-swap="beforeend"
     >{{ _('Load more') }} <span class="htmx-indicator">...</span></button>

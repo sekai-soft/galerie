@@ -4,7 +4,11 @@
 
 {% block content %}
 <div class="stream header">
-    <p>{{ _('Connected to') }} {{ connection_info.aggregator_type }} {{ connection_info.host }} {{ _('[Server authenticated]') if not connection_info.frontend_or_backend else '' }}</p>
+    <p>Settings</p>
+</div>
+<div class="stream">
+    <p>Connection info</p>
+    <p>{{ connection_info.aggregator_type }} {{ connection_info.host }} {{ _('[Server authenticated]') if not connection_info.frontend_or_backend else '' }}</p>
     {% if connection_info.frontend_or_backend %}
     <button
         class="button"
@@ -12,5 +16,15 @@
         hx-swap="none"
     >{{ _('Logout')}}</button>
     {% endif %}
+    <p>Infinite scroll</p>
+    <select
+        name="infinite_scroll"
+        hx-trigger="change"
+        hx-post="/actions/set_infinite_scroll"
+        hx-swap="none"
+    >
+        <option value="1" {{ 'selected=selected' if infinite_scroll else '' }}>Yes</option>
+        <option value="0" {{ 'selected=selected' if not infinite_scroll else '' }}>No</option>
+    </select>
 </div>
 {% endblock %}

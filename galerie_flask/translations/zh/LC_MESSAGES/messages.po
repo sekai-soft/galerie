@@ -7,7 +7,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: PROJECT VERSION\n"
 "Report-Msgid-Bugs-To: EMAIL@ADDRESS\n"
-"POT-Creation-Date: 2024-07-02 16:41+0000\n"
+"POT-Creation-Date: 2024-07-07 02:40+0000\n"
 "PO-Revision-Date: 2024-06-27 08:04+0000\n"
 "Last-Translator: FULL NAME <EMAIL@ADDRESS>\n"
 "Language: zh\n"
@@ -27,7 +27,7 @@ msgstr "未知服务器错误: %(e)s"
 msgid "Failed to authenticate with Fever API"
 msgstr "无法和 Fever API 进行身份验证"
 
-#: galerie_flask/actions_blueprint.py:109
+#: galerie_flask/actions_blueprint.py:110
 msgid "All items were loaded"
 msgstr "所有条目已加载"
 
@@ -40,6 +40,10 @@ msgstr "Pocket 尚未配置"
 msgid "Added %(url)s to Pocket"
 msgstr "已将 %(url)s 添加到 Pocket"
 
+#: galerie_flask/actions_blueprint.py:151
+msgid "Setting updated"
+msgstr "设置已更新"
+
 #: galerie_flask/helpers.py:49
 msgid "Are you sure you want to mark above as read?"
 msgstr "确定要标记以上为已读吗？"
@@ -50,7 +54,7 @@ msgid ""
 "undisplayed entries as read as well."
 msgstr "确定要标记这个组别为已读吗？这将标记尚未显示的条目为已读。"
 
-#: galerie_flask/pages_blueprint.py:72
+#: galerie_flask/pages_blueprint.py:73
 msgid ""
 "https://github.com/sekai-soft/galerie?tab=readme-ov-file#example-fever-"
 "endpoints"
@@ -70,11 +74,11 @@ msgstr "错误 | Galerie"
 msgid "Oops something went wrong"
 msgstr "糟糕，出错了"
 
-#: galerie_flask/templates/grid_end_buttons.html:11
+#: galerie_flask/templates/grid_end_buttons.html:12
 msgid "Load more"
 msgstr "加载更多"
 
-#: galerie_flask/templates/grid_end_buttons.html:18
+#: galerie_flask/templates/grid_end_buttons.html:19
 #: galerie_flask/templates/load_more_action_buttons.html:12
 msgid "Mark as read"
 msgstr "标记为已读"
@@ -147,15 +151,11 @@ msgstr "登录"
 msgid "Settings | Galerie"
 msgstr "设置 | Galerie"
 
-#: galerie_flask/templates/settings.html:7
-msgid "Connected to"
-msgstr "已连接到"
-
-#: galerie_flask/templates/settings.html:7
+#: galerie_flask/templates/settings.html:11
 msgid "[Server authenticated]"
 msgstr "[服务器端验证]"
 
-#: galerie_flask/templates/settings.html:13
+#: galerie_flask/templates/settings.html:17
 msgid "Logout"
 msgstr "登出"
 

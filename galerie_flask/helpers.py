@@ -51,12 +51,13 @@ def mark_as_read_button_args(kwargs: dict, to_iid: Optional[str], today: bool, g
         kwargs['mark_as_read_confirm'] = _('Are you sure you want to mark current group as read? It will mark still undisplayed entries as read as well.')
 
 
-def load_more_button_args(kwargs: dict, from_iid: str, today: bool, gid: Optional[str], sort_by_desc: bool):
+def load_more_button_args(kwargs: dict, from_iid: str, today: bool, gid: Optional[str], sort_by_desc: bool, infinite_scroll: bool):
     kwargs.update({
         "from_iid": from_iid,
         'today': "1" if today else "0",
         "gid": gid if gid is not None else "",
-        "sort": "desc" if sort_by_desc else "asc"
+        "sort": "desc" if sort_by_desc else "asc",
+        "infinite_scroll": infinite_scroll
     })
 
 
