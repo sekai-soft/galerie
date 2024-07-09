@@ -12,5 +12,5 @@ min_machines_running = 1
 
 [[vm]]
 cpu_kind = "shared"
-cpus = 2
-memory = "512mb"
+cpus = 1
+memory = "256mb"
