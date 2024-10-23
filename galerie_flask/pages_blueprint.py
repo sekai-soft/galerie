@@ -1,5 +1,6 @@
 import os
 import json
+import base64
 from functools import wraps
 from sentry_sdk import capture_exception
 from flask import Blueprint, redirect, render_template, g, request, make_response
@@ -7,8 +8,9 @@ from flask_babel import _
 from pocket import Pocket
 from galerie.feed_filter import FeedFilter
 from galerie.image import extract_images, uid_to_item_id
+from galerie.inoreader_oauth import fetch_token
 from .helpers import requires_auth, compute_after_for_maybe_today, max_items, get_pocket_client, load_more_button_args, mark_as_read_button_args, images_args, is_pocket_server_authenticated, add_image_ui_extras
-from .get_aggregator import get_aggregator
+from .get_aggregator import get_aggregator, check_inoreader_env, try_get_inoreader_aggregator
 
 
 pages_blueprint = Blueprint('pages', __name__, static_folder='static', template_folder='templates')
@@ -106,4 +108,35 @@ def pocket_oauth():
         username=user_credentials['username']))
     resp.delete_cookie('pocket_request_token')
     resp.set_cookie('pocket_auth', json.dumps(user_credentials))
+    return resp
+
+
+@pages_blueprint.route("/oauth/redirect")
+@catches_exceptions
+def oauth_redirect():
+    if not check_inoreader_env():
+        raise Exception('Inoreader environment variables not set')
+
+    app_id = os.environ['INOREADER_APP_ID']
+    inoreader_state = request.args.get('state')
+    token = fetch_token(
+        app_id,
+        os.environ['INOREADER_APP_KEY'],
+        os.environ['BASE_URL'],
+        inoreader_state,
+        request.url)
+    
+    inoreader_aggregator = try_get_inoreader_aggregator(
+        access_token=token['access_token'],
+        refresh_token=token['refresh_token'],
+        expires_at=token['expires_at'])
+    if not inoreader_aggregator:
+        raise Exception('Failed to persist Inoreader configurations')
+
+    persisted_auth = inoreader_aggregator.persisted_auth()
+    auth_bytes = persisted_auth.encode("utf-8")
+    b64_auth_bytes = base64.b64encode(auth_bytes)
+
+    resp = make_response(redirect('/'))
+    resp.set_cookie('auth', b64_auth_bytes.decode('utf-8'))
     return resp

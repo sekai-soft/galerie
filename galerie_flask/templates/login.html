@@ -9,6 +9,7 @@
         <p>{{ _('Type of RSS aggregator') }}</p>
         <select name="type" x-model="selectedType">
             <option value="miniflux">Miniflux</option>
+            <option value="inoreader">Inoreader</option>
             <option value="fever">Fever</option>
         </select>
         <template x-if="selectedType === 'miniflux'">
@@ -17,29 +18,42 @@
         <template x-if="selectedType === 'fever'">
             <p>{{ _('Fever endpoint URL') }} <a href="{{ fever_endpoint_help_url }}" target="_blank" style="font-size: 0.5em;">{{ _('What is this?') }}</a></p>
         </template>
-        <input
-            type="text"
-            name="endpoint"
-            required
-            x-bind:placeholder="selectedType === 'miniflux' ? 'https://miniflux.example.net' : 'https://miniflux.example.net/fever'"
-            class="code-font"
-        >
-        <p>{{ _('Username') }}</p>
-        <input
-            type="text"
-            autocomplete="username"
-            name="username"
-            required
-            class="code-font"
-            required
-        >
-        <p>{{ _('Password') }}</p>
-        <input
-            type="password"
-            name="password"
-            required
-            class="code-font"
-        >
+        <template x-if="selectedType !== 'inoreader'">
+            <input
+                type="text"
+                name="endpoint"
+                required
+                x-bind:placeholder="selectedType === 'miniflux' ? 'https://miniflux.example.net' : 'https://miniflux.example.net/fever'"
+                class="code-font"
+            >
+        </template>
+        <template x-if="selectedType !== 'inoreader'">
+            <p>{{ _('Username') }}</p>
+        </template>
+        <template x-if="selectedType !== 'inoreader'">
+            <input
+                type="text"
+                autocomplete="username"
+                name="username"
+                required
+                class="code-font"
+                required
+            >
+        </template>
+        <template x-if="selectedType !== 'inoreader'">
+            <p>{{ _('Password') }}</p>
+        </template>
+        <template x-if="selectedType !== 'inoreader'">
+            <input
+                type="password"
+                name="password"
+                required
+                class="code-font"
+            >
+        </template>
+        <template x-if="selectedType === 'inoreader'">
+            <br></br>
+        </template>
         <button
             class="button"
             style="margin-top: 1.5em; margin-bottom: 1.5em; width: 50%"
