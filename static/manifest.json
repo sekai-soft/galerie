@@ -1,0 +1,25 @@
+{
+    "theme_color": "#f5f5f5",
+    "background_color": "#1a1a1a",
+    "icons": [
+        {
+            "purpose": "maskable",
+            "sizes": "512x512",
+            "src": "static/icon512_maskable.png",
+            "type": "image/png"
+        },
+        {
+            "purpose": "any",
+            "sizes": "512x512",
+            "src": "static/icon512_rounded.png",
+            "type": "image/png"
+        }
+    ],
+    "orientation": "any",
+    "display": "standalone",
+    "dir": "auto",
+    "lang": "en-US",
+    "name": "Galerie",
+    "short_name": "Galerie",
+    "start_url": "https://galerie-reader.com"
+}

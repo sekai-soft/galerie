@@ -9,7 +9,7 @@
         <p>{{ _('Type of RSS aggregator') }}</p>
         <select name="type" x-model="selectedType">
             <option value="miniflux">Miniflux</option>
-            <option value="inoreader">Inoreader</option>
+            <!-- <option value="inoreader">Inoreader</option> -->
             <option value="fever">Fever</option>
         </select>
         <template x-if="selectedType === 'miniflux'">
