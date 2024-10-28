@@ -1,10 +1,12 @@
 import os
 import json
 import base64
+import qrcode
 from functools import wraps
 from urllib.parse import unquote, unquote_plus
 from uuid import uuid4
-from flask import request, g, Blueprint, make_response, render_template, Response
+from io import BytesIO
+from flask import request, g, Blueprint, make_response, render_template, Response, send_file
 from flask_babel import _, lazy_gettext as _l
 from sentry_sdk import capture_exception
 from pocket import Pocket
@@ -197,3 +199,20 @@ def disconnect_from_pocket():
     resp.delete_cookie('pocket_auth')
     resp.headers['HX-Refresh'] = "true"
     return resp
+
+
+@actions_blueprint.route('/qrcode.jpg', methods=['GET'])
+@catches_exceptions
+def _qrcode():
+    if 'auth' not in request.cookies:
+        return make_toast(401, str(_("Not authenticated")))
+    data = {
+        'auth': request.cookies['auth']
+    }
+    img = qrcode.make(json.dumps(data))
+
+    img_io = BytesIO()
+    img.save(img_io, 'JPEG')
+    img_io.seek(0)
+    
+    return send_file(img_io, mimetype='image/jpeg')

@@ -11,3 +11,4 @@ responses==0.25.0
 flask-babel==4.0.0
 requests-oauthlib==2.0.0
 python-inoreader==0.7.1
+qrcode[pil]==8.0

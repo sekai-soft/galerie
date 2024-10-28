@@ -16,6 +16,9 @@
         hx-post="/actions/deauth"
         hx-swap="none"
     >{{ _('Logout')}}</button>
+    <br>
+    <br>
+    <a href="/actions/qrcode.jpg" target="_blank">{{ _('Show setup QR code') }}</a>
     {% endif %}
     <p>{{ _('Pocket connection') }}</p>
     {% if pocket_server_authenticated %}
