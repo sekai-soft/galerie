@@ -4,7 +4,7 @@ import hashlib
 import json
 from urllib.parse import urlparse
 from typing import List, Tuple, Optional
-from .item import Item
+from .item import Item, fix_nitter_url
 from .group import Group
 from .feed_filter import FeedFilter
 from .rss_aggregator import RssAggregator, AuthError, ConnectionInfo
@@ -29,7 +29,7 @@ def _item_dict_to_item(item_dict: dict, group_dicts: List[dict]) -> Item:
         html=item_dict['html'],
         # the str casting here is Fever API specific because Fever API's IDs are int's but str is required
         iid=str(item_dict['id']),
-        url=item_dict['url'],
+        url=fix_nitter_url(item_dict['url']),
         groups=list(map(_group_dict_to_group, group_dicts)),
         title=item_dict['title'],
         feed_title=item_dict['author']

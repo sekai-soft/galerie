@@ -1,6 +1,6 @@
 import json
 from typing import List, Optional
-from .item import Item
+from .item import Item, fix_nitter_url
 from .group import Group
 from .feed_filter import FeedFilter
 from .rss_aggregator import RssAggregator, AuthError, ConnectionInfo
@@ -49,7 +49,7 @@ class InoreaderAggregator(RssAggregator):
                 created_timestamp_seconds=article.published,  # TODO: maybe null
                 html=article.content,
                 iid=article.id,
-                url=article.link,
+                url=fix_nitter_url(article.link),
                 groups=[],  # TODO
                 title=article.title,
                 feed_title=article.feed_title))

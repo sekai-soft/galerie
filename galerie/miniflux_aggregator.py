@@ -3,7 +3,7 @@ import miniflux
 from datetime import datetime
 from urllib.parse import urlparse
 from typing import List, Optional
-from .item import Item
+from .item import Item, fix_nitter_url
 from .group import Group
 from .feed_filter import FeedFilter
 from .rss_aggregator import RssAggregator, AuthError, ConnectionInfo
@@ -27,7 +27,7 @@ def _entry_dict_to_item(entry_dict: dict) -> Item:
             entry_dict['created_at'], "%Y-%m-%dT%H:%M:%S.%fZ").timestamp()),
         html=html,
         iid=str(entry_dict['id']),
-        url=entry_dict['url'],
+        url=fix_nitter_url(entry_dict['url']),
         groups=[_category_dict_to_group(entry_dict['feed']['category'])],
         title=entry_dict['title'],
         feed_title=entry_dict['feed']['title']
