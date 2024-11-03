@@ -75,8 +75,6 @@ def get_aggregator(
     logging_in_username: Optional[str] = None,
     logging_in_password: Optional[str] = None,
     aggregator_type: Optional[str] = None) -> Optional[RssAggregator]:
-    if aggregator:
-        return aggregator
     aggregator = try_get_miniflux_aggregator(logging_in_endpoint, logging_in_username, logging_in_password, aggregator_type)
     if aggregator:
         return aggregator
