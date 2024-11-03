@@ -6,52 +6,7 @@ from flask import request
 from galerie.rss_aggregator import RssAggregator
 from galerie.fever_aggregator import FeverAggregator
 from galerie.miniflux_aggregator import MinifluxAggregator
-from galerie.inoreader_aggregator import InoreaderAggregator
 
-
-def check_inoreader_env():
-    # determine if required environment variables are present
-    env_app_id = os.getenv('INOREADER_APP_ID')
-    env_app_key = os.getenv('INOREADER_APP_KEY')
-    env_base_url = os.getenv('BASE_URL')
-    return env_app_id and env_app_key and env_base_url
-
-
-def try_get_inoreader_aggregator(
-        access_token: Optional[str] = None,
-        refresh_token: Optional[str] = None,
-        expires_at: Optional[float] = None) -> Optional[InoreaderAggregator]:
-    if not check_inoreader_env():
-        return None
-    app_id = os.getenv('INOREADER_APP_ID')
-    app_key = os.getenv('INOREADER_APP_KEY')
-
-    # determine from oauth callback
-    if access_token and refresh_token and expires_at:
-        return InoreaderAggregator(
-            app_id=app_id,
-            app_key=app_key,
-            access_token=access_token,
-            refresh_token=refresh_token,
-            expires_at=expires_at)
-
-    # determine from persisted auth
-    auth_cookie = request.cookies.get('auth')
-    if auth_cookie:
-        auth = base64.b64decode(auth_cookie).decode('utf-8')
-        auth = json.loads(auth)
-        is_inoreader = auth.get('inoreader', False)
-        if is_inoreader:
-            cookie_access_token = auth.get('access_token')
-            cookie_refresh_token = auth.get('refresh_token')
-            cookie_expires_at = auth.get('expires_at')
-            return InoreaderAggregator(app_id=app_id,
-                app_key=app_key,
-                access_token=cookie_access_token,
-                refresh_token=cookie_refresh_token,
-                expires_at=cookie_expires_at)
-
-    return None
 
 def try_get_miniflux_aggregator(
         logging_in_endpoint: Optional[str] = None,
@@ -120,7 +75,6 @@ def get_aggregator(
     logging_in_username: Optional[str] = None,
     logging_in_password: Optional[str] = None,
     aggregator_type: Optional[str] = None) -> Optional[RssAggregator]:
-    aggregator = try_get_inoreader_aggregator()
     if aggregator:
         return aggregator
     aggregator = try_get_miniflux_aggregator(logging_in_endpoint, logging_in_username, logging_in_password, aggregator_type)

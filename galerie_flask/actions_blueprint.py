@@ -13,9 +13,8 @@ from pocket import Pocket
 from galerie.feed_filter import FeedFilter
 from galerie.image import extract_images, uid_to_item_id
 from galerie.rss_aggregator import AuthError
-from galerie.inoreader_oauth import get_authorization_url
 from .helpers import requires_auth, compute_after_for_maybe_today, max_items, get_pocket_client, load_more_button_args, mark_as_read_button_args, images_args, add_image_ui_extras
-from .get_aggregator import get_aggregator, check_inoreader_env
+from .get_aggregator import get_aggregator
 
 actions_blueprint = Blueprint('actions', __name__)
 
@@ -54,17 +53,6 @@ def auth():
     password = request.form.get('password', '')
     aggregator_type = request.form.get('type', 'fever')
     try:
-        if aggregator_type == 'inoreader':
-            if not check_inoreader_env():
-                raise AuthError()
-            inoreader_app_id = os.environ['INOREADER_APP_ID']
-            base_url = os.environ['BASE_URL']
-            state = str(uuid4())
-            authorization_url = get_authorization_url(inoreader_app_id, base_url, state)
-            resp = make_response()
-            resp.headers['HX-Redirect'] = authorization_url
-            return resp
-
         persisted_auth = get_aggregator(
             logging_in_endpoint=endpoint,
             logging_in_username=username,
