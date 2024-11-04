@@ -3,17 +3,17 @@
 {% block title %}{{ '(' + unread_count|string + ') ' if unread_count != 0 else '' }}{{ _('Galerie') }}{% endblock %}
 
 {% block content %}
-<div class="stream header">
-    <div class="logo">
+<div class="stream header" x-data="{}">
+    <div class="logo" @click="window.location.reload()">
         <img src="{{ url_for('static', filename='icon.png') }}" class="logo-image">
-        <p>{{ _('Galerie') }}</p>
+        <p class="logo-title">{{ _('Galerie') }}</p>
     </div>
-    <div>
+    <div class="header-controls">
         <select id="timeSelect">
             <option value="all" {{ 'selected=selected' if all else '' }}>{{ _('all time') }}</option>
             <option value="today" {{ 'selected=selected' if not all else '' }}>{{ _('today') }}</option>
         </select>
-        <select id="groupSelect" style="width: 192px">
+        <select id="groupSelect">
             <option value="_all" {{ 'selected=selected' if not selected_group else '' }}>{{ _('all groups') }}</option>
             {% for g in groups %}
             <option value="{{ g.gid }}" {{ 'selected=selected' if selected_group and g.gid == selected_group.gid else '' }}>{{ g.title }}</option>

@@ -26,7 +26,7 @@ p {
 .logo-image {
     height: 2em;
     width: auto;
-    margin-right: 1em;
+    margin-right: 0.5em;
 }
 
 input {
@@ -44,6 +44,11 @@ input {
     flex-direction: horizontal;
     justify-content: space-between;
     align-items: center;
+}
+
+.header-controls {
+    display: flex;
+    flex-direction: horizontal;
 }
 
 .grid-sizer, .grid-item {
@@ -87,7 +92,7 @@ select {
     .logo-image {
         height: 2em;
         width: auto;
-        margin-right: 1em;
+        margin-right: 0.5em;
     }
 
     input {
@@ -99,7 +104,16 @@ select {
         width: 100%;
         margin: 0 auto;
     }
-    
+
+    .header-controls {
+        display: flex;
+        flex-direction: column;
+    }
+
+    .header-controls > select {
+        min-width: 100%;
+    }
+
     .grid-sizer, .grid-item {
         width: calc((100% - 64px) / 3)
     }
@@ -142,7 +156,7 @@ select {
     .logo-image {
         height: 1em;
         width: auto;
-        margin-right: 0.75em;
+        margin-right: 0.5em;
     }
 
     input {
@@ -153,7 +167,16 @@ select {
     .stream {
         width: 100%;
     }
-    
+
+    .header-controls {
+        display: flex;
+        flex-direction: column;
+    }
+
+    .header-controls > select {
+        min-width: 100%;
+    }
+
     .grid-sizer, .grid-item {
         width: calc((100% - 32px) / 2)
     }
@@ -198,6 +221,7 @@ a {
 .logo {
     display: flex;
     align-items: center;
+    cursor: pointer;
 }
 
 .item-image {
