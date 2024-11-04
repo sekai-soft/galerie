@@ -1,0 +1,36 @@
+{% extends 'base.html' %}
+
+{% block title %}{{ _('Setup using QR code | Galerie') }}{% endblock %}
+
+{% block content %}
+<div id="reader" width="600px"></div>
+<script src="https://unpkg.com/html5-qrcode" type="text/javascript"></script>
+<script>
+const onScanSuccess = (decodedText, decodedResult) => {
+    try {
+        const decoded = JSON.parse(decodedText)
+        if (!decoded.auth) {
+            window.alert(`Invalid QR code data = ${decodedText}`);
+            return;
+        }
+        html5QrcodeScanner.clear();
+        const auth = decoded.auth;
+        document.cookie = `auth=${auth}; path=/`;
+        window.location.href = "/";
+    } catch {
+        window.alert(`Invalid QR code data = ${decodedText}`);
+    }
+}
+
+const onScanFailure = (error) => {
+    console.warn(`Code scan error = ${error}`);
+}
+
+const html5QrcodeScanner = new Html5QrcodeScanner(
+    "reader",
+    { fps: 10, qrbox: { width: 250, height: 250 } },
+    /* verbose= */ false
+);
+html5QrcodeScanner.render(onScanSuccess, onScanFailure);
+</script>
+{% endblock %}

@@ -42,13 +42,15 @@
         >
         <button
             class="button"
-            style="margin-top: 1.5em; margin-bottom: 1.5em; width: 50%"
+            style="margin-top: 1.5em; margin-bottom: 1.5em; width: 33%"
             hx-post="/actions/auth"
             hx-swap="none"
             hx-disabled-elt="this"
         >
             {{ _('Login') }} <span class="htmx-indicator">...</span>
         </button>
+        <br>
+        <a href="/qr_setup">{{ _('Set up using a QR code') }}</a>
     </form>
 </div>
 {% endblock %}

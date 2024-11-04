@@ -108,3 +108,9 @@ def pocket_oauth():
     resp.delete_cookie('pocket_request_token')
     resp.set_cookie('pocket_auth', json.dumps(user_credentials))
     return resp
+
+
+@pages_blueprint.route("/qr_setup")
+@catches_exceptions
+def qr_setup():
+    return render_template('qr_setup.html')
