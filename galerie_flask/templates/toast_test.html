@@ -1,0 +1,9 @@
+{% extends 'base.html' %}
+
+{% block title %}Toast test{% endblock %}
+
+{% block content %}
+<div x-data="{}">
+    <button @click="toast('test')">Test toast</button>
+</div>
+{% endblock %}

@@ -117,3 +117,9 @@ def qr_setup():
     if aggregator:
         return redirect('/')
     return render_template('qr_setup.html')
+
+
+@pages_blueprint.route("/toast_test")
+@catches_exceptions
+def test_toast():
+    return render_template('toast_test.html')

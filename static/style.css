@@ -292,17 +292,35 @@ select {
 /* The toast - position it at the bottom and in the middle of the screen */
 #toast {
     visibility: hidden; /* Hidden by default. Visible on click */
-    width: 25%;
     background-color: #F5F5F5;
     color: #1A1A1A;
     text-align: center; /* Centered text */
     border-radius: 4px; /* Rounded borders */
-    font-size: 1.2em;
+    font-size: 1em;
     padding: 0.5em;
     position: fixed; /* Sit on bottom of the screen */
     z-index: 1; /* Add a z-index if needed */
-    left: 70%;
-    bottom: 16px;
+
+    width: 25%;
+    bottom: 1em;
+    right: 1em;
+}
+
+/** sizes for > iPhone 12 Pro Max <= iPad Pro **/
+@media screen and (max-width: 1024px) {
+    #toast {
+        width: 50%;
+    }
+}
+
+/** sizes for <= iPhone 14 Pro Max **/
+@media screen and (max-width: 430px) {
+    #toast {
+        width: calc(100% - 3em);
+        bottom: 1em;
+        left: 1em;
+        right: 1em;
+    }
 }
 
 /* Show the toast when clicking on a button (class added with JavaScript) */
