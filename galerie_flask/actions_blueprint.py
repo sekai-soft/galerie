@@ -89,7 +89,7 @@ def load_more():
     today = request.args.get('today') == "1"
     group = request.args.get('group') if request.args.get('group') else None
     from_iid = request.args.get('from_iid')
-    infinite_scroll = request.cookies.get('infinite_scroll', '0') == '1'
+    infinite_scroll = request.cookies.get('infinite_scroll', '1') == '1'
    
     feed_filter = FeedFilter(compute_after_for_maybe_today(), group)
     if sort_by_desc:

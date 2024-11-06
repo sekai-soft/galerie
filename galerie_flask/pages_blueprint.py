@@ -38,7 +38,7 @@ def index():
         sort_by_desc = request.args.get('sort', 'desc') == 'desc'
     today = request.args.get('today') == "1"
     group = request.args.get('group') if request.args.get('group') else None
-    infinite_scroll = request.cookies.get('infinite_scroll', '0') == '1'
+    infinite_scroll = request.cookies.get('infinite_scroll', '1') == '1'
 
     selected_group = g.aggregator.get_group(group)
     groups = g.aggregator.get_groups()
@@ -84,7 +84,7 @@ def login():
 @catches_exceptions
 @requires_auth
 def settings():
-    infinite_scroll = request.cookies.get('infinite_scroll', '0') == '1'
+    infinite_scroll = request.cookies.get('infinite_scroll', '1') == '1'
     pocket_server_authenticated=is_pocket_server_authenticated()
     pocket_auth = json.loads(request.cookies.get('pocket_auth', '{}'))
     return render_template(
