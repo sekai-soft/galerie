@@ -1,37 +1,7 @@
-body {
-    font-family: Helvetica, Arial, sans-serif;
-    background: #1A1A1A;
-    color: #F5F5F5;
-    margin-left: 1rem;
-    margin-right: 1rem;
-}
-
-/* Hide scrollbar for Chrome, Safari, and Opera */
-body::-webkit-scrollbar {
-    display: none;
-}
-
-/* Hide scrollbar for Firefox */
-body {
-    scrollbar-width: none;
-    -ms-overflow-style: none;  /* IE and Edge */
-}
-
-/** sizes for > iPad **/
-p {
-    font-size: 2em;
-    line-height: 1.5;
-}
-
 .logo-image {
     height: 2em;
     width: auto;
     margin-right: 0.5em;
-}
-
-input {
-    font-size: 2em;
-    line-height: 1.5;
 }
 
 .stream {
@@ -69,35 +39,12 @@ input {
     margin-bottom: 32px;
 }
 
-a {
-    font-size: 2em;
-    line-height: 1.5;
-}
-
-select {
-    font-size: 2em;
-}
-
-.button {
-    font-size: 2em;
-}
-
 /** sizes for > iPhone 12 Pro Max <= iPad Pro **/
 @media screen and (max-width: 1024px) {
-    p {
-        font-size: 2em;
-        line-height: 1.5;
-    }
-
     .logo-image {
         height: 2em;
         width: auto;
         margin-right: 0.5em;
-    }
-
-    input {
-        font-size: 2em;
-        line-height: 1.5;
     }
 
     .stream {
@@ -131,38 +78,15 @@ select {
     
     .grid-item {
         margin-bottom: 32px;
-    }    
-
-    a {
-        font-size: 2em;
-        line-height: 1.5;
-    }
-
-    select {
-        font-size: 2em;
-    }
-
-    .button {
-        font-size: 2em;
-    }    
+    }       
 }
 
 /** sizes for <= iPhone 14 Pro Max **/
 @media screen and (max-width: 430px) {
-    p {
-        font-size: 1em;
-        line-height: 1;
-    }
-
     .logo-image {
         height: 1em;
         width: auto;
         margin-right: 0.5em;
-    }
-
-    input {
-        font-size: 1em;
-        line-height: 1;
     }
 
     .stream {
@@ -195,29 +119,12 @@ select {
     
     .grid-item {
         margin-bottom: 32px;
-    }    
-
-    a {
-        font-size: 1em;
-        line-height: 1;
-    }
-
-    select {
-        font-size: 1em;
-    }
-
-    .button {
-        font-size: 1em;
     }
 }
 
 /* other styles */
 .code-font {
     font-family: 'Consolas', 'Menlo', monospace;
-}
-
-a {
-    color: #F5F5F5;
 }
 
 .logo {
@@ -247,32 +154,6 @@ a {
     align-items: center;
 }
 
-.button {
-    color: #F5F5F5;
-    background-color: #1A1A1A;
-    border: 2px solid #F5F5F5;
-    border-radius: 4px;
-    padding: 0.5em;
-    margin-top: 4px;
-    cursor: pointer;
-    text-align: center;
-}
-
-input {
-    color: #F5F5F5;
-    border: none;
-    border-bottom: 2px solid #999999;
-    background-color: #1A1A1A;
-    width: 75%;
-}
-
-select {
-    color: #F5F5F5;
-    border: none;
-    background-color: #1A1A1A;
-    max-width: 75%;
-}
-
 .footer {
     display: flex;
     flex-direction: column;
@@ -281,13 +162,13 @@ select {
 }
 
 /** htmx-indicator **/
-.htmx-indicator{
+.htmx-indicator {
     display:none;
 }
-.htmx-request .htmx-indicator{
+.htmx-request .htmx-indicator {
     display:inline;
 }
-.htmx-request.htmx-indicator{
+.htmx-request.htmx-indicator {
     display:inline;
 }
 

@@ -1,0 +1,106 @@
+/** non sizes **/
+input {
+    color: #F5F5F5;
+    border: none;
+    border-bottom: 2px solid #999999;
+    background-color: #1A1A1A;
+    width: 75%;
+}
+
+a {
+    color: #F5F5F5;
+}
+
+select {
+    color: #F5F5F5;
+    border: none;
+    background-color: #1A1A1A;
+    max-width: 75%;
+}
+
+.button {
+    color: #F5F5F5;
+    background-color: #1A1A1A;
+    border: 2px solid #F5F5F5;
+    border-radius: 4px;
+    padding: 0.5em;
+    margin-top: 4px;
+    cursor: pointer;
+    text-align: center;
+}
+
+/** sizes for > iPad **/
+p {
+    font-size: 2em;
+    line-height: 1.5;
+}
+
+input {
+    font-size: 2em;
+    line-height: 1.5;
+}
+
+a {
+    font-size: 2em;
+    line-height: 1.5;
+}
+
+select {
+    font-size: 2em;
+}
+
+.button {
+    font-size: 2em;
+}
+
+/** sizes for > iPhone 12 Pro Max <= iPad Pro **/
+@media screen and (max-width: 1024px) {
+    p {
+        font-size: 2em;
+        line-height: 1.5;
+    }
+
+    input {
+        font-size: 2em;
+        line-height: 1.5;
+    }
+
+    a {
+        font-size: 2em;
+        line-height: 1.5;
+    }
+
+    select {
+        font-size: 2em;
+    }
+
+    .button {
+        font-size: 2em;
+    }
+}
+
+/** sizes for <= iPhone 14 Pro Max **/
+@media screen and (max-width: 430px) {
+    p {
+        font-size: 1em;
+        line-height: 1;
+    }
+
+    input {
+        font-size: 1em;
+        line-height: 1;
+    }
+
+    a {
+        font-size: 1em;
+        line-height: 1;
+    }
+
+    select {
+        font-size: 1em;
+    }
+
+    .button {
+        font-size: 1em;
+    }
+}
