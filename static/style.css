@@ -108,6 +108,7 @@ select {
     .header-controls {
         display: flex;
         flex-direction: column;
+        margin-bottom: 1em;
     }
 
     .header-controls > select {
@@ -171,6 +172,7 @@ select {
     .header-controls {
         display: flex;
         flex-direction: column;
+        margin-bottom: 1em;
     }
 
     .header-controls > select {

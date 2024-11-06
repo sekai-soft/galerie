@@ -7,9 +7,37 @@
     {% if double_click_action %}
     x-on:dblclick.prevent="clearTimeout(timer); addToPocket('{{ image.ui_extra['quoted_url'] }}', '{{ image.ui_extra['encoded_tags'] }}');"
     {% endif %}
-    >
-    <img class="item-image" src="{{ image.image_url }}"/>
+>
+    <img
+        id="img-{{ image.uid }}"
+        class="item-image"
+        src="{{ image.image_url }}"
+        style="display: none"
+    />
+    <img
+        id="img-placeholder-{{ image.uid }}"
+        class="item-image"
+        src="{{ url_for('static', filename='placeholder.png') }}"
+    />
+    <img
+        id="img-error-{{ image.uid }}"
+        class="item-image"
+        src="{{ url_for('static', filename='error.png') }}"
+        style="display: none"
+    />
     <a href="{{ image.url }}" target="_blank" class="title">{{ image.title }}</a>
     <a href="{{ image.url }}" target="_blank" class="feed-title">{{ image.feed_title }}</a>
+    <script>
+        document.getElementById("img-{{ image.uid }}").onload = () => {
+            document.getElementById("img-{{ image.uid }}").style = "";
+            document.getElementById("img-placeholder-{{ image.uid }}").style.display = "none";
+            document.getElementById("img-error-{{ image.uid }}").style.display = "none";
+        }
+        document.getElementById("img-{{ image.uid }}").onerror = () => {
+            document.getElementById("img-{{ image.uid }}").style.display = "none";
+            document.getElementById("img-placeholder-{{ image.uid }}").style.display = "none";
+            document.getElementById("img-error-{{ image.uid }}").style = "";
+        }
+    </script>
 </div>
 {% endfor %}
