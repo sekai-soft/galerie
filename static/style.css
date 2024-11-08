@@ -1,3 +1,11 @@
+input {
+    width: 75%;
+}
+
+.button {
+    margin-top: 4px;
+}
+
 .logo-image {
     height: 2em;
     width: auto;
@@ -117,10 +125,6 @@
 }
 
 /* other styles */
-.code-font {
-    font-family: 'Consolas', 'Menlo', monospace;
-}
-
 .logo {
     display: flex;
     align-items: center;

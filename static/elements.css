@@ -4,7 +4,6 @@ input {
     border: none;
     border-bottom: 2px solid #999999;
     background-color: #1A1A1A;
-    width: 75%;
 }
 
 a {
@@ -24,7 +23,6 @@ select {
     border: 2px solid #F5F5F5;
     border-radius: 4px;
     padding: 0.5em;
-    margin-top: 4px;
     cursor: pointer;
     text-align: center;
 }
@@ -34,6 +32,10 @@ select {
     flex-direction: horizontal;
     justify-content: space-between;
     align-items: center;
+}
+
+.code-font {
+    font-family: 'Consolas', 'Menlo', monospace;
 }
 
 /** sizes for > iPad **/
