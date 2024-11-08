@@ -20,6 +20,9 @@
     <br>
     <a href="/actions/qrcode.jpg">{{ _('Show setup QR code') }}</a>
     {% endif %}
+    <br>
+    <br>
+    <hr>
     <p>{{ _('Pocket connection') }}</p>
     {% if pocket_server_authenticated %}
     <p>{{ _('Pocket connection is server authenticated') }}</p>
@@ -36,16 +39,35 @@
         hx-post="/actions/disconnect_from_pocket"
         hx-swap="none"
     >{{ _('Disconnect from Pocket')}}</button>
-    {% endif %}   
-    <p>Infinite scroll</p>
+    {% endif %}
+    <br>
+    <br>
+    <hr>
+    <p>{{ _('Infinite scroll')}}</p>
     <select
         name="infinite_scroll"
         hx-trigger="change"
         hx-post="/actions/set_infinite_scroll"
         hx-swap="none"
     >
-        <option value="1" {{ 'selected=selected' if infinite_scroll else '' }}>Yes</option>
-        <option value="0" {{ 'selected=selected' if not infinite_scroll else '' }}>No</option>
+        <option value="1" {{ 'selected=selected' if infinite_scroll else '' }}>{{ _('Yes')}}</option>
+        <option value="0" {{ 'selected=selected' if not infinite_scroll else '' }}>{{ _('No')}}</option>
     </select>
+    {% if connection_info.aggregator_type == 'Miniflux' %}
+    <br>
+    <br>
+    <hr>
+    <p>{{ _('WebP Cloud integration')}}</p>
+    <input
+        type="text"
+        placeholder="{{ _('Enter proxy address ↲, e.g. https://xxxxxxx.webp.li') }}"
+        style="width: 100%;"
+        name="webp_cloud_endpoint"
+        hx-trigger="keyup[keyCode==13]"
+        hx-post="/actions/set_webp_cloud_endpoint"
+        hx-swap="none"
+        value="{{ webp_cloud_endpoint }}"
+    >
+    {% endif %}
 </div>
 {% endblock %}

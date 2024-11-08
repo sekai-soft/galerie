@@ -4,14 +4,13 @@ import base64
 import qrcode
 from functools import wraps
 from urllib.parse import unquote, unquote_plus
-from uuid import uuid4
 from io import BytesIO
 from flask import request, g, Blueprint, make_response, render_template, Response, send_file
 from flask_babel import _, lazy_gettext as _l
 from sentry_sdk import capture_exception
 from pocket import Pocket
 from galerie.feed_filter import FeedFilter
-from galerie.image import extract_images, uid_to_item_id
+from galerie.image import extract_images, uid_to_item_id, convert_with_webp_cloud_endpoint
 from galerie.rss_aggregator import AuthError
 from .helpers import requires_auth, compute_after_for_maybe_today, max_items, get_pocket_client, load_more_button_args, mark_as_read_button_args, images_args, add_image_ui_extras
 from .get_aggregator import get_aggregator
@@ -90,6 +89,7 @@ def load_more():
     group = request.args.get('group') if request.args.get('group') else None
     from_iid = request.args.get('from_iid')
     infinite_scroll = request.cookies.get('infinite_scroll', '1') == '1'
+    webp_cloud_endpoint = request.cookies.get('webp_cloud_endpoint', '')
    
     feed_filter = FeedFilter(compute_after_for_maybe_today(), group)
     if sort_by_desc:
@@ -97,6 +97,7 @@ def load_more():
     else:
         unread_items = g.aggregator.get_unread_items_by_iid_ascending(max_items, from_iid, feed_filter)
     images = extract_images(unread_items)
+    convert_with_webp_cloud_endpoint(images, g.aggregator, webp_cloud_endpoint)
     for image in images:
         add_image_ui_extras(image)
     last_iid_str = uid_to_item_id(images[-1].uid) if images else ''
@@ -197,6 +198,14 @@ def _qrcode():
     data = {
         'auth': request.cookies['auth']
     }
+
+    if 'pocket_auth' in request.cookies:
+        data['pocket_auth'] = request.cookies['pocket_auth']
+    if 'infinite_scroll' in request.cookies:
+        data['infinite_scroll'] = request.cookies['infinite_scroll']
+    if 'webp_cloud_endpoint' in request.cookies:
+        data['webp_cloud_endpoint'] = request.cookies['webp_cloud_endpoint']
+
     img = qrcode.make(json.dumps(data))
 
     img_io = BytesIO()
@@ -204,3 +213,13 @@ def _qrcode():
     img_io.seek(0)
     
     return send_file(img_io, mimetype='image/jpeg')
+
+
+@actions_blueprint.route('/set_webp_cloud_endpoint', methods=['POST'])
+@catches_exceptions
+def set_webp_cloud():
+    webp_cloud_endpoint = request.form.get('webp_cloud_endpoint', '')
+    resp = make_response()
+    resp.set_cookie('webp_cloud_endpoint', webp_cloud_endpoint)
+    make_toast_header(resp, _("Setting updated"))
+    return resp

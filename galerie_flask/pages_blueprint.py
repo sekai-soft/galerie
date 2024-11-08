@@ -1,13 +1,12 @@
 import os
 import json
-import base64
 from functools import wraps
 from sentry_sdk import capture_exception
 from flask import Blueprint, redirect, render_template, g, request, make_response
 from flask_babel import _
 from pocket import Pocket
 from galerie.feed_filter import FeedFilter
-from galerie.image import extract_images, uid_to_item_id
+from galerie.image import extract_images, uid_to_item_id, convert_with_webp_cloud_endpoint
 from .helpers import requires_auth, compute_after_for_maybe_today, max_items, get_pocket_client, load_more_button_args, mark_as_read_button_args, images_args, is_pocket_server_authenticated, add_image_ui_extras
 from .get_aggregator import get_aggregator
 
@@ -39,6 +38,7 @@ def index():
     today = request.args.get('today') == "1"
     group = request.args.get('group') if request.args.get('group') else None
     infinite_scroll = request.cookies.get('infinite_scroll', '1') == '1'
+    webp_cloud_endpoint = request.cookies.get('webp_cloud_endpoint', '')
 
     selected_group = g.aggregator.get_group(group)
     groups = g.aggregator.get_groups()
@@ -48,6 +48,7 @@ def index():
     else:
         unread_items = g.aggregator.get_unread_items_by_iid_ascending(max_items, None, feed_filter)
     images = extract_images(unread_items)
+    convert_with_webp_cloud_endpoint(images, g.aggregator, webp_cloud_endpoint)
     for image in images:
         add_image_ui_extras(image)
     last_iid_str = uid_to_item_id(images[-1].uid) if images else ''
@@ -87,12 +88,14 @@ def settings():
     infinite_scroll = request.cookies.get('infinite_scroll', '1') == '1'
     pocket_server_authenticated=is_pocket_server_authenticated()
     pocket_auth = json.loads(request.cookies.get('pocket_auth', '{}'))
+    webp_cloud_endpoint = request.cookies.get('webp_cloud_endpoint', '')
     return render_template(
         'settings.html',
         connection_info=g.aggregator.connection_info(),
         pocket_server_authenticated=pocket_server_authenticated,
         pocket_auth=pocket_auth,
-        infinite_scroll=infinite_scroll)
+        infinite_scroll=infinite_scroll,
+        webp_cloud_endpoint=webp_cloud_endpoint)
 
 
 @pages_blueprint.route("/pocket_oauth")

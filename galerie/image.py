@@ -3,6 +3,8 @@ from dataclasses import dataclass, field
 from bs4 import BeautifulSoup
 from .item import Item
 from .group import Group
+from .rss_aggregator import RssAggregator
+from .miniflux_aggregator import MinifluxAggregator
 
 
 @dataclass
@@ -34,3 +36,11 @@ def extract_images(items: List[Item]) -> List[Image]:
                 feed_title=item.feed_title,
                 groups=item.groups))
     return images
+
+
+def convert_with_webp_cloud_endpoint(images: List[Image], aggregator: RssAggregator, webp_cloud_endpoint: str):
+    if aggregator.connection_info().aggregator_type != 'Miniflux' or not webp_cloud_endpoint:
+        return
+    miniflux_aggregator = aggregator # type: MinifluxAggregator
+    for image in images:
+        image.image_url = image.image_url.replace(miniflux_aggregator.base_url + "/proxy", webp_cloud_endpoint + "/proxy")
