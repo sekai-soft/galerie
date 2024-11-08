@@ -38,6 +38,21 @@ select {
     font-family: 'Consolas', 'Menlo', monospace;
 }
 
+.footer {
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    align-items: center;
+}
+
+.footer > p {
+    font-size: 0.75em;
+}
+
+.footer > p > a {
+    font-size: 1em;
+}
+
 /** sizes for > iPad **/
 p {
     font-size: 2em;
