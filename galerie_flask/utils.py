@@ -5,7 +5,7 @@ from typing import Optional, List
 from functools import wraps
 from datetime import datetime
 from urllib.parse import quote, quote_plus
-from flask import request, g, redirect
+from flask import request, g, redirect, Response
 from flask_babel import _
 from pocket import Pocket
 from galerie.image import Image
@@ -99,3 +99,17 @@ def encode_setup_from_cookies() -> str:
         data['webp_cloud_endpoint'] = request.cookies['webp_cloud_endpoint']
 
     return json.dumps(data)
+
+
+def decode_setup_to_cookies(setup_code: str, response: Response):
+    setup = json.loads(setup_code)
+    response.set_cookie('auth', setup['auth'])
+
+    if 'pocket_auth' in setup:
+        response.set_cookie('pocket_auth', setup['pocket_auth'])
+    if 'infinite_scroll' in setup:
+        response.set_cookie('infinite_scroll', setup['infinite_scroll'])
+    if 'webp_cloud_endpoint' in setup:
+        response.set_cookie('webp_cloud_endpoint', setup['webp_cloud_endpoint'])
+
+    return response

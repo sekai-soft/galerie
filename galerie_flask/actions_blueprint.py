@@ -12,7 +12,7 @@ from pocket import Pocket
 from galerie.feed_filter import FeedFilter
 from galerie.image import extract_images, uid_to_item_id, convert_with_webp_cloud_endpoint
 from galerie.rss_aggregator import AuthError
-from .utils import requires_auth, compute_after_for_maybe_today, max_items, get_pocket_client, load_more_button_args, mark_as_read_button_args, images_args, add_image_ui_extras, encode_setup_from_cookies
+from .utils import requires_auth, compute_after_for_maybe_today, max_items, get_pocket_client, load_more_button_args, mark_as_read_button_args, images_args, add_image_ui_extras, encode_setup_from_cookies, decode_setup_to_cookies
 from .get_aggregator import get_aggregator
 
 actions_blueprint = Blueprint('actions', __name__)
@@ -47,16 +47,28 @@ def catches_exceptions(f):
 @actions_blueprint.route('/auth', methods=['POST'])
 @catches_exceptions
 def auth():
+    if 'setup-code' in request.form:
+        resp = make_response()
+        setup_code = request.form['setup-code']
+        setup_code = base64.b64decode(setup_code)
+        setup_code = setup_code.decode("utf-8")
+        decode_setup_to_cookies(setup_code, resp)
+        resp.headers['HX-Redirect'] = '/'
+        return resp
+
     endpoint = request.form.get('endpoint')
     username = request.form.get('username', '')
     password = request.form.get('password', '')
     aggregator_type = request.form.get('type', 'fever')
     try:
-        persisted_auth = get_aggregator(
+        aggregator = get_aggregator(
             logging_in_endpoint=endpoint,
             logging_in_username=username,
             logging_in_password=password,
-            aggregator_type=aggregator_type).persisted_auth()
+            aggregator_type=aggregator_type)
+        if not aggregator:
+            raise AuthError()
+        persisted_auth = aggregator.persisted_auth()
         auth_bytes = persisted_auth.encode("utf-8")
         b64_auth_bytes = base64.b64encode(auth_bytes)
 
@@ -65,7 +77,7 @@ def auth():
         resp.headers['HX-Redirect'] = '/'
         return resp
     except AuthError:
-        return make_toast(401, str(_("Failed to authenticate with Fever API")))
+        return make_toast(401, str(_("Failed to authenticate")))
 
 
 @actions_blueprint.route("/deauth", methods=['POST'])

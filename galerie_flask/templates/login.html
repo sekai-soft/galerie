@@ -31,7 +31,6 @@
             name="username"
             required
             class="code-font"
-            required
         >
         <p>{{ _('Password') }}</p>
         <input
@@ -51,6 +50,38 @@
         </button>
         <br>
         <a href="/qr_setup">{{ _('Set up using a QR code') }}</a>
+        &nbsp;&nbsp;&nbsp;&nbsp;
+        <a href="javascript:document.getElementById('setup-using-code').showModal()">{{ _('Set up using a code') }}</a>
     </form>
 </div>
+<dialog id="setup-using-code">
+    <form>
+        <textarea
+            type="text"
+            class="code-font"
+            placeholder="{{ _('Setup code') }}"
+            rows="8"
+            cols="24"
+            name="setup-code"
+            required
+        ></textarea>
+        <br>
+        <button
+            class="button"
+            style="margin-top: 0.5em"
+            hx-post="/actions/auth"
+            hx-swap="none"
+            hx-disabled-elt="this"
+        >
+            {{ _('Submit') }}
+        </button>
+        <button
+            class="button"
+            style="margin-top: 0.5em"
+            onclick="document.getElementById('setup-using-code').close()"
+        >
+            {{ _('Close') }}
+        </button>
+    </form>
+</dialog>
 {% endblock %}

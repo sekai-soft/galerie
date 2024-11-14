@@ -1,3 +1,4 @@
+/** sizes for > iPad **/
 input {
     width: 75%;
 }
@@ -16,7 +17,6 @@ input {
     width: 66%;
     margin: 0 auto;
 }
-
 
 .header-controls {
     display: flex;
@@ -41,15 +41,9 @@ input {
     margin-bottom: 32px;
 }
 
-dialog {
-    background: #1A1A1A;
-    color: #F5F5F5;
-    margin-left: 2rem;
-    margin-right: 2rem;
-}
-
-.setup-code {
-    word-break: break-all;
+textarea {
+    font-size: 2em;
+    line-height: 1.5;
 }
 
 /** sizes for > iPhone 12 Pro Max <= iPad Pro **/
@@ -91,7 +85,12 @@ dialog {
     
     .grid-item {
         margin-bottom: 32px;
-    }       
+    }
+
+    textarea {
+        font-size: 2em;
+        line-height: 1.5;
+    }
 }
 
 /** sizes for <= iPhone 14 Pro Max **/
@@ -133,9 +132,14 @@ dialog {
     .grid-item {
         margin-bottom: 32px;
     }
+
+    textarea {
+        font-size: 1em;
+        line-height: 1;
+    }
 }
 
-/* other styles */
+/* non-sizes */
 .logo {
     display: flex;
     align-items: center;
@@ -161,6 +165,23 @@ dialog {
     display: flex;
     justify-content: center;
     align-items: center;
+}
+
+dialog {
+    background: #1A1A1A;
+    color: #F5F5F5;
+}
+
+.setup-code {
+    word-break: break-all;
+}
+
+textarea {
+    color: #F5F5F5;
+    border: none;
+    border-bottom: 2px solid #999999;
+    background-color: #1A1A1A;
+    resize: none;
 }
 
 /** htmx-indicator **/
