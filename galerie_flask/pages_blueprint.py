@@ -1,5 +1,6 @@
 import os
 import json
+import base64
 from functools import wraps
 from sentry_sdk import capture_exception
 from flask import Blueprint, redirect, render_template, g, request, make_response
@@ -7,7 +8,7 @@ from flask_babel import _
 from pocket import Pocket
 from galerie.feed_filter import FeedFilter
 from galerie.image import extract_images, uid_to_item_id, convert_with_webp_cloud_endpoint
-from .helpers import requires_auth, compute_after_for_maybe_today, max_items, get_pocket_client, load_more_button_args, mark_as_read_button_args, images_args, is_pocket_server_authenticated, add_image_ui_extras
+from .utils import requires_auth, compute_after_for_maybe_today, max_items, get_pocket_client, load_more_button_args, mark_as_read_button_args, images_args, is_pocket_server_authenticated, add_image_ui_extras, encode_setup_from_cookies
 from .get_aggregator import get_aggregator
 
 
@@ -89,13 +90,19 @@ def settings():
     pocket_server_authenticated=is_pocket_server_authenticated()
     pocket_auth = json.loads(request.cookies.get('pocket_auth', '{}'))
     webp_cloud_endpoint = request.cookies.get('webp_cloud_endpoint', '')
+    
+    setup_code = encode_setup_from_cookies()
+    setup_code = base64.b64encode(setup_code.encode("utf-8"))
+    setup_code = setup_code.decode("utf-8")
+
     return render_template(
         'settings.html',
         connection_info=g.aggregator.connection_info(),
         pocket_server_authenticated=pocket_server_authenticated,
         pocket_auth=pocket_auth,
         infinite_scroll=infinite_scroll,
-        webp_cloud_endpoint=webp_cloud_endpoint)
+        webp_cloud_endpoint=webp_cloud_endpoint,
+        setup_code=setup_code)
 
 
 @pages_blueprint.route("/pocket_oauth")

@@ -84,3 +84,18 @@ def add_image_ui_extras(image: Image):
     image.ui_extra['quoted_url'] = quote(image.url)
     image.ui_extra['encoded_tags'] = ''.join(map(
         lambda g: f'&tag={quote_plus(g.title)}&tag={quote(f'group_id={g.gid}')}', image.groups)) if image.groups else ''
+
+
+def encode_setup_from_cookies() -> str:
+    data = {
+        'auth': request.cookies['auth']
+    }
+
+    if 'pocket_auth' in request.cookies:
+        data['pocket_auth'] = request.cookies['pocket_auth']
+    if 'infinite_scroll' in request.cookies:
+        data['infinite_scroll'] = request.cookies['infinite_scroll']
+    if 'webp_cloud_endpoint' in request.cookies:
+        data['webp_cloud_endpoint'] = request.cookies['webp_cloud_endpoint']
+
+    return json.dumps(data)

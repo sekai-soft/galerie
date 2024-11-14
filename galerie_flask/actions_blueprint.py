@@ -12,7 +12,7 @@ from pocket import Pocket
 from galerie.feed_filter import FeedFilter
 from galerie.image import extract_images, uid_to_item_id, convert_with_webp_cloud_endpoint
 from galerie.rss_aggregator import AuthError
-from .helpers import requires_auth, compute_after_for_maybe_today, max_items, get_pocket_client, load_more_button_args, mark_as_read_button_args, images_args, add_image_ui_extras
+from .utils import requires_auth, compute_after_for_maybe_today, max_items, get_pocket_client, load_more_button_args, mark_as_read_button_args, images_args, add_image_ui_extras, encode_setup_from_cookies
 from .get_aggregator import get_aggregator
 
 actions_blueprint = Blueprint('actions', __name__)
@@ -195,18 +195,8 @@ def disconnect_from_pocket():
 def _qrcode():
     if 'auth' not in request.cookies:
         return make_toast(401, str(_("Not authenticated")))
-    data = {
-        'auth': request.cookies['auth']
-    }
 
-    if 'pocket_auth' in request.cookies:
-        data['pocket_auth'] = request.cookies['pocket_auth']
-    if 'infinite_scroll' in request.cookies:
-        data['infinite_scroll'] = request.cookies['infinite_scroll']
-    if 'webp_cloud_endpoint' in request.cookies:
-        data['webp_cloud_endpoint'] = request.cookies['webp_cloud_endpoint']
-
-    img = qrcode.make(json.dumps(data))
+    img = qrcode.make(encode_setup_from_cookies())
 
     img_io = BytesIO()
     img.save(img_io, 'JPEG')

@@ -18,7 +18,14 @@
     >{{ _('Logout')}}</button>
     <br>
     <br>
-    <a href="/actions/qrcode.jpg">{{ _('Show setup QR code') }}</a>
+    <a href="/actions/qrcode.jpg">{{ _('Show setup QR code') }}</a>&nbsp;&nbsp;&nbsp;&nbsp;
+    <a href="javascript:document.getElementById('setup-code').show()">{{ _('Show setup code') }}</a>
+    <dialog id="setup-code">
+        <p class="setup-code">{{ setup_code }}</p>
+        <button class="button" onclick="document.getElementById('setup-code').close()">
+            {{ _('Close') }}
+        </button>
+    </dialog>      
     {% endif %}
     <br>
     <br>

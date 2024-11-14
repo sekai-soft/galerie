@@ -41,6 +41,17 @@ input {
     margin-bottom: 32px;
 }
 
+dialog {
+    background: #1A1A1A;
+    color: #F5F5F5;
+    margin-left: 2rem;
+    margin-right: 2rem;
+}
+
+.setup-code {
+    word-break: break-all;
+}
+
 /** sizes for > iPhone 12 Pro Max <= iPad Pro **/
 @media screen and (max-width: 1024px) {
     .logo-image {
