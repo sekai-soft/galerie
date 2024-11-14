@@ -184,13 +184,24 @@ textarea {
     resize: none;
 }
 
+.feed-title > .group-title {
+    color: #CCCCCC;
+    background-color: #2E2E2E;
+    border: 1px solid #CCCCCC;
+    border-radius: 2px;
+    padding-left: 0.25em;
+    padding-right: 0.25em;
+}
+
 /** htmx-indicator **/
 .htmx-indicator {
     display:none;
 }
+
 .htmx-request .htmx-indicator {
     display:inline;
 }
+
 .htmx-request.htmx-indicator {
     display:inline;
 }
