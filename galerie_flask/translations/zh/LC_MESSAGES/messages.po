@@ -7,7 +7,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: PROJECT VERSION\n"
 "Report-Msgid-Bugs-To: EMAIL@ADDRESS\n"
-"POT-Creation-Date: 2024-11-08 22:50+0000\n"
+"POT-Creation-Date: 2024-11-14 03:42+0000\n"
 "PO-Revision-Date: 2024-06-27 08:04+0000\n"
 "Last-Translator: FULL NAME <EMAIL@ADDRESS>\n"
 "Language: zh\n"
@@ -18,61 +18,62 @@ msgstr ""
 "Content-Transfer-Encoding: 8bit\n"
 "Generated-By: Babel 2.16.0\n"
 
-#: galerie_flask/actions_blueprint.py:44
+#: galerie_flask/actions_blueprint.py:43
 #, python-format
 msgid "Unknown server error: %(e)s"
 msgstr "未知服务器错误: %(e)s"
 
-#: galerie_flask/actions_blueprint.py:69
+#: galerie_flask/actions_blueprint.py:68
 msgid "Failed to authenticate with Fever API"
 msgstr "无法和 Fever API 进行身份验证"
 
-#: galerie_flask/actions_blueprint.py:112
+#: galerie_flask/actions_blueprint.py:113
 msgid "All items were loaded"
 msgstr "所有条目已加载"
 
-#: galerie_flask/actions_blueprint.py:139
+#: galerie_flask/actions_blueprint.py:140
 msgid "Pocket was not configured"
 msgstr "Pocket 尚未配置"
 
-#: galerie_flask/actions_blueprint.py:145
+#: galerie_flask/actions_blueprint.py:146
 #, python-format
 msgid "Added %(url)s to Pocket"
 msgstr "已将 %(url)s 添加到 Pocket"
 
-#: galerie_flask/actions_blueprint.py:154
+#: galerie_flask/actions_blueprint.py:155
+#: galerie_flask/actions_blueprint.py:214
 msgid "Setting updated"
 msgstr "设置已更新"
 
-#: galerie_flask/actions_blueprint.py:162
+#: galerie_flask/actions_blueprint.py:163
 msgid "Pocket consumer key was not configured"
 msgstr "Pocket consumer key 尚未配置"
 
-#: galerie_flask/actions_blueprint.py:166
+#: galerie_flask/actions_blueprint.py:167
 msgid "Base URL was not configured"
 msgstr "Base URL 尚未配置"
 
-#: galerie_flask/actions_blueprint.py:196
+#: galerie_flask/actions_blueprint.py:197
 msgid "Not authenticated"
 msgstr "未验证"
 
-#: galerie_flask/helpers.py:61
-msgid "Are you sure you want to mark above as read?"
-msgstr "确定要标记以上为已读吗？"
-
-#: galerie_flask/helpers.py:63
-msgid ""
-"Are you sure you want to mark current group as read? It will mark still "
-"undisplayed entries as read as well."
-msgstr "确定要标记这个组别为已读吗？这将标记尚未显示的条目为已读。"
-
-#: galerie_flask/pages_blueprint.py:79
+#: galerie_flask/pages_blueprint.py:81
 msgid ""
 "https://github.com/sekai-soft/galerie?tab=readme-ov-file#example-fever-"
 "endpoints"
 msgstr ""
 "https://github.com/sekai-"
 "soft/galerie/blob/master/README.zh.md#fever-%E8%8A%82%E7%82%B9%E7%A4%BA%E4%BE%8B"
+
+#: galerie_flask/utils.py:61
+msgid "Are you sure you want to mark above as read?"
+msgstr "确定要标记以上为已读吗？"
+
+#: galerie_flask/utils.py:63
+msgid ""
+"Are you sure you want to mark current group as read? It will mark still "
+"undisplayed entries as read as well."
+msgstr "确定要标记这个组别为已读吗？这将标记尚未显示的条目为已读。"
 
 #: galerie_flask/templates/base.html:8
 msgid "A Pinterest/Xiaohongshu photo wall style RSS reader"
@@ -204,43 +205,51 @@ msgstr "登出"
 msgid "Show setup QR code"
 msgstr "显示初始设置二维码"
 
+#: galerie_flask/templates/settings.html:22
+msgid "Show setup code"
+msgstr "显示初始设置码"
+
 #: galerie_flask/templates/settings.html:26
+msgid "Close"
+msgstr "关闭"
+
+#: galerie_flask/templates/settings.html:33
 msgid "Pocket connection"
 msgstr "Pocket 连接"
 
-#: galerie_flask/templates/settings.html:28
+#: galerie_flask/templates/settings.html:35
 msgid "Pocket connection is server authenticated"
 msgstr "Pocket 已在服务器端验证"
 
-#: galerie_flask/templates/settings.html:34
+#: galerie_flask/templates/settings.html:41
 msgid "Connect to Pocket"
 msgstr "连接到 Pocket"
 
-#: galerie_flask/templates/settings.html:36
+#: galerie_flask/templates/settings.html:43
 msgid "Logged in as"
 msgstr "已用此身份登陆"
 
-#: galerie_flask/templates/settings.html:41
+#: galerie_flask/templates/settings.html:48
 msgid "Disconnect from Pocket"
 msgstr "从 Pocket 断开连接"
 
-#: galerie_flask/templates/settings.html:46
+#: galerie_flask/templates/settings.html:53
 msgid "Infinite scroll"
 msgstr "无限滚动"
 
-#: galerie_flask/templates/settings.html:53
+#: galerie_flask/templates/settings.html:60
 msgid "Yes"
 msgstr "是"
 
-#: galerie_flask/templates/settings.html:54
+#: galerie_flask/templates/settings.html:61
 msgid "No"
 msgstr "否"
 
-#: galerie_flask/templates/settings.html:60
+#: galerie_flask/templates/settings.html:67
 msgid "WebP Cloud integration"
 msgstr "WebP Cloud 集成"
 
-#: galerie_flask/templates/settings.html:63
+#: galerie_flask/templates/settings.html:70
 msgid "Enter proxy address ↲, e.g. https://xxxxxxx.webp.li"
 msgstr "输入代理地址 ↲，例如 https://xxx.webp.li"
 
