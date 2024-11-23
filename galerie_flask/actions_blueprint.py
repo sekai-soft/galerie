@@ -47,7 +47,7 @@ def catches_exceptions(f):
 @actions_blueprint.route('/auth', methods=['POST'])
 @catches_exceptions
 def auth():
-    if 'setup-code' in request.form:
+    if 'setup-code' in request.form and request.form['setup-code']:
         resp = make_response()
         setup_code = request.form['setup-code']
         setup_code = base64.b64decode(setup_code)
