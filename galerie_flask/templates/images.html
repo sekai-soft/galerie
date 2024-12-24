@@ -13,7 +13,7 @@
         class="item-image"
         src="{{ image.image_url }}"
     />
-    <a href="{{ image.url }}" target="_blank" class="title">{% if image.more_images_count > 0 %}({{ image.more_images_count }}+){% endif %} {{ image.title }}</a>
+    <a href="{{ image.url }}" target="_blank" class="title">{{ image.title }}</a>
     <a href="{{ image.url }}" target="_blank" class="feed-title">
         <span class="tag">{{ image.groups[0].title }}</span>
         {{ image.feed_title }}
