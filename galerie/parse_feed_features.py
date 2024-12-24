@@ -12,7 +12,10 @@ def parse_feature_twitter(feed_url: str, features: Dict):
 def parse_rss_lambda(feed_url: str, features: Dict):
     if feed_url.startswith("https://rss-lambda.xyz/to_image_feed"):
         url = unquote(feed_url.split("?url=")[1])
-        features["rss_lambda_to_image_feed"] = True
+        features.update({
+            "feed_url": url,
+            "rss_lambda_to_image_feed": True
+        })
         parse_rss_lambda(url, features)
         return
     parse_feature_twitter(feed_url, features)

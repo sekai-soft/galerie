@@ -3,11 +3,19 @@
 {% block title %}{{ _('Feeds') }}{% endblock %}
 
 {% block content %}
+{% for feed in feeds %}
 <ul>
-    {% for feed in feeds %}
-    <li>{{ feed.feed_url }} {{ feed.features }} {% if not feed.features.rss_lambda_to_image_feed %}<button
-        hx-post="/actions/convert_to_image_feed?feed={{ feed.fid }}"
-        hx-disabled-elt="this">Convert to image feed</button>{% endif %}</li>
-    {% endfor %}
+    <li>
+        <span class="tag">Managed</span>
+        {% if feed.features.twitter_handle %} @{{feed.features.twitter_handle}} {% else %} {{ feed.features.feed_url }} {% endif %}
+        {% if not feed.features.rss_lambda_to_image_feed %}
+            <button
+                hx-post="/actions/convert_to_image_feed?feed={{ feed.fid }}"
+                hx-disabled-elt="this"
+            >Convert to image feed</button>
+        {% endif %}
+    </li>
 </ul>
+
+{% endfor %}
 {% endblock %}
