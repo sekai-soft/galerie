@@ -8,6 +8,7 @@ from .item import Item, fix_nitter_url
 from .group import Group
 from .feed_filter import FeedFilter
 from .rss_aggregator import RssAggregator, AuthError, ConnectionInfo
+from .feed import Feed
 
 
 def _compute_api_key(username: str, password: str):
@@ -217,3 +218,12 @@ class FeverAggregator(RssAggregator):
             host=urlparse(self.endpoint).hostname,
             frontend_or_backend=self.frontend_or_backend
         )
+
+    def supports_feed_management(self) -> bool:
+        return False
+
+    def get_feeds(self) -> List[Feed]:
+        pass
+    
+    def update_feed_to_image_feed(self, fid: str):
+        pass

@@ -4,6 +4,7 @@ from dataclasses import dataclass
 from .item import Item
 from .group import Group
 from .feed_filter import FeedFilter
+from .feed import Feed
 
 
 class AuthError(Exception): pass
@@ -63,4 +64,16 @@ class RssAggregator(ABC):
 
     @abstractmethod
     def connection_info(self) -> ConnectionInfo:
+        pass
+
+    @abstractmethod
+    def supports_feed_management(self) -> bool:
+        pass
+
+    @abstractmethod
+    def get_feeds(self) -> List[Feed]:
+        pass
+
+    @abstractmethod
+    def update_feed_to_image_feed(self, fid: str):
         pass

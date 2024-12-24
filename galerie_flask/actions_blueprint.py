@@ -225,3 +225,18 @@ def set_webp_cloud():
     resp.set_cookie('webp_cloud_endpoint', webp_cloud_endpoint)
     make_toast_header(resp, _("Setting updated"))
     return resp
+
+
+@actions_blueprint.route('/convert_to_image_feed', methods=['POST'])
+@catches_exceptions
+def convert_to_image_feed():
+    feed = request.args.get('feed') if request.args.get('feed') else None
+    if not feed:
+        return make_toast(400, str(_("Feed was not provided")))
+    aggregator = get_aggregator()
+    if not aggregator:
+        return make_toast(400, str(_("Aggregator was not configured")))
+    if not aggregator.supports_feed_management():
+        return make_toast(400, str(_("This aggregator does not support feed management")))
+    aggregator.update_feed_to_image_feed(feed)
+    return make_toast(200, str(_("Feed was converted to image feed")))

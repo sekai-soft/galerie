@@ -129,6 +129,18 @@ def qr_setup():
     return render_template('qr_setup.html')
 
 
+@pages_blueprint.route("/feeds")
+@catches_exceptions
+def feeds():
+    aggregator = get_aggregator()
+    if not aggregator:
+        return redirect('/')
+    if not aggregator.supports_feed_management():
+        return render_template('error.html', error=_('This aggregator does not support feed management'))
+    feeds = aggregator.get_feeds()
+    return render_template('feeds.html', feeds=feeds)
+
+
 @pages_blueprint.route("/toast_test")
 @catches_exceptions
 def test_toast():

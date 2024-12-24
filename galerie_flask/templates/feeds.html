@@ -1,0 +1,13 @@
+{% extends 'base.html' %}
+
+{% block title %}{{ _('Feeds') }}{% endblock %}
+
+{% block content %}
+<ul>
+    {% for feed in feeds %}
+    <li>{{ feed.feed_url }} {{ feed.features }} {% if not feed.features.rss_lambda_to_image_feed %}<button
+        hx-post="/actions/convert_to_image_feed?feed={{ feed.fid }}"
+        hx-disabled-elt="this">Convert to image feed</button>{% endif %}</li>
+    {% endfor %}
+</ul>
+{% endblock %}

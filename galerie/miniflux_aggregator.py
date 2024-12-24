@@ -3,10 +3,13 @@ import miniflux
 from datetime import datetime
 from urllib.parse import urlparse
 from typing import List, Optional
+from urllib.parse import quote
 from .item import Item, fix_nitter_url
 from .group import Group
 from .feed_filter import FeedFilter
 from .rss_aggregator import RssAggregator, AuthError, ConnectionInfo
+from .feed import Feed
+from .parse_feed_features import parse_feed_features
 
 
 def _category_dict_to_group(category_dict: dict) -> Group:
@@ -126,3 +129,21 @@ class MinifluxAggregator(RssAggregator):
             host=urlparse(self.base_url).hostname,
             frontend_or_backend=self.frontend_or_backend
         )
+    
+    def supports_feed_management(self) -> bool:
+        return True
+
+    def get_feeds(self) -> List[Feed]:
+        feeds = []
+        for f in self.client.get_feeds():
+            feeds.append(Feed(
+                feed_url=f['feed_url'],
+                fid=str(f['id']),
+                gid=str(f['category']['id']),
+                features=parse_feed_features(f['feed_url'])
+            ))
+        return feeds
+
+    def update_feed_to_image_feed(self, fid: str):
+        feed_url = self.client.get_feed(int(fid))['feed_url']
+        self.client.update_feed(int(fid), feed_url=f'https://rss-lambda.xyz/to_image_feed?url={quote(feed_url)}')
