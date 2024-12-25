@@ -54,8 +54,14 @@ def index():
         add_image_ui_extras(image)
     last_iid_str = uid_to_item_id(images[-1].uid) if images else ''
 
+    group_unread_counts = {}
+    for _group in groups:
+        _feed_filter = FeedFilter(compute_after_for_maybe_today(), _group.gid)
+        group_unread_counts[_group.gid] = g.aggregator.get_unread_items_count(_feed_filter)
+
     kwargs = {
-        "unread_count": g.aggregator.get_unread_items_count(feed_filter),
+        "unread_count": sum(group_unread_counts.values()),
+        "group_unread_counts": group_unread_counts,
         # today was used later so has to use the key "all" instead of "today"
         "all": not today,
         "selected_group": selected_group,

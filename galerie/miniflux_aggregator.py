@@ -104,7 +104,8 @@ class MinifluxAggregator(RssAggregator):
             order='id',
             direction='asc',
             published_after=feed_filter.created_after_seconds,
-            category_id=None if feed_filter.group_id is None else int(feed_filter.group_id)
+            category_id=None if feed_filter.group_id is None else int(feed_filter.group_id),
+            limit=1
         )
         return entries['total']
     
