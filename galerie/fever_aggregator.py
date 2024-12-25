@@ -225,5 +225,8 @@ class FeverAggregator(RssAggregator):
     def get_feeds(self) -> List[Feed]:
         pass
     
-    def update_feed_to_image_feed(self, fid: str):
+    def convert_to_image_feed(self, fid: str):
+        pass
+
+    def unconvert_from_image_feed(self, fid: str):
         pass

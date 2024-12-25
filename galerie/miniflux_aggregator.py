@@ -3,7 +3,7 @@ import miniflux
 from datetime import datetime
 from urllib.parse import urlparse
 from typing import List, Optional
-from urllib.parse import quote
+from urllib.parse import quote_plus, unquote_plus
 from .item import Item, fix_nitter_url
 from .group import Group
 from .feed_filter import FeedFilter
@@ -145,6 +145,14 @@ class MinifluxAggregator(RssAggregator):
             ))
         return feeds
 
-    def update_feed_to_image_feed(self, fid: str):
+    def convert_to_image_feed(self, fid: str):
         feed_url = self.client.get_feed(int(fid))['feed_url']
-        self.client.update_feed(int(fid), feed_url=f'https://rss-lambda.xyz/to_image_feed?url={quote(feed_url)}')
+        self.client.update_feed(int(fid), feed_url=f'https://rss-lambda.xyz/to_image_feed?url={quote_plus(feed_url)}')
+
+    def unconvert_from_image_feed(self, fid: str):
+        feed_url = self.client.get_feed(int(fid))['feed_url']
+        if not feed_url.startswith('https://rss-lambda.xyz/to_image_feed?url='):
+            return
+        feed_url = feed_url[len('https://rss-lambda.xyz/to_image_feed?url='):]
+        feed_url = unquote_plus(feed_url)
+        self.client.update_feed(int(fid), feed_url=feed_url)

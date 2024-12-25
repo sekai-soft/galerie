@@ -14,6 +14,12 @@
                 hx-disabled-elt="this"
             >Convert to image feed</button>
         {% endif %}
+        <!-- {% if feed.features.rss_lambda_to_image_feed %}
+            <button
+                hx-post="/actions/unconvert_from_image_feed?feed={{ feed.fid }}"
+                hx-disabled-elt="this"
+            >Unconvert from image feed</button>
+        {% endif %} -->
     </li>
 </ul>
 

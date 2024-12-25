@@ -21,6 +21,8 @@ def parse_rss_lambda(feed_url: str, features: Dict):
     parse_feature_twitter(feed_url, features)
 
 def parse_feed_features(feed_url: str) -> Dict:
-    features = {}
+    features = {
+        "feed_url": feed_url
+    }
     parse_rss_lambda(feed_url, features)
     return features

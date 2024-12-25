@@ -75,5 +75,9 @@ class RssAggregator(ABC):
         pass
 
     @abstractmethod
-    def update_feed_to_image_feed(self, fid: str):
+    def convert_to_image_feed(self, fid: str):
+        pass
+    
+    @abstractmethod
+    def unconvert_from_image_feed(self, fid: str):
         pass
