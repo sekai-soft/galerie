@@ -5,27 +5,33 @@
 {% block content %}
 
 {% for feeds_in_group in feeds_by_groups %}
-<h3>{{ feeds_in_group.group.title }}</h3>
-<ul>
-    {% for feed in feeds_in_group.feeds %}
-    <li>
-        {% if feed.features.rss_lambda_to_image_feed %} <span class="tag">Managed</span> {% endif %}
-        {% if feed.features.twitter_handle %} @{{feed.features.twitter_handle}} {% else %} {{ feed.features.feed_url }} {% endif %}
-        {% if not feed.features.rss_lambda_to_image_feed %}
-            <button
-                hx-post="/actions/convert_to_image_feed?feed={{ feed.fid }}"
-                hx-disabled-elt="this"
-            >Convert to image feed</button>
-        {% endif %}
-        {% if feed.features.rss_lambda_to_image_feed %}
-            <button
-                hx-post="/actions/unconvert_from_image_feed?feed={{ feed.fid }}"
-                hx-disabled-elt="this"
-            >Unconvert from image feed</button>
-        {% endif %}
-    </li>
-    {% endfor %}
-</ul>
+<p class="feeds">{{ feeds_in_group.group.title }}</p>
+{% if not feeds_in_group.feeds %}
+<p class="feeds">(no feeds)</p>
+{% endif %}
+{% for feed in feeds_in_group.feeds %}
+<p class="feeds">
+    {% if not loop.last %}├─{% else %}└─{% endif %}
+    {% if feed.features.rss_lambda_to_image_feed %} <span class="tag">optimized</span> {% endif %}
+    {% if feed.features.rss_lambda_image_recog %} <span class="tag">image recognized</span> {% endif %}
+    {% if feed.features.rss_lambda_image_simple_filters %} <span class="tag">filtered</span> {% endif %}
+    {% if feed.features.rss_lambda_image_simple_filters_param %} <span class="tag">{{ feed.features.rss_lambda_image_simple_filters_param | join(', ') }}</span> {% endif %}
+    {% if feed.features.twitter_handle %} 🐦 @{{feed.features.twitter_handle}} {% else %} {{ feed.features.feed_url }} {% endif %}
+    {% if not feed.features.rss_lambda_to_image_feed %}
+        <button
+            hx-post="/actions/convert_to_image_feed?feed={{ feed.fid }}"
+            hx-disabled-elt="this"
+        >Convert to image feed</button>
+    {% endif %}
+    {% if feed.features.rss_lambda_to_image_feed %}
+        <button
+            hx-post="/actions/unconvert_from_image_feed?feed={{ feed.fid }}"
+            hx-disabled-elt="this"
+        >Unconvert from image feed</button>
+    {% endif %}
+</p>
+{% endfor %}
+<br>
 {% endfor %}
 
 {% endblock %}

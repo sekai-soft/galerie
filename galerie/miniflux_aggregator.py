@@ -138,7 +138,6 @@ class MinifluxAggregator(RssAggregator):
         feeds = []
         for f in self.client.get_feeds():
             feeds.append(Feed(
-                feed_url=f['feed_url'],
                 fid=str(f['id']),
                 gid=str(f['category']['id']),
                 features=parse_feed_features(f['feed_url'])

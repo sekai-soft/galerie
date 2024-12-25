@@ -193,6 +193,10 @@ textarea {
     padding-right: 0.25em;
 }
 
+.feeds {
+    margin: 0;
+}
+
 /** htmx-indicator **/
 .htmx-indicator {
     display:none;

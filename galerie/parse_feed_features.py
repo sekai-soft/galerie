@@ -1,28 +1,38 @@
 import re
 from typing import Dict
-from urllib.parse import unquote
+from urllib.parse import unquote_plus, urlparse, parse_qs
 
-def parse_feature_twitter(feed_url: str, features: Dict):
-    pattern = re.compile(r'https://nitter-[^.]+\.fly\.dev/([^/]+)/rss')
-    match = pattern.search(feed_url)
+nitter_pattern = re.compile(r'https://nitter-[^.]+\.fly\.dev/([^/]+)/rss')
+
+def parse_feature_twitter(features: Dict):
+    match = nitter_pattern.search(features["feed_url"])
     if match:
         twitter_handle = match.group(1)
         features["twitter_handle"] = twitter_handle
 
-def parse_rss_lambda(feed_url: str, features: Dict):
-    if feed_url.startswith("https://rss-lambda.xyz/to_image_feed"):
-        url = unquote(feed_url.split("?url=")[1])
-        features.update({
-            "feed_url": url,
-            "rss_lambda_to_image_feed": True
-        })
-        parse_rss_lambda(url, features)
-        return
-    parse_feature_twitter(feed_url, features)
+def parse_feature_rss_lambda(features: Dict):
+    feed_url = features["feed_url"]
+    if feed_url.startswith("https://rss-lambda.xyz"):
+        parsed_feed_url = urlparse(feed_url)
+        parsed_qs = parse_qs(parsed_feed_url.query)
+        features["feed_url"] = unquote_plus(parsed_qs["url"][0])
+        if parsed_feed_url.path == "/to_image_feed":
+            features["rss_lambda_to_image_feed"] = True
+        elif parsed_feed_url.path == "/rss_image_recog":
+            if parsed_qs["class_id"][0] == "0":
+                features["rss_lambda_image_recog_human"] = True
+            features["rss_lambda_image_recog"] = True
+        elif parsed_feed_url.path == "/rss":
+            features["rss_lambda_image_simple_filters"] = True
+            if parsed_qs.get("param"):
+                features["rss_lambda_image_simple_filters_param"] = parsed_qs["param"]
+        parse_feature_rss_lambda(features)
+    else:
+        parse_feature_twitter(features)
 
 def parse_feed_features(feed_url: str) -> Dict:
     features = {
-        "feed_url": feed_url
+        "feed_url": unquote_plus(feed_url)
     }
-    parse_rss_lambda(feed_url, features)
+    parse_feature_rss_lambda(features)
     return features
