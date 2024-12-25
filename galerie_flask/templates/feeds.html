@@ -16,7 +16,7 @@
     {% if feed.features.rss_lambda_image_recog %} <span class="tag">image recognized</span> {% endif %}
     {% if feed.features.rss_lambda_image_simple_filters %} <span class="tag">filtered</span> {% endif %}
     {% if feed.features.rss_lambda_image_simple_filters_param %} <span class="tag">{{ feed.features.rss_lambda_image_simple_filters_param | join(', ') }}</span> {% endif %}
-    {% if feed.features.twitter_handle %} 🐦 @{{feed.features.twitter_handle}} {% else %} {{ feed.features.feed_url }} {% endif %}
+    <a href="/feed?fid={{ feed.fid }}" target="_blank">{% if feed.features.twitter_handle %} 🐦 @{{feed.features.twitter_handle}} {% else %} {{ feed.features.feed_url }} {% endif %}</a>
     {% if not feed.features.rss_lambda_to_image_feed %}
         <button
             hx-post="/actions/convert_to_image_feed?feed={{ feed.fid }}"

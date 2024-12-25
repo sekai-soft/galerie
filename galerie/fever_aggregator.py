@@ -230,3 +230,7 @@ class FeverAggregator(RssAggregator):
 
     def unconvert_from_image_feed(self, fid: str):
         pass
+
+    def get_feed_items_by_iid_descending(self, fid: str) -> List[Item]:
+        # TODO: can probably support this
+        pass

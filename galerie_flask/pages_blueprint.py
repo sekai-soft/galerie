@@ -156,6 +156,25 @@ def feeds():
     return render_template('feeds.html', feeds_by_groups=feeds_by_groups)
 
 
+@pages_blueprint.route("/feed")
+@catches_exceptions
+@requires_auth
+def feed():
+    aggregator = get_aggregator()
+    if not aggregator:
+        return redirect('/')
+    if not aggregator.supports_feed_management():
+        # TODO: ok you could definite support this for Fever
+        return render_template('error.html', error='This aggregator does not support feed management')
+    fid = request.args.get('fid')
+    items = aggregator.get_feed_items_by_iid_descending(fid)
+    images = extract_images(items)
+
+    args = {}
+    images_args(args, images, False)
+    return render_template('feed.html', **args)
+
+
 @pages_blueprint.route("/toast_test")
 @catches_exceptions
 def test_toast():

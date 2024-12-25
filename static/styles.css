@@ -197,6 +197,10 @@ textarea {
     margin: 0;
 }
 
+.feeds > a {
+    font-size: 1em;
+}
+
 /** htmx-indicator **/
 .htmx-indicator {
     display:none;

@@ -155,3 +155,11 @@ class MinifluxAggregator(RssAggregator):
         feed_url = feed_url[len('https://rss-lambda.xyz/to_image_feed?url='):]
         feed_url = unquote_plus(feed_url)
         self.client.update_feed(int(fid), feed_url=feed_url)
+
+    def get_feed_items_by_iid_descending(self, fid: str) -> List[Item]:
+        entries = self.client.get_feed_entries(
+            int(fid),
+            order='id',
+            direction='desc'
+        )
+        return list(map(_entry_dict_to_item, entries['entries']))
