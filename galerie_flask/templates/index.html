@@ -1,6 +1,6 @@
 {% extends 'base.html' %}
 
-{% block title %}{{ '(' + unread_count|string + ') ' if unread_count != 0 else '' }}{{ _('Galerie') }}{% endblock %}
+{% block title %}{{ '(' + total_unread_count|string + ') ' if unread_count != 0 else '' }}{{ _('Galerie') }}{% endblock %}
 
 {% block content %}
 <div class="stream header" x-data="{}">

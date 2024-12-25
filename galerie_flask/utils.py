@@ -50,21 +50,21 @@ def compute_after_for_maybe_today() -> Optional[int]:
     return int(start_of_day.timestamp())
 
 
-def mark_as_read_button_args(kwargs: dict, to_iid: Optional[str], today: bool, gid: Optional[str], sort_by_desc: bool):
-    kwargs.update({
+def mark_as_read_button_args(args: dict, to_iid: Optional[str], today: bool, gid: Optional[str], sort_by_desc: bool):
+    args.update({
         "to_iid": to_iid if to_iid is not None else "",
         'today': "1" if today else "0",
         "gid": gid if gid is not None else "",
         "sort": "desc" if sort_by_desc else "asc",
     })
     if g.aggregator.supports_mark_items_as_read_by_iid_ascending_and_feed_filter():
-        kwargs['mark_as_read_confirm'] = _('Are you sure you want to mark above as read?')
+        args['mark_as_read_confirm'] = _('Are you sure you want to mark above as read?')
     else:
-        kwargs['mark_as_read_confirm'] = _('Are you sure you want to mark current group as read? It will mark still undisplayed entries as read as well.')
+        args['mark_as_read_confirm'] = _('Are you sure you want to mark this group as read?')
 
 
-def load_more_button_args(kwargs: dict, from_iid: str, today: bool, gid: Optional[str], sort_by_desc: bool, infinite_scroll: bool):
-    kwargs.update({
+def load_more_button_args(args: dict, from_iid: str, today: bool, gid: Optional[str], sort_by_desc: bool, infinite_scroll: bool):
+    args.update({
         "from_iid": from_iid,
         'today': "1" if today else "0",
         "gid": gid if gid is not None else "",
@@ -73,8 +73,8 @@ def load_more_button_args(kwargs: dict, from_iid: str, today: bool, gid: Optiona
     })
 
 
-def images_args(kwargs: dict, images: List[Image], double_click_action: bool):
-    kwargs.update({
+def images_args(args: dict, images: List[Image], double_click_action: bool):
+    args.update({
         "images": images,
         "double_click_action": double_click_action,
     })

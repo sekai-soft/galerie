@@ -59,8 +59,8 @@ def index():
         _feed_filter = FeedFilter(compute_after_for_maybe_today(), _group.gid)
         group_unread_counts[_group.gid] = g.aggregator.get_unread_items_count(_feed_filter)
 
-    kwargs = {
-        "unread_count": sum(group_unread_counts.values()),
+    args = {
+        "total_unread_count": sum(group_unread_counts.values()),
         "group_unread_counts": group_unread_counts,
         # today was used later so has to use the key "all" instead of "today"
         "all": not today,
@@ -69,11 +69,11 @@ def index():
         "supports_sort_desc": g.aggregator.supports_get_unread_items_by_iid_descending(),
         "sort_by_desc":sort_by_desc,
     }
-    images_args(kwargs, images, get_pocket_client() is not None)
-    mark_as_read_button_args(kwargs, last_iid_str, today, group, sort_by_desc)
-    load_more_button_args(kwargs, last_iid_str, today, group, sort_by_desc, infinite_scroll)
+    images_args(args, images, get_pocket_client() is not None)
+    mark_as_read_button_args(args, last_iid_str, today, group, sort_by_desc)
+    load_more_button_args(args, last_iid_str, today, group, sort_by_desc, infinite_scroll)
 
-    return render_template('index.html', **kwargs)
+    return render_template('index.html', **args)
 
 
 @pages_blueprint.route("/login")
@@ -142,7 +142,7 @@ def feeds():
     if not aggregator:
         return redirect('/')
     if not aggregator.supports_feed_management():
-        return render_template('error.html', error=_('This aggregator does not support feed management'))
+        return render_template('error.html', error='This aggregator does not support feed management')
     feeds = aggregator.get_feeds()
     return render_template('feeds.html', feeds=feeds)
 

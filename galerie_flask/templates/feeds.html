@@ -6,7 +6,7 @@
 {% for feed in feeds %}
 <ul>
     <li>
-        <span class="tag">Managed</span>
+        {% if feed.features.rss_lambda_to_image_feed %} <span class="tag">Managed</span> {% endif %}
         {% if feed.features.twitter_handle %} @{{feed.features.twitter_handle}} {% else %} {{ feed.features.feed_url }} {% endif %}
         {% if not feed.features.rss_lambda_to_image_feed %}
             <button

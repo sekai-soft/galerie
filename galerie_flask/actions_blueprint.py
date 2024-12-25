@@ -114,12 +114,12 @@ def load_more():
         add_image_ui_extras(image)
     last_iid_str = uid_to_item_id(images[-1].uid) if images else ''
 
-    kwargs = {}
-    images_args(kwargs, images, get_pocket_client() is not None)
-    mark_as_read_button_args(kwargs, last_iid_str, today, group, sort_by_desc)
-    load_more_button_args(kwargs, last_iid_str, today, group, sort_by_desc, infinite_scroll)
+    args = {}
+    images_args(args, images, get_pocket_client() is not None)
+    mark_as_read_button_args(args, last_iid_str, today, group, sort_by_desc)
+    load_more_button_args(args, last_iid_str, today, group, sort_by_desc, infinite_scroll)
 
-    rendered_string = render_template('load_more.html', **kwargs)
+    rendered_string = render_template('load_more.html', **args)
     resp = make_response(rendered_string)
     if not images:
         make_toast_header(resp, str(_("All items were loaded")))
@@ -232,11 +232,11 @@ def set_webp_cloud():
 def convert_to_image_feed():
     feed = request.args.get('feed') if request.args.get('feed') else None
     if not feed:
-        return make_toast(400, str(_("Feed was not provided")))
+        return make_toast(400, "Feed was not provided")
     aggregator = get_aggregator()
     if not aggregator:
-        return make_toast(400, str(_("Aggregator was not configured")))
+        return make_toast(400, "Aggregator was not configured")
     if not aggregator.supports_feed_management():
-        return make_toast(400, str(_("This aggregator does not support feed management")))
+        return make_toast(400, "This aggregator does not support feed management")
     aggregator.update_feed_to_image_feed(feed)
-    return make_toast(200, str(_("Feed was converted to image feed")))
+    return make_toast(200, "Feed was converted to image feed")
