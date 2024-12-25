@@ -3,8 +3,11 @@
 {% block title %}{{ _('Feeds') }}{% endblock %}
 
 {% block content %}
-{% for feed in feeds %}
+
+{% for feeds_in_group in feeds_by_groups %}
+<h3>{{ feeds_in_group.group.title }}</h3>
 <ul>
+    {% for feed in feeds_in_group.feeds %}
     <li>
         {% if feed.features.rss_lambda_to_image_feed %} <span class="tag">Managed</span> {% endif %}
         {% if feed.features.twitter_handle %} @{{feed.features.twitter_handle}} {% else %} {{ feed.features.feed_url }} {% endif %}
@@ -14,14 +17,15 @@
                 hx-disabled-elt="this"
             >Convert to image feed</button>
         {% endif %}
-        <!-- {% if feed.features.rss_lambda_to_image_feed %}
+        {% if feed.features.rss_lambda_to_image_feed %}
             <button
                 hx-post="/actions/unconvert_from_image_feed?feed={{ feed.fid }}"
                 hx-disabled-elt="this"
             >Unconvert from image feed</button>
-        {% endif %} -->
+        {% endif %}
     </li>
+    {% endfor %}
 </ul>
-
 {% endfor %}
+
 {% endblock %}

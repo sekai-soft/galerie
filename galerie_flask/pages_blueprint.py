@@ -144,7 +144,16 @@ def feeds():
     if not aggregator.supports_feed_management():
         return render_template('error.html', error='This aggregator does not support feed management')
     feeds = aggregator.get_feeds()
-    return render_template('feeds.html', feeds=feeds)
+    groups = aggregator.get_groups()
+
+    feeds_by_groups = []
+    for group in groups:
+        feeds_by_groups.append({
+            "group": group,
+            "feeds": [feed for feed in feeds if feed.gid == group.gid]
+        })
+
+    return render_template('feeds.html', feeds_by_groups=feeds_by_groups)
 
 
 @pages_blueprint.route("/toast_test")
