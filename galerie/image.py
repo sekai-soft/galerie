@@ -7,6 +7,9 @@ from .rss_aggregator import RssAggregator
 from .miniflux_aggregator import MinifluxAggregator
 
 
+MAX_IMAGES_PER_ITEM = 4
+
+
 @dataclass
 class Image:
     image_url: str
@@ -15,6 +18,7 @@ class Image:
     groups: List[Group]
     title: str
     feed_title: str
+    more_images_count: int
     ui_extra: dict = field(default_factory=dict)
 
 
@@ -27,6 +31,10 @@ def extract_images(items: List[Item]) -> List[Image]:
     for item in items:
         soup = BeautifulSoup(item.html, 'html.parser')
         image_urls = soup.find_all('img')
+        more_images_count = len(image_urls) - MAX_IMAGES_PER_ITEM
+        if more_images_count < 0:
+            more_images_count = 0
+        image_urls = image_urls[:MAX_IMAGES_PER_ITEM]
         for i, image_url in enumerate(image_urls):
             images.append(Image(
                 image_url=image_url['src'],
@@ -34,7 +42,8 @@ def extract_images(items: List[Item]) -> List[Image]:
                 url=item.url,
                 title=item.title,
                 feed_title=item.feed_title,
-                groups=item.groups))
+                groups=item.groups,
+                more_images_count=more_images_count))
     return images
 
 
