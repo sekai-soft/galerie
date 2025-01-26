@@ -10,17 +10,11 @@ input {
 .logo-image {
     height: 2em;
     width: auto;
-    margin-right: 0.5em;
 }
 
 .stream {
     width: 66%;
     margin: 0 auto;
-}
-
-.header-controls {
-    display: flex;
-    flex-direction: horizontal;
 }
 
 #groupSelect {
@@ -59,7 +53,6 @@ textarea {
     .logo-image {
         height: 2em;
         width: auto;
-        margin-right: 0.5em;
     }
 
     .stream {
@@ -106,11 +99,11 @@ textarea {
     .logo-image {
         height: 1em;
         width: auto;
-        margin-right: 0.5em;
     }
 
     .stream {
         width: 100%;
+        margin: 0 auto;
     }
 
     #groupSelect {
@@ -148,12 +141,6 @@ textarea {
 }
 
 /* non-sizes */
-.logo {
-    display: flex;
-    align-items: center;
-    cursor: pointer;
-}
-
 .item-image {
     width: 100%;
     border-radius: 16px;

@@ -10,11 +10,4 @@
         hx-target="#grid"
         hx-swap="beforeend"
     >{{ _('Load more') }} <span class="htmx-indicator">...</span></button>
-    <button
-        class="button"
-        style="margin-left: 4px"
-        hx-confirm="{{ mark_as_read_confirm }}"
-        hx-post="/actions/mark_as_read?to_iid={{ to_iid }}&today={{ today }}&group={{ gid }}&sort={{ sort }}"
-        hx-disabled-elt="this"
-    >{{ _('Mark as read') }} <span class="htmx-indicator">...</span></button>
 </div>
