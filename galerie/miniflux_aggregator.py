@@ -12,6 +12,8 @@ from .feed import Feed
 from .parse_feed_features import parse_feed_features
 
 
+TIMEOUT = 5
+
 def _category_dict_to_group(category_dict: dict) -> Group:
     return Group(
         gid=str(category_dict['id']),
@@ -47,7 +49,7 @@ class MinifluxAggregator(RssAggregator):
         self.base_url = base_url
         self.username = username
         self.password = password
-        self.client = miniflux.Client(base_url, username, password)
+        self.client = miniflux.Client(base_url, username, password, timeout=TIMEOUT)
         self.frontend_or_backend = frontend_or_backend
     
     def persisted_auth(self) -> str:

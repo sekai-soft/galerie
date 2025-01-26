@@ -10,6 +10,8 @@ from .feed_filter import FeedFilter
 from .rss_aggregator import RssAggregator, AuthError, ConnectionInfo
 from .feed import Feed
 
+TIMEOUT = 5
+
 
 def _compute_api_key(username: str, password: str):
     username_plus_password = username + ':' + password
@@ -61,7 +63,7 @@ class FeverAggregator(RssAggregator):
     def _call_fever(self, path: str):
         if os.getenv('DEBUG', '0') == '1':
             print(f'Calling fever {path}')
-        res = requests.post(self.endpoint + path, data={'api_key': self.api_key})
+        res = requests.post(self.endpoint + path, data={'api_key': self.api_key}, timeout=TIMEOUT)
         res.raise_for_status()
         return res.json()
     

@@ -8,5 +8,10 @@
 </div>
 <div class="stream">
     <p>{{ error }}</p>
+    <button
+        class="button"
+        hx-post="/actions/deauth"
+        hx-swap="none"
+    >{{ _('Logout')}}</button>
 </div>
 {% endblock %}
