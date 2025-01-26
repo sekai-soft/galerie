@@ -23,6 +23,14 @@ input {
     flex-direction: horizontal;
 }
 
+#groupSelect {
+    display: block;
+}
+
+#mobileGroupSelect {
+    display: none;
+}
+
 .grid-sizer, .grid-item {
     width: calc((100% - 64px) / 3)
 }
@@ -59,14 +67,14 @@ textarea {
         margin: 0 auto;
     }
 
-    .header-controls {
-        display: flex;
-        flex-direction: column;
-        margin-bottom: 1em;
+    #groupSelect {
+        display: none;
     }
 
-    .header-controls > select {
+    #mobileGroupSelect {
+        display: block;
         min-width: 100%;
+        padding: 0;
     }
 
     .grid-sizer, .grid-item {
@@ -105,14 +113,14 @@ textarea {
         width: 100%;
     }
 
-    .header-controls {
-        display: flex;
-        flex-direction: column;
-        margin-bottom: 1em;
+    #groupSelect {
+        display: none;
     }
 
-    .header-controls > select {
+    #mobileGroupSelect {
+        display: block;
         min-width: 100%;
+        padding: 0;
     }
 
     .grid-sizer, .grid-item {
