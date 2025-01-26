@@ -32,6 +32,8 @@ select {
     flex-direction: horizontal;
     justify-content: space-between;
     align-items: center;
+    margin-top: 1em;
+    margin-bottom: 1em;
 }
 
 .code-font {
@@ -51,6 +53,10 @@ select {
 
 p > a {
     font-size: 1em;
+}
+
+.all-read {
+    text-align: center;
 }
 
 /** sizes for > iPad **/
