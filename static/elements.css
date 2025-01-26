@@ -49,7 +49,7 @@ select {
     font-size: 0.75em;
 }
 
-.footer > p > a {
+p > a {
     font-size: 1em;
 }
 

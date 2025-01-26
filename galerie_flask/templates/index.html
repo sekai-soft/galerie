@@ -30,13 +30,14 @@
 </div>
 {% if not images %}
 <div class="stream">
-    <p>{{ _('✨ All read ✨') }}</p>
+    <p>{{ _('✨ all read ✨') }}</p>
     {% for g in groups %}
     {% if group_unread_counts[g.gid] != 0 %}
-    <a href="/?group={{ g.gid }}">
-        {{ g.title }}: {{ group_unread_counts[g.gid] }} {{ _('unread items') }}
-    </a>
-    <br>
+    <p>
+        <a href="/?group={{ g.gid }}">
+            {{ g.title }} {{ _('has') }} {{ group_unread_counts[g.gid] }} {{ _('unread items') }}
+        </a>
+    </p>
     {% endif %}
     {% endfor %}
 </div>
