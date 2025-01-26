@@ -7,7 +7,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: PROJECT VERSION\n"
 "Report-Msgid-Bugs-To: EMAIL@ADDRESS\n"
-"POT-Creation-Date: 2024-12-25 02:44+0000\n"
+"POT-Creation-Date: 2025-01-26 01:54+0000\n"
 "PO-Revision-Date: 2024-06-27 08:04+0000\n"
 "Last-Translator: FULL NAME <EMAIL@ADDRESS>\n"
 "Language: zh\n"
@@ -85,6 +85,11 @@ msgstr "错误 | Galerie"
 msgid "Oops something went wrong"
 msgstr "糟糕，出错了"
 
+#: galerie_flask/templates/error.html:15
+#: galerie_flask/templates/settings.html:18
+msgid "Logout"
+msgstr "登出"
+
 #: galerie_flask/templates/feeds.html:3
 msgid "Feeds"
 msgstr "订阅源"
@@ -125,6 +130,10 @@ msgstr "最旧优先"
 #: galerie_flask/templates/index.html:33
 msgid "✨ All read ✨"
 msgstr "✨ 全部已读 ✨"
+
+#: galerie_flask/templates/index.html:38
+msgid "unread items"
+msgstr "个未读条目"
 
 #: galerie_flask/templates/login.html:3
 msgid "Login | Galerie"
@@ -215,10 +224,6 @@ msgstr "连接"
 #: galerie_flask/templates/settings.html:12
 msgid "[Server authenticated]"
 msgstr "[服务器端验证]"
-
-#: galerie_flask/templates/settings.html:18
-msgid "Logout"
-msgstr "登出"
 
 #: galerie_flask/templates/settings.html:21
 msgid "Show setup QR code"
