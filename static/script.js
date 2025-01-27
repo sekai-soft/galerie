@@ -89,3 +89,27 @@ const addToPocket = async (encoded_url, tag_args) => {
 document.body.addEventListener("toast", (event) => {
   toast(event.detail.value);            
 })
+
+const isSafari = /^((?!chrome|android).)*safari/i.test(navigator.userAgent) && /Mac/i.test(navigator.platform);
+if (isSafari) {
+  const style = document.createElement('style');
+  style.innerHTML = `
+    select {
+      -webkit-appearance: none;
+    }
+  `;
+  document.head.appendChild(style);
+
+  document.querySelectorAll('select').forEach(select => {
+    const updateArrow = () => {
+      select.querySelectorAll('option').forEach(option => {
+        option.textContent = option.textContent.replace(' ▼', '');
+      });
+      const selectedOption = select.options[select.selectedIndex];
+      selectedOption.textContent += ' ▼';
+    };
+
+    updateArrow();
+    select.addEventListener('change', updateArrow);
+  });
+}
