@@ -59,7 +59,7 @@ def auth():
     endpoint = request.form.get('endpoint')
     username = request.form.get('username', '')
     password = request.form.get('password', '')
-    aggregator_type = request.form.get('type', 'fever')
+    aggregator_type = request.form.get('type', 'miniflux')
     try:
         aggregator = get_aggregator(
             logging_in_endpoint=endpoint,

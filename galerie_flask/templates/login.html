@@ -9,19 +9,15 @@
         <p>{{ _('Type of RSS aggregator') }}</p>
         <select name="type" x-model="selectedType">
             <option value="miniflux">Miniflux</option>
-            <option value="fever">Fever</option>
         </select>
         <template x-if="selectedType === 'miniflux'">
             <p>{{ _('Miniflux API endpoint') }}</p>
-        </template>
-        <template x-if="selectedType === 'fever'">
-            <p>{{ _('Fever endpoint URL') }} <a href="{{ fever_endpoint_help_url }}" target="_blank" style="font-size: 0.5em;">{{ _('What is this?') }}</a></p>
         </template>
         <input
             type="text"
             name="endpoint"
             required
-            x-bind:placeholder="selectedType === 'miniflux' ? 'https://miniflux.example.net' : 'https://miniflux.example.net/fever'"
+            x-bind:placeholder="selectedType === 'miniflux' ? 'https://miniflux.example.net' : ''"
             class="code-font"
         >
         <p>{{ _('Username') }}</p>

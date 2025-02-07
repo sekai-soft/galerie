@@ -85,10 +85,7 @@ def login():
     aggregator = get_aggregator()
     if aggregator:
         return redirect('/')
-    return render_template(
-        'login.html',
-        fever_endpoint_help_url=_('https://github.com/sekai-soft/galerie?tab=readme-ov-file#example-fever-endpoints')
-    )
+    return render_template('login.html')
 
 
 @pages_blueprint.route("/settings")
@@ -167,7 +164,6 @@ def feed():
     if not aggregator:
         return redirect('/')
     if not aggregator.supports_feed_management():
-        # TODO: ok you could definite support this for Fever
         return render_template('error.html', error='This aggregator does not support feed management')
     fid = request.args.get('fid')
     items = aggregator.get_feed_items_by_iid_descending(fid)

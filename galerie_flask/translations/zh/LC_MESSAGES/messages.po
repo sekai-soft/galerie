@@ -7,7 +7,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: PROJECT VERSION\n"
 "Report-Msgid-Bugs-To: EMAIL@ADDRESS\n"
-"POT-Creation-Date: 2025-01-26 02:46+0000\n"
+"POT-Creation-Date: 2025-02-07 04:27+0000\n"
 "PO-Revision-Date: 2024-06-27 08:04+0000\n"
 "Last-Translator: FULL NAME <EMAIL@ADDRESS>\n"
 "Language: zh\n"
@@ -57,14 +57,6 @@ msgstr "Base URL 尚未配置"
 msgid "Not authenticated"
 msgstr "未验证"
 
-#: galerie_flask/pages_blueprint.py:87
-msgid ""
-"https://github.com/sekai-soft/galerie?tab=readme-ov-file#example-fever-"
-"endpoints"
-msgstr ""
-"https://github.com/sekai-"
-"soft/galerie/blob/master/README.zh.md#fever-%E8%8A%82%E7%82%B9%E7%A4%BA%E4%BE%8B"
-
 #: galerie_flask/utils.py:61
 msgid "Are you sure you want to mark above as read?"
 msgstr "确定要标记以上为已读吗？"
@@ -81,7 +73,7 @@ msgstr "一款 Pinterest/小红书照片墙式的 RSS 阅读器"
 msgid "Error | Galerie"
 msgstr "错误 | Galerie"
 
-#: galerie_flask/templates/error.html:7
+#: galerie_flask/templates/error.html:8
 msgid "Oops something went wrong"
 msgstr "糟糕，出错了"
 
@@ -98,46 +90,45 @@ msgstr "订阅源"
 msgid "Load more"
 msgstr "加载更多"
 
-#: galerie_flask/templates/grid_end_buttons.html:19
-#: galerie_flask/templates/load_more_action_buttons.html:12
-msgid "Mark as read"
-msgstr "标记为已读"
-
-#: galerie_flask/templates/index.html:3 galerie_flask/templates/index.html:9
+#: galerie_flask/templates/index.html:3
 msgid "Galerie"
 msgstr "Galerie"
 
-#: galerie_flask/templates/index.html:13
+#: galerie_flask/templates/index.html:10
 msgid "all time"
 msgstr "全部"
 
-#: galerie_flask/templates/index.html:14
+#: galerie_flask/templates/index.html:11
 msgid "today"
 msgstr "今天"
 
-#: galerie_flask/templates/index.html:17
+#: galerie_flask/templates/index.html:14 galerie_flask/templates/index.html:37
 msgid "all groups"
 msgstr "全部分组"
 
-#: galerie_flask/templates/index.html:24
+#: galerie_flask/templates/index.html:21
 msgid "newest first"
 msgstr "最新优先"
 
-#: galerie_flask/templates/index.html:26
+#: galerie_flask/templates/index.html:23
 msgid "oldest first"
 msgstr "最旧优先"
 
-#: galerie_flask/templates/index.html:33
+#: galerie_flask/templates/index.html:47
 msgid "✨ all read ✨"
 msgstr "✨ 全部已读 ✨"
 
-#: galerie_flask/templates/index.html:38
+#: galerie_flask/templates/index.html:53
 msgid "has"
 msgstr "有"
 
-#: galerie_flask/templates/index.html:38
+#: galerie_flask/templates/index.html:53
 msgid "unread items"
 msgstr "个未读条目"
+
+#: galerie_flask/templates/load_more_action_buttons.html:12
+msgid "Mark as read"
+msgstr "标记为已读"
 
 #: galerie_flask/templates/login.html:3
 msgid "Login | Galerie"
@@ -151,47 +142,39 @@ msgstr "请先登录"
 msgid "Type of RSS aggregator"
 msgstr "RSS 聚合器类型"
 
-#: galerie_flask/templates/login.html:15
+#: galerie_flask/templates/login.html:14
 msgid "Miniflux API endpoint"
 msgstr "Miniflux API 节点"
 
-#: galerie_flask/templates/login.html:18
-msgid "Fever endpoint URL"
-msgstr "Fever 节点 URL"
-
-#: galerie_flask/templates/login.html:18
-msgid "What is this?"
-msgstr "这是什么？"
-
-#: galerie_flask/templates/login.html:27
+#: galerie_flask/templates/login.html:23
 msgid "Username"
 msgstr "用户名"
 
-#: galerie_flask/templates/login.html:35
+#: galerie_flask/templates/login.html:31
 msgid "Password"
 msgstr "密码"
 
-#: galerie_flask/templates/login.html:49
+#: galerie_flask/templates/login.html:45
 msgid "Login"
 msgstr "登录"
 
-#: galerie_flask/templates/login.html:52
+#: galerie_flask/templates/login.html:48
 msgid "Set up using a QR code"
 msgstr "使用二维码设置"
 
-#: galerie_flask/templates/login.html:54
+#: galerie_flask/templates/login.html:50
 msgid "Set up using a code"
 msgstr "使用初始设置码设置"
 
-#: galerie_flask/templates/login.html:62
+#: galerie_flask/templates/login.html:58
 msgid "Setup code"
 msgstr "初始设置码"
 
-#: galerie_flask/templates/login.html:76
+#: galerie_flask/templates/login.html:72
 msgid "Submit"
 msgstr "提交"
 
-#: galerie_flask/templates/login.html:83
+#: galerie_flask/templates/login.html:79
 #: galerie_flask/templates/settings.html:27
 msgid "Close"
 msgstr "关闭"
@@ -201,11 +184,11 @@ msgstr "关闭"
 msgid "Settings | Galerie"
 msgstr "设置 | Galerie"
 
-#: galerie_flask/templates/pocket_oauth.html:7
+#: galerie_flask/templates/pocket_oauth.html:8
 msgid "Connected to pocket"
 msgstr "已连接到 Pocket"
 
-#: galerie_flask/templates/pocket_oauth.html:8
+#: galerie_flask/templates/pocket_oauth.html:9
 msgid "Back to settings"
 msgstr "返回设置"
 
@@ -213,11 +196,11 @@ msgstr "返回设置"
 msgid "Setup using QR code | Galerie"
 msgstr "使用二维码设置 | Galerie"
 
-#: galerie_flask/templates/settings.html:7
+#: galerie_flask/templates/settings.html:8
 msgid "Settings"
 msgstr "设置"
 
-#: galerie_flask/templates/settings.html:8
+#: galerie_flask/templates/settings.html:9
 msgid "Back to homepage"
 msgstr "返回主页"
 

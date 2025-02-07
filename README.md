@@ -8,11 +8,7 @@ A Pinterest/Xiaohongshu photo wall style RSS reader
 <img src="./screenshot.png" alt="Screenshot of the application" width="768"/>
 
 ## Features
-* Supports the following RSS aggregators
-    * Self-hosted [Miniflux](https://miniflux.app)
-    * Any self-hosted RSS aggregators that is Fever API compatible
-        * [FreshRSS](https://freshrss.github.io/FreshRSS/en/users/06_Mobile_access.html)
-        * [Tiny Tiny RSS (via a third-party plugin)](https://github.com/DigitalDJ/tinytinyrss-fever-plugin)
+* Supports self-hosted [Miniflux](https://miniflux.app)
 * View images from unread RSS items in a beautiful photo wall
 * Mark all items as read when you are done
 * (Optional) Connect to Pocket and quickly add items to read-it-later by double-tapping on the image
@@ -31,9 +27,6 @@ Here is a table of environment variables that the container takes
 | `MINIFLUX_ENDPOINT`   | No       | URL endpoint for your Miniflux API. `MINIFLUX_USERNAME` and `MINIFLUX_PASSWORD` has to be present.                                                                   |
 | `MINIFLUX_USERNAME`   | No       | Username for your Miniflux API                                                                                                                                       |
 | `MINIFLUX_PASSWORD`   | No       | Password for your Miniflux API                                                                                                                                       |
-| `FEVER_ENDPOINT`      | No       | URL endpoint for your Fever API. `FEVER_USERNAME` and `FEVER_PASSWORD` has to be present. See [example Fever endpoints](#example-fever-endpoints) if you are unsure. |
-| `FEVER_USERNAME`      | No       | Username for your Fever API                                                                                                                                          |
-| `FEVER_PASSWORD`      | No       | Password for your Fever API                                                                                                                                          |
 | `POCKET_CONSUMER_KEY` | No       | For connecting to Pocket optionally. See ["Connect to Pocket" section](#connect-to-pocket)                                                                           |
 | `POCKET_ACCESS_TOKEN` | No       | For connecting to Pocket optionally. See ["Connect to Pocket" section](#connect-to-pocket)                                                                           |
 | `PORT`                | No       | The port that the server binds to. Defaults to `5000`.                                                                                                               |
@@ -53,18 +46,6 @@ services:
             - POCKET_ACCESS_TOKEN=
         restart: unless-stopped
 ```
-
-### Example Fever endpoints
-Make sure you've configured your RSS aggregator for Fever API compatibility first!
-
-* [Miniflux](https://miniflux.app/docs/fever.html)
-* [FreshRSS](https://freshrss.github.io/FreshRSS/en/users/06_Mobile_access.html)
-* [Tiny Tiny RSS (via a third-party plugin)](https://github.com/DigitalDJ/tinytinyrss-fever-plugin)
-
-Here are some example Fever API endpoints
-* Miniflux: `https://miniflux.example.net/fever`
-* FreshRSS: `https://freshrss.example.net/api/fever.php`
-* Tiny Tiny RSS `https://tt-rss.example.net/tt-rss/plugins.local/fever/`
 
 ### Connect to Pocket
 There are three ways you are able to connect to Pocket
