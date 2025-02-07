@@ -32,9 +32,7 @@
     <br>
     <hr>
     <p>{{ _('Pocket connection') }}</p>
-    {% if pocket_server_authenticated %}
-    <p>{{ _('Pocket connection is server authenticated') }}</p>
-    {% elif not pocket_auth %}
+    {% if not pocket_auth %}
     <button
         class="button"
         hx-post="/actions/connect_to_pocket"
