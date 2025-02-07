@@ -7,7 +7,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: PROJECT VERSION\n"
 "Report-Msgid-Bugs-To: EMAIL@ADDRESS\n"
-"POT-Creation-Date: 2025-02-07 04:34+0000\n"
+"POT-Creation-Date: 2025-02-07 05:45+0000\n"
 "PO-Revision-Date: 2024-06-27 08:04+0000\n"
 "Last-Translator: FULL NAME <EMAIL@ADDRESS>\n"
 "Language: zh\n"
@@ -221,39 +221,35 @@ msgstr "显示初始设置码"
 msgid "Pocket connection"
 msgstr "Pocket 连接"
 
-#: galerie_flask/templates/settings.html:36
-msgid "Pocket connection is server authenticated"
-msgstr "Pocket 已在服务器端验证"
-
-#: galerie_flask/templates/settings.html:42
+#: galerie_flask/templates/settings.html:40
 msgid "Connect to Pocket"
 msgstr "连接到 Pocket"
 
-#: galerie_flask/templates/settings.html:44
+#: galerie_flask/templates/settings.html:42
 msgid "Logged in as"
 msgstr "已用此身份登陆"
 
-#: galerie_flask/templates/settings.html:49
+#: galerie_flask/templates/settings.html:47
 msgid "Disconnect from Pocket"
 msgstr "从 Pocket 断开连接"
 
-#: galerie_flask/templates/settings.html:54
+#: galerie_flask/templates/settings.html:52
 msgid "Infinite scroll"
 msgstr "无限滚动"
 
-#: galerie_flask/templates/settings.html:61
+#: galerie_flask/templates/settings.html:59
 msgid "Yes"
 msgstr "是"
 
-#: galerie_flask/templates/settings.html:62
+#: galerie_flask/templates/settings.html:60
 msgid "No"
 msgstr "否"
 
-#: galerie_flask/templates/settings.html:68
+#: galerie_flask/templates/settings.html:66
 msgid "WebP Cloud integration"
 msgstr "WebP Cloud 集成"
 
-#: galerie_flask/templates/settings.html:71
+#: galerie_flask/templates/settings.html:69
 msgid "Enter proxy address ↲, e.g. https://xxxxxxx.webp.li"
 msgstr "输入代理地址 ↲，例如 https://xxx.webp.li"
 
