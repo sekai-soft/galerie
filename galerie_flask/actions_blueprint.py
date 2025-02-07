@@ -69,11 +69,9 @@ def auth():
         if not aggregator:
             raise AuthError()
         persisted_auth = aggregator.persisted_auth()
-        auth_bytes = persisted_auth.encode("utf-8")
-        b64_auth_bytes = base64.b64encode(auth_bytes)
 
         resp = make_response()
-        resp.set_cookie('auth', b64_auth_bytes.decode('utf-8'))
+        resp.set_cookie('auth', persisted_auth)
         resp.headers['HX-Redirect'] = '/'
         return resp
     except AuthError:

@@ -27,8 +27,7 @@ def try_get_miniflux_aggregator(
     auth_cookie = request.cookies.get('auth')
     if not auth_cookie:
         return None
-    auth = base64.b64decode(auth_cookie).decode('utf-8')
-    auth = json.loads(auth)
+    auth = json.loads(auth_cookie)
     cookie_base_url = auth.get('base_url')
     cookie_username = auth.get('username')
     cookie_password = auth.get('password')
