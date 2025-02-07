@@ -27,7 +27,6 @@ Docker 镜像可以不接受任何环境变量。如果没有提供任何与 RSS
 | `MINIFLUX_USERNAME`   | 否       | 您的 Miniflux API 用户名                                                                                                                    |
 | `MINIFLUX_PASSWORD`   | 否       | 您的 Miniflux API 密码                                                                                                                      |
 | `POCKET_CONSUMER_KEY` | 否       | 可选连接到 Pocket。请参见 ["连接到 Pocket" 部分](#connect-to-pocket)。                                                                      |
-| `POCKET_ACCESS_TOKEN` | 否       | 可选连接到 Pocket。请参见 ["连接到 Pocket" 部分](#connect-to-pocket)。                                                                      |
 | `PORT`                | 否       | 服务器绑定的端口。默认为 `5000`。                                                                                                           |
 
 以下是 `docker-compose.yml` 文件示例
@@ -42,7 +41,6 @@ services:
             - MINIFLUX_USERNAME=miniflux
             - MINIFLUX_PASSWORD=test123
             - POCKET_CONSUMER_KEY=
-            - POCKET_ACCESS_TOKEN=
         restart: unless-stopped
 ```
 
@@ -50,16 +48,9 @@ services:
 有三种方式可以连接到Pocket：
 
 * 在托管实例中，您可以用您的 Pocket 帐户登录。
-* 在自托管实例中
-    * 您可以创建自己的 Pocket Develoepr App 并通过 OAuth 给自己授权
-        1. 在[这里](https://getpocket.com/developer/apps/new)创建一个新的 Pocket Develoepr App
-            * 确保它至少具有 "Add" 权限
-        2. 访问[我的应用程序](https://getpocket.com/developer/apps/)并点击刚刚创建的 Develoepr App
-        3. 复制 Consumer Key。这将是您的`POCKET_CONSUMER_KEY`。
-        4. 在设置页面通过 OAuth 给自己授权
-    * 您可以创建自己的 Pocket Develoepr App 并提供您自己的授权
-        1. 在 [这里](https://getpocket.com/developer/apps/new) 创建一个新的 Pocket Develoepr App
-            * 确保它至少具有 "Add" 权限
-        2. 前往 [My Apps](https://getpocket.com/developer/apps/) 并点击您刚刚创建的 Develoepr App
-        3. 复制 Consumer Key。这将是您的 `POCKET_CONSUMER_KEY` 。
-        4. 前往 [这个网站](https://reader.fxneumann.de/plugins/oneclickpocket/auth.php) 获取 Access token。这将是您的 `POCKET_ACCESS_TOKEN`。
+* 在自托管实例中，您可以创建自己的 Pocket Develoepr App 并通过 OAuth 给自己授权
+    1. 在[这里](https://getpocket.com/developer/apps/new)创建一个新的 Pocket Develoepr App
+        * 确保它至少具有 "Add" 权限
+    2. 访问[我的应用程序](https://getpocket.com/developer/apps/)并点击刚刚创建的 Develoepr App
+    3. 复制 Consumer Key。这将是您的`POCKET_CONSUMER_KEY`。
+    4. 在设置页面通过 OAuth 给自己授权

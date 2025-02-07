@@ -28,7 +28,6 @@ Here is a table of environment variables that the container takes
 | `MINIFLUX_USERNAME`   | No       | Username for your Miniflux API                                                                                                                                       |
 | `MINIFLUX_PASSWORD`   | No       | Password for your Miniflux API                                                                                                                                       |
 | `POCKET_CONSUMER_KEY` | No       | For connecting to Pocket optionally. See ["Connect to Pocket" section](#connect-to-pocket)                                                                           |
-| `POCKET_ACCESS_TOKEN` | No       | For connecting to Pocket optionally. See ["Connect to Pocket" section](#connect-to-pocket)                                                                           |
 | `PORT`                | No       | The port that the server binds to. Defaults to `5000`.                                                                                                               |
 
 Here is an example `docker-compose.yml` file
@@ -43,7 +42,6 @@ services:
             - MINIFLUX_USERNAME=miniflux
             - MINIFLUX_PASSWORD=test123
             - POCKET_CONSUMER_KEY=
-            - POCKET_ACCESS_TOKEN=
         restart: unless-stopped
 ```
 
@@ -51,19 +49,12 @@ services:
 There are three ways you are able to connect to Pocket
 
 * On the hosted instance, a Pocket application is already available, so you can just log in with your Pocket account
-* On your self-hosted instance
-    * You can create your own Pocket developer application and authorize yourself via OAuth
-        1. Create a new Pocket developer application [here](https://getpocket.com/developer/apps/new)
-            * Make sure that it has "Add" permission at least
-        2. Go to [My Apps](https://getpocket.com/developer/apps/) and click the developer application you just created
-        3. Copy the Consumer Key. This will be your `POCKET_CONSUMER_KEY`.
-        4. Authorize yourself via OAuth on the settings page
-    * You can create your own Pocket developer application and provide your own credentials
-        1. Create a new Pocket developer application [here](https://getpocket.com/developer/apps/new)
-            * Make sure that it has "Add" permission at least
-        2. Go to [My Apps](https://getpocket.com/developer/apps/) and click the developer application you just created
-        3. Copy the Consumer Key. This will be your `POCKET_CONSUMER_KEY`.
-        4. Go to [this website](https://reader.fxneumann.de/plugins/oneclickpocket/auth.php) and obtain the access token. This will be your `POCKET_ACCESS_TOKEN`.
+* On your self-hosted instance, you can create your own Pocket developer application and authorize yourself via OAuth
+    1. Create a new Pocket developer application [here](https://getpocket.com/developer/apps/new)
+        * Make sure that it has "Add" permission at least
+    2. Go to [My Apps](https://getpocket.com/developer/apps/) and click the developer application you just created
+    3. Copy the Consumer Key. This will be your `POCKET_CONSUMER_KEY`.
+    4. Authorize yourself via OAuth on the settings page
 
 ## Development
 * Run server: `flask run --reload`

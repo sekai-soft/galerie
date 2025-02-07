@@ -14,15 +14,7 @@ from .get_aggregator import get_aggregator
 max_items = int(os.getenv('MAX_ITEMS', '15'))
 
 
-def is_pocket_server_authenticated():
-    return 'POCKET_CONSUMER_KEY' in os.environ and 'POCKET_ACCESS_TOKEN' in os.environ
-
-
 def get_pocket_client():
-    if is_pocket_server_authenticated():
-        pocket_consumer_key = os.environ['POCKET_CONSUMER_KEY']
-        pocket_access_token = os.environ['POCKET_ACCESS_TOKEN']
-        return Pocket(pocket_consumer_key, pocket_access_token)
     if 'POCKET_CONSUMER_KEY' in os.environ and 'pocket_auth' in request.cookies:
         pocket_consumer_key = os.environ['POCKET_CONSUMER_KEY']
         pocket_auth = json.loads(request.cookies['pocket_auth'])
