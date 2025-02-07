@@ -96,10 +96,7 @@ class MinifluxAggregator(RssAggregator):
             category_id=None if feed_filter.group_id is None else int(feed_filter.group_id)
         )
         return list(map(_entry_dict_to_item, entries['entries']))
-
-    def supports_get_unread_items_by_iid_descending(self) -> bool:
-        return True
-    
+   
     def get_unread_items_count(self, feed_filter: FeedFilter) -> int:
         entries = self.client.get_entries(
             status='unread',
@@ -111,20 +108,11 @@ class MinifluxAggregator(RssAggregator):
         )
         return entries['total']
     
-    def mark_items_as_read_by_iid_ascending_and_feed_filter(self, to_iid_inclusive: Optional[str], feed_filter: FeedFilter) -> int:
-        pass
-
-    def supports_mark_items_as_read_by_iid_ascending_and_feed_filter(self) -> bool:
-        return False
-
     def mark_items_as_read_by_group_id(self, group_id: Optional[str]):
         if group_id is not None:
             self.client.mark_category_entries_as_read(category_id=int(group_id))
         else:
             self.client.mark_user_entries_as_read(self.client.me()['id'])
-
-    def supports_mark_items_as_read_by_group_id(self) -> bool:
-        return True
 
     def connection_info(self) -> ConnectionInfo:
         return ConnectionInfo(
@@ -132,9 +120,6 @@ class MinifluxAggregator(RssAggregator):
             host=urlparse(self.base_url).hostname,
             frontend_or_backend=self.frontend_or_backend
         )
-    
-    def supports_feed_management(self) -> bool:
-        return True
 
     def get_feeds(self) -> List[Feed]:
         feeds = []

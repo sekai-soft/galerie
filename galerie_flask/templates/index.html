@@ -17,15 +17,13 @@
             {% endfor %}
         </select>
         <select id="sortSelect">>
-            {% if supports_sort_desc %}
             <option value="desc" {{ 'selected=selected' if sort_by_desc else '' }}>{{ _('newest first') }}</option>
-            {% endif %}
             <option value="asc" {{ 'selected=selected' if not sort_by_desc else '' }}>{{ _('oldest first') }}</option>
         </select>
         <a
             href="javascript:void(0)"
             style="text-decoration: none;"
-            hx-confirm="{{ mark_as_read_confirm }}"
+            hx-confirm="{{ _('Are you sure you want to mark this group as read?') }}"
             hx-post="/actions/mark_as_read?to_iid={{ to_iid }}&today={{ today }}&group={{ gid }}&sort={{ sort }}"
             hx-disabled-elt="this"
         >✅</a>

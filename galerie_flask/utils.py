@@ -56,11 +56,8 @@ def mark_as_read_button_args(args: dict, to_iid: Optional[str], today: bool, gid
         'today': "1" if today else "0",
         "gid": gid if gid is not None else "",
         "sort": "desc" if sort_by_desc else "asc",
+        "mark_as_read_confirm": "Are you sure you want to mark this group as read?"
     })
-    if g.aggregator.supports_mark_items_as_read_by_iid_ascending_and_feed_filter():
-        args['mark_as_read_confirm'] = _('Are you sure you want to mark above as read?')
-    else:
-        args['mark_as_read_confirm'] = _('Are you sure you want to mark this group as read?')
 
 
 def load_more_button_args(args: dict, from_iid: str, today: bool, gid: Optional[str], sort_by_desc: bool, infinite_scroll: bool):

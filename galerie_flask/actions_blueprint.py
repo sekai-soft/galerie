@@ -93,10 +93,7 @@ def deauth():
 @catches_exceptions
 @requires_auth
 def load_more():
-    if not g.aggregator.supports_get_unread_items_by_iid_descending():
-        sort_by_desc = False
-    else:
-        sort_by_desc = request.args.get('sort', 'desc') == 'desc'
+    sort_by_desc = request.args.get('sort', 'desc') == 'desc'
     today = request.args.get('today') == "1"
     group = request.args.get('group') if request.args.get('group') else None
     from_iid = request.args.get('from_iid')
@@ -131,13 +128,7 @@ def load_more():
 @requires_auth
 def mark_as_read():
     group = request.args.get('group') if request.args.get('group') else None
-
-    if g.aggregator.supports_mark_items_as_read_by_iid_ascending_and_feed_filter():
-        g.aggregator.mark_items_as_read_by_iid_ascending_and_feed_filter(
-            request.args.get('to_iid'),
-            FeedFilter(compute_after_for_maybe_today(), group))
-    if g.aggregator.supports_mark_items_as_read_by_group_id():
-        g.aggregator.mark_items_as_read_by_group_id(group)
+    g.aggregator.mark_items_as_read_by_group_id(group)
 
     resp = make_response()
     resp.headers['HX-Refresh'] = "true"
@@ -236,8 +227,6 @@ def convert_to_image_feed():
     aggregator = get_aggregator()
     if not aggregator:
         return make_toast(400, "Aggregator was not configured")
-    if not aggregator.supports_feed_management():
-        return make_toast(400, "This aggregator does not support feed management")
     aggregator.convert_to_image_feed(feed)
     return make_toast(200, "Feed was converted to image feed")
 
@@ -251,7 +240,5 @@ def unconvert_from_image_feed():
     aggregator = get_aggregator()
     if not aggregator:
         return make_toast(400, "Aggregator was not configured")
-    if not aggregator.supports_feed_management():
-        return make_toast(400, "This aggregator does not support feed management")
     aggregator.unconvert_from_image_feed(feed)
     return make_toast(200, "Feed was unconverted from image feed")

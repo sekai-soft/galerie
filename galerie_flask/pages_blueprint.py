@@ -32,10 +32,7 @@ def catches_exceptions(f):
 @catches_exceptions
 @requires_auth
 def index():
-    if not g.aggregator.supports_get_unread_items_by_iid_descending():
-        sort_by_desc = False
-    else:
-        sort_by_desc = request.args.get('sort', 'desc') == 'desc'
+    sort_by_desc = request.args.get('sort', 'desc') == 'desc'
     today = request.args.get('today') == "1"
     group = request.args.get('group') if request.args.get('group') else None
     infinite_scroll = request.cookies.get('infinite_scroll', '1') == '1'
@@ -69,7 +66,6 @@ def index():
         "all": not today,
         "selected_group": selected_group,
         "groups": groups,
-        "supports_sort_desc": g.aggregator.supports_get_unread_items_by_iid_descending(),
         "sort_by_desc":sort_by_desc,
     }
     images_args(args, images, get_pocket_client() is not None)
@@ -141,8 +137,6 @@ def feeds():
     aggregator = get_aggregator()
     if not aggregator:
         return redirect('/')
-    if not aggregator.supports_feed_management():
-        return render_template('error.html', error='This aggregator does not support feed management')
     feeds = aggregator.get_feeds()
     groups = aggregator.get_groups()
 
@@ -163,8 +157,6 @@ def feed():
     aggregator = get_aggregator()
     if not aggregator:
         return redirect('/')
-    if not aggregator.supports_feed_management():
-        return render_template('error.html', error='This aggregator does not support feed management')
     fid = request.args.get('fid')
     items = aggregator.get_feed_items_by_iid_descending(fid)
     images = extract_images(items)
