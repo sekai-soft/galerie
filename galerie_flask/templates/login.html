@@ -45,8 +45,6 @@
             {{ _('Login') }} <span class="htmx-indicator">...</span>
         </button>
         <br>
-        <a href="/qr_setup">{{ _('Set up using a QR code') }}</a>
-        &nbsp;&nbsp;&nbsp;&nbsp;
         <a href="javascript:document.getElementById('setup-using-code').showModal()">{{ _('Set up using a code') }}</a>
     </form>
 </div>
@@ -69,7 +67,7 @@
             hx-swap="none"
             hx-disabled-elt="this"
         >
-            {{ _('Submit') }}
+            {{ _('Submit') }} <span class="htmx-indicator">...</span>
         </button>
         <button
             class="button"

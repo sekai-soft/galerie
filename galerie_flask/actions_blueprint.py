@@ -1,7 +1,6 @@
 import os
 import json
 import base64
-import qrcode
 from functools import wraps
 from urllib.parse import unquote, unquote_plus
 from io import BytesIO
@@ -187,21 +186,6 @@ def disconnect_from_pocket():
     resp.delete_cookie('pocket_auth')
     resp.headers['HX-Refresh'] = "true"
     return resp
-
-
-@actions_blueprint.route('/qrcode.jpg', methods=['GET'])
-@catches_exceptions
-def _qrcode():
-    if 'auth' not in request.cookies:
-        return make_toast(401, str(_("Not authenticated")))
-
-    img = qrcode.make(encode_setup_from_cookies())
-
-    img_io = BytesIO()
-    img.save(img_io, 'JPEG')
-    img_io.seek(0)
-    
-    return send_file(img_io, mimetype='image/jpeg')
 
 
 @actions_blueprint.route('/convert_to_image_feed', methods=['POST'])

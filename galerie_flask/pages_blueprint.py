@@ -114,15 +114,6 @@ def pocket_oauth():
     return resp
 
 
-@pages_blueprint.route("/qr_setup")
-@catches_exceptions
-def qr_setup():
-    aggregator = get_aggregator()
-    if aggregator:
-        return redirect('/')
-    return render_template('qr_setup.html')
-
-
 @pages_blueprint.route("/feeds")
 @catches_exceptions
 def feeds():

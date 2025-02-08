@@ -7,7 +7,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: PROJECT VERSION\n"
 "Report-Msgid-Bugs-To: EMAIL@ADDRESS\n"
-"POT-Creation-Date: 2025-02-08 04:10+0000\n"
+"POT-Creation-Date: 2025-02-08 04:21+0000\n"
 "PO-Revision-Date: 2024-06-27 08:04+0000\n"
 "Last-Translator: FULL NAME <EMAIL@ADDRESS>\n"
 "Language: zh\n"
@@ -18,43 +18,39 @@ msgstr ""
 "Content-Transfer-Encoding: 8bit\n"
 "Generated-By: Babel 2.17.0\n"
 
-#: galerie_flask/actions_blueprint.py:43
+#: galerie_flask/actions_blueprint.py:42
 #, python-format
 msgid "Unknown server error: %(e)s"
 msgstr "未知服务器错误: %(e)s"
 
-#: galerie_flask/actions_blueprint.py:78
+#: galerie_flask/actions_blueprint.py:77
 msgid "Failed to authenticate"
 msgstr "无法进行身份验证"
 
-#: galerie_flask/actions_blueprint.py:118
+#: galerie_flask/actions_blueprint.py:117
 msgid "All items were loaded"
 msgstr "所有条目已加载"
 
-#: galerie_flask/actions_blueprint.py:139
+#: galerie_flask/actions_blueprint.py:138
 msgid "Pocket was not configured"
 msgstr "Pocket 尚未配置"
 
-#: galerie_flask/actions_blueprint.py:145
+#: galerie_flask/actions_blueprint.py:144
 #, python-format
 msgid "Added %(url)s to Pocket"
 msgstr "已将 %(url)s 添加到 Pocket"
 
-#: galerie_flask/actions_blueprint.py:154
+#: galerie_flask/actions_blueprint.py:153
 msgid "Setting updated"
 msgstr "设置已更新"
 
-#: galerie_flask/actions_blueprint.py:162
+#: galerie_flask/actions_blueprint.py:161
 msgid "Pocket consumer key was not configured"
 msgstr "Pocket consumer key 尚未配置"
 
-#: galerie_flask/actions_blueprint.py:166
+#: galerie_flask/actions_blueprint.py:165
 msgid "Base URL was not configured"
 msgstr "Base URL 尚未配置"
-
-#: galerie_flask/actions_blueprint.py:196
-msgid "Not authenticated"
-msgstr "未验证"
 
 #: galerie_flask/templates/base.html:8
 msgid "A Pinterest/Xiaohongshu photo wall style RSS reader"
@@ -155,23 +151,19 @@ msgid "Login"
 msgstr "登录"
 
 #: galerie_flask/templates/login.html:48
-msgid "Set up using a QR code"
-msgstr "使用二维码设置"
-
-#: galerie_flask/templates/login.html:50
 msgid "Set up using a code"
 msgstr "使用初始设置码设置"
 
-#: galerie_flask/templates/login.html:58
+#: galerie_flask/templates/login.html:56
 msgid "Setup code"
 msgstr "初始设置码"
 
-#: galerie_flask/templates/login.html:72
+#: galerie_flask/templates/login.html:70
 msgid "Submit"
 msgstr "提交"
 
-#: galerie_flask/templates/login.html:79
-#: galerie_flask/templates/settings.html:27
+#: galerie_flask/templates/login.html:77
+#: galerie_flask/templates/settings.html:25
 msgid "Close"
 msgstr "关闭"
 
@@ -187,10 +179,6 @@ msgstr "已连接到 Pocket"
 #: galerie_flask/templates/pocket_oauth.html:9
 msgid "Back to settings"
 msgstr "返回设置"
-
-#: galerie_flask/templates/qr_setup.html:3
-msgid "Setup using QR code | Galerie"
-msgstr "使用二维码设置 | Galerie"
 
 #: galerie_flask/templates/settings.html:8
 msgid "Settings"
@@ -209,38 +197,34 @@ msgid "[Server authenticated]"
 msgstr "[服务器端验证]"
 
 #: galerie_flask/templates/settings.html:21
-msgid "Show setup QR code"
-msgstr "显示初始设置二维码"
-
-#: galerie_flask/templates/settings.html:23
 msgid "Show setup code"
 msgstr "显示初始设置码"
 
-#: galerie_flask/templates/settings.html:34
+#: galerie_flask/templates/settings.html:32
 msgid "Pocket connection"
 msgstr "Pocket 连接"
 
-#: galerie_flask/templates/settings.html:40
+#: galerie_flask/templates/settings.html:38
 msgid "Connect to Pocket"
 msgstr "连接到 Pocket"
 
-#: galerie_flask/templates/settings.html:42
+#: galerie_flask/templates/settings.html:40
 msgid "Logged in as"
 msgstr "已用此身份登陆"
 
-#: galerie_flask/templates/settings.html:47
+#: galerie_flask/templates/settings.html:45
 msgid "Disconnect from Pocket"
 msgstr "从 Pocket 断开连接"
 
-#: galerie_flask/templates/settings.html:52
+#: galerie_flask/templates/settings.html:50
 msgid "Infinite scroll"
 msgstr "无限滚动"
 
-#: galerie_flask/templates/settings.html:59
+#: galerie_flask/templates/settings.html:57
 msgid "Yes"
 msgstr "是"
 
-#: galerie_flask/templates/settings.html:60
+#: galerie_flask/templates/settings.html:58
 msgid "No"
 msgstr "否"
 
