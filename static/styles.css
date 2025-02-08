@@ -207,24 +207,6 @@ textarea {
     z-index: 1000;
 }
 
-.item-titles-container {
-    display: flex;
-    flex-direction: row;
-    align-items: center;
-}
-
-.item-titles {
-    flex: 1;
-    overflow: hidden;
-    text-overflow: ellipsis;
-    white-space: nowrap;
-    margin-right: 1em;
-}
-
-.item-share-menu {
-    font-size: 1em;
-}
-
 /** htmx-indicator **/
 .htmx-indicator {
     display:none;
