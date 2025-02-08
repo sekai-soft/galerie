@@ -16,19 +16,21 @@
             <option value="{{ g.gid }}" {{ 'selected=selected' if selected_group and g.gid == selected_group.gid else '' }}>{% if unread_items_count[g.gid] != 0 %}({{ unread_items_count[g.gid] }}) {% endif %}{{ g.title }}</option>
             {% endfor %}
         </select>
-        <select id="sortSelect">>
+        <select id="sortSelect">
             <option value="desc" {{ 'selected=selected' if sort_by_desc else '' }}>{{ _('newest first') }}</option>
             <option value="asc" {{ 'selected=selected' if not sort_by_desc else '' }}>{{ _('oldest first') }}</option>
         </select>
-        <a
+        <div class="header-right">
+            <a
             href="javascript:void(0)"
             style="text-decoration: none;"
             hx-confirm="{{ _('Are you sure you want to mark this group as read?') }}"
             hx-post="/actions/mark_as_read?to_iid={{ to_iid }}&today={{ today }}&group={{ gid }}&sort={{ sort }}"
             hx-disabled-elt="this"
-        >✅</a>
-        <a href="javascript:void(0)" @click="window.location.reload()" style="text-decoration: none;">🔄</a>
-        <a href="/settings" style="text-decoration: none;">⚙️</a>
+            >✅</a>
+            <a href="javascript:void(0)" @click="window.location.reload()" style="text-decoration: none;">🔄</a>
+            <a href="/settings" style="text-decoration: none;">⚙️</a>
+        </div>
     </div>
     <div class="header">
         <select id="mobileGroupSelect">

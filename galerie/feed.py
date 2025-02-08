@@ -8,3 +8,5 @@ class Feed:
     gid: str
     features: Dict
     title: str
+    group_title: str
+

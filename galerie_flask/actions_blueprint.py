@@ -135,11 +135,14 @@ def mark_as_read():
 def pocket():
     pocket_client = get_pocket_client()
     if not pocket_client:
-        return make_toast(400, str(_("Pocket was not configured")))
+        return make_toast(400, "Pocket was not configured")
+
     encoded_url = request.args.get('url')
     url = unquote(encoded_url)
+
     encoded_tags = request.args.getlist('tag')
     tags = list(map(unquote_plus, encoded_tags))
+
     pocket_client.add(url, tags=','.join(tags))
     return make_toast(200, str(_l('Added %(url)s to Pocket', url=url)))
 
@@ -158,11 +161,11 @@ def set_infinite_scroll():
 @catches_exceptions
 def connect_to_pocket():
     if 'POCKET_CONSUMER_KEY' not in os.environ:
-        return make_toast(500, str(_("Pocket consumer key was not configured")))
+        return make_toast(500, "Pocket consumer key was not configured")
     consumer_key = os.environ['POCKET_CONSUMER_KEY']
 
     if 'BASE_URL' not in os.environ:
-        return make_toast(500, str(_("Base URL was not configured")))
+        return make_toast(500, "Base URL was not configured")
     redirect_uri = os.environ['BASE_URL'] + '/pocket_oauth'
 
     request_token = Pocket.get_request_token(
@@ -186,3 +189,20 @@ def disconnect_from_pocket():
     resp.delete_cookie('pocket_auth')
     resp.headers['HX-Refresh'] = "true"
     return resp
+
+
+@actions_blueprint.route('/update_feed_group', methods=['POST'])
+@requires_auth
+@catches_exceptions
+def update_feed_group():
+    fid = request.args.get('fid')
+    if fid is None:
+        return make_toast(400, "fid is required")
+
+    group = request.form.get('update_feed_group')
+    if group is None:
+        return make_toast(400, "Group id is required")
+    
+    g.aggregator.update_feed_group(fid, group)
+
+    return make_toast(200, str(_("Group updated")))

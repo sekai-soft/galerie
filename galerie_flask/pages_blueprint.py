@@ -144,10 +144,10 @@ def feed_page():
     fid = request.args.get('fid')
     items = aggregator.get_feed_items_by_iid_descending(fid)
     images = extract_images(items)
-    feed = aggregator.get_feed(fid)
 
     args = {
-        "feed": feed,
+        "feed": aggregator.get_feed(fid),
+        "groups": aggregator.get_groups(),
     }
     images_args(args, images, False)
     return render_template('feed.html', **args)

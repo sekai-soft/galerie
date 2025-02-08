@@ -40,6 +40,16 @@ def _entry_dict_to_item(entry_dict: dict) -> Item:
     )
 
 
+def _feed_dict_to_feed(feed_dict: dict) -> Feed:
+    return Feed(
+        fid=str(feed_dict['id']),
+        gid=str(feed_dict['category']['id']),
+        features=parse_feed_features(feed_dict['feed_url']),
+        title=feed_dict['title'],
+        group_title=feed_dict['category']['title']
+    )
+    
+
 class MinifluxAggregator(RssAggregator):
     def __init__(
         self,
@@ -121,15 +131,7 @@ class MinifluxAggregator(RssAggregator):
         )
 
     def get_feeds(self) -> List[Feed]:
-        feeds = []
-        for f in self.client.get_feeds():
-            feeds.append(Feed(
-                fid=str(f['id']),
-                gid=str(f['category']['id']),
-                features=parse_feed_features(f['feed_url']),
-                title=f['title']
-            ))
-        return feeds
+        return list(map(_feed_dict_to_feed, self.client.get_feeds()))
 
     def get_feed_items_by_iid_descending(self, fid: str) -> List[Item]:
         entries = self.client.get_feed_entries(
@@ -140,10 +142,7 @@ class MinifluxAggregator(RssAggregator):
         return list(map(_entry_dict_to_item, entries['entries']))
 
     def get_feed(self, fid: str) -> Feed:
-        f = self.client.get_feed(int(fid))
-        return Feed(
-            fid=str(f['id']),
-            gid=str(f['category']['id']),
-            features=parse_feed_features(f['feed_url']),
-            title=f['title']
-        )
+        return _feed_dict_to_feed(self.client.get_feed(int(fid)))
+
+    def update_feed_group(self, fid: str, gid: str):
+        self.client.update_feed(int(fid), category_id=int(gid))

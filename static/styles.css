@@ -208,6 +208,13 @@ textarea {
     padding-bottom: env(safe-area-inset-bottom, 1em);
 }
 
+.header-right {
+    display: flex;
+    flex-direction: row;
+    justify-content: flex-end;
+    gap: 1.5em;
+}
+
 /** htmx-indicator **/
 .htmx-indicator {
     display:none;

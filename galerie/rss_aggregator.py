@@ -57,3 +57,7 @@ class RssAggregator(ABC):
     @abstractmethod
     def get_feed(self, fid: str) -> Feed:
         pass
+
+    @abstractmethod
+    def update_feed_group(self, fid: str, gid: str):
+        pass
