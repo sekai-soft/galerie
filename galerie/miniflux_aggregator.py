@@ -2,7 +2,7 @@ import json
 import miniflux
 from datetime import datetime
 from urllib.parse import urlparse
-from typing import List, Optional
+from typing import List, Optional, Dict
 from urllib.parse import quote_plus, unquote_plus
 from .item import Item, fix_nitter_url
 from .group import Group
@@ -67,12 +67,6 @@ class MinifluxAggregator(RssAggregator):
     def get_groups(self) -> List[Group]:
         return list(map(_category_dict_to_group, self.client.get_categories()))
 
-    def get_group(self, group_id: str) -> Optional[Group]:
-        for group in self.get_groups():
-            if group.gid == group_id:
-                return group
-        return None 
-
     def get_unread_items_by_iid_ascending(self, count: int, from_iid_exclusive: Optional[str], feed_filter: FeedFilter) -> List[Item]:
         entries = self.client.get_entries(
             status='unread',
@@ -97,16 +91,20 @@ class MinifluxAggregator(RssAggregator):
         )
         return list(map(_entry_dict_to_item, entries['entries']))
    
-    def get_unread_items_count(self, feed_filter: FeedFilter) -> int:
-        entries = self.client.get_entries(
-            status='unread',
-            order='id',
-            direction='asc',
-            published_after=feed_filter.created_after_seconds,
-            category_id=None if feed_filter.group_id is None else int(feed_filter.group_id),
-            limit=1
-        )
-        return entries['total']
+    def get_unread_items_count_by_group_ids(self, gids: List[str]) -> Dict[str, int]:
+        res = {}
+        for gid in gids:
+            res[gid] = 0
+
+        feeds = self.client.get_feeds()
+        feed_counters = self.client.get_feed_counters()["unreads"]        
+        for feed in feeds:
+            feed_id = str(feed['id'])
+            if feed_id in feed_counters:
+                gid = str(feed['category']['id'])
+                res[gid] += feed_counters[feed_id]
+
+        return res
     
     def mark_items_as_read_by_group_id(self, group_id: Optional[str]):
         if group_id is not None:

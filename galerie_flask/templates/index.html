@@ -13,7 +13,7 @@
         <select id="groupSelect">
             <option value="_all" {{ 'selected=selected' if not selected_group else '' }}>{{ _('all groups') }}</option>
             {% for g in groups %}
-            <option value="{{ g.gid }}" {{ 'selected=selected' if selected_group and g.gid == selected_group.gid else '' }}>{% if group_unread_counts[g.gid] != 0 %}({{ group_unread_counts[g.gid] }}) {% endif %}{{ g.title }}</option>
+            <option value="{{ g.gid }}" {{ 'selected=selected' if selected_group and g.gid == selected_group.gid else '' }}>{% if unread_items_count[g.gid] != 0 %}({{ unread_items_count[g.gid] }}) {% endif %}{{ g.title }}</option>
             {% endfor %}
         </select>
         <select id="sortSelect">>
@@ -34,7 +34,7 @@
         <select id="mobileGroupSelect">
             <option value="_all" {{ 'selected=selected' if not selected_group else '' }}>{{ _('all groups') }}</option>
             {% for g in groups %}
-            <option value="{{ g.gid }}" {{ 'selected=selected' if selected_group and g.gid == selected_group.gid else '' }}>{% if group_unread_counts[g.gid] != 0 %}({{ group_unread_counts[g.gid] }}) {% endif %}{{ g.title }}</option>
+            <option value="{{ g.gid }}" {{ 'selected=selected' if selected_group and g.gid == selected_group.gid else '' }}>{% if unread_items_count[g.gid] != 0 %}({{ unread_items_count[g.gid] }}) {% endif %}{{ g.title }}</option>
             {% endfor %}
         </select>
     </div>
@@ -45,10 +45,10 @@
         <p>{{ _('✨ all read ✨') }}</p>
         {% else %}
         {% for g in groups %}
-        {% if group_unread_counts[g.gid] != 0 %}
+        {% if unread_items_count[g.gid] != 0 %}
         <p>
             <a href="/?group={{ g.gid }}">
-                {{ g.title }} {{ _('has') }} {{ group_unread_counts[g.gid] }} {{ _('unread items') }}
+                {{ g.title }} {{ _('has') }} {{ unread_items_count[g.gid] }} {{ _('unread items') }}
             </a>
         </p>
         {% endif %}

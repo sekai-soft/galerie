@@ -34,12 +34,11 @@ def catches_exceptions(f):
 def index():
     sort_by_desc = request.args.get('sort', 'desc') == 'desc'
     today = request.args.get('today') == "1"
-    group = request.args.get('group') if request.args.get('group') else None
+    gid = request.args.get('group') if request.args.get('group') else None
     infinite_scroll = request.cookies.get('infinite_scroll', '1') == '1'
     webp_cloud_endpoint = request.cookies.get('webp_cloud_endpoint', '')
 
-    selected_group = g.aggregator.get_group(group)
-    feed_filter = FeedFilter(compute_after_for_maybe_today(), group)
+    feed_filter = FeedFilter(compute_after_for_maybe_today(), gid)
     if sort_by_desc:
         unread_items = g.aggregator.get_unread_items_by_iid_descending(max_items, None, feed_filter)
     else:
@@ -51,16 +50,15 @@ def index():
     last_iid_str = uid_to_item_id(images[-1].uid) if images else ''
 
     groups = g.aggregator.get_groups()
-    group_unread_counts = {}
-    for _group in groups:
-        _feed_filter = FeedFilter(compute_after_for_maybe_today(), _group.gid)
-        group_unread_counts[_group.gid] = g.aggregator.get_unread_items_count(_feed_filter)
-    group_unread_counts = dict(sorted(group_unread_counts.items(), key=lambda item: item[1], reverse=True))
-    groups = sorted(groups, key=lambda group: group_unread_counts[group.gid], reverse=True)
-    all_read = all(count == 0 for count in group_unread_counts.values())
+    gids = [group.gid for group in groups]
+    unread_items_count = g.aggregator.get_unread_items_count_by_group_ids(gids)
+    groups = sorted(groups, key=lambda group: unread_items_count[group.gid], reverse=True)   
+
+    selected_group = next((group for group in groups if group.gid == gid), None)
+    all_read = all(count == 0 for count in unread_items_count.values())
 
     args = {
-        "group_unread_counts": group_unread_counts,
+        "unread_items_count": unread_items_count,
         "all_read": all_read,
         # today was used later so has to use the key "all" instead of "today"
         "all": not today,
@@ -69,8 +67,8 @@ def index():
         "sort_by_desc":sort_by_desc,
     }
     images_args(args, images, get_pocket_client() is not None)
-    mark_as_read_button_args(args, last_iid_str, today, group, sort_by_desc)
-    load_more_button_args(args, last_iid_str, today, group, sort_by_desc, infinite_scroll)
+    mark_as_read_button_args(args, last_iid_str, today, gid, sort_by_desc)
+    load_more_button_args(args, last_iid_str, today, gid, sort_by_desc, infinite_scroll)
 
     return render_template('index.html', **args)
 

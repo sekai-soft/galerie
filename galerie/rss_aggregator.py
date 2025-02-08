@@ -1,5 +1,5 @@
 from abc import abstractmethod, ABC
-from typing import List, Optional
+from typing import List, Optional, Dict
 from dataclasses import dataclass
 from .item import Item
 from .group import Group
@@ -27,10 +27,6 @@ class RssAggregator(ABC):
         pass
     
     @abstractmethod
-    def get_group(self, group_id: str) -> Optional[Group]:
-        pass
-
-    @abstractmethod
     def get_unread_items_by_iid_ascending(self, count: int, from_iid_exclusive: Optional[str], feed_filter: FeedFilter) -> List[Item]:   
         pass
 
@@ -39,7 +35,7 @@ class RssAggregator(ABC):
         pass
     
     @abstractmethod
-    def get_unread_items_count(self, feed_filter: FeedFilter) -> int:
+    def get_unread_items_count_by_group_ids(self, gids: List[str]) -> Dict[str, int]:
         pass
    
     @abstractmethod
