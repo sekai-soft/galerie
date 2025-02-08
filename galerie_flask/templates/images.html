@@ -1,31 +1,28 @@
 {% for image in images %}
 <div id="{{ image.uid }}" class="grid-item" x-data="{}">
-    <a
-        href="{{ image.url }}"
-        target="_blank"
-        x-on:long-press.prevent="if ({{ pocket_available }}) { document.getElementById('share-menu-{{ image.uid }}').showModal() }"
-        data-long-press-delay="250"
-    >
+    <a href="{{ image.url }}" target="_blank">
         <img id="img-{{ image.uid }}" class="item-image" src="{{ image.image_url }}"/>
     </a>
-    <a href="/feed?fid={{ image.fid }}" class="title">{% if image.more_images_count > 0 %}({{ image.more_images_count }}+){% endif %} {{ image.title }}</a>
-    <a href="/feed?fid={{ image.fid }}" class="feed-title">
-        <span class="tag">{{ image.groups[0].title }}</span>
-        {{ image.feed_title }}
-    </a>
+    <div class="item-titles-container">
+        <div class="item-titles">
+            <a href="/feed?fid={{ image.fid }}" class="title">{% if image.more_images_count > 0 %}({{ image.more_images_count }}+){% endif %} {{ image.title }}</a>
+            <a href="/feed?fid={{ image.fid }}" class="feed-title">
+                <span class="tag">{{ image.groups[0].title }}</span>
+                {{ image.feed_title }}
+            </a>
+        </div>
+        <a class="item-share-menu" href="javascript:if ({{ pocket_available }}) { document.getElementById('share-menu-{{ image.uid }}').showModal() }">⋮</a>
+    </div>
 </div>
-<dialog
-    id="share-menu-{{ image.uid }}"
-    class="share-menu"
-    x-data="{}"
->
+<dialog id="share-menu-{{ image.uid }}" class="share-menu">
     <p>
         <a
             href="javascript:void(0)"
             hx-post="/actions/pocket?url={{ image.ui_extra['quoted_url'] }}{{ image.ui_extra['encoded_tags'] }}"
             hx-swap="none"
+            hx-disabled-elt="this"
             hx-on="htmx:afterRequest: document.getElementById('share-menu-{{ image.uid }}').close()"
-        >Save to Pocket</a>
+        >Save to Pocket <span class="htmx-indicator">...</span></a>
     </p>
     <p><a href="javascript:document.getElementById('share-menu-{{ image.uid }}').close()">Cancel</a></p>
 </dialog> 
