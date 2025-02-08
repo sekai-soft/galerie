@@ -84,8 +84,6 @@ def encode_setup_from_cookies() -> str:
         data['pocket_auth'] = request.cookies['pocket_auth']
     if 'infinite_scroll' in request.cookies:
         data['infinite_scroll'] = request.cookies['infinite_scroll']
-    if 'webp_cloud_endpoint' in request.cookies:
-        data['webp_cloud_endpoint'] = request.cookies['webp_cloud_endpoint']
 
     return json.dumps(data)
 
@@ -98,7 +96,5 @@ def decode_setup_to_cookies(setup_code: str, response: Response):
         response.set_cookie('pocket_auth', setup['pocket_auth'])
     if 'infinite_scroll' in setup:
         response.set_cookie('infinite_scroll', setup['infinite_scroll'])
-    if 'webp_cloud_endpoint' in setup:
-        response.set_cookie('webp_cloud_endpoint', setup['webp_cloud_endpoint'])
 
     return response

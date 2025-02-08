@@ -45,11 +45,3 @@ def extract_images(items: List[Item]) -> List[Image]:
                 groups=item.groups,
                 more_images_count=more_images_count))
     return images
-
-
-def convert_with_webp_cloud_endpoint(images: List[Image], aggregator: RssAggregator, webp_cloud_endpoint: str):
-    if aggregator.connection_info().aggregator_type != 'Miniflux' or not webp_cloud_endpoint:
-        return
-    miniflux_aggregator = aggregator # type: MinifluxAggregator
-    for image in images:
-        image.image_url = image.image_url.replace(miniflux_aggregator.base_url + "/proxy", webp_cloud_endpoint + "/proxy")

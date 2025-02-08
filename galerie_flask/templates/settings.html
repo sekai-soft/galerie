@@ -59,21 +59,5 @@
         <option value="1" {{ 'selected=selected' if infinite_scroll else '' }}>{{ _('Yes')}}</option>
         <option value="0" {{ 'selected=selected' if not infinite_scroll else '' }}>{{ _('No')}}</option>
     </select>
-    {% if connection_info.aggregator_type == 'Miniflux' %}
-    <br>
-    <br>
-    <hr>
-    <p>{{ _('WebP Cloud integration')}}</p>
-    <input
-        type="text"
-        placeholder="{{ _('Enter proxy address ↲, e.g. https://xxxxxxx.webp.li') }}"
-        style="width: 100%;"
-        name="webp_cloud_endpoint"
-        hx-trigger="keyup[keyCode==13]"
-        hx-post="/actions/set_webp_cloud_endpoint"
-        hx-swap="none"
-        value="{{ webp_cloud_endpoint }}"
-    >
-    {% endif %}
 </div>
 {% endblock %}

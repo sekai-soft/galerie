@@ -38,11 +38,6 @@ const onScanSuccess = (decodedText, decodedResult) => {
             setCookie("infinite_scroll", infinite_scroll);
         }
 
-        const webp_cloud_endpoint = decoded.webp_cloud_endpoint;
-        if (webp_cloud_endpoint) {
-            setCookie("webp_cloud_endpoint", webp_cloud_endpoint);
-        }
-
         window.location.href = "/";
     } catch {
         window.alert(`Invalid QR code data = ${decodedText}`);

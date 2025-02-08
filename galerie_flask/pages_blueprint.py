@@ -7,7 +7,7 @@ from flask import Blueprint, redirect, render_template, g, request, make_respons
 from flask_babel import _
 from pocket import Pocket
 from galerie.feed_filter import FeedFilter
-from galerie.image import extract_images, uid_to_item_id, convert_with_webp_cloud_endpoint
+from galerie.image import extract_images, uid_to_item_id
 from .utils import requires_auth, compute_after_for_maybe_today, max_items, get_pocket_client, load_more_button_args, mark_as_read_button_args, images_args, add_image_ui_extras, encode_setup_from_cookies
 from .get_aggregator import get_aggregator
 
@@ -36,7 +36,6 @@ def index():
     today = request.args.get('today') == "1"
     gid = request.args.get('group') if request.args.get('group') else None
     infinite_scroll = request.cookies.get('infinite_scroll', '1') == '1'
-    webp_cloud_endpoint = request.cookies.get('webp_cloud_endpoint', '')
 
     feed_filter = FeedFilter(compute_after_for_maybe_today(), gid)
     if sort_by_desc:
@@ -44,7 +43,6 @@ def index():
     else:
         unread_items = g.aggregator.get_unread_items_by_iid_ascending(max_items, None, feed_filter)
     images = extract_images(unread_items)
-    convert_with_webp_cloud_endpoint(images, g.aggregator, webp_cloud_endpoint)
     for image in images:
         add_image_ui_extras(image)
     last_iid_str = uid_to_item_id(images[-1].uid) if images else ''
@@ -88,7 +86,6 @@ def login():
 def settings():
     infinite_scroll = request.cookies.get('infinite_scroll', '1') == '1'
     pocket_auth = json.loads(request.cookies.get('pocket_auth', '{}'))
-    webp_cloud_endpoint = request.cookies.get('webp_cloud_endpoint', '')
     
     setup_code = encode_setup_from_cookies()
     setup_code = base64.b64encode(setup_code.encode("utf-8"))
@@ -99,7 +96,6 @@ def settings():
         connection_info=g.aggregator.connection_info(),
         pocket_auth=pocket_auth,
         infinite_scroll=infinite_scroll,
-        webp_cloud_endpoint=webp_cloud_endpoint,
         setup_code=setup_code)
 
 
