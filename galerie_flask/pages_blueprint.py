@@ -136,15 +136,19 @@ def feeds():
 @pages_blueprint.route("/feed")
 @catches_exceptions
 @requires_auth
-def feed():
+def feed_page():
     aggregator = get_aggregator()
     if not aggregator:
         return redirect('/')
+
     fid = request.args.get('fid')
     items = aggregator.get_feed_items_by_iid_descending(fid)
     images = extract_images(items)
+    feed = aggregator.get_feed(fid)
 
-    args = {}
+    args = {
+        "feed": feed,
+    }
     images_args(args, images, False)
     return render_template('feed.html', **args)
 

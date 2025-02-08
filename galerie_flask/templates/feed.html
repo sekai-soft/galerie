@@ -1,9 +1,13 @@
 {% extends 'base.html' %}
 
-{% block title %}Feed{% endblock %}
+{% block title %}{{ feed.title }}{% endblock %}
 
 {% block content %}
 <div class="stream">
+    <div class="header">
+        <p>{{ feed.title }}</p>
+        <a href="/" style="text-decoration: none;">🏠</a>
+    </div>
     <div class="grid" id="grid">
         <div class="grid-sizer"></div>
         {% include 'images.html' %}
