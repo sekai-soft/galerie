@@ -24,8 +24,9 @@
             href="javascript:void(0)"
             hx-post="/actions/pocket?url={{ image.ui_extra['quoted_url'] }}{{ image.ui_extra['encoded_tags'] }}"
             hx-swap="none"
+            hx-disabled-elt="this"
             hx-on="htmx:afterRequest: document.getElementById('share-menu-{{ image.uid }}').close()"
-        >Save to Pocket</a>
+        >Save to Pocket <span class="htmx-indicator">...</span></a>
     </p>
     <p><a href="javascript:document.getElementById('share-menu-{{ image.uid }}').close()">Cancel</a></p>
 </dialog> 

@@ -186,29 +186,3 @@ def disconnect_from_pocket():
     resp.delete_cookie('pocket_auth')
     resp.headers['HX-Refresh'] = "true"
     return resp
-
-
-@actions_blueprint.route('/convert_to_image_feed', methods=['POST'])
-@catches_exceptions
-def convert_to_image_feed():
-    feed = request.args.get('feed') if request.args.get('feed') else None
-    if not feed:
-        return make_toast(400, "Feed was not provided")
-    aggregator = get_aggregator()
-    if not aggregator:
-        return make_toast(400, "Aggregator was not configured")
-    aggregator.convert_to_image_feed(feed)
-    return make_toast(200, "Feed was converted to image feed")
-
-
-@actions_blueprint.route('/unconvert_from_image_feed', methods=['POST'])
-@catches_exceptions
-def unconvert_from_image_feed():
-    feed = request.args.get('feed') if request.args.get('feed') else None
-    if not feed:
-        return make_toast(400, "Feed was not provided")
-    aggregator = get_aggregator()
-    if not aggregator:
-        return make_toast(400, "Aggregator was not configured")
-    aggregator.unconvert_from_image_feed(feed)
-    return make_toast(200, "Feed was unconverted from image feed")

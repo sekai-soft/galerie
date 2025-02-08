@@ -51,13 +51,9 @@ class RssAggregator(ABC):
         pass
 
     @abstractmethod
-    def convert_to_image_feed(self, fid: str):
+    def get_feed_items_by_iid_descending(self, fid: str) -> List[Item]:
         pass
     
     @abstractmethod
-    def unconvert_from_image_feed(self, fid: str):
-        pass
-
-    @abstractmethod
-    def get_feed_items_by_iid_descending(self, fid: str) -> List[Item]:
+    def get_feed(self, fid: str) -> Feed:
         pass

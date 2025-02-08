@@ -126,21 +126,10 @@ class MinifluxAggregator(RssAggregator):
             feeds.append(Feed(
                 fid=str(f['id']),
                 gid=str(f['category']['id']),
-                features=parse_feed_features(f['feed_url'])
+                features=parse_feed_features(f['feed_url']),
+                title=f['title']
             ))
         return feeds
-
-    def convert_to_image_feed(self, fid: str):
-        feed_url = self.client.get_feed(int(fid))['feed_url']
-        self.client.update_feed(int(fid), feed_url=f'https://rss-lambda.xyz/to_image_feed?url={quote_plus(feed_url)}')
-
-    def unconvert_from_image_feed(self, fid: str):
-        feed_url = self.client.get_feed(int(fid))['feed_url']
-        if not feed_url.startswith('https://rss-lambda.xyz/to_image_feed?url='):
-            return
-        feed_url = feed_url[len('https://rss-lambda.xyz/to_image_feed?url='):]
-        feed_url = unquote_plus(feed_url)
-        self.client.update_feed(int(fid), feed_url=feed_url)
 
     def get_feed_items_by_iid_descending(self, fid: str) -> List[Item]:
         entries = self.client.get_feed_entries(
@@ -149,3 +138,12 @@ class MinifluxAggregator(RssAggregator):
             direction='desc'
         )
         return list(map(_entry_dict_to_item, entries['entries']))
+
+    def get_feed(self, fid: str) -> Feed:
+        f = self.client.get_feed(int(fid))
+        return Feed(
+            fid=str(f['id']),
+            gid=str(f['category']['id']),
+            features=parse_feed_features(f['feed_url']),
+            title=f['title']
+        )

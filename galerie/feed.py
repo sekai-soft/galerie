@@ -7,3 +7,4 @@ class Feed:
     fid: str
     gid: str
     features: Dict
+    title: str
