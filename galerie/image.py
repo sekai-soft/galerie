@@ -19,6 +19,7 @@ class Image:
     title: str
     feed_title: str
     more_images_count: int
+    fid: str
     ui_extra: dict = field(default_factory=dict)
 
 
@@ -43,5 +44,6 @@ def extract_images(items: List[Item]) -> List[Image]:
                 title=item.title,
                 feed_title=item.feed_title,
                 groups=item.groups,
+                fid=item.fid,
                 more_images_count=more_images_count))
     return images

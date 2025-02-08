@@ -9,9 +9,10 @@ A Pinterest/Xiaohongshu photo wall style RSS reader
 
 ## Features
 * Supports self-hosted [Miniflux](https://miniflux.app)
-* View images from unread RSS items in a beautiful photo wall
-* Mark all items as read when you are done
-* (Optional) Connect to Pocket and quickly add items to read-it-later by double-tapping on the image
+* View unread images from RSS feeds in a beautiful photo wall
+* 🚧 Mark images as read as you scroll
+* 🚧 Quickly share images to Mastodon
+* Quickly add images to Pocket
 
 ## Hosted instance
 Visit [galerie-reader.com](https://galerie-reader.com) and login with your RSS aggregator

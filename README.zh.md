@@ -8,9 +8,10 @@
 
 ## 功能
 * 支持自托管的 [Miniflux](https://miniflux.app)
-* 以照片墙形式查看未读 RSS 项目的图片
-* 完成阅读后将所有项目标记为已读
-* (可选) 连接到 Pocket，通过双击图片快速添加项目以便稍后阅读
+* 以照片墙的形式从 RSS 源中浏览未读图片
+* 🚧 一边浏览图片一边将它们标记为已读
+* 🚧 快速将图片分享至 Mastodon
+* 快速将图片添加至 Pocket
 
 ## 托管实例
 访问 [galerie-reader.com](https://galerie-reader.com) 并登陆您的 RSS 聚合器

@@ -62,10 +62,10 @@ def load_more_button_args(args: dict, from_iid: str, today: bool, gid: Optional[
     })
 
 
-def images_args(args: dict, images: List[Image], double_click_action: bool):
+def images_args(args: dict, images: List[Image], pocket_available: bool):
     args.update({
         "images": images,
-        "double_click_action": double_click_action,
+        "pocket_available": "true" if pocket_available else "false", # need to convert to JS boolean so that alpine can interpret it
     })
 
 

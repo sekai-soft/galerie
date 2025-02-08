@@ -1,22 +1,32 @@
 {% for image in images %}
-<div
-    class="grid-item"
-    id="{{ image.uid }}"
-    x-data="{ timer: null }"
-    x-on:click.prevent="clearTimeout(timer); timer = setTimeout(() => { window.open('{{ image.url }}', '_blank') }, 250);"
-    {% if double_click_action %}
-    x-on:dblclick.prevent="clearTimeout(timer); addToPocket('{{ image.ui_extra['quoted_url'] }}', '{{ image.ui_extra['encoded_tags'] }}');"
-    {% endif %}
->
-    <img
-        id="img-{{ image.uid }}"
-        class="item-image"
-        src="{{ image.image_url }}"
-    />
-    <a href="{{ image.url }}" target="_blank" class="title">{% if image.more_images_count > 0 %}({{ image.more_images_count }}+){% endif %} {{ image.title }}</a>
-    <a href="{{ image.url }}" target="_blank" class="feed-title">
+<div id="{{ image.uid }}" class="grid-item" x-data="{}">
+    <a
+        href="{{ image.url }}"
+        target="_blank"
+        x-on:long-press.prevent="if ({{ pocket_available }}) { document.getElementById('share-menu-{{ image.uid }}').showModal() }"
+        data-long-press-delay="250"
+    >
+        <img id="img-{{ image.uid }}" class="item-image" src="{{ image.image_url }}"/>
+    </a>
+    <a href="/feed?fid={{ image.fid }}" class="title">{% if image.more_images_count > 0 %}({{ image.more_images_count }}+){% endif %} {{ image.title }}</a>
+    <a href="/feed?fid={{ image.fid }}" class="feed-title">
         <span class="tag">{{ image.groups[0].title }}</span>
         {{ image.feed_title }}
     </a>
 </div>
+<dialog
+    id="share-menu-{{ image.uid }}"
+    class="share-menu"
+    x-data="{}"
+>
+    <p>
+        <a
+            href="javascript:void(0)"
+            hx-post="/actions/pocket?url={{ image.ui_extra['quoted_url'] }}{{ image.ui_extra['encoded_tags'] }}"
+            hx-swap="none"
+            hx-on="htmx:afterRequest: document.getElementById('share-menu-{{ image.uid }}').close()"
+        >Save to Pocket</a>
+    </p>
+    <p><a href="javascript:document.getElementById('share-menu-{{ image.uid }}').close()">Cancel</a></p>
+</dialog> 
 {% endfor %}

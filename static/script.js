@@ -60,7 +60,9 @@ $('#sortSelect').on('change', (event) => {
   }
 })
 
-const toast = (message) => {
+document.body.addEventListener("toast", (event) => {
+  const message = event.detail.value;
+  
   const toastEl = $('#toast')
   toastEl.addClass('show');
   toastEl.text(message);
@@ -68,26 +70,6 @@ const toast = (message) => {
   setTimeout(() => {
     toastEl.removeClass('show');
   }, 2500);
-}
-
-const addToPocket = async (encoded_url, tag_args) => {
-  const response = await fetch(`/actions/pocket?url=${encoded_url}${tag_args}`, {method: 'POST'});
-  // addToPocket was not called from htmx
-  // hence we need to emulate the behavior of HX-Trigger header so that backend can keep using HX-Trigger
-  const hxTrigger = response.headers.get('HX-Trigger');
-  if (!hxTrigger) {
-    return;
-  }
-  const parsedHxTrigger = JSON.parse(hxTrigger);
-  const toastMessage = parsedHxTrigger.toast;
-  if (!toastMessage) {
-    return;
-  }
-  toast(toastMessage);
-}
-
-document.body.addEventListener("toast", (event) => {
-  toast(event.detail.value);            
 })
 
 const isSafari = /^((?!chrome|android).)*safari/i.test(navigator.userAgent) && /Mac/i.test(navigator.platform);

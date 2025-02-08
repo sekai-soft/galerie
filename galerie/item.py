@@ -20,3 +20,4 @@ class Item:
     groups: List[Group]
     title: str
     feed_title: str
+    fid: str

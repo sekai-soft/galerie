@@ -35,7 +35,8 @@ def _entry_dict_to_item(entry_dict: dict) -> Item:
         url=fix_nitter_url(entry_dict['url']),
         groups=[_category_dict_to_group(entry_dict['feed']['category'])],
         title=entry_dict['title'],
-        feed_title=entry_dict['feed']['title']
+        feed_title=entry_dict['feed']['title'],
+        fid=str(entry_dict['feed_id'])
     )
 
 

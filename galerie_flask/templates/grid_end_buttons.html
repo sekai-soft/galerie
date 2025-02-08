@@ -9,5 +9,6 @@
         hx-trigger="{{ 'revealed' if infinite_scroll else 'click' }}"
         hx-target="#grid"
         hx-swap="beforeend"
+        hx-disabled-elt="this"
     >{{ _('Load more') }} <span class="htmx-indicator">...</span></button>
 </div>
