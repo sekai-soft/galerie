@@ -1,3 +1,37 @@
+const isMacSafari = /^((?!chrome|android).)*safari/i.test(navigator.userAgent) && /Mac/i.test(navigator.platform);
+if (isMacSafari) {
+  const style = document.createElement('style');
+  style.innerHTML = `
+    select {
+      -webkit-appearance: none;
+    }
+  `;
+  document.head.appendChild(style);
+
+  document.querySelectorAll('select').forEach(select => {
+    const updateArrow = () => {
+      select.querySelectorAll('option').forEach(option => {
+        option.textContent = option.textContent.replace(' ▼', '');
+      });
+      const selectedOption = select.options[select.selectedIndex];
+      selectedOption.textContent += ' ▼';
+    };
+
+    updateArrow();
+    select.addEventListener('change', updateArrow);
+  });
+}
+
+const isIos = /iPad|iPhone|iPod/.test(navigator.userAgent) && !window.MSStream;
+const isStandalone = navigator.standalone || window.matchMedia("(display-mode: standalone)").matches;
+if (isIos && isStandalone) {
+  PullToRefresh.init({
+    onRefresh() {
+      location.reload();
+    },
+  });
+}
+
 Cookies.set('tz', Intl.DateTimeFormat().resolvedOptions().timeZone)
 
 const grid = $('.grid').masonry({
@@ -71,27 +105,3 @@ document.body.addEventListener("toast", (event) => {
     toastEl.removeClass('show');
   }, 2500);
 })
-
-const isSafari = /^((?!chrome|android).)*safari/i.test(navigator.userAgent) && /Mac/i.test(navigator.platform);
-if (isSafari) {
-  const style = document.createElement('style');
-  style.innerHTML = `
-    select {
-      -webkit-appearance: none;
-    }
-  `;
-  document.head.appendChild(style);
-
-  document.querySelectorAll('select').forEach(select => {
-    const updateArrow = () => {
-      select.querySelectorAll('option').forEach(option => {
-        option.textContent = option.textContent.replace(' ▼', '');
-      });
-      const selectedOption = select.options[select.selectedIndex];
-      selectedOption.textContent += ' ▼';
-    };
-
-    updateArrow();
-    select.addEventListener('change', updateArrow);
-  });
-}

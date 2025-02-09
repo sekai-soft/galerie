@@ -22,13 +22,12 @@
         </select>
         <div class="header-right">
             <a
-            href="javascript:void(0)"
-            style="text-decoration: none;"
-            hx-confirm="{{ _('Are you sure you want to mark this group as read?') }}"
-            hx-post="/actions/mark_as_read?to_iid={{ to_iid }}&today={{ today }}&group={{ gid }}&sort={{ sort }}"
-            hx-disabled-elt="this"
+                href="javascript:void(0)"
+                style="text-decoration: none;"
+                hx-confirm="{{ _('Are you sure you want to mark this group as read?') }}"
+                hx-post="/actions/mark_as_read?to_iid={{ to_iid }}&today={{ today }}&group={{ gid }}&sort={{ sort }}"
+                hx-disabled-elt="this"
             >✅</a>
-            <a href="javascript:void(0)" @click="window.location.reload()" style="text-decoration: none;">🔄</a>
             <a href="/settings" style="text-decoration: none;">⚙️</a>
         </div>
     </div>
