@@ -55,6 +55,10 @@ p > a {
     font-size: 1em;
 }
 
+p > select {
+    font-size: 1em;
+}
+
 .all-read {
     text-align: center;
 }

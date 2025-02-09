@@ -1,13 +1,16 @@
 import os
 import json
 import base64
+from typing import Optional
 from functools import wraps
+from urllib.parse import urlparse
 from sentry_sdk import capture_exception
 from flask import Blueprint, redirect, render_template, g, request, make_response
 from flask_babel import _
 from pocket import Pocket
 from galerie.feed_filter import FeedFilter
 from galerie.image import extract_images, uid_to_item_id
+from galerie.parse_feed_features import parse_twitter_handle
 from .utils import requires_auth, compute_after_for_maybe_today, max_items, get_pocket_client, load_more_button_args, mark_as_read_button_args, images_args, add_image_ui_extras, encode_setup_from_cookies
 from .get_aggregator import get_aggregator
 
@@ -151,6 +154,70 @@ def feed_page():
     }
     images_args(args, images, False)
     return render_template('feed.html', **args)
+
+
+def is_valid_url(url: str) -> bool:
+    try:
+        urlparse(url)
+        return True
+    except ValueError:
+        return False
+
+
+twitter_domains = {
+    "twitter.com",
+    "mobile.twitter.com",
+    "x.com",
+    "mobile.x.com",
+    "fxtwitter.com",
+    "fixupx.com"
+}
+
+def extract_twitter_handle(url: str) -> Optional[str]:
+    if urlparse(url).netloc not in twitter_domains:
+        return None
+    
+    path = urlparse(url).path
+    if path.startswith('/'):
+        path = path[1:]
+    
+    handle = path.split('/')[0]
+    if handle:
+        return handle
+    return None
+
+
+@pages_blueprint.route("/static/add_feed") # has to go to /static because manifest.json is under /static
+@catches_exceptions
+@requires_auth
+def add_feed():
+    aggregator = get_aggregator()
+    if not aggregator:
+        return redirect('/')
+    
+    args = request.args
+    url = None
+    if 'url' in args and is_valid_url(args['url']):
+        url = args['url']
+    elif 'text' in args and is_valid_url(args['text']):
+        url = args['text']
+    elif 'title' in args and is_valid_url(args['title']):
+        url = args['title']
+    
+    if not url:
+        return render_template('add_feed.html', error=_("Cannot find a valid URL") + " " + str(args))
+    twitter_handle = extract_twitter_handle(url)
+
+    for feed in aggregator.get_feeds():
+        feed_url = feed.features["feed_url"]
+        if twitter_handle and twitter_handle == parse_twitter_handle(feed_url):
+            return render_template('add_feed.html', error=_("Twitter feed already exists") + " @" + twitter_handle)
+        if url == feed_url:
+            return render_template('add_feed.html', error=_("Feed already exists") + " " + url)
+
+    if twitter_handle:
+        return render_template('add_feed.html', twitter_handle=twitter_handle, groups=aggregator.get_groups())
+    return render_template('add_feed.html', url=url, groups=aggregator.get_groups())
 
 
 @pages_blueprint.route("/toast_test")

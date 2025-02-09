@@ -1,0 +1,40 @@
+{% extends 'base.html' %}
+
+{% block title %}{{ _('Add feed | Galerie') }}{% endblock %}
+
+{% block content %}
+<div class="stream">
+    <div class="header">
+        <p>{{ _('Add feed') }}</p>
+        <a href="/">{{ _('Back to homepage') }}</a>
+    </div>
+    {% if error %}
+    <p>{{ error }}</p>
+    {% else %}
+    {% if twitter_handle %}
+    <p>{{ _('Adding Twitter feed') }} @{{ twitter_handle }}</p>
+    {% else %}
+    <p>{{ _('Adding feed') }} {{ url }}</p>
+    {% endif %}
+    <form>
+        <p>
+            {{ _('Select group') }}
+            <select name="group">
+                {% for g in groups %}
+                <option value="{{ g.gid }}">{{ g.title }}</option>
+                {% endfor %}
+            </select>
+        </p>
+        <button
+            class="button"
+            style="width: 33%"
+            hx-post="/actions/add_feed?url={{ url }}&twitter_handle={{ twitter_handle }}"
+            hx-swap="none"
+            hx-disabled-elt="this"
+        >
+            {{ _('Confirm') }} <span class="htmx-indicator">...</span>
+        </button>
+    </form>
+    {% endif %}
+</div>
+{% endblock %}

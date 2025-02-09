@@ -3,7 +3,6 @@ import miniflux
 from datetime import datetime
 from urllib.parse import urlparse
 from typing import List, Optional, Dict
-from urllib.parse import quote_plus, unquote_plus
 from .item import Item, fix_nitter_url
 from .group import Group
 from .feed_filter import FeedFilter
@@ -146,3 +145,6 @@ class MinifluxAggregator(RssAggregator):
 
     def update_feed_group(self, fid: str, gid: str):
         self.client.update_feed(int(fid), category_id=int(gid))
+
+    def add_feed(self, feed_url: str, gid: str) -> str:
+        return str(self.client.create_feed(feed_url, category_id=int(gid)))

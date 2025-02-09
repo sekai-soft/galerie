@@ -21,5 +21,14 @@
     "lang": "en-US",
     "name": "Galerie",
     "short_name": "Galerie",
-    "start_url": "https://galerie-reader.com"
+    "start_url": "https://galerie-reader.com",
+    "share_target": {
+        "action": "add_feed",
+        "method": "GET",
+        "params": {
+            "title": "title",
+            "text": "text",
+            "url": "url"
+        }
+    }
 }

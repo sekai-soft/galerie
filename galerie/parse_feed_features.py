@@ -1,13 +1,28 @@
 import re
-from typing import Dict
+from typing import Dict, Optional, Tuple
 from urllib.parse import unquote_plus, urlparse, parse_qs
 
-nitter_pattern = re.compile(r'https://nitter-[^.]+\.fly\.dev/([^/]+)/rss')
+nitter_on_fly_pattern = re.compile(r'https://nitter-[^.]+\.fly\.dev/([^/]+)/rss')
+
+def is_nitter_on_fly(feed_url: str) -> bool:
+    return nitter_on_fly_pattern.match(feed_url) is not None
+
+def extract_nitter_on_fly(feed_url: str) -> Tuple[str, str]:
+    parsed_url = urlparse(feed_url)
+    domain = parsed_url.netloc
+    query_params = parse_qs(parsed_url.query)
+    password = query_params['key'][0]
+    return (domain, password)
+
+def parse_twitter_handle(feed_url: str) -> Optional[str]:
+    match = nitter_on_fly_pattern.search(feed_url)
+    if not match:
+        return None
+    return match.group(1)
 
 def parse_feature_twitter(features: Dict):
-    match = nitter_pattern.search(features["feed_url"])
-    if match:
-        twitter_handle = match.group(1)
+    twitter_handle = parse_twitter_handle(features["feed_url"])
+    if twitter_handle:
         features["twitter_handle"] = twitter_handle
 
 def parse_feature_rss_lambda(features: Dict):

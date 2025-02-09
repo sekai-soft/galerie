@@ -3,14 +3,14 @@ import json
 import base64
 from functools import wraps
 from urllib.parse import unquote, unquote_plus
-from io import BytesIO
-from flask import request, g, Blueprint, make_response, render_template, Response, send_file
+from flask import request, g, Blueprint, make_response, render_template, Response
 from flask_babel import _, lazy_gettext as _l
 from sentry_sdk import capture_exception
 from pocket import Pocket
 from galerie.feed_filter import FeedFilter
 from galerie.image import extract_images, uid_to_item_id
 from galerie.rss_aggregator import AuthError
+from galerie.parse_feed_features import is_nitter_on_fly, extract_nitter_on_fly
 from .utils import requires_auth, compute_after_for_maybe_today, max_items, get_pocket_client, load_more_button_args, mark_as_read_button_args, images_args, add_image_ui_extras, encode_setup_from_cookies, decode_setup_to_cookies
 from .get_aggregator import get_aggregator
 
@@ -204,5 +204,41 @@ def update_feed_group():
         return make_toast(400, "Group id is required")
     
     g.aggregator.update_feed_group(fid, group)
-
     return make_toast(200, str(_("Group updated")))
+
+
+@actions_blueprint.route('/add_feed', methods=['POST'])
+@requires_auth
+@catches_exceptions
+def add_feed():
+    if 'group' not in request.form:
+        return make_toast(400, "Group is required")
+    gid = request.form.get('group')
+
+    if request.args['twitter_handle']:
+        for feed in g.aggregator.get_feeds():
+            f_url = feed.features['feed_url']
+            if is_nitter_on_fly(f_url):
+                domain, password = extract_nitter_on_fly(f_url)
+                break
+               
+        if domain and password:
+            feed_url = f'https://{domain}/{request.args["twitter_handle"]}/rss?key={password}'
+        else:
+            return make_toast(400, "Cannot find an existing nitter-on-fly feed")
+    elif request.args['url']:
+        feed_url = request.args['url']
+    if not feed_url:
+        return make_toast(400, "URL is required")
+
+    try:
+        fid = g.aggregator.add_feed(feed_url, gid)
+    except Exception as e:
+        # TODO: this is miniflux specific
+        return make_toast(400, e.get_error_reason())
+
+    if fid:
+        resp = make_response()
+        resp.headers['HX-Redirect'] = f'/feed?fid={fid}'
+        return resp
+    return make_toast(400, "Failed to add feed")
