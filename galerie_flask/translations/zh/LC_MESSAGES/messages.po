@@ -7,7 +7,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: PROJECT VERSION\n"
 "Report-Msgid-Bugs-To: EMAIL@ADDRESS\n"
-"POT-Creation-Date: 2025-02-10 04:52+0000\n"
+"POT-Creation-Date: 2025-02-10 04:54+0000\n"
 "PO-Revision-Date: 2024-06-27 08:04+0000\n"
 "Last-Translator: FULL NAME <EMAIL@ADDRESS>\n"
 "Language: zh\n"
@@ -255,4 +255,16 @@ msgstr "是"
 #: galerie_flask/templates/settings.html:64
 msgid "No"
 msgstr "否"
+
+#: galerie_flask/templates/update_feed.html:3
+msgid "Update feed"
+msgstr "更新订阅源"
+
+#: galerie_flask/templates/update_feed.html:35
+msgid "Are you sure you want to delete this feed?"
+msgstr "确定要删除这个订阅源吗？"
+
+#: galerie_flask/templates/update_feed.html:37
+msgid "Delete feed"
+msgstr "删除订阅源"
 
