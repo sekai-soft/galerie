@@ -7,7 +7,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: PROJECT VERSION\n"
 "Report-Msgid-Bugs-To: EMAIL@ADDRESS\n"
-"POT-Creation-Date: 2025-02-09 05:45+0000\n"
+"POT-Creation-Date: 2025-02-10 04:52+0000\n"
 "PO-Revision-Date: 2024-06-27 08:04+0000\n"
 "Last-Translator: FULL NAME <EMAIL@ADDRESS>\n"
 "Language: zh\n"
@@ -44,15 +44,11 @@ msgstr "设置已更新"
 msgid "Group updated"
 msgstr "分组已更新"
 
-#: galerie_flask/pages_blueprint.py:208
-msgid "Cannot find a valid URL"
-msgstr "无法找到有效的 URL"
-
-#: galerie_flask/pages_blueprint.py:214
+#: galerie_flask/pages_blueprint.py:269
 msgid "Twitter feed already exists"
 msgstr "Twitter 订阅源已存在"
 
-#: galerie_flask/pages_blueprint.py:216
+#: galerie_flask/pages_blueprint.py:271
 msgid "Feed already exists"
 msgstr "订阅源已存在"
 
@@ -69,19 +65,21 @@ msgstr "添加订阅源"
 msgid "Back to homepage"
 msgstr "返回主页"
 
-#: galerie_flask/templates/add_feed.html:15
-msgid "Adding Twitter feed"
-msgstr "添加 Twitter 订阅源"
-
 #: galerie_flask/templates/add_feed.html:17
-msgid "Adding feed"
-msgstr "添加订阅源"
+msgid "Twitter feed"
+msgstr "Twitter 订阅源"
 
-#: galerie_flask/templates/add_feed.html:21
-msgid "Select group"
-msgstr "选择分组"
-
+#: galerie_flask/templates/add_feed.html:26
 #: galerie_flask/templates/add_feed.html:35
+msgid "Feed URL"
+msgstr "订阅源 URL"
+
+#: galerie_flask/templates/add_feed.html:44
+#: galerie_flask/templates/update_feed.html:14
+msgid "Group"
+msgstr "分组"
+
+#: galerie_flask/templates/add_feed.html:57
 msgid "Confirm"
 msgstr "确认"
 
@@ -98,22 +96,22 @@ msgid "Oops something went wrong"
 msgstr "糟糕，出错了"
 
 #: galerie_flask/templates/error.html:15
-#: galerie_flask/templates/settings.html:18
+#: galerie_flask/templates/settings.html:24
 msgid "Logout"
 msgstr "登出"
 
-#: galerie_flask/templates/feed.html:15
-msgid "Update group"
-msgstr "更新分组"
+#: galerie_flask/templates/feeds.html:3 galerie_flask/templates/feeds.html:8
+#: galerie_flask/templates/settings.html:12
+msgid "Manage feeds"
+msgstr "管理订阅源"
 
-#: galerie_flask/templates/feed.html:34 galerie_flask/templates/login.html:77
-#: galerie_flask/templates/settings.html:25
-msgid "Close"
-msgstr "关闭"
+#: galerie_flask/templates/feeds.html:17
+msgid "(No feed)"
+msgstr "(没有订阅源)"
 
-#: galerie_flask/templates/feeds.html:3
-msgid "Feeds"
-msgstr "订阅源"
+#: galerie_flask/templates/feeds.html:22
+msgid "(filtered)"
+msgstr "(已过滤)"
 
 #: galerie_flask/templates/grid_end_buttons.html:13
 msgid "Load more"
@@ -124,39 +122,31 @@ msgid "Galerie"
 msgstr "Galerie"
 
 #: galerie_flask/templates/index.html:10
-msgid "all time"
-msgstr "全部"
-
-#: galerie_flask/templates/index.html:11
-msgid "today"
-msgstr "今天"
-
-#: galerie_flask/templates/index.html:14 galerie_flask/templates/index.html:37
 msgid "all groups"
 msgstr "全部分组"
 
-#: galerie_flask/templates/index.html:20
+#: galerie_flask/templates/index.html:16
 msgid "newest first"
 msgstr "最新优先"
 
-#: galerie_flask/templates/index.html:21
+#: galerie_flask/templates/index.html:17
 msgid "oldest first"
 msgstr "最旧优先"
 
-#: galerie_flask/templates/index.html:27
+#: galerie_flask/templates/index.html:23
 #: galerie_flask/templates/load_more_action_buttons.html:9
 msgid "Are you sure you want to mark this group as read?"
 msgstr "确定要标记这个分组为已读吗？"
 
-#: galerie_flask/templates/index.html:47
+#: galerie_flask/templates/index.html:33
 msgid "✨ all read ✨"
 msgstr "✨ 全部已读 ✨"
 
-#: galerie_flask/templates/index.html:53
+#: galerie_flask/templates/index.html:39
 msgid "has"
 msgstr "有"
 
-#: galerie_flask/templates/index.html:53
+#: galerie_flask/templates/index.html:39
 msgid "unread items"
 msgstr "个未读条目"
 
@@ -188,21 +178,26 @@ msgstr "用户名"
 msgid "Password"
 msgstr "密码"
 
-#: galerie_flask/templates/login.html:45
+#: galerie_flask/templates/login.html:46
 msgid "Login"
 msgstr "登录"
 
-#: galerie_flask/templates/login.html:48
+#: galerie_flask/templates/login.html:50
 msgid "Set up using a code"
 msgstr "使用初始设置码设置"
 
-#: galerie_flask/templates/login.html:56
+#: galerie_flask/templates/login.html:58
 msgid "Setup code"
 msgstr "初始设置码"
 
-#: galerie_flask/templates/login.html:70
+#: galerie_flask/templates/login.html:72
 msgid "Submit"
 msgstr "提交"
+
+#: galerie_flask/templates/login.html:79
+#: galerie_flask/templates/settings.html:31
+msgid "Close"
+msgstr "关闭"
 
 #: galerie_flask/templates/pocket_oauth.html:3
 #: galerie_flask/templates/settings.html:3
@@ -221,43 +216,43 @@ msgstr "返回设置"
 msgid "Settings"
 msgstr "设置"
 
-#: galerie_flask/templates/settings.html:11
+#: galerie_flask/templates/settings.html:17
 msgid "connection"
 msgstr "连接"
 
-#: galerie_flask/templates/settings.html:12
+#: galerie_flask/templates/settings.html:18
 msgid "[Server authenticated]"
 msgstr "[服务器端验证]"
 
-#: galerie_flask/templates/settings.html:21
+#: galerie_flask/templates/settings.html:27
 msgid "Show setup code"
 msgstr "显示初始设置码"
 
-#: galerie_flask/templates/settings.html:32
+#: galerie_flask/templates/settings.html:38
 msgid "Pocket connection"
 msgstr "Pocket 连接"
 
-#: galerie_flask/templates/settings.html:38
+#: galerie_flask/templates/settings.html:44
 msgid "Connect to Pocket"
 msgstr "连接到 Pocket"
 
-#: galerie_flask/templates/settings.html:40
+#: galerie_flask/templates/settings.html:46
 msgid "Logged in as"
 msgstr "已用此身份登陆"
 
-#: galerie_flask/templates/settings.html:45
+#: galerie_flask/templates/settings.html:51
 msgid "Disconnect from Pocket"
 msgstr "从 Pocket 断开连接"
 
-#: galerie_flask/templates/settings.html:50
+#: galerie_flask/templates/settings.html:56
 msgid "Infinite scroll"
 msgstr "无限滚动"
 
-#: galerie_flask/templates/settings.html:57
+#: galerie_flask/templates/settings.html:63
 msgid "Yes"
 msgstr "是"
 
-#: galerie_flask/templates/settings.html:58
+#: galerie_flask/templates/settings.html:64
 msgid "No"
 msgstr "否"
 
