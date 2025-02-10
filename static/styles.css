@@ -17,14 +17,6 @@ input {
     margin: 0 auto;
 }
 
-#groupSelect {
-    display: block;
-}
-
-#mobileGroupSelect {
-    display: none;
-}
-
 .grid-sizer, .grid-item {
     width: calc((100% - 64px) / 3)
 }
@@ -58,16 +50,6 @@ textarea {
     .stream {
         width: 100%;
         margin: 0 auto;
-    }
-
-    #groupSelect {
-        display: none;
-    }
-
-    #mobileGroupSelect {
-        display: block;
-        min-width: 100%;
-        padding: 0;
     }
 
     .grid-sizer, .grid-item {
@@ -104,16 +86,6 @@ textarea {
     .stream {
         width: 100%;
         margin: 0 auto;
-    }
-
-    #groupSelect {
-        display: none;
-    }
-
-    #mobileGroupSelect {
-        display: block;
-        min-width: 100%;
-        padding: 0;
     }
 
     .grid-sizer, .grid-item {

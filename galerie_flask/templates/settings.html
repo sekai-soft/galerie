@@ -8,6 +8,12 @@
         <p>{{ _('Settings') }}</p>
         <a href="/">{{ _('Back to homepage') }}</a>
     </div>
+    <a href="/feeds">
+        <button class="button" style="font-size: 1em">{{ _('Manage feeds')}}</button>
+    </a>
+    <br>
+    <br>
+    <hr>
     <p>{{ connection_info.aggregator_type }} {{ _('connection') }}</p>
     <p>{{ connection_info.host }} {{ _('[Server authenticated]') if not connection_info.frontend_or_backend else '' }}</p>
     {% if connection_info.frontend_or_backend %}

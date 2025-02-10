@@ -59,6 +59,10 @@ p > select {
     font-size: 1em;
 }
 
+p > input {
+    font-size: 1em;
+}
+
 .all-read {
     text-align: center;
 }

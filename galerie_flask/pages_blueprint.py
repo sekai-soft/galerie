@@ -5,7 +5,7 @@ from typing import Optional
 from functools import wraps
 from urllib.parse import urlparse
 from sentry_sdk import capture_exception
-from flask import Blueprint, redirect, render_template, g, request, make_response
+from flask import Blueprint, redirect, render_template, g, request, make_response, jsonify
 from flask_babel import _
 from pocket import Pocket
 from galerie.feed_filter import FeedFilter
@@ -29,6 +29,44 @@ def catches_exceptions(f):
             capture_exception(e)
             return render_template('error.html', error=str(e))
     return decorated_function
+
+
+@pages_blueprint.route("/manifest.json")
+def pwa_manifest():
+    return jsonify({
+        "theme_color": "#1a1a1a",
+        "background_color": "#1a1a1a",
+        "icons": [
+            {
+                "purpose": "maskable",
+                "sizes": "512x512",
+                "src": "icon512_maskable.png",
+                "type": "image/png"
+            },
+            {
+                "purpose": "any",
+                "sizes": "512x512",
+                "src": "icon512_rounded.png",
+                "type": "image/png"
+            }
+        ],
+        "orientation": "any",
+        "display": "standalone",
+        "dir": "auto",
+        "lang": "en-US",
+        "name": "Galerie",
+        "short_name": "Galerie",
+        "start_url": "https://galerie-reader.com",
+        "share_target": {
+            "action": "add_feed",
+            "method": "GET",
+            "params": {
+                "title": "title",
+                "text": "text",
+                "url": "url"
+            }
+        }
+    })
 
 
 @pages_blueprint.route("/")
@@ -156,6 +194,23 @@ def feed_page():
     return render_template('feed.html', **args)
 
 
+@pages_blueprint.route("/update_feed")
+@catches_exceptions
+@requires_auth
+def update_feed():
+    aggregator = get_aggregator()
+    if not aggregator:
+        return redirect('/')
+
+    fid = request.args.get('fid')
+
+    args = {
+        "feed": aggregator.get_feed(fid),
+        "groups": aggregator.get_groups(),
+    }
+    return render_template('update_feed.html', **args)
+
+
 def is_valid_url(url: str) -> bool:
     try:
         urlparse(url)
@@ -187,7 +242,7 @@ def extract_twitter_handle(url: str) -> Optional[str]:
     return None
 
 
-@pages_blueprint.route("/static/add_feed") # has to go to /static because manifest.json is under /static
+@pages_blueprint.route("/add_feed")
 @catches_exceptions
 @requires_auth
 def add_feed():
@@ -205,7 +260,7 @@ def add_feed():
         url = args['title']
     
     if not url:
-        return render_template('add_feed.html', error=_("Cannot find a valid URL") + " " + str(args))
+        return render_template('add_feed.html', groups=aggregator.get_groups())
     twitter_handle = extract_twitter_handle(url)
 
     for feed in aggregator.get_feeds():

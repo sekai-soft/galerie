@@ -148,3 +148,6 @@ class MinifluxAggregator(RssAggregator):
 
     def add_feed(self, feed_url: str, gid: str) -> str:
         return str(self.client.create_feed(feed_url, category_id=int(gid)))
+
+    def delete_feed(self, fid: str):
+        self.client.delete_feed(int(fid))

@@ -115,26 +115,14 @@ const updateQueryParameter = (key, value) => {
   window.location.href = url.toString();
 }
 
-$('#timeSelect').on('change', (event) => {
-  const time = event.target.value;
-  if (time === 'all') {
-    updateQueryParameter('today', null);
-  } else if (time === 'today') {
-    updateQueryParameter('today', 1);
-  }
-})
-
-const onGroupSelectChange = (event) => {
+$('#groupSelect').on('change', (event) => {
   const groupId = event.target.value;
   if (groupId === '_all') {
     updateQueryParameter('group', null);
   } else {
     updateQueryParameter('group', groupId);
   }
-}
-
-$('#groupSelect').on('change', onGroupSelectChange);
-$('#mobileGroupSelect').on('change', onGroupSelectChange);
+});
 
 $('#sortSelect').on('change', (event) => {
   const sort = event.target.value;

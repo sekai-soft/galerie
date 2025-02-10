@@ -7,33 +7,10 @@
     <div class="header">
         <p><span class="tag">{{ feed.group_title }}</span> {{ feed.title }}</p>
         <div class="header-right">
-            <a href="javascript:document.getElementById('configure-feed').show()" style="text-decoration: none;">🔧</a>
+            <a href="/update_feed?fid={{ feed.fid }}" style="text-decoration: none;">🔧</a>
             <a href="/" style="text-decoration: none;">🏠</a>
         </div>
     </div>
-    <dialog id="configure-feed" style="z-index: 3000;">
-        <p>{{ _('Update group') }}</p>
-        <select
-            name="update_feed_group"
-            hx-trigger="change"
-            hx-post="/actions/update_feed_group?fid={{ feed.fid }}"
-            hx-swap="none"
-            hx-disabled-elt="this"
-            hx-on="htmx:afterRequest: document.getElementById('configure-feed').close()"
-        >
-            {% for group in groups %}
-                <option
-                    value="{{ group.gid }}"
-                    {{ 'selected=selected' if group.gid == feed.gid else '' }}
-                >{{ group.title }}</option>
-            {% endfor %}
-        </select>
-        <br>
-        <br>
-        <button class="button" onclick="document.getElementById('configure-feed').close()">
-            {{ _('Close') }}
-        </button>
-    </dialog>
     <div class="grid" id="grid">
         <div class="grid-sizer"></div>
         {% include 'images.html' %}

@@ -1,25 +1,30 @@
 {% extends 'base.html' %}
 
-{% block title %}{{ _('Feeds') }}{% endblock %}
+{% block title %}{{ _('Manage feeds') }}{% endblock %}
 
 {% block content %}
-
-{% for feeds_in_group in feeds_by_groups %}
-<p class="feeds">{{ feeds_in_group.group.title }}</p>
-{% if not feeds_in_group.feeds %}
-<p class="feeds">(no feeds)</p>
-{% endif %}
-{% for feed in feeds_in_group.feeds %}
-<p class="feeds">
-    {% if not loop.last %}├─{% else %}└─{% endif %}
-    {% if feed.features.rss_lambda_to_image_feed %} <span class="tag">optimized</span> {% endif %}
-    {% if feed.features.rss_lambda_image_recog %} <span class="tag">image recognized</span> {% endif %}
-    {% if feed.features.rss_lambda_image_simple_filters %} <span class="tag">filtered</span> {% endif %}
-    {% if feed.features.rss_lambda_image_simple_filters_param %} <span class="tag">{{ feed.features.rss_lambda_image_simple_filters_param | join(', ') }}</span> {% endif %}
-    <a href="/feed?fid={{ feed.fid }}" target="_blank">{% if feed.features.twitter_handle %} 🐦 @{{feed.features.twitter_handle}} {% else %} {{ feed.features.feed_url }} {% endif %}</a>
-</p>
-{% endfor %}
-<br>
-{% endfor %}
-
+<div class="stream">
+    <div class="header">
+        <p>{{ _('Manage feeds') }}</p>
+        <div class="header-right">
+            <a href="/add_feed" style="text-decoration: none;">➕</a>
+            <a href="/" style="text-decoration: none;">🏠</a>
+        </div>
+    </div>
+    {% for feeds_in_group in feeds_by_groups %}
+    <p class="feeds">{{ feeds_in_group.group.title }}</p>
+    {% if not feeds_in_group.feeds %}
+    <p class="feeds">{{ _('(No feed)') }}</p>
+    {% endif %}
+    {% for feed in feeds_in_group.feeds %}
+    <p class="feeds">
+        {% if not loop.last %}├─{% else %}└─{% endif %}
+        {% if feed.features.rss_lambda_image_simple_filters %} <span class="tag">{{ _('(filtered)') }}</span> {% endif %}
+        {% if feed.features.rss_lambda_image_simple_filters_param %} <span class="tag">{{ feed.features.rss_lambda_image_simple_filters_param | join(', ') }}</span> {% endif %}
+        <a href="/feed?fid={{ feed.fid }}" style="text-decoration: none;">{% if feed.features.twitter_handle %} 🐦 @{{feed.features.twitter_handle}} {% else %} {{ feed.features.feed_url }} {% endif %}</a>
+    </p>
+    {% endfor %}
+    <br>
+    {% endfor %}
+</div>
 {% endblock %}

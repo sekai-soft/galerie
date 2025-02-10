@@ -35,15 +35,17 @@
             required
             class="code-font"
         >
+        <br>
+        <br>
         <button
             class="button"
-            style="margin-top: 1.5em; margin-bottom: 1.5em; width: 33%"
             hx-post="/actions/auth"
             hx-swap="none"
             hx-disabled-elt="this"
         >
             {{ _('Login') }} <span class="htmx-indicator">...</span>
         </button>
+        <br>
         <br>
         <a href="javascript:document.getElementById('setup-using-code').showModal()">{{ _('Set up using a code') }}</a>
     </form>

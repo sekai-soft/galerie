@@ -10,15 +10,38 @@
     </div>
     {% if error %}
     <p>{{ error }}</p>
-    {% else %}
-    {% if twitter_handle %}
-    <p>{{ _('Adding Twitter feed') }} @{{ twitter_handle }}</p>
-    {% else %}
-    <p>{{ _('Adding feed') }} {{ url }}</p>
-    {% endif %}
+    {% else %}  
     <form>
         <p>
-            {{ _('Select group') }}
+            {% if twitter_handle %}
+            {{ _('Twitter feed') }}
+            <input
+                type="text"
+                name="twitter_handle"
+                required
+                value="@{{ twitter_handle }}"
+                readonly
+            >
+            {% elif url %}
+            {{ _('Feed URL') }} 
+            <input
+                type="text"
+                name="url"
+                required
+                value="{{ url }}"
+                readonly
+            >
+            {% else %}
+            {{ _('Feed URL') }} 
+            <input
+                type="text"
+                name="url"
+                required
+            >
+            {% endif %}
+        </p>
+        <p>
+            {{ _('Group') }}
             <select name="group">
                 {% for g in groups %}
                 <option value="{{ g.gid }}">{{ g.title }}</option>
@@ -27,8 +50,7 @@
         </p>
         <button
             class="button"
-            style="width: 33%"
-            hx-post="/actions/add_feed?url={{ url }}&twitter_handle={{ twitter_handle }}"
+            hx-post="/actions/add_feed"
             hx-swap="none"
             hx-disabled-elt="this"
         >

@@ -214,8 +214,13 @@ def add_feed():
     if 'group' not in request.form:
         return make_toast(400, "Group is required")
     gid = request.form.get('group')
+    
+    feed_url = None
+    if 'twitter_handle' in request.form:
+        twitter_handle = request.form["twitter_handle"]
+        twitter_handle = twitter_handle[1:] if twitter_handle[0] == '@' else twitter_handle
 
-    if request.args['twitter_handle']:
+        # find a nitter-on-fly feed
         for feed in g.aggregator.get_feeds():
             f_url = feed.features['feed_url']
             if is_nitter_on_fly(f_url):
@@ -223,14 +228,14 @@ def add_feed():
                 break
                
         if domain and password:
-            feed_url = f'https://{domain}/{request.args["twitter_handle"]}/rss?key={password}'
+            feed_url = f'https://{domain}/{twitter_handle}/rss?key={password}'
         else:
             return make_toast(400, "Cannot find an existing nitter-on-fly feed")
-    elif request.args['url']:
-        feed_url = request.args['url']
+    elif 'url' in request.form:
+        feed_url = request.form['url']
+
     if not feed_url:
         return make_toast(400, "URL is required")
-
     try:
         fid = g.aggregator.add_feed(feed_url, gid)
     except Exception as e:
@@ -242,3 +247,18 @@ def add_feed():
         resp.headers['HX-Redirect'] = f'/feed?fid={fid}'
         return resp
     return make_toast(400, "Failed to add feed")
+
+
+@actions_blueprint.route('/delete_feed', methods=['POST'])
+@requires_auth
+@catches_exceptions
+def delete_feed():
+    if 'fid' not in request.args:
+        return make_toast(400, "Feed is required")
+
+    fid = request.args.get('fid')
+    g.aggregator.delete_feed(fid)
+
+    resp = make_response()
+    resp.headers['HX-Redirect'] = '/feeds'
+    return resp

@@ -5,11 +5,7 @@
 {% block content %}
 <div class="stream">
     <div class="header" x-data="{}">
-        <img src="{{ url_for('static', filename='icon.png') }}" class="logo-image">
-        <select id="timeSelect">
-            <option value="all" {{ 'selected=selected' if all else '' }}>{{ _('all time') }}</option>
-            <option value="today" {{ 'selected=selected' if not all else '' }}>{{ _('today') }}</option>
-        </select>
+        <p>Galerie</p>
         <select id="groupSelect">
             <option value="_all" {{ 'selected=selected' if not selected_group else '' }}>{{ _('all groups') }}</option>
             {% for g in groups %}
@@ -31,15 +27,6 @@
             <a href="/settings" style="text-decoration: none;">⚙️</a>
         </div>
     </div>
-    <div class="header">
-        <select id="mobileGroupSelect">
-            <option value="_all" {{ 'selected=selected' if not selected_group else '' }}>{{ _('all groups') }}</option>
-            {% for g in groups %}
-            <option value="{{ g.gid }}" {{ 'selected=selected' if selected_group and g.gid == selected_group.gid else '' }}>{% if unread_items_count[g.gid] != 0 %}({{ unread_items_count[g.gid] }}) {% endif %}{{ g.title }}</option>
-            {% endfor %}
-        </select>
-    </div>
-    
     {% if not images %}
     <div class="all-read">
         {% if all_read %}
