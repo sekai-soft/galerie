@@ -37,17 +37,17 @@
         >
         <br>
         <br>
-        <button
-            class="button"
-            hx-post="/actions/auth"
-            hx-swap="none"
-            hx-disabled-elt="this"
-        >
-            {{ _('Login') }} <span class="htmx-indicator">...</span>
-        </button>
-        <br>
-        <br>
-        <a href="javascript:document.getElementById('setup-using-code').showModal()">{{ _('Set up using a code') }}</a>
+        <div class="button-with-links">
+            <button
+                class="button"
+                hx-post="/actions/auth"
+                hx-swap="none"
+                hx-disabled-elt="this"
+            >
+                {{ _('Login') }} <span class="htmx-indicator">...</span>
+            </button>
+            <a href="javascript:document.getElementById('setup-using-code').showModal()">{{ _('Set up using a code') }}</a>
+        </div>      
     </form>
 </div>
 <dialog id="setup-using-code">

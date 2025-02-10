@@ -48,14 +48,18 @@
                 {% endfor %}
             </select>
         </p>
-        <button
-            class="button"
-            hx-post="/actions/add_feed"
-            hx-swap="none"
-            hx-disabled-elt="this"
-        >
-            {{ _('Confirm') }} <span class="htmx-indicator">...</span>
-        </button>
+        <div class="button-with-links">
+            <button
+                class="button"
+                hx-post="/actions/add_feed"
+                hx-swap="none"
+                hx-disabled-elt="this"
+            >
+                {{ _('Confirm') }} <span class="htmx-indicator">...</span>
+            </button>
+            <a href="{{ bookmarklet }}">{{ _('Add to Galerie')}}</a>
+            <a href="https://www.icloud.com/shortcuts/9a9a1f09ed214ec18251f9558b1f75e2" target="_blank">{{ _('Add iOS shortcut')}}</a>
+        </div>
     </form>
     {% endif %}
 </div>

@@ -3,10 +3,6 @@ input {
     width: 75%;
 }
 
-.button {
-    margin-top: 4px;
-}
-
 .logo-image {
     height: 2em;
     width: auto;
@@ -38,6 +34,13 @@ input {
 textarea {
     font-size: 2em;
     line-height: 1.5;
+}
+
+.button-with-links {
+    display: flex;
+    flex-direction: row;
+    align-items: center;
+    gap: 2em;
 }
 
 /** sizes for > iPhone 12 Pro Max <= iPad Pro **/
@@ -74,6 +77,10 @@ textarea {
         font-size: 2em;
         line-height: 1.5;
     }
+
+    .button-with-links {
+        gap: 2em;
+    }
 }
 
 /** sizes for <= iPhone 14 Pro Max **/
@@ -109,6 +116,10 @@ textarea {
     textarea {
         font-size: 1em;
         line-height: 1;
+    }
+
+    .button-with-links {
+        gap: 1em;
     }
 }
 

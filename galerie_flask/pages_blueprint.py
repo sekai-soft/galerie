@@ -241,6 +241,11 @@ def extract_twitter_handle(url: str) -> Optional[str]:
         return handle
     return None
 
+bookmarklet = """javascript:(function() {
+  const url = `https://galerie-reader.com/add_feed?url=${window.location.href}`;
+  window.open(url, '_blank').focus();
+})();
+"""
 
 @pages_blueprint.route("/add_feed")
 @catches_exceptions
@@ -260,7 +265,7 @@ def add_feed():
         url = args['title']
     
     if not url:
-        return render_template('add_feed.html', groups=aggregator.get_groups())
+        return render_template('add_feed.html', groups=aggregator.get_groups(), bookmarklet=bookmarklet)
     twitter_handle = extract_twitter_handle(url)
 
     for feed in aggregator.get_feeds():
@@ -271,8 +276,8 @@ def add_feed():
             return render_template('add_feed.html', error=_("Feed already exists") + " " + url)
 
     if twitter_handle:
-        return render_template('add_feed.html', twitter_handle=twitter_handle, groups=aggregator.get_groups())
-    return render_template('add_feed.html', url=url, groups=aggregator.get_groups())
+        return render_template('add_feed.html', twitter_handle=twitter_handle, groups=aggregator.get_groups(), bookmarklet=bookmarklet)
+    return render_template('add_feed.html', url=url, groups=aggregator.get_groups(), bookmarklet=bookmarklet)
 
 
 @pages_blueprint.route("/toast_test")

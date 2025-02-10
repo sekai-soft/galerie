@@ -7,7 +7,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: PROJECT VERSION\n"
 "Report-Msgid-Bugs-To: EMAIL@ADDRESS\n"
-"POT-Creation-Date: 2025-02-10 04:54+0000\n"
+"POT-Creation-Date: 2025-02-10 05:23+0000\n"
 "PO-Revision-Date: 2024-06-27 08:04+0000\n"
 "Last-Translator: FULL NAME <EMAIL@ADDRESS>\n"
 "Language: zh\n"
@@ -44,11 +44,11 @@ msgstr "设置已更新"
 msgid "Group updated"
 msgstr "分组已更新"
 
-#: galerie_flask/pages_blueprint.py:269
+#: galerie_flask/pages_blueprint.py:274
 msgid "Twitter feed already exists"
 msgstr "Twitter 订阅源已存在"
 
-#: galerie_flask/pages_blueprint.py:271
+#: galerie_flask/pages_blueprint.py:276
 msgid "Feed already exists"
 msgstr "订阅源已存在"
 
@@ -79,9 +79,17 @@ msgstr "订阅源 URL"
 msgid "Group"
 msgstr "分组"
 
-#: galerie_flask/templates/add_feed.html:57
+#: galerie_flask/templates/add_feed.html:58
 msgid "Confirm"
 msgstr "确认"
+
+#: galerie_flask/templates/add_feed.html:60
+msgid "Add to Galerie"
+msgstr "添加至 Galerie"
+
+#: galerie_flask/templates/add_feed.html:61
+msgid "Add iOS shortcut"
+msgstr "添加 iOS 快捷方式"
 
 #: galerie_flask/templates/base.html:8
 msgid "A Pinterest/Xiaohongshu photo wall style RSS reader"
@@ -178,11 +186,11 @@ msgstr "用户名"
 msgid "Password"
 msgstr "密码"
 
-#: galerie_flask/templates/login.html:46
+#: galerie_flask/templates/login.html:47
 msgid "Login"
 msgstr "登录"
 
-#: galerie_flask/templates/login.html:50
+#: galerie_flask/templates/login.html:49
 msgid "Set up using a code"
 msgstr "使用初始设置码设置"
 
