@@ -57,8 +57,19 @@
             >
                 {{ _('Confirm') }} <span class="htmx-indicator">...</span>
             </button>
-            <a href="{{ bookmarklet }}">{{ _('Add to Galerie')}}</a>
-            <a href="https://www.icloud.com/shortcuts/9a9a1f09ed214ec18251f9558b1f75e2" target="_blank">{{ _('Add iOS shortcut')}}</a>
+            <a href="javascript:document.getElementById('other-ways-to-add-feed').showModal()">{{ _('Other ways to add feed') }}</a>
+            <dialog id="other-ways-to-add-feed">
+                <p>{{ _("1. Drag this bookmarklet to your browser's bookmark bar") }}</p>
+                <a href="{{ bookmarklet }}">{{ _('Add to Galerie')}}</a>
+                <p>
+                    {{ _('2. Add')}}
+                    <a href="https://www.icloud.com/shortcuts/9a9a1f09ed214ec18251f9558b1f75e2" target="_blank">{{ _('this')}}</a>
+                    {{ _('iOS shortcut')}}
+                </p>
+                <button class="button" onclick="document.getElementById('other-ways-to-add-feed').close()">
+                    {{ _('Close') }}
+                </button>
+            </dialog>
         </div>
     </form>
     {% endif %}

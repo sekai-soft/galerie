@@ -7,7 +7,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: PROJECT VERSION\n"
 "Report-Msgid-Bugs-To: EMAIL@ADDRESS\n"
-"POT-Creation-Date: 2025-02-10 05:23+0000\n"
+"POT-Creation-Date: 2025-02-10 23:50+0000\n"
 "PO-Revision-Date: 2024-06-27 08:04+0000\n"
 "Last-Translator: FULL NAME <EMAIL@ADDRESS>\n"
 "Language: zh\n"
@@ -84,12 +84,34 @@ msgid "Confirm"
 msgstr "确认"
 
 #: galerie_flask/templates/add_feed.html:60
+msgid "Other ways to add feed"
+msgstr "其他添加订阅源的方式"
+
+#: galerie_flask/templates/add_feed.html:62
+msgid "1. Drag this bookmarklet to your browser's bookmark bar"
+msgstr "1. 将这个书签拖到浏览器的书签栏"
+
+#: galerie_flask/templates/add_feed.html:63
 msgid "Add to Galerie"
 msgstr "添加至 Galerie"
 
-#: galerie_flask/templates/add_feed.html:61
-msgid "Add iOS shortcut"
+#: galerie_flask/templates/add_feed.html:65
+msgid "2. Add"
+msgstr "2. 添加"
+
+#: galerie_flask/templates/add_feed.html:66
+msgid "this"
+msgstr "这个"
+
+#: galerie_flask/templates/add_feed.html:67
+msgid "iOS shortcut"
 msgstr "添加 iOS 快捷方式"
+
+#: galerie_flask/templates/add_feed.html:70
+#: galerie_flask/templates/login.html:79
+#: galerie_flask/templates/settings.html:31
+msgid "Close"
+msgstr "关闭"
 
 #: galerie_flask/templates/base.html:8
 msgid "A Pinterest/Xiaohongshu photo wall style RSS reader"
@@ -201,11 +223,6 @@ msgstr "初始设置码"
 #: galerie_flask/templates/login.html:72
 msgid "Submit"
 msgstr "提交"
-
-#: galerie_flask/templates/login.html:79
-#: galerie_flask/templates/settings.html:31
-msgid "Close"
-msgstr "关闭"
 
 #: galerie_flask/templates/pocket_oauth.html:3
 #: galerie_flask/templates/settings.html:3
