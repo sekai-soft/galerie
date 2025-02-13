@@ -238,6 +238,7 @@ def add_feed():
         return make_toast(400, "URL is required")
     try:
         fid = g.aggregator.add_feed(feed_url, gid)
+        g.aggregator.mark_items_as_read_by_group_id(gid)
     except Exception as e:
         # TODO: this is miniflux specific
         return make_toast(400, e.get_error_reason())
