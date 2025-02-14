@@ -123,7 +123,10 @@ def load_more():
 @requires_auth
 def mark_as_read():
     group = request.args.get('group') if request.args.get('group') else None
-    g.aggregator.mark_items_as_read_by_group_id(group)
+    if group:
+        g.aggregator.mark_all_group_items_as_read(group)
+    else:
+        g.aggregator.mark_all_items_as_read()
 
     resp = make_response()
     resp.headers['HX-Refresh'] = "true"
@@ -238,7 +241,7 @@ def add_feed():
         return make_toast(400, "URL is required")
     try:
         fid = g.aggregator.add_feed(feed_url, gid)
-        g.aggregator.mark_items_as_read_by_group_id(gid)
+        g.aggregator.mark_all_feed_items_as_read(fid)
     except Exception as e:
         # TODO: this is miniflux specific
         return make_toast(400, e.get_error_reason())

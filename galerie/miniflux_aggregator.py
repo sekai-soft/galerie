@@ -116,11 +116,11 @@ class MinifluxAggregator(RssAggregator):
 
         return res
     
-    def mark_items_as_read_by_group_id(self, group_id: Optional[str]):
-        if group_id is not None:
-            self.client.mark_category_entries_as_read(category_id=int(group_id))
-        else:
-            self.client.mark_user_entries_as_read(self.client.me()['id'])
+    def mark_all_group_items_as_read(self, group_id: str):
+        self.client.mark_category_entries_as_read(category_id=int(group_id))
+
+    def mark_all_items_as_read(self):
+        self.client.mark_user_entries_as_read(self.client.me()['id'])
 
     def connection_info(self) -> ConnectionInfo:
         return ConnectionInfo(
@@ -151,3 +151,6 @@ class MinifluxAggregator(RssAggregator):
 
     def delete_feed(self, fid: str):
         self.client.delete_feed(int(fid))
+
+    def mark_all_feed_items_as_read(self, fid: str):
+        self.client.mark_feed_entries_as_read(int(fid))

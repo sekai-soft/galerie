@@ -39,7 +39,11 @@ class RssAggregator(ABC):
         pass
    
     @abstractmethod
-    def mark_items_as_read_by_group_id(self, group_id: Optional[str]):
+    def mark_all_group_items_as_read(self, group_id: str):
+        pass
+
+    @abstractmethod
+    def mark_all_items_as_read(self):
         pass
 
     @abstractmethod
@@ -68,4 +72,8 @@ class RssAggregator(ABC):
 
     @abstractmethod
     def delete_feed(self, fid: str):
+        pass
+
+    @abstractmethod
+    def mark_all_feed_items_as_read(self, fid: str):
         pass
