@@ -69,6 +69,15 @@ def pwa_manifest():
     })
 
 
+@pages_blueprint.route("/login")
+@catches_exceptions
+def login():
+    aggregator = get_aggregator()
+    if aggregator:
+        return redirect('/')
+    return render_template('login.html')
+
+
 @pages_blueprint.route("/")
 @catches_exceptions
 @requires_auth
@@ -112,15 +121,6 @@ def index():
     return render_template('index.html', **args)
 
 
-@pages_blueprint.route("/login")
-@catches_exceptions
-def login():
-    aggregator = get_aggregator()
-    if aggregator:
-        return redirect('/')
-    return render_template('login.html')
-
-
 @pages_blueprint.route("/settings")
 @catches_exceptions
 @requires_auth
@@ -157,12 +157,10 @@ def pocket_oauth():
 
 @pages_blueprint.route("/feeds")
 @catches_exceptions
+@requires_auth
 def feeds():
-    aggregator = get_aggregator()
-    if not aggregator:
-        return redirect('/')
-    feeds = aggregator.get_feeds()
-    groups = aggregator.get_groups()
+    feeds = g.aggregator.get_feeds()
+    groups = g.aggregator.get_groups()
 
     feeds_by_groups = []
     for group in groups:
@@ -178,17 +176,13 @@ def feeds():
 @catches_exceptions
 @requires_auth
 def feed_page():
-    aggregator = get_aggregator()
-    if not aggregator:
-        return redirect('/')
-
     fid = request.args.get('fid')
-    items = aggregator.get_feed_items_by_iid_descending(fid)
+    items = g.aggregator.get_feed_items_by_iid_descending(fid)
     images = extract_images(items)
 
     args = {
-        "feed": aggregator.get_feed(fid),
-        "groups": aggregator.get_groups(),
+        "feed": g.aggregator.get_feed(fid),
+        "groups": g.aggregator.get_groups(),
     }
     images_args(args, images, False)
     return render_template('feed.html', **args)
@@ -198,15 +192,11 @@ def feed_page():
 @catches_exceptions
 @requires_auth
 def update_feed():
-    aggregator = get_aggregator()
-    if not aggregator:
-        return redirect('/')
-
     fid = request.args.get('fid')
 
     args = {
-        "feed": aggregator.get_feed(fid),
-        "groups": aggregator.get_groups(),
+        "feed": g.aggregator.get_feed(fid),
+        "groups": g.aggregator.get_groups(),
     }
     return render_template('update_feed.html', **args)
 
@@ -250,11 +240,7 @@ bookmarklet = """javascript:(function() {
 @pages_blueprint.route("/add_feed")
 @catches_exceptions
 @requires_auth
-def add_feed():
-    aggregator = get_aggregator()
-    if not aggregator:
-        return redirect('/')
-    
+def add_feed():   
     args = request.args
     url = None
     if 'url' in args and is_valid_url(args['url']):
@@ -265,10 +251,10 @@ def add_feed():
         url = args['title']
     
     if not url:
-        return render_template('add_feed.html', groups=aggregator.get_groups(), bookmarklet=bookmarklet)
+        return render_template('add_feed.html', groups=g.aggregator.get_groups(), bookmarklet=bookmarklet)
     twitter_handle = extract_twitter_handle(url)
 
-    for feed in aggregator.get_feeds():
+    for feed in g.aggregator.get_feeds():
         feed_url = feed.features["feed_url"]
         if twitter_handle and twitter_handle == parse_twitter_handle(feed_url):
             return render_template('add_feed.html', error=_("Twitter feed already exists") + " @" + twitter_handle)
@@ -276,11 +262,12 @@ def add_feed():
             return render_template('add_feed.html', error=_("Feed already exists") + " " + url)
 
     if twitter_handle:
-        return render_template('add_feed.html', twitter_handle=twitter_handle, groups=aggregator.get_groups(), bookmarklet=bookmarklet)
-    return render_template('add_feed.html', url=url, groups=aggregator.get_groups(), bookmarklet=bookmarklet)
+        return render_template('add_feed.html', twitter_handle=twitter_handle, groups=g.aggregator.get_groups(), bookmarklet=bookmarklet)
+    return render_template('add_feed.html', url=url, groups=g.aggregator.get_groups(), bookmarklet=bookmarklet)
 
 
 @pages_blueprint.route("/debug")
 @catches_exceptions
+@requires_auth
 def test_toast():
     return render_template('debug.html')

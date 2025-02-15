@@ -8,6 +8,7 @@ from urllib.parse import quote, quote_plus
 from flask import request, g, redirect, Response
 from flask_babel import _
 from pocket import Pocket
+from sentry_sdk import capture_exception
 from galerie.image import Image
 from .get_aggregator import get_aggregator
 
@@ -27,6 +28,8 @@ def requires_auth(f):
     def decorated_function(*args, **kwargs):
         aggregator = get_aggregator()
         if not aggregator:
+            if request.path == '/add_feed':
+                capture_exception(Exception("No aggregator found when /add_feed was called"))
             return redirect('/login')
         g.aggregator = aggregator
         return f(*args, **kwargs)
