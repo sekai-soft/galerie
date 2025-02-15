@@ -266,3 +266,17 @@ def delete_feed():
     resp = make_response()
     resp.headers['HX-Redirect'] = '/feeds'
     return resp
+
+
+@actions_blueprint.route('/mark_last_unread', methods=['POST'])
+@requires_auth
+@catches_exceptions
+def mark_last_unread():
+    if os.getenv('DEBUG', '0') != '1':
+        return make_toast(400, "This endpoint is only available in debug mode")
+    if 'count' not in request.args:
+        return make_toast(400, "Count is required")
+
+    count = int(request.args.get('count'))
+    g.aggregator.mark_last_unread(count)
+    return make_toast(200, f"Marked last {count} items as unread")

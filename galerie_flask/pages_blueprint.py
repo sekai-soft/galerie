@@ -280,7 +280,7 @@ def add_feed():
     return render_template('add_feed.html', url=url, groups=aggregator.get_groups(), bookmarklet=bookmarklet)
 
 
-@pages_blueprint.route("/toast_test")
+@pages_blueprint.route("/debug")
 @catches_exceptions
 def test_toast():
-    return render_template('toast_test.html')
+    return render_template('debug.html')

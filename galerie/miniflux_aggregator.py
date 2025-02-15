@@ -154,3 +154,12 @@ class MinifluxAggregator(RssAggregator):
 
     def mark_all_feed_items_as_read(self, fid: str):
         self.client.mark_feed_entries_as_read(int(fid))
+
+    def mark_last_unread(self, count: int):
+        entries = self.client.get_entries(
+            order='id',
+            direction='desc',
+            limit=count
+        )
+        entry_ids = [entry['id'] for entry in entries['entries']]
+        self.client.update_entries(entry_ids, 'unread')

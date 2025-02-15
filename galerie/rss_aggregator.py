@@ -77,3 +77,7 @@ class RssAggregator(ABC):
     @abstractmethod
     def mark_all_feed_items_as_read(self, fid: str):
         pass
+
+    @abstractmethod
+    def mark_last_unread(self, count: int):
+        pass
