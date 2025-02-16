@@ -32,6 +32,7 @@
     {% if instapaper_available %}
     <p>
         <a
+            class="share-menu-text"
             href="javascript:void(0)"
             hx-post="/actions/instapaper?url={{ image.ui_extra['quoted_url'] }}"
             hx-swap="none"
@@ -43,6 +44,7 @@
     {% if pocket_available %}
     <p>
         <a
+            class="share-menu-text"
             href="javascript:void(0)"
             hx-post="/actions/pocket?url={{ image.ui_extra['quoted_url'] }}{{ image.ui_extra['encoded_tags'] }}"
             hx-swap="none"
@@ -52,7 +54,10 @@
     </p>
     {% endif %}
     <p>
-        <a href="javascript:document.getElementById('share-menu-{{ image.uid }}').close()">{{ _('Cancel') }}</a>
+        <a
+            class="share-menu-text"
+            href="javascript:document.getElementById('share-menu-{{ image.uid }}').close()"
+        >{{ _('Cancel') }}</a>
     </p>
 </dialog>
 {% endfor %}

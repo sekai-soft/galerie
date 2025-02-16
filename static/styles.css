@@ -43,6 +43,11 @@ textarea {
     gap: 2em;
 }
 
+.share-menu-text {
+    font-size: 1em;
+    line-height: 1;
+}
+
 /** sizes for > iPhone 12 Pro Max <= iPad Pro **/
 @media screen and (max-width: 1024px) {
     .logo-image {
@@ -80,6 +85,11 @@ textarea {
 
     .button-with-links {
         gap: 2em;
+    }
+
+    .share-menu-text {
+        font-size: 1em;
+        line-height: 2;
     }
 }
 
@@ -120,6 +130,11 @@ textarea {
 
     .button-with-links {
         gap: 1em;
+    }
+
+    .share-menu-text {
+        font-size: 1.5em;
+        line-height: 2;
     }
 }
 

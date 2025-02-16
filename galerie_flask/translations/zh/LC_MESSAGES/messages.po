@@ -7,7 +7,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: PROJECT VERSION\n"
 "Report-Msgid-Bugs-To: EMAIL@ADDRESS\n"
-"POT-Creation-Date: 2025-02-16 05:21+0000\n"
+"POT-Creation-Date: 2025-02-16 05:27+0000\n"
 "PO-Revision-Date: 2024-06-27 08:04+0000\n"
 "Last-Translator: FULL NAME <EMAIL@ADDRESS>\n"
 "Language: zh\n"
@@ -165,15 +165,15 @@ msgstr "(已过滤)"
 msgid "Load more"
 msgstr "加载更多"
 
-#: galerie_flask/templates/images.html:40
+#: galerie_flask/templates/images.html:41
 msgid "Save to Instapaper"
 msgstr "保存至 Instapaper"
 
-#: galerie_flask/templates/images.html:51
+#: galerie_flask/templates/images.html:53
 msgid "Save to Pocket"
 msgstr "保存至 Pocket"
 
-#: galerie_flask/templates/images.html:55
+#: galerie_flask/templates/images.html:60
 msgid "Cancel"
 msgstr "取消"
 
