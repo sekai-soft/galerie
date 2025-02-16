@@ -46,13 +46,15 @@ def catches_exceptions(f):
 @actions_blueprint.route('/auth', methods=['POST'])
 @catches_exceptions
 def auth():
+    next_url = request.args.get('next', '/')
+
     if 'setup-code' in request.form and request.form['setup-code']:
         resp = make_response()
         setup_code = request.form['setup-code']
         setup_code = base64.b64decode(setup_code)
         setup_code = setup_code.decode("utf-8")
         decode_setup_to_cookies(setup_code, resp)
-        resp.headers['HX-Redirect'] = '/'
+        resp.headers['HX-Redirect'] = next_url
         return resp
 
     endpoint = request.form.get('endpoint')
@@ -71,7 +73,7 @@ def auth():
 
         resp = make_response()
         resp.set_cookie('auth', persisted_auth)
-        resp.headers['HX-Redirect'] = '/'
+        resp.headers['HX-Redirect'] = next_url
         return resp
     except AuthError:
         return make_toast(401, str(_("Failed to authenticate")))

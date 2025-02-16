@@ -40,7 +40,7 @@
         <div class="button-with-links">
             <button
                 class="button"
-                hx-post="/actions/auth"
+                hx-post="/actions/auth?next={{ next_url }}"
                 hx-swap="none"
                 hx-disabled-elt="this"
             >
@@ -65,7 +65,7 @@
         <button
             class="button"
             style="margin-top: 0.5em"
-            hx-post="/actions/auth"
+            hx-post="/actions/auth?next={{ next_url }}"
             hx-swap="none"
             hx-disabled-elt="this"
         >

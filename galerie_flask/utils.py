@@ -30,7 +30,9 @@ def requires_auth(f):
         if not aggregator:
             if request.path == '/add_feed':
                 capture_exception(Exception("No aggregator found when /add_feed was called"))
-            return redirect('/login')
+            if request.path.startswith('/actions'):
+                return redirect('/login')
+            return redirect('/login?next=' + request.path)
         g.aggregator = aggregator
         return f(*args, **kwargs)
     return decorated_function

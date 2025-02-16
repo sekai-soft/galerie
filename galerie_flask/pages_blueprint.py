@@ -75,7 +75,8 @@ def login():
     aggregator = get_aggregator()
     if aggregator:
         return redirect('/')
-    return render_template('login.html')
+    next_url = request.args.get('next', '/')
+    return render_template('login.html', next_url=next_url)
 
 
 @pages_blueprint.route("/")
