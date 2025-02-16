@@ -113,7 +113,7 @@ def load_more():
     last_iid_str = uid_to_item_id(images[-1].uid) if images else ''
 
     args = {}
-    images_args(args, images)
+    images_args(args, images, group is None)
     mark_as_read_button_args(args, last_iid_str, today, group, sort_by_desc)
     load_more_button_args(args, last_iid_str, today, group, sort_by_desc, infinite_scroll)
 

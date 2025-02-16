@@ -116,7 +116,7 @@ def index():
         "groups": groups,
         "sort_by_desc":sort_by_desc,
     }
-    images_args(args, images)
+    images_args(args, images, gid is None)
     mark_as_read_button_args(args, last_iid_str, today, gid, sort_by_desc)
     load_more_button_args(args, last_iid_str, today, gid, sort_by_desc, infinite_scroll)
 
@@ -188,7 +188,7 @@ def feed_page():
         "feed": g.aggregator.get_feed(fid),
         "groups": g.aggregator.get_groups(),
     }
-    images_args(args, images)
+    images_args(args, images, False)
     return render_template('feed.html', **args)
 
 

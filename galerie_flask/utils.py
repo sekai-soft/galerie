@@ -81,11 +81,12 @@ def load_more_button_args(args: dict, from_iid: str, today: bool, gid: Optional[
     })
 
 
-def images_args(args: dict, images: List[Image]):
+def images_args(args: dict, images: List[Image], should_show_group: bool):
     args.update({
         "images": images,
         "pocket_available": is_pocket_available(),
         "instapaper_available": is_instapaper_available(),
+        "should_show_group": should_show_group
     })
 
 

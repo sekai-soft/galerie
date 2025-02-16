@@ -24,7 +24,9 @@
     </a>
     <a href="/feed?fid={{ image.fid }}" class="title">{% if image.more_images_count > 0 %}({{ image.more_images_count }}+){% endif %} {{ image.title }}</a>
     <a href="/feed?fid={{ image.fid }}" class="feed-title">
+        {% if should_show_group %}
         <span class="tag">{{ image.groups[0].title }}</span>
+        {% endif %}
         {{ image.feed_title }}
     </a>
 </div>
