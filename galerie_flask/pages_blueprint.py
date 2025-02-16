@@ -11,7 +11,8 @@ from pocket import Pocket
 from galerie.feed_filter import FeedFilter
 from galerie.image import extract_images, uid_to_item_id
 from galerie.parse_feed_features import parse_twitter_handle
-from .utils import requires_auth, compute_after_for_maybe_today, max_items, load_more_button_args, mark_as_read_button_args, images_args, add_image_ui_extras, encode_setup_from_cookies
+from .utils import requires_auth, compute_after_for_maybe_today, max_items, load_more_button_args,\
+    mark_as_read_button_args, images_args, add_image_ui_extras, encode_setup_from_cookies, cookie_max_age
 from .get_aggregator import get_aggregator
 
 
@@ -154,7 +155,7 @@ def pocket_oauth():
         'pocket_oauth.html',
         username=user_credentials['username']))
     resp.delete_cookie('pocket_request_token')
-    resp.set_cookie('pocket_auth', json.dumps(user_credentials))
+    resp.set_cookie('pocket_auth', json.dumps(user_credentials), max_age=cookie_max_age)
     return resp
 
 

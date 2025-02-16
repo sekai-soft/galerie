@@ -13,7 +13,9 @@ from galerie.feed_filter import FeedFilter
 from galerie.image import extract_images, uid_to_item_id
 from galerie.rss_aggregator import AuthError
 from galerie.parse_feed_features import is_nitter_on_fly, extract_nitter_on_fly
-from .utils import requires_auth, compute_after_for_maybe_today, max_items, get_pocket_client, load_more_button_args, mark_as_read_button_args, images_args, add_image_ui_extras, decode_setup_to_cookies, is_instapaper_available, get_instapaper_auth
+from .utils import requires_auth, compute_after_for_maybe_today, max_items, get_pocket_client,\
+    load_more_button_args, mark_as_read_button_args, images_args, add_image_ui_extras,\
+    decode_setup_to_cookies, is_instapaper_available, get_instapaper_auth, cookie_max_age
 from .get_aggregator import get_aggregator
 
 actions_blueprint = Blueprint('actions', __name__)
@@ -74,7 +76,7 @@ def auth():
         persisted_auth = aggregator.persisted_auth()
 
         resp = make_response()
-        resp.set_cookie('auth', persisted_auth)
+        resp.set_cookie('auth', persisted_auth, max_age=cookie_max_age)
         resp.headers['HX-Redirect'] = next_url
         return resp
     except AuthError:
@@ -159,7 +161,7 @@ def pocket():
 def set_infinite_scroll():
     infinite_scroll = request.form.get('infinite_scroll', '0')
     resp = make_response()
-    resp.set_cookie('infinite_scroll', infinite_scroll)
+    resp.set_cookie('infinite_scroll', infinite_scroll, max_age=cookie_max_age)
     make_toast_header(resp, _("Setting updated"))
     return resp
 
@@ -292,7 +294,7 @@ def log_into_instapaper():
     resp.set_cookie('instapaper_auth', json.dumps({
         'username_or_email': username_or_email,
         'password': password
-    }))
+    }), max_age=cookie_max_age)
     resp.headers['HX-Refresh'] = "true"
     return resp
 

@@ -13,6 +13,7 @@ from galerie.image import Image
 from .get_aggregator import get_aggregator
 
 max_items = int(os.getenv('MAX_ITEMS', '15'))
+cookie_max_age = 60 * 60 * 24 * 365  # 1 year
 
 
 def get_pocket_client():
@@ -43,8 +44,6 @@ def requires_auth(f):
     def decorated_function(*args, **kwargs):
         aggregator = get_aggregator()
         if not aggregator:
-            if request.path == '/add_feed':
-                capture_exception(Exception("No aggregator found when /add_feed was called"))
             if request.path.startswith('/actions'):
                 return redirect('/login')
             return redirect('/login?next=' + request.path)
@@ -113,13 +112,13 @@ def encode_setup_from_cookies() -> str:
 
 def decode_setup_to_cookies(setup_code: str, response: Response):
     setup = json.loads(setup_code)
-    response.set_cookie('auth', setup['auth'])
+    response.set_cookie('auth', setup['auth'], max_age=cookie_max_age)
 
     if 'pocket_auth' in setup:
-        response.set_cookie('pocket_auth', setup['pocket_auth'])
+        response.set_cookie('pocket_auth', setup['pocket_auth'], max_age=cookie_max_age)
     if 'infinite_scroll' in setup:
-        response.set_cookie('infinite_scroll', setup['infinite_scroll'])
+        response.set_cookie('infinite_scroll', setup['infinite_scroll'], max_age=cookie_max_age)
     if 'instapaper_auth' in setup:
-        response.set_cookie('instapaper_auth', setup['instapaper_auth'])
+        response.set_cookie('instapaper_auth', setup['instapaper_auth'], max_age=cookie_max_age)
 
     return response
