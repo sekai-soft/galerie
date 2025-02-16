@@ -17,6 +17,11 @@
     </select>
     <div class="header-right">
         <a
+            class="refresh"
+            href="javascript:window.location.reload();"
+            style="text-decoration: none; display: none;"
+        >🔄</a>
+        <a
             href="javascript:void(0)"
             style="text-decoration: none;"
             hx-confirm="{{ _('Are you sure you want to mark this group as read?') }}"
