@@ -8,7 +8,7 @@ input {
     width: auto;
 }
 
-.stream {
+.app {
     width: 66%;
     margin: 0 auto;
 }
@@ -55,7 +55,7 @@ textarea {
         width: auto;
     }
 
-    .stream {
+    .app {
         width: 100%;
         margin: 0 auto;
     }
@@ -100,7 +100,7 @@ textarea {
         width: auto;
     }
 
-    .stream {
+    .app {
         width: 100%;
         margin: 0 auto;
     }
@@ -139,6 +139,10 @@ textarea {
 }
 
 /* non-sizes */
+.app {
+    padding-bottom: env(safe-area-inset-bottom, 1em);
+}
+
 .item-image {
     width: 100%;
     border-radius: 16px;
@@ -203,7 +207,6 @@ textarea {
     padding: 0;
     border: 0;
     z-index: 1000;
-    padding-bottom: env(safe-area-inset-bottom, 1em);
 }
 
 .header-right {

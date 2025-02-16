@@ -3,53 +3,51 @@
 {% block title %}{{ _('Login | Galerie') }}{% endblock %}
 
 {% block content %}
-<div class="stream">
-    <p>{{ _('Please login first') }}</p>
-    <form x-data="{ selectedType: 'miniflux' }">
-        <p>{{ _('Type of RSS aggregator') }}</p>
-        <select name="type" x-model="selectedType">
-            <option value="miniflux">Miniflux</option>
-        </select>
-        <template x-if="selectedType === 'miniflux'">
-            <p>{{ _('Miniflux API endpoint') }}</p>
-        </template>
-        <input
-            type="text"
-            name="endpoint"
-            required
-            x-bind:placeholder="selectedType === 'miniflux' ? 'https://miniflux.example.net' : ''"
-            class="code-font"
+<p>{{ _('Please login first') }}</p>
+<form x-data="{ selectedType: 'miniflux' }">
+    <p>{{ _('Type of RSS aggregator') }}</p>
+    <select name="type" x-model="selectedType">
+        <option value="miniflux">Miniflux</option>
+    </select>
+    <template x-if="selectedType === 'miniflux'">
+        <p>{{ _('Miniflux API endpoint') }}</p>
+    </template>
+    <input
+        type="text"
+        name="endpoint"
+        required
+        x-bind:placeholder="selectedType === 'miniflux' ? 'https://miniflux.example.net' : ''"
+        class="code-font"
+    >
+    <p>{{ _('Username') }}</p>
+    <input
+        type="text"
+        autocomplete="username"
+        name="username"
+        required
+        class="code-font"
+    >
+    <p>{{ _('Password') }}</p>
+    <input
+        type="password"
+        name="password"
+        required
+        class="code-font"
+    >
+    <br>
+    <br>
+    <div class="button-with-links">
+        <button
+            class="button"
+            hx-post="/actions/auth?next={{ next_url }}"
+            hx-swap="none"
+            hx-disabled-elt="this"
         >
-        <p>{{ _('Username') }}</p>
-        <input
-            type="text"
-            autocomplete="username"
-            name="username"
-            required
-            class="code-font"
-        >
-        <p>{{ _('Password') }}</p>
-        <input
-            type="password"
-            name="password"
-            required
-            class="code-font"
-        >
-        <br>
-        <br>
-        <div class="button-with-links">
-            <button
-                class="button"
-                hx-post="/actions/auth?next={{ next_url }}"
-                hx-swap="none"
-                hx-disabled-elt="this"
-            >
-                {{ _('Login') }} <span class="htmx-indicator">...</span>
-            </button>
-            <a href="javascript:document.getElementById('setup-using-code').showModal()">{{ _('Set up using a code') }}</a>
-        </div>      
-    </form>
-</div>
+            {{ _('Login') }} <span class="htmx-indicator">...</span>
+        </button>
+        <a href="javascript:document.getElementById('setup-using-code').showModal()">{{ _('Set up using a code') }}</a>
+    </div>      
+</form>
 <dialog id="setup-using-code">
     <form>
         <textarea

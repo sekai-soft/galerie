@@ -3,15 +3,13 @@
 {% block title %}Debug{% endblock %}
 
 {% block content %}
-<div>
-    <button
-        class="button"
-        onclick="document.body.dispatchEvent(new CustomEvent('toast', { detail: { value: 'test message' } }));"
-    >Test toast</button>
-    <button
-        class="button"    
-        hx-post="/actions/mark_last_unread?count=200"
-        hx-swap="none"
-    >Mark last 200 as unread</button>
-</div>
+<button
+    class="button"
+    onclick="document.body.dispatchEvent(new CustomEvent('toast', { detail: { value: 'test message' } }));"
+>Test toast</button>
+<button
+    class="button"    
+    hx-post="/actions/mark_last_unread?count=200"
+    hx-swap="none"
+>Mark last 200 as unread</button>
 {% endblock %}

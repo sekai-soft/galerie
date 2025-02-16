@@ -3,53 +3,51 @@
 {% block title %}{{ _('Galerie') }}{% endblock %}
 
 {% block content %}
-<div class="stream">
-    <div class="header" x-data="{}">
-        <p>Galerie</p>
-        <select id="groupSelect">
-            <option value="_all" {{ 'selected=selected' if not selected_group else '' }}>{{ _('all groups') }}</option>
-            {% for g in groups %}
-            <option value="{{ g.gid }}" {{ 'selected=selected' if selected_group and g.gid == selected_group.gid else '' }}>{% if unread_items_count[g.gid] != 0 %}({{ unread_items_count[g.gid] }}) {% endif %}{{ g.title }}</option>
-            {% endfor %}
-        </select>
-        <select id="sortSelect">
-            <option value="desc" {{ 'selected=selected' if sort_by_desc else '' }}>{{ _('newest first') }}</option>
-            <option value="asc" {{ 'selected=selected' if not sort_by_desc else '' }}>{{ _('oldest first') }}</option>
-        </select>
-        <div class="header-right">
-            <a
-                href="javascript:void(0)"
-                style="text-decoration: none;"
-                hx-confirm="{{ _('Are you sure you want to mark this group as read?') }}"
-                hx-post="/actions/mark_as_read?to_iid={{ to_iid }}&today={{ today }}&group={{ gid }}&sort={{ sort }}"
-                hx-disabled-elt="this"
-            >✅</a>
-            <a href="/settings" style="text-decoration: none;">⚙️</a>
-        </div>
-    </div>
-    {% if not images %}
-    <div class="all-read">
-        {% if all_read %}
-        <p>{{ _('✨ all read ✨') }}</p>
-        {% else %}
+<div class="header" x-data="{}">
+    <p>Galerie</p>
+    <select id="groupSelect">
+        <option value="_all" {{ 'selected=selected' if not selected_group else '' }}>{{ _('all groups') }}</option>
         {% for g in groups %}
-        {% if unread_items_count[g.gid] != 0 %}
-        <p>
-            <a href="/?group={{ g.gid }}">
-                {{ g.title }} {{ _('has') }} {{ unread_items_count[g.gid] }} {{ _('unread items') }}
-            </a>
-        </p>
-        {% endif %}
+        <option value="{{ g.gid }}" {{ 'selected=selected' if selected_group and g.gid == selected_group.gid else '' }}>{% if unread_items_count[g.gid] != 0 %}({{ unread_items_count[g.gid] }}) {% endif %}{{ g.title }}</option>
         {% endfor %}
-        {% endif %}
+    </select>
+    <select id="sortSelect">
+        <option value="desc" {{ 'selected=selected' if sort_by_desc else '' }}>{{ _('newest first') }}</option>
+        <option value="asc" {{ 'selected=selected' if not sort_by_desc else '' }}>{{ _('oldest first') }}</option>
+    </select>
+    <div class="header-right">
+        <a
+            href="javascript:void(0)"
+            style="text-decoration: none;"
+            hx-confirm="{{ _('Are you sure you want to mark this group as read?') }}"
+            hx-post="/actions/mark_as_read?to_iid={{ to_iid }}&today={{ today }}&group={{ gid }}&sort={{ sort }}"
+            hx-disabled-elt="this"
+        >✅</a>
+        <a href="/settings" style="text-decoration: none;">⚙️</a>
     </div>
+</div>
+{% if not images %}
+<div class="all-read">
+    {% if all_read %}
+    <p>{{ _('✨ all read ✨') }}</p>
+    {% else %}
+    {% for g in groups %}
+    {% if unread_items_count[g.gid] != 0 %}
+    <p>
+        <a href="/?group={{ g.gid }}">
+            {{ g.title }} {{ _('has') }} {{ unread_items_count[g.gid] }} {{ _('unread items') }}
+        </a>
+    </p>
     {% endif %}
-    <div class="grid" id="grid">
-        <div class="grid-sizer"></div>
-        {% include 'images.html' %}
-    </div>
-    {% if images %}
-    {% include 'grid_end_buttons.html' %}
+    {% endfor %}
     {% endif %}
 </div>
+{% endif %}
+<div class="grid" id="grid">
+    <div class="grid-sizer"></div>
+    {% include 'images.html' %}
+</div>
+{% if images %}
+{% include 'grid_end_buttons.html' %}
+{% endif %}
 {% endblock %}

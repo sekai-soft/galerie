@@ -3,38 +3,36 @@
 {% block title %}{{ _('Update feed') }}{% endblock %}
 
 {% block content %}
-<div class="stream">
-    <div class="header">
-        <p>{{ feed.title }}</p>
-        <div class="header-right">
-            <a href="/feed?fid={{ feed.fid }}" style="text-decoration: none;">↩️</a>
-        </div>
+<div class="header">
+    <p>{{ feed.title }}</p>
+    <div class="header-right">
+        <a href="/feed?fid={{ feed.fid }}" style="text-decoration: none;">↩️</a>
     </div>
-    <p>
-        {{ _('Group') }}
-        <select
-            name="update_feed_group"
-            hx-trigger="change"
-            hx-post="/actions/update_feed_group?fid={{ feed.fid }}"
-            hx-swap="none"
-            hx-disabled-elt="this"
-        >
-            {% for group in groups %}
-                <option
-                    value="{{ group.gid }}"
-                    {{ 'selected=selected' if group.gid == feed.gid else '' }}
-                >{{ group.title }}</option>
-            {% endfor %}
-        </select>
-    </p>
-    <button
-        class="button"
-        hx-post="/actions/delete_feed?fid={{ feed.fid }}"
+</div>
+<p>
+    {{ _('Group') }}
+    <select
+        name="update_feed_group"
+        hx-trigger="change"
+        hx-post="/actions/update_feed_group?fid={{ feed.fid }}"
         hx-swap="none"
         hx-disabled-elt="this"
-        hx-confirm="{{ _('Are you sure you want to delete this feed?') }}"
     >
-        {{ _('Delete feed') }} <span class="htmx-indicator">...</span>
-    </button>
-</div>
+        {% for group in groups %}
+            <option
+                value="{{ group.gid }}"
+                {{ 'selected=selected' if group.gid == feed.gid else '' }}
+            >{{ group.title }}</option>
+        {% endfor %}
+    </select>
+</p>
+<button
+    class="button"
+    hx-post="/actions/delete_feed?fid={{ feed.fid }}"
+    hx-swap="none"
+    hx-disabled-elt="this"
+    hx-confirm="{{ _('Are you sure you want to delete this feed?') }}"
+>
+    {{ _('Delete feed') }} <span class="htmx-indicator">...</span>
+</button>
 {% endblock %}

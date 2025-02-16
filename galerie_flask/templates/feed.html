@@ -3,17 +3,15 @@
 {% block title %}{{ feed.title }}{% endblock %}
 
 {% block content %}
-<div class="stream">
-    <div class="header">
-        <p><span class="tag">{{ feed.group_title }}</span> {{ feed.title }}</p>
-        <div class="header-right">
-            <a href="/update_feed?fid={{ feed.fid }}" style="text-decoration: none;">🔧</a>
-            <a href="/" style="text-decoration: none;">🏠</a>
-        </div>
+<div class="header">
+    <p><span class="tag">{{ feed.group_title }}</span> {{ feed.title }}</p>
+    <div class="header-right">
+        <a href="/update_feed?fid={{ feed.fid }}" style="text-decoration: none;">🔧</a>
+        <a href="/" style="text-decoration: none;">🏠</a>
     </div>
-    <div class="grid" id="grid">
-        <div class="grid-sizer"></div>
-        {% include 'images.html' %}
-    </div>
+</div>
+<div class="grid" id="grid">
+    <div class="grid-sizer"></div>
+    {% include 'images.html' %}
 </div>
 {% endblock %}

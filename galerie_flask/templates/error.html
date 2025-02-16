@@ -3,15 +3,13 @@
 {% block title %}{{ _('Error | Galerie') }}{% endblock %}
 
 {% block content %}
-<div class="stream">
-    <div class="header">
-        <p>{{ _('Oops something went wrong') }}</p>
-    </div>
-    <p>{{ error }}</p>
-    <button
-        class="button"
-        hx-post="/actions/deauth"
-        hx-swap="none"
-    >{{ _('Logout')}}</button>
+<div class="header">
+    <p>{{ _('Oops something went wrong') }}</p>
 </div>
+<p>{{ error }}</p>
+<button
+    class="button"
+    hx-post="/actions/deauth"
+    hx-swap="none"
+>{{ _('Logout')}}</button>
 {% endblock %}

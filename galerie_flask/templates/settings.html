@@ -3,115 +3,113 @@
 {% block title %}{{ _('Settings | Galerie') }}{% endblock %}
 
 {% block content %}
-<div class="stream">
-    <div class="header">
-        <p>{{ _('Settings') }}</p>
-        <a href="/">{{ _('Back to homepage') }}</a>
-    </div>
-    <a href="/feeds">
-        <button class="button" style="font-size: 1em">{{ _('Manage feeds')}}</button>
-    </a>
-    <br>
-    <br>
-    <hr>
-    <p>{{ connection_info.aggregator_type }} {{ _('connection') }}</p>
-    <p>{{ connection_info.host }} {{ _('[Server authenticated]') if not connection_info.frontend_or_backend else '' }}</p>
-    {% if connection_info.frontend_or_backend %}
-    <button
-        class="button"
-        hx-post="/actions/deauth"
-        hx-swap="none"
-    >{{ _('Logout')}}</button>
-    <br>
-    <br>
-    <a href="javascript:document.getElementById('setup-code').showModal()">{{ _('Show setup code') }}</a>
-    <dialog id="setup-code">
-        <p class="setup-code">{{ setup_code }}</p>
-        <button class="button" onclick="document.getElementById('setup-code').close()">
+<div class="header">
+    <p>{{ _('Settings') }}</p>
+    <a href="/">{{ _('Back to homepage') }}</a>
+</div>
+<a href="/feeds">
+    <button class="button" style="font-size: 1em">{{ _('Manage feeds')}}</button>
+</a>
+<br>
+<br>
+<hr>
+<p>{{ connection_info.aggregator_type }} {{ _('connection') }}</p>
+<p>{{ connection_info.host }} {{ _('[Server authenticated]') if not connection_info.frontend_or_backend else '' }}</p>
+{% if connection_info.frontend_or_backend %}
+<button
+    class="button"
+    hx-post="/actions/deauth"
+    hx-swap="none"
+>{{ _('Logout')}}</button>
+<br>
+<br>
+<a href="javascript:document.getElementById('setup-code').showModal()">{{ _('Show setup code') }}</a>
+<dialog id="setup-code">
+    <p class="setup-code">{{ setup_code }}</p>
+    <button class="button" onclick="document.getElementById('setup-code').close()">
+        {{ _('Close') }}
+    </button>
+</dialog>
+{% endif %}
+<br>
+<br>
+<hr>
+<p>{{ _('Instapaper connection') }}</p>
+{% if not instapaper_auth %}
+<button
+    class="button"
+    onclick="document.getElementById('log-into-instapaper').showModal()"
+>{{ _('Log into Instapaper')}}</button>
+{% else %}
+<p>{{ _('Logged in as') }} {{ instapaper_auth['username_or_email'] }}</p>
+<button
+    class="button"
+    hx-post="/actions/log_out_of_instapaper"
+    hx-swap="none"
+>{{ _('Log out of Instapaper')}}</button>
+{% endif %}
+<dialog id="log-into-instapaper">
+    <form>
+        <p>{{ _('Instapaper username or email') }}</p>
+        <input
+            type="text"
+            name="username_or_email"
+            required
+            class="code-font"
+        >
+        <p>{{ _('Instapaper password') }}</p>
+        <input
+            type="password"
+            name="password"
+            class="code-font"
+        >
+        <br>
+        <br>
+        <button
+            class="button"
+            hx-post="/actions/log_into_instapaper"
+            hx-swap="none"
+            hx-disabled-elt="this"
+        >
+            {{ _('Login') }} <span class="htmx-indicator">...</span>
+        </button>
+        <button class="button" onclick="document.getElementById('log-into-instapaper').close()">
             {{ _('Close') }}
         </button>
-    </dialog>
-    {% endif %}
-    <br>
-    <br>
-    <hr>
-    <p>{{ _('Instapaper connection') }}</p>
-    {% if not instapaper_auth %}
-    <button
-        class="button"
-        onclick="document.getElementById('log-into-instapaper').showModal()"
-    >{{ _('Log into Instapaper')}}</button>
-    {% else %}
-    <p>{{ _('Logged in as') }} {{ instapaper_auth['username_or_email'] }}</p>
-    <button
-        class="button"
-        hx-post="/actions/log_out_of_instapaper"
-        hx-swap="none"
-    >{{ _('Log out of Instapaper')}}</button>
-    {% endif %}
-    <dialog id="log-into-instapaper">
-        <form>
-            <p>{{ _('Instapaper username or email') }}</p>
-            <input
-                type="text"
-                name="username_or_email"
-                required
-                class="code-font"
-            >
-            <p>{{ _('Instapaper password') }}</p>
-            <input
-                type="password"
-                name="password"
-                class="code-font"
-            >
-            <br>
-            <br>
-            <button
-                class="button"
-                hx-post="/actions/log_into_instapaper"
-                hx-swap="none"
-                hx-disabled-elt="this"
-            >
-                {{ _('Login') }} <span class="htmx-indicator">...</span>
-            </button>
-            <button class="button" onclick="document.getElementById('log-into-instapaper').close()">
-                {{ _('Close') }}
-            </button>
-        </form>
-    </dialog>
-    <br>
-    <br>
-    <hr>
-    <p>{{ _('Pocket connection') }}</p>
-    {% if not pocket_auth %}
-    <button
-        class="button"
-        hx-post="/actions/connect_to_pocket"
-        hx-swap="none"
-    >{{ _('Connect to Pocket')}}</button>
-    {% else %}
-    <p>{{ _('Logged in as') }} {{ pocket_auth['username'] }}</p>
-    <button
-        class="button"
-        hx-post="/actions/disconnect_from_pocket"
-        hx-swap="none"
-    >{{ _('Disconnect from Pocket')}}</button>
-    {% endif %}
-    <br>
-    <br>
-    <hr>
-    <p>{{ _('Infinite scroll')}}</p>
-    <select
-        name="infinite_scroll"
-        hx-trigger="change"
-        hx-post="/actions/set_infinite_scroll"
-        hx-swap="none"
-    >
-        <option value="1" {{ 'selected=selected' if infinite_scroll else '' }}>{{ _('Yes')}}</option>
-        <option value="0" {{ 'selected=selected' if not infinite_scroll else '' }}>{{ _('No')}}</option>
-    </select>
-    <div class="footer">
-        <p><a href="https://github.com/sekai-soft/galerie" target="_blank">GitHub</a> | <a href="https://sekaisoft.tech" target="_blank">Sekaisoft</a></p>
-    </div>
+    </form>
+</dialog>
+<br>
+<br>
+<hr>
+<p>{{ _('Pocket connection') }}</p>
+{% if not pocket_auth %}
+<button
+    class="button"
+    hx-post="/actions/connect_to_pocket"
+    hx-swap="none"
+>{{ _('Connect to Pocket')}}</button>
+{% else %}
+<p>{{ _('Logged in as') }} {{ pocket_auth['username'] }}</p>
+<button
+    class="button"
+    hx-post="/actions/disconnect_from_pocket"
+    hx-swap="none"
+>{{ _('Disconnect from Pocket')}}</button>
+{% endif %}
+<br>
+<br>
+<hr>
+<p>{{ _('Infinite scroll')}}</p>
+<select
+    name="infinite_scroll"
+    hx-trigger="change"
+    hx-post="/actions/set_infinite_scroll"
+    hx-swap="none"
+>
+    <option value="1" {{ 'selected=selected' if infinite_scroll else '' }}>{{ _('Yes')}}</option>
+    <option value="0" {{ 'selected=selected' if not infinite_scroll else '' }}>{{ _('No')}}</option>
+</select>
+<div class="footer">
+    <p><a href="https://github.com/sekai-soft/galerie" target="_blank">GitHub</a> | <a href="https://sekaisoft.tech" target="_blank">Sekaisoft</a></p>
 </div>
 {% endblock %}

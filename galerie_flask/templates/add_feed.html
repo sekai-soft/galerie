@@ -3,75 +3,73 @@
 {% block title %}{{ _('Add feed | Galerie') }}{% endblock %}
 
 {% block content %}
-<div class="stream">
-    <div class="header">
-        <p>{{ _('Add feed') }}</p>
-        <a href="/">{{ _('Back to homepage') }}</a>
-    </div>
-    {% if error %}
-    <p>{{ error }}</p>
-    {% else %}  
-    <form>
-        <p>
-            {% if twitter_handle %}
-            {{ _('Twitter feed') }}
-            <input
-                type="text"
-                name="twitter_handle"
-                required
-                value="@{{ twitter_handle }}"
-                readonly
-            >
-            {% elif url %}
-            {{ _('Feed URL') }} 
-            <input
-                type="text"
-                name="url"
-                required
-                value="{{ url }}"
-                readonly
-            >
-            {% else %}
-            {{ _('Feed URL') }} 
-            <input
-                type="text"
-                name="url"
-                required
-            >
-            {% endif %}
-        </p>
-        <p>
-            {{ _('Group') }}
-            <select name="group">
-                {% for g in groups %}
-                <option value="{{ g.gid }}">{{ g.title }}</option>
-                {% endfor %}
-            </select>
-        </p>
-        <div class="button-with-links">
-            <button
-                class="button"
-                hx-post="/actions/add_feed"
-                hx-swap="none"
-                hx-disabled-elt="this"
-            >
-                {{ _('Confirm') }} <span class="htmx-indicator">...</span>
-            </button>
-            <a href="javascript:document.getElementById('other-ways-to-add-feed').showModal()">{{ _('Other ways to add feed') }}</a>
-            <dialog id="other-ways-to-add-feed">
-                <p>{{ _("1. Drag this bookmarklet to your browser's bookmark bar") }}</p>
-                <a href="{{ bookmarklet }}">{{ _('Add to Galerie')}}</a>
-                <p>
-                    {{ _('2. Add')}}
-                    <a href="https://www.icloud.com/shortcuts/9a9a1f09ed214ec18251f9558b1f75e2" target="_blank">{{ _('this')}}</a>
-                    {{ _('iOS shortcut')}}
-                </p>
-                <button class="button" onclick="document.getElementById('other-ways-to-add-feed').close()">
-                    {{ _('Close') }}
-                </button>
-            </dialog>
-        </div>
-    </form>
-    {% endif %}
+<div class="header">
+    <p>{{ _('Add feed') }}</p>
+    <a href="/">{{ _('Back to homepage') }}</a>
 </div>
+{% if error %}
+<p>{{ error }}</p>
+{% else %}  
+<form>
+    <p>
+        {% if twitter_handle %}
+        {{ _('Twitter feed') }}
+        <input
+            type="text"
+            name="twitter_handle"
+            required
+            value="@{{ twitter_handle }}"
+            readonly
+        >
+        {% elif url %}
+        {{ _('Feed URL') }} 
+        <input
+            type="text"
+            name="url"
+            required
+            value="{{ url }}"
+            readonly
+        >
+        {% else %}
+        {{ _('Feed URL') }} 
+        <input
+            type="text"
+            name="url"
+            required
+        >
+        {% endif %}
+    </p>
+    <p>
+        {{ _('Group') }}
+        <select name="group">
+            {% for g in groups %}
+            <option value="{{ g.gid }}">{{ g.title }}</option>
+            {% endfor %}
+        </select>
+    </p>
+    <div class="button-with-links">
+        <button
+            class="button"
+            hx-post="/actions/add_feed"
+            hx-swap="none"
+            hx-disabled-elt="this"
+        >
+            {{ _('Confirm') }} <span class="htmx-indicator">...</span>
+        </button>
+        <a href="javascript:document.getElementById('other-ways-to-add-feed').showModal()">{{ _('Other ways to add feed') }}</a>
+        <dialog id="other-ways-to-add-feed">
+            <p>{{ _("1. Drag this bookmarklet to your browser's bookmark bar") }}</p>
+            <a href="{{ bookmarklet }}">{{ _('Add to Galerie')}}</a>
+            <p>
+                {{ _('2. Add')}}
+                <a href="https://www.icloud.com/shortcuts/9a9a1f09ed214ec18251f9558b1f75e2" target="_blank">{{ _('this')}}</a>
+                {{ _('iOS shortcut')}}
+            </p>
+            <button class="button" onclick="document.getElementById('other-ways-to-add-feed').close()">
+                {{ _('Close') }}
+            </button>
+        </dialog>
+    </div>
+</form>
+{% endif %}
 {% endblock %}

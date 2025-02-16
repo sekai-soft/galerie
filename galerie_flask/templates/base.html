@@ -22,7 +22,9 @@
         <script src=" https://cdn.jsdelivr.net/npm/pulltorefreshjs@0.1.22/dist/index.umd.min.js "></script>
     </head>
     <body>
-        {% block content %}{% endblock %}
+        <div class="app">
+            {% block content %}{% endblock %}
+        </div>
         <div id="toast">Default toast message</div>
         <script src="{{ url_for('static', filename='long-press-event.min.js') }}"></script>
         <script src="{{ url_for('static', filename='script.js') }}"></script>
