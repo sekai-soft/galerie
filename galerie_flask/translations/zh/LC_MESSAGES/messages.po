@@ -7,7 +7,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: PROJECT VERSION\n"
 "Report-Msgid-Bugs-To: EMAIL@ADDRESS\n"
-"POT-Creation-Date: 2025-02-16 03:28+0000\n"
+"POT-Creation-Date: 2025-02-16 05:21+0000\n"
 "PO-Revision-Date: 2024-06-27 08:04+0000\n"
 "Last-Translator: FULL NAME <EMAIL@ADDRESS>\n"
 "Language: zh\n"
@@ -18,39 +18,48 @@ msgstr ""
 "Content-Transfer-Encoding: 8bit\n"
 "Generated-By: Babel 2.17.0\n"
 
-#: galerie_flask/actions_blueprint.py:43
+#: galerie_flask/actions_blueprint.py:44
 #, python-format
 msgid "Unknown server error: %(e)s"
 msgstr "未知服务器错误: %(e)s"
 
-#: galerie_flask/actions_blueprint.py:80
+#: galerie_flask/actions_blueprint.py:81
 msgid "Failed to authenticate"
 msgstr "无法进行身份验证"
 
-#: galerie_flask/actions_blueprint.py:120
+#: galerie_flask/actions_blueprint.py:121
 msgid "All items were loaded"
 msgstr "所有条目已加载"
 
-#: galerie_flask/actions_blueprint.py:153
+#: galerie_flask/actions_blueprint.py:154
 #, python-format
 msgid "Added %(url)s to Pocket"
 msgstr "已将 %(url)s 添加到 Pocket"
 
-#: galerie_flask/actions_blueprint.py:162
+#: galerie_flask/actions_blueprint.py:163
 msgid "Setting updated"
 msgstr "设置已更新"
 
-#: galerie_flask/actions_blueprint.py:213
+#: galerie_flask/actions_blueprint.py:214
 msgid "Group updated"
 msgstr "分组已更新"
 
-#: galerie_flask/actions_blueprint.py:279
+#: galerie_flask/actions_blueprint.py:280
 msgid "Instapaper username or email is required"
 msgstr "Instapaper 用户名或邮箱是必需的"
 
-#: galerie_flask/actions_blueprint.py:288
+#: galerie_flask/actions_blueprint.py:289
 msgid "Failed to log into Instapaper"
 msgstr "无法登录到 Instapaper"
+
+#: galerie_flask/actions_blueprint.py:325
+msgid "Failed to add to Instapaper"
+msgstr "无法添加到 Instapaper"
+
+#: galerie_flask/actions_blueprint.py:326
+#, python-format
+msgid "Added %(url)s to Instapaper"
+msgstr "已将 %(url)s 添加到 Instapaper"
 
 #: galerie_flask/pages_blueprint.py:263
 msgid "Twitter feed already exists"
@@ -155,6 +164,18 @@ msgstr "(已过滤)"
 #: galerie_flask/templates/grid_end_buttons.html:13
 msgid "Load more"
 msgstr "加载更多"
+
+#: galerie_flask/templates/images.html:40
+msgid "Save to Instapaper"
+msgstr "保存至 Instapaper"
+
+#: galerie_flask/templates/images.html:51
+msgid "Save to Pocket"
+msgstr "保存至 Pocket"
+
+#: galerie_flask/templates/images.html:55
+msgid "Cancel"
+msgstr "取消"
 
 #: galerie_flask/templates/index.html:3
 msgid "Galerie"

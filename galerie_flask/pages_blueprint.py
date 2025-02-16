@@ -11,7 +11,7 @@ from pocket import Pocket
 from galerie.feed_filter import FeedFilter
 from galerie.image import extract_images, uid_to_item_id
 from galerie.parse_feed_features import parse_twitter_handle
-from .utils import requires_auth, compute_after_for_maybe_today, max_items, get_pocket_client, load_more_button_args, mark_as_read_button_args, images_args, add_image_ui_extras, encode_setup_from_cookies
+from .utils import requires_auth, compute_after_for_maybe_today, max_items, load_more_button_args, mark_as_read_button_args, images_args, add_image_ui_extras, encode_setup_from_cookies
 from .get_aggregator import get_aggregator
 
 
@@ -115,7 +115,7 @@ def index():
         "groups": groups,
         "sort_by_desc":sort_by_desc,
     }
-    images_args(args, images, get_pocket_client() is not None)
+    images_args(args, images)
     mark_as_read_button_args(args, last_iid_str, today, gid, sort_by_desc)
     load_more_button_args(args, last_iid_str, today, gid, sort_by_desc, infinite_scroll)
 
@@ -187,7 +187,7 @@ def feed_page():
         "feed": g.aggregator.get_feed(fid),
         "groups": g.aggregator.get_groups(),
     }
-    images_args(args, images, False)
+    images_args(args, images)
     return render_template('feed.html', **args)
 
 

@@ -1,7 +1,7 @@
 import os
 import json
 import pytz
-from typing import Optional, List
+from typing import Optional, List, Tuple
 from functools import wraps
 from datetime import datetime
 from urllib.parse import quote, quote_plus
@@ -21,6 +21,21 @@ def get_pocket_client():
         pocket_auth = json.loads(request.cookies['pocket_auth'])
         return Pocket(pocket_consumer_key, pocket_auth['access_token'])
     return None
+
+
+def is_pocket_available():
+    return get_pocket_client() is not None
+
+
+def get_instapaper_auth() -> Tuple[str, str]:
+    if 'instapaper_auth' in request.cookies:
+        instapaper_auth = json.loads(request.cookies['instapaper_auth'])
+        return instapaper_auth['username_or_email'], instapaper_auth['password']
+    return None, None
+
+
+def is_instapaper_available():
+    return 'instapaper_auth' in request.cookies
 
 
 def requires_auth(f):
@@ -67,10 +82,11 @@ def load_more_button_args(args: dict, from_iid: str, today: bool, gid: Optional[
     })
 
 
-def images_args(args: dict, images: List[Image], pocket_available: bool):
+def images_args(args: dict, images: List[Image]):
     args.update({
         "images": images,
-        "pocket_available": "true" if pocket_available else "false", # need to convert to JS boolean so that alpine can interpret it
+        "pocket_available": is_pocket_available(),
+        "instapaper_available": is_instapaper_available(),
     })
 
 

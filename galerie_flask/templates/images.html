@@ -3,8 +3,10 @@
     <a
         href="{{ image.url }}"
         target="_blank"
-        x-on:long-press.prevent="if ({{ pocket_available }}) { document.getElementById('share-menu-{{ image.uid }}').showModal() }"
+        {% if pocket_available or instapaper_available %}
+        x-on:long-press.prevent="document.getElementById('share-menu-{{ image.uid }}').showModal()"
         data-long-press-delay="250"
+        {% endif %}
     >
         <img
             id="img-{{ image.uid }}"
@@ -26,7 +28,19 @@
         {{ image.feed_title }}
     </a>
 </div>
-<dialog id="share-menu-{{ image.uid }}" class="share-menu" x-data="{}">
+<dialog id="share-menu-{{ image.uid }}" class="share-menu">
+    {% if instapaper_available %}
+    <p>
+        <a
+            href="javascript:void(0)"
+            hx-post="/actions/instapaper?url={{ image.ui_extra['quoted_url'] }}"
+            hx-swap="none"
+            hx-disabled-elt="this"
+            hx-on="htmx:afterRequest: document.getElementById('share-menu-{{ image.uid }}').close()"
+        >{{ _('Save to Instapaper') }} <span class="htmx-indicator">...</span></a>
+    </p>
+    {% endif %}
+    {% if pocket_available %}
     <p>
         <a
             href="javascript:void(0)"
@@ -34,8 +48,11 @@
             hx-swap="none"
             hx-disabled-elt="this"
             hx-on="htmx:afterRequest: document.getElementById('share-menu-{{ image.uid }}').close()"
-        >Save to Pocket <span class="htmx-indicator">...</span></a>
+        >{{ _('Save to Pocket') }} <span class="htmx-indicator">...</span></a>
     </p>
-    <p><a href="javascript:document.getElementById('share-menu-{{ image.uid }}').close()">Cancel</a></p>
+    {% endif %}
+    <p>
+        <a href="javascript:document.getElementById('share-menu-{{ image.uid }}').close()">{{ _('Cancel') }}</a>
+    </p>
 </dialog>
 {% endfor %}

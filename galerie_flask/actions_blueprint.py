@@ -8,11 +8,12 @@ from flask import request, g, Blueprint, make_response, render_template, Respons
 from flask_babel import _, lazy_gettext as _l
 from sentry_sdk import capture_exception
 from pocket import Pocket
+from requests.auth import HTTPBasicAuth
 from galerie.feed_filter import FeedFilter
 from galerie.image import extract_images, uid_to_item_id
 from galerie.rss_aggregator import AuthError
 from galerie.parse_feed_features import is_nitter_on_fly, extract_nitter_on_fly
-from .utils import requires_auth, compute_after_for_maybe_today, max_items, get_pocket_client, load_more_button_args, mark_as_read_button_args, images_args, add_image_ui_extras, encode_setup_from_cookies, decode_setup_to_cookies
+from .utils import requires_auth, compute_after_for_maybe_today, max_items, get_pocket_client, load_more_button_args, mark_as_read_button_args, images_args, add_image_ui_extras, decode_setup_to_cookies, is_instapaper_available, get_instapaper_auth
 from .get_aggregator import get_aggregator
 
 actions_blueprint = Blueprint('actions', __name__)
@@ -110,7 +111,7 @@ def load_more():
     last_iid_str = uid_to_item_id(images[-1].uid) if images else ''
 
     args = {}
-    images_args(args, images, get_pocket_client() is not None)
+    images_args(args, images)
     mark_as_read_button_args(args, last_iid_str, today, group, sort_by_desc)
     load_more_button_args(args, last_iid_str, today, group, sort_by_desc, infinite_scroll)
 
@@ -303,6 +304,26 @@ def log_out_of_instapaper():
     resp.delete_cookie('instapaper_auth')
     resp.headers['HX-Refresh'] = "true"
     return resp
+
+
+@actions_blueprint.route('/instapaper', methods=['POST'])
+@catches_exceptions
+def instapaper():
+    if not is_instapaper_available():
+        return make_toast(400, "Instapaper was not configured")
+    username_or_email, password = get_instapaper_auth()
+
+    encoded_url = request.args.get('url')
+    url = unquote(encoded_url)
+
+    add_res = requests.post(
+        "https://www.instapaper.com/api/add",
+        auth=HTTPBasicAuth(username_or_email, password),
+        data={"url": url}
+    )
+    if add_res.status_code != 201:
+        return make_toast(400, _('Failed to add to Instapaper',))
+    return make_toast(200, str(_l('Added %(url)s to Instapaper', url=url)))
 
 
 @actions_blueprint.route('/mark_last_unread', methods=['POST'])
