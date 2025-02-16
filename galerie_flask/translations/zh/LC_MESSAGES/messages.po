@@ -7,7 +7,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: PROJECT VERSION\n"
 "Report-Msgid-Bugs-To: EMAIL@ADDRESS\n"
-"POT-Creation-Date: 2025-02-10 23:50+0000\n"
+"POT-Creation-Date: 2025-02-16 03:28+0000\n"
 "PO-Revision-Date: 2024-06-27 08:04+0000\n"
 "Last-Translator: FULL NAME <EMAIL@ADDRESS>\n"
 "Language: zh\n"
@@ -18,37 +18,45 @@ msgstr ""
 "Content-Transfer-Encoding: 8bit\n"
 "Generated-By: Babel 2.17.0\n"
 
-#: galerie_flask/actions_blueprint.py:42
+#: galerie_flask/actions_blueprint.py:43
 #, python-format
 msgid "Unknown server error: %(e)s"
 msgstr "未知服务器错误: %(e)s"
 
-#: galerie_flask/actions_blueprint.py:77
+#: galerie_flask/actions_blueprint.py:80
 msgid "Failed to authenticate"
 msgstr "无法进行身份验证"
 
-#: galerie_flask/actions_blueprint.py:117
+#: galerie_flask/actions_blueprint.py:120
 msgid "All items were loaded"
 msgstr "所有条目已加载"
 
-#: galerie_flask/actions_blueprint.py:147
+#: galerie_flask/actions_blueprint.py:153
 #, python-format
 msgid "Added %(url)s to Pocket"
 msgstr "已将 %(url)s 添加到 Pocket"
 
-#: galerie_flask/actions_blueprint.py:156
+#: galerie_flask/actions_blueprint.py:162
 msgid "Setting updated"
 msgstr "设置已更新"
 
-#: galerie_flask/actions_blueprint.py:207
+#: galerie_flask/actions_blueprint.py:213
 msgid "Group updated"
 msgstr "分组已更新"
 
-#: galerie_flask/pages_blueprint.py:274
+#: galerie_flask/actions_blueprint.py:279
+msgid "Instapaper username or email is required"
+msgstr "Instapaper 用户名或邮箱是必需的"
+
+#: galerie_flask/actions_blueprint.py:288
+msgid "Failed to log into Instapaper"
+msgstr "无法登录到 Instapaper"
+
+#: galerie_flask/pages_blueprint.py:263
 msgid "Twitter feed already exists"
 msgstr "Twitter 订阅源已存在"
 
-#: galerie_flask/pages_blueprint.py:276
+#: galerie_flask/pages_blueprint.py:265
 msgid "Feed already exists"
 msgstr "订阅源已存在"
 
@@ -110,6 +118,7 @@ msgstr "添加 iOS 快捷方式"
 #: galerie_flask/templates/add_feed.html:70
 #: galerie_flask/templates/login.html:79
 #: galerie_flask/templates/settings.html:31
+#: galerie_flask/templates/settings.html:78
 msgid "Close"
 msgstr "关闭"
 
@@ -209,6 +218,7 @@ msgid "Password"
 msgstr "密码"
 
 #: galerie_flask/templates/login.html:47
+#: galerie_flask/templates/settings.html:75
 msgid "Login"
 msgstr "登录"
 
@@ -254,30 +264,51 @@ msgid "Show setup code"
 msgstr "显示初始设置码"
 
 #: galerie_flask/templates/settings.html:38
-msgid "Pocket connection"
-msgstr "Pocket 连接"
+msgid "Instapaper connection"
+msgstr "Instapaper 连接"
 
-#: galerie_flask/templates/settings.html:44
-msgid "Connect to Pocket"
-msgstr "连接到 Pocket"
+#: galerie_flask/templates/settings.html:43
+msgid "Log into Instapaper"
+msgstr "登录到 Instapaper"
 
-#: galerie_flask/templates/settings.html:46
+#: galerie_flask/templates/settings.html:45
+#: galerie_flask/templates/settings.html:93
 msgid "Logged in as"
 msgstr "已用此身份登陆"
 
-#: galerie_flask/templates/settings.html:51
+#: galerie_flask/templates/settings.html:50
+msgid "Log out of Instapaper"
+msgstr "从 Instapaper 登出"
+
+#: galerie_flask/templates/settings.html:54
+msgid "Instapaper username or email"
+msgstr "Instapaper 用户名或邮箱"
+
+#: galerie_flask/templates/settings.html:61
+msgid "Instapaper password"
+msgstr "Instapaper 密码"
+
+#: galerie_flask/templates/settings.html:85
+msgid "Pocket connection"
+msgstr "Pocket 连接"
+
+#: galerie_flask/templates/settings.html:91
+msgid "Connect to Pocket"
+msgstr "连接到 Pocket"
+
+#: galerie_flask/templates/settings.html:98
 msgid "Disconnect from Pocket"
 msgstr "从 Pocket 断开连接"
 
-#: galerie_flask/templates/settings.html:56
+#: galerie_flask/templates/settings.html:103
 msgid "Infinite scroll"
 msgstr "无限滚动"
 
-#: galerie_flask/templates/settings.html:63
+#: galerie_flask/templates/settings.html:110
 msgid "Yes"
 msgstr "是"
 
-#: galerie_flask/templates/settings.html:64
+#: galerie_flask/templates/settings.html:111
 msgid "No"
 msgstr "否"
 

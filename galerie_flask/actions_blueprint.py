@@ -1,6 +1,7 @@
 import os
 import json
 import base64
+import requests
 from functools import wraps
 from urllib.parse import unquote, unquote_plus
 from flask import request, g, Blueprint, make_response, render_template, Response
@@ -267,6 +268,40 @@ def delete_feed():
 
     resp = make_response()
     resp.headers['HX-Redirect'] = '/feeds'
+    return resp
+
+
+@actions_blueprint.route('/log_into_instapaper', methods=['POST'])
+@catches_exceptions
+def log_into_instapaper():
+    username_or_email = request.form.get('username_or_email')
+    if not username_or_email:
+        return make_toast(400, _("Instapaper username or email is required"))
+
+    password = request.form.get('password', '')
+
+    auth_res = requests.post("https://www.instapaper.com/api/authenticate", data={
+        "username": username_or_email,
+        "password": password
+    })
+    if auth_res.status_code != 200:
+        return make_toast(400, _("Failed to log into Instapaper"))
+
+    resp = make_response()
+    resp.set_cookie('instapaper_auth', json.dumps({
+        'username_or_email': username_or_email,
+        'password': password
+    }))
+    resp.headers['HX-Refresh'] = "true"
+    return resp
+
+
+@actions_blueprint.route('/log_out_of_instapaper', methods=['POST'])
+@catches_exceptions
+def log_out_of_instapaper():
+    resp = make_response()
+    resp.delete_cookie('instapaper_auth')
+    resp.headers['HX-Refresh'] = "true"
     return resp
 
 

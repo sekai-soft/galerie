@@ -35,6 +35,53 @@
     <br>
     <br>
     <hr>
+    <p>{{ _('Instapaper connection') }}</p>
+    {% if not instapaper_auth %}
+    <button
+        class="button"
+        onclick="document.getElementById('log-into-instapaper').showModal()"
+    >{{ _('Log into Instapaper')}}</button>
+    {% else %}
+    <p>{{ _('Logged in as') }} {{ instapaper_auth['username_or_email'] }}</p>
+    <button
+        class="button"
+        hx-post="/actions/log_out_of_instapaper"
+        hx-swap="none"
+    >{{ _('Log out of Instapaper')}}</button>
+    {% endif %}
+    <dialog id="log-into-instapaper">
+        <form>
+            <p>{{ _('Instapaper username or email') }}</p>
+            <input
+                type="text"
+                name="username_or_email"
+                required
+                class="code-font"
+            >
+            <p>{{ _('Instapaper password') }}</p>
+            <input
+                type="password"
+                name="password"
+                class="code-font"
+            >
+            <br>
+            <br>
+            <button
+                class="button"
+                hx-post="/actions/log_into_instapaper"
+                hx-swap="none"
+                hx-disabled-elt="this"
+            >
+                {{ _('Login') }} <span class="htmx-indicator">...</span>
+            </button>
+            <button class="button" onclick="document.getElementById('log-into-instapaper').close()">
+                {{ _('Close') }}
+            </button>
+        </form>
+    </dialog>
+    <br>
+    <br>
+    <hr>
     <p>{{ _('Pocket connection') }}</p>
     {% if not pocket_auth %}
     <button

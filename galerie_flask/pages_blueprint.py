@@ -128,6 +128,7 @@ def index():
 def settings():
     infinite_scroll = request.cookies.get('infinite_scroll', '1') == '1'
     pocket_auth = json.loads(request.cookies.get('pocket_auth', '{}'))
+    instapaper_auth = json.loads(request.cookies.get('instapaper_auth', '{}'))
     
     setup_code = encode_setup_from_cookies()
     setup_code = base64.b64encode(setup_code.encode("utf-8"))
@@ -138,7 +139,8 @@ def settings():
         connection_info=g.aggregator.connection_info(),
         pocket_auth=pocket_auth,
         infinite_scroll=infinite_scroll,
-        setup_code=setup_code)
+        setup_code=setup_code,
+        instapaper_auth=instapaper_auth)
 
 
 @pages_blueprint.route("/pocket_oauth")

@@ -89,6 +89,8 @@ def encode_setup_from_cookies() -> str:
         data['pocket_auth'] = request.cookies['pocket_auth']
     if 'infinite_scroll' in request.cookies:
         data['infinite_scroll'] = request.cookies['infinite_scroll']
+    if 'instapaper_auth' in request.cookies:
+        data['instapaper_auth'] = request.cookies['instapaper_auth']
 
     return json.dumps(data)
 
@@ -101,5 +103,7 @@ def decode_setup_to_cookies(setup_code: str, response: Response):
         response.set_cookie('pocket_auth', setup['pocket_auth'])
     if 'infinite_scroll' in setup:
         response.set_cookie('infinite_scroll', setup['infinite_scroll'])
+    if 'instapaper_auth' in setup:
+        response.set_cookie('instapaper_auth', setup['instapaper_auth'])
 
     return response
