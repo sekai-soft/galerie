@@ -46,7 +46,7 @@ def requires_auth(f):
         if not aggregator:
             if request.path.startswith('/actions'):
                 return redirect('/login')
-            return redirect('/login?next=' + request.path)
+            return redirect('/login?next=' + request.full_path)
         g.aggregator = aggregator
         return f(*args, **kwargs)
     return decorated_function
