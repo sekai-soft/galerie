@@ -6,7 +6,19 @@
         x-on:long-press.prevent="if ({{ pocket_available }}) { document.getElementById('share-menu-{{ image.uid }}').showModal() }"
         data-long-press-delay="250"
     >
-        <img id="img-{{ image.uid }}" class="item-image" src="{{ image.image_url }}"/>
+        <img
+            id="img-{{ image.uid }}"
+            class="item-image"
+            src="{{ image.image_url }}"
+            style="display: none;"
+            onload="this.style.display='block'; document.getElementById('img-{{ image.uid }}-loading').style.display = 'none'"
+            onerror="this.src='{{ url_for("static", filename="image-error.svg") }}'"
+        />
+        <img
+            id="img-{{ image.uid }}-loading"
+            class="item-image"
+            src="{{ url_for('static', filename='image-loading.svg') }}"
+        />
     </a>
     <a href="/feed?fid={{ image.fid }}" class="title">{% if image.more_images_count > 0 %}({{ image.more_images_count }}+){% endif %} {{ image.title }}</a>
     <a href="/feed?fid={{ image.fid }}" class="feed-title">
@@ -25,5 +37,5 @@
         >Save to Pocket <span class="htmx-indicator">...</span></a>
     </p>
     <p><a href="javascript:document.getElementById('share-menu-{{ image.uid }}').close()">Cancel</a></p>
-</dialog> 
+</dialog>
 {% endfor %}
