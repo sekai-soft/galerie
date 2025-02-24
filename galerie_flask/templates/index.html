@@ -8,7 +8,7 @@
     <select id="groupSelect">
         <option value="_all" {{ 'selected=selected' if not selected_group else '' }}>{{ _('all groups') }}</option>
         {% for g in groups %}
-        <option value="{{ g.gid }}" {{ 'selected=selected' if selected_group and g.gid == selected_group.gid else '' }}>{% if unread_items_count[g.gid] != 0 %}({{ unread_items_count[g.gid] }}) {% endif %}{{ g.title }}</option>
+        <option value="{{ g.gid }}" {{ 'selected=selected' if selected_group and g.gid == selected_group.gid else '' }}>{% if unread_items_count[g.gid] != 0 %}<span>• </span>{% endif %}{{ g.title }}</option>
         {% endfor %}
     </select>
     <select id="sortSelect">
@@ -40,7 +40,7 @@
     {% if unread_items_count[g.gid] != 0 %}
     <p>
         <a href="/?group={{ g.gid }}">
-            {{ g.title }} {{ _('has') }} {{ unread_items_count[g.gid] }} {{ _('unread items') }}
+            {{ g.title }} {% if unread_items_count[g.gid] > 100 %} {{ _('has some unread items') }} {% else %} {{ _('has a few unread items') }} {% endif %}
         </a>
     </p>
     {% endif %}
