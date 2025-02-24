@@ -43,14 +43,13 @@ grid.imagesLoaded().progress(() => {
   grid.masonry('layout');
 });
 
-$(document).on('htmx:afterSettle', (event) => {
-  if (event.detail.target.id == 'grid') {
-    grid.masonry('reloadItems')
-    grid.imagesLoaded().progress(() => {
-      grid.masonry('layout');
-    });
-  }
-});
+document.body.addEventListener("append", (event) => {
+  const uids = event.detail.value;
+  const elements = uids.map(uid => document.getElementById(uid));
+  console.log(elements)
+  grid.masonry('appended', elements)
+})
+
 
 const updateQueryParameter = (key, value) => {
   var url = new URL(window.location.href);

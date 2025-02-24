@@ -121,6 +121,9 @@ def load_more():
     resp = make_response(rendered_string)
     if not images:
         make_toast_header(resp, str(_("All items were loaded")))
+    resp.headers['HX-Trigger-After-Settle'] = json.dumps({
+        "append": list(map(lambda i: i.uid, images))
+    })
     return resp
 
 
