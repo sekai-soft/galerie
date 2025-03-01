@@ -32,24 +32,22 @@ if (isIos && isStandalone) {
 
 Cookies.set('tz', Intl.DateTimeFormat().resolvedOptions().timeZone)
 
-const grid = $('.grid').masonry({
+const grid = new Masonry('.grid', {
   itemSelector: '.grid-item',
   columnWidth: '.grid-sizer',
   percentPosition: true,
   gutter: 32
 });
 
-grid.imagesLoaded().progress(() => {
-  grid.masonry('layout');
+imagesLoaded(grid).on('progress', () => {
+  grid.layout();
 });
 
 document.body.addEventListener("append", (event) => {
   const uids = event.detail.value;
   const elements = uids.map(uid => document.getElementById(uid));
-  console.log(elements)
-  grid.masonry('appended', elements)
+  grid.appended(elements)
 })
-
 
 const updateQueryParameter = (key, value) => {
   var url = new URL(window.location.href);
@@ -61,7 +59,7 @@ const updateQueryParameter = (key, value) => {
   window.location.href = url.toString();
 }
 
-$('#groupSelect').on('change', (event) => {
+document.getElementById('groupSelect').addEventListener('change', (event) => {
   const groupId = event.target.value;
   if (groupId === '_all') {
     updateQueryParameter('group', null);
@@ -70,7 +68,7 @@ $('#groupSelect').on('change', (event) => {
   }
 });
 
-$('#sortSelect').on('change', (event) => {
+document.getElementById('sortSelect').addEventListener('change', (event) => {
   const sort = event.target.value;
   if (sort === 'desc') {
     updateQueryParameter('sort', null);
@@ -82,9 +80,9 @@ $('#sortSelect').on('change', (event) => {
 document.body.addEventListener("toast", (event) => {
   const message = event.detail.value;
   
-  const toastEl = $('#toast')
-  toastEl.addClass('show');
-  toastEl.text(message);
+  const toastEl = document.getElementById('toast');
+  toastEl.classList.add('show');
+  toastEl.textContent = message;
 
   setTimeout(() => {
     toastEl.removeClass('show');

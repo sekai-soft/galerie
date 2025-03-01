@@ -13,7 +13,7 @@
             class="item-image"
             src="{{ image.image_url }}"
             style="display: none;"
-            onload="this.style.display='block'; document.getElementById('img-{{ image.uid }}-loading').style.display = 'none'"
+            onload="this.style.display='block'; document.getElementById('img-{{ image.uid }}-loading').style.display = 'none'; grid.layout()"
             onerror="this.src='{{ url_for("static", filename="image-error.svg") }}'"
         />
         <img
