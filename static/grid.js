@@ -6,8 +6,6 @@ const grid = new Masonry('.grid', {
   gutter: 32
 });
 
-grid.layout();
-
 imagesLoaded(grid).on('progress', () => {
   grid.layout();
 });

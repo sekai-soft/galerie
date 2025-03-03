@@ -15,12 +15,12 @@
             src="{{ item.image_url }}"
             style="display: none;"
             onload="this.style.display='block'; document.getElementById('img-{{ item.uid }}-loading').style.display = 'none'; grid.layout()"
-            onerror="this.src='{{ url_for("static", filename="image-error.svg") }}'"
+            onerror="this.src='data:image/svg+xml;base64,{{ image_error_svg_base64 }}'"
         />
         <img
             id="img-{{ item.uid }}-loading"
             class="item-image"
-            src="{{ url_for('static', filename='image-loading.svg') }}"
+            src="data:image/svg+xml;base64,{{ image_loading_svg_base64 }}"
         />
         {% endif %}
     </a>
