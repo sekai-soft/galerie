@@ -7,31 +7,35 @@
         data-long-press-delay="250"
         {% endif %}
     >
-        {% if item.image_url %}
-        <img
-            id="img-{{ item.uid }}"
-            class="item-image"
-            src="{{ item.image_url }}"
-            style="display: none;"
-            onload="this.style.display='block'; document.getElementById('img-{{ item.uid }}-loading').style.display = 'none'; grid.layout()"
-            onerror="this.src='data:image/svg+xml;base64,{{ image_error_svg_base64 }}'"
-        />
-        <img
-            id="img-{{ item.uid }}-loading"
-            class="item-image"
-            src="data:image/svg+xml;base64,{{ image_loading_svg_base64 }}"
-        />
-        {% endif %}
+        <div class="item-image-container">
+            {% if item.image_url %}
+            <img
+                id="img-{{ item.uid }}"
+                class="item-image"
+                src="{{ item.image_url }}"
+                style="display: none;"
+                onload="this.style.display='block'; document.getElementById('img-{{ item.uid }}-loading').style.display = 'none'; grid.layout()"
+                onerror="this.src='data:image/svg+xml;base64,{{ image_error_svg_base64 }}'"
+            />
+            <img
+                id="img-{{ item.uid }}-loading"
+                class="item-image"
+                src="data:image/svg+xml;base64,{{ image_loading_svg_base64 }}"
+            />
+            {% endif %}
+            {% if item.video_url or item.left_rendered_items > 0 %}
+            <div class="item-image-overlay">
+                {% if item.video_url %}
+                🎥
+                {% endif %}
+                {% if item.left_rendered_items > 0 %}
+                {{ item.left_rendered_items }}+
+                {% endif %}
+            </div>
+            {% endif %}
+        </div>
     </a>
-    <a href="/feed?fid={{ item.fid }}" class="title">
-        {% if item.video_url %}
-        <span class="tag">🎥</span>
-        {% endif %}
-        {% if item.left_rendered_items > 0 %}
-        <span class="tag">{{ item.left_rendered_items }}+</span>
-        {% endif %}
-        {{ item.title }}
-    </a>
+    <a href="/feed?fid={{ item.fid }}" class="title">{{ item.title }}</a>
     <a href="/feed?fid={{ item.fid }}" class="feed-title">
         {% if should_show_group %}
         <span class="tag">{{ item.groups[0].title }}</span>
