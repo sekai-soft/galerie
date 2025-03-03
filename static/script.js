@@ -35,6 +35,6 @@ document.body.addEventListener("toast", (event) => {
   toastEl.textContent = message;
 
   setTimeout(() => {
-    toastEl.removeClass('show');
+    toastEl.classList.remove('show');
   }, 2500);
 })
