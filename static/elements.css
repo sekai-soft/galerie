@@ -34,6 +34,11 @@ select {
     align-items: center;
     margin-top: 1em;
     margin-bottom: 1em;
+
+    position: sticky;
+    top: 0;
+    background-color: #1A1A1A;
+    z-index: 1000;
 }
 
 .code-font {
