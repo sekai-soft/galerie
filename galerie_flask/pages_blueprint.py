@@ -11,7 +11,7 @@ from pocket import Pocket
 from galerie.feed_filter import FeedFilter
 from galerie.rendered_item import extract_rendered_items, uid_to_item_id
 from galerie.parse_feed_features import parse_twitter_handle
-from .utils import requires_auth, compute_after_for_maybe_today, max_items, load_more_button_args,\
+from .utils import requires_auth, max_items, load_more_button_args,\
     mark_as_read_button_args, rendered_items_args, add_image_ui_extras, encode_setup_from_cookies, cookie_max_age
 from .get_aggregator import get_aggregator
 
@@ -85,11 +85,10 @@ def login():
 @requires_auth
 def index():
     sort_by_desc = request.args.get('sort', 'desc') == 'desc'
-    today = request.args.get('today') == "1"
     gid = request.args.get('group') if request.args.get('group') else None
     infinite_scroll = request.cookies.get('infinite_scroll', '1') == '1'
 
-    feed_filter = FeedFilter(compute_after_for_maybe_today(), gid)
+    feed_filter = FeedFilter(gid)
     if sort_by_desc:
         unread_items = g.aggregator.get_unread_items_by_iid_descending(max_items, None, feed_filter)
     else:
@@ -110,15 +109,13 @@ def index():
     args = {
         "unread_items_count": unread_items_count,
         "all_read": all_read,
-        # today was used later so has to use the key "all" instead of "today"
-        "all": not today,
         "selected_group": selected_group,
         "groups": groups,
         "sort_by_desc":sort_by_desc,
     }
     rendered_items_args(args, rendered_items, gid is None)
-    mark_as_read_button_args(args, last_iid_str, today, gid, sort_by_desc)
-    load_more_button_args(args, last_iid_str, today, gid, sort_by_desc, infinite_scroll)
+    mark_as_read_button_args(args, last_iid_str, gid, sort_by_desc)
+    load_more_button_args(args, last_iid_str, gid, sort_by_desc, infinite_scroll)
 
     return render_template('index.html', **args)
 

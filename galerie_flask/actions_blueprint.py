@@ -13,7 +13,7 @@ from galerie.feed_filter import FeedFilter
 from galerie.rendered_item import extract_rendered_items, uid_to_item_id
 from galerie.rss_aggregator import AuthError
 from galerie.parse_feed_features import is_nitter_on_fly, extract_nitter_on_fly
-from .utils import requires_auth, compute_after_for_maybe_today, max_items, get_pocket_client,\
+from .utils import requires_auth, max_items, get_pocket_client,\
     load_more_button_args, mark_as_read_button_args, rendered_items_args, add_image_ui_extras,\
     decode_setup_to_cookies, is_instapaper_available, get_instapaper_auth, cookie_max_age
 from .get_aggregator import get_aggregator
@@ -97,12 +97,11 @@ def deauth():
 @requires_auth
 def load_more():
     sort_by_desc = request.args.get('sort', 'desc') == 'desc'
-    today = request.args.get('today') == "1"
     group = request.args.get('group') if request.args.get('group') else None
     from_iid = request.args.get('from_iid')
     infinite_scroll = request.cookies.get('infinite_scroll', '1') == '1'
    
-    feed_filter = FeedFilter(compute_after_for_maybe_today(), group)
+    feed_filter = FeedFilter(group)
     if sort_by_desc:
         unread_items = g.aggregator.get_unread_items_by_iid_descending(max_items, from_iid, feed_filter)
     else:
@@ -114,8 +113,8 @@ def load_more():
 
     args = {}
     rendered_items_args(args, rendered_items, group is None)
-    mark_as_read_button_args(args, last_iid_str, today, group, sort_by_desc)
-    load_more_button_args(args, last_iid_str, today, group, sort_by_desc, infinite_scroll)
+    mark_as_read_button_args(args, last_iid_str, group, sort_by_desc)
+    load_more_button_args(args, last_iid_str, group, sort_by_desc, infinite_scroll)
 
     rendered_string = render_template('load_more.html', **args)
     resp = make_response(rendered_string)

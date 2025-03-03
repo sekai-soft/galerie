@@ -84,7 +84,6 @@ class MinifluxAggregator(RssAggregator):
             direction='asc',
             limit=count,
             after_entry_id=None if from_iid_exclusive is None else int(from_iid_exclusive),
-            published_after=feed_filter.created_after_seconds,
             category_id=None if feed_filter.group_id is None else int(feed_filter.group_id)
         )
         return list(map(_entry_dict_to_item, entries['entries']))
@@ -96,7 +95,6 @@ class MinifluxAggregator(RssAggregator):
             direction='desc',
             limit=count,
             before_entry_id=None if from_iid_exclusive is None else int(from_iid_exclusive),
-            published_after=feed_filter.created_after_seconds,
             category_id=None if feed_filter.group_id is None else int(feed_filter.group_id)
         )
         return list(map(_entry_dict_to_item, entries['entries']))
