@@ -31,7 +31,7 @@
         <a href="/settings" style="text-decoration: none;">⚙️</a>
     </div>
 </div>
-{% if not images %}
+{% if not items %}
 <div class="all-read">
     {% if all_read %}
     <p>{{ _('✨ all read ✨') }}</p>
@@ -50,9 +50,9 @@
 {% endif %}
 <div class="grid" id="grid">
     <div class="grid-sizer"></div>
-    {% include 'images.html' %}
+    {% include 'items.html' %}
 </div>
-{% if images %}
+{% if items %}
 {% include 'grid_end_buttons.html' %}
 {% endif %}
 <script src="{{ url_for('static', filename='grid.js') }}"></script>

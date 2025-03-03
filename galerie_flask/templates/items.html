@@ -1,0 +1,75 @@
+{% for item in items %}
+<div id="{{ item.uid }}" class="grid-item" x-data="{}">
+    <a
+        href="{{ item.url }}"
+        target="_blank"
+        {% if pocket_available or instapaper_available %}
+        x-on:long-press.prevent="document.getElementById('share-menu-{{ item.uid }}').showModal()"
+        data-long-press-delay="250"
+        {% endif %}
+    >
+        {% if item.image_url %}
+        <img
+            id="img-{{ item.uid }}"
+            class="item-image"
+            src="{{ item.image_url }}"
+            style="display: none;"
+            onload="this.style.display='block'; document.getElementById('img-{{ item.uid }}-loading').style.display = 'none'; grid.layout()"
+            onerror="this.src='{{ url_for("static", filename="image-error.svg") }}'"
+        />
+        <img
+            id="img-{{ item.uid }}-loading"
+            class="item-image"
+            src="{{ url_for('static', filename='image-loading.svg') }}"
+        />
+        {% endif %}
+    </a>
+    <a href="/feed?fid={{ item.fid }}" class="title">
+        {% if item.video_url %}
+        <span class="tag">🎥</span>
+        {% endif %}
+        {% if item.left_rendered_items > 0 %}
+        <span class="tag">{{ item.left_rendered_items }}+</span>
+        {% endif %}
+        {{ item.title }}
+    </a>
+    <a href="/feed?fid={{ item.fid }}" class="feed-title">
+        {% if should_show_group %}
+        <span class="tag">{{ item.groups[0].title }}</span>
+        {% endif %}
+        {{ item.feed_title }}
+    </a>
+</div>
+<dialog id="share-menu-{{ item.uid }}" class="share-menu">
+    {% if instapaper_available %}
+    <p>
+        <a
+            class="share-menu-text"
+            href="javascript:void(0)"
+            hx-post="/actions/instapaper?url={{ item.ui_extra['quoted_url'] }}"
+            hx-swap="none"
+            hx-disabled-elt="this"
+            hx-on="htmx:afterRequest: document.getElementById('share-menu-{{ item.uid }}').close()"
+        >{{ _('Save to Instapaper') }} <span class="htmx-indicator">...</span></a>
+    </p>
+    {% endif %}
+    {% if pocket_available %}
+    <p>
+        <a
+            class="share-menu-text"
+            href="javascript:void(0)"
+            hx-post="/actions/pocket?url={{ item.ui_extra['quoted_url'] }}{{ item.ui_extra['encoded_tags'] }}"
+            hx-swap="none"
+            hx-disabled-elt="this"
+            hx-on="htmx:afterRequest: document.getElementById('share-menu-{{ item.uid }}').close()"
+        >{{ _('Save to Pocket') }} <span class="htmx-indicator">...</span></a>
+    </p>
+    {% endif %}
+    <p>
+        <a
+            class="share-menu-text"
+            href="javascript:document.getElementById('share-menu-{{ item.uid }}').close()"
+        >{{ _('Cancel') }}</a>
+    </p>
+</dialog>
+{% endfor %}

@@ -9,10 +9,10 @@ from flask import Blueprint, redirect, render_template, g, request, make_respons
 from flask_babel import _
 from pocket import Pocket
 from galerie.feed_filter import FeedFilter
-from galerie.image import extract_images, uid_to_item_id
+from galerie.rendered_item import extract_rendered_items, uid_to_item_id
 from galerie.parse_feed_features import parse_twitter_handle
 from .utils import requires_auth, compute_after_for_maybe_today, max_items, load_more_button_args,\
-    mark_as_read_button_args, images_args, add_image_ui_extras, encode_setup_from_cookies, cookie_max_age
+    mark_as_read_button_args, rendered_items_args, add_image_ui_extras, encode_setup_from_cookies, cookie_max_age
 from .get_aggregator import get_aggregator
 
 
@@ -94,10 +94,10 @@ def index():
         unread_items = g.aggregator.get_unread_items_by_iid_descending(max_items, None, feed_filter)
     else:
         unread_items = g.aggregator.get_unread_items_by_iid_ascending(max_items, None, feed_filter)
-    images = extract_images(unread_items)
-    for image in images:
-        add_image_ui_extras(image)
-    last_iid_str = uid_to_item_id(images[-1].uid) if images else ''
+    rendered_items = extract_rendered_items(unread_items)
+    for rendered_item in rendered_items:
+        add_image_ui_extras(rendered_item)
+    last_iid_str = uid_to_item_id(rendered_items[-1].uid) if rendered_items else ''
 
     groups = g.aggregator.get_groups()
     gids = [group.gid for group in groups]
@@ -116,7 +116,7 @@ def index():
         "groups": groups,
         "sort_by_desc":sort_by_desc,
     }
-    images_args(args, images, gid is None)
+    rendered_items_args(args, rendered_items, gid is None)
     mark_as_read_button_args(args, last_iid_str, today, gid, sort_by_desc)
     load_more_button_args(args, last_iid_str, today, gid, sort_by_desc, infinite_scroll)
 
@@ -182,13 +182,13 @@ def feeds():
 def feed_page():
     fid = request.args.get('fid')
     items = g.aggregator.get_feed_items_by_iid_descending(fid)
-    images = extract_images(items)
+    rendered_items = extract_rendered_items(items)
 
     args = {
         "feed": g.aggregator.get_feed(fid),
         "groups": g.aggregator.get_groups(),
     }
-    images_args(args, images, False)
+    rendered_items_args(args, rendered_items, False)
     return render_template('feed.html', **args)
 
 

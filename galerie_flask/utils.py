@@ -8,8 +8,7 @@ from urllib.parse import quote, quote_plus
 from flask import request, g, redirect, Response
 from flask_babel import _
 from pocket import Pocket
-from sentry_sdk import capture_exception
-from galerie.image import Image
+from galerie.rendered_item import RenderedItem
 from .get_aggregator import get_aggregator
 
 max_items = int(os.getenv('MAX_ITEMS', '15'))
@@ -81,19 +80,19 @@ def load_more_button_args(args: dict, from_iid: str, today: bool, gid: Optional[
     })
 
 
-def images_args(args: dict, images: List[Image], should_show_group: bool):
+def rendered_items_args(args: dict, rendered_items: List[RenderedItem], should_show_group: bool):
     args.update({
-        "images": images,
+        "items": rendered_items,
         "pocket_available": is_pocket_available(),
         "instapaper_available": is_instapaper_available(),
         "should_show_group": should_show_group
     })
 
 
-def add_image_ui_extras(image: Image):
-    image.ui_extra['quoted_url'] = quote(image.url)
-    image.ui_extra['encoded_tags'] = ''.join(map(
-        lambda g: f'&tag={quote_plus(g.title)}&tag={quote(f'group_id={g.gid}')}', image.groups)) if image.groups else ''
+def add_image_ui_extras(rendered_item: RenderedItem):
+    rendered_item.ui_extra['quoted_url'] = quote(rendered_item.url)
+    rendered_item.ui_extra['encoded_tags'] = ''.join(map(
+        lambda g: f'&tag={quote_plus(g.title)}&tag={quote(f'group_id={g.gid}')}', rendered_item.groups)) if rendered_item.groups else ''
 
 
 def encode_setup_from_cookies() -> str:

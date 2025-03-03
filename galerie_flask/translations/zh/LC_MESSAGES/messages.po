@@ -7,7 +7,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: PROJECT VERSION\n"
 "Report-Msgid-Bugs-To: EMAIL@ADDRESS\n"
-"POT-Creation-Date: 2025-02-24 23:35+0000\n"
+"POT-Creation-Date: 2025-03-03 03:12+0000\n"
 "PO-Revision-Date: 2024-06-27 08:04+0000\n"
 "Last-Translator: FULL NAME <EMAIL@ADDRESS>\n"
 "Language: zh\n"
@@ -165,18 +165,6 @@ msgstr "(已过滤)"
 msgid "Load more"
 msgstr "加载更多"
 
-#: galerie_flask/templates/images.html:43
-msgid "Save to Instapaper"
-msgstr "保存至 Instapaper"
-
-#: galerie_flask/templates/images.html:55
-msgid "Save to Pocket"
-msgstr "保存至 Pocket"
-
-#: galerie_flask/templates/images.html:62
-msgid "Cancel"
-msgstr "取消"
-
 #: galerie_flask/templates/index.html:3
 msgid "Galerie"
 msgstr "Galerie"
@@ -209,6 +197,18 @@ msgstr "有若干未读条目"
 #: galerie_flask/templates/index.html:43
 msgid "has a few unread items"
 msgstr "有一些未读条目"
+
+#: galerie_flask/templates/items.html:43
+msgid "Save to Instapaper"
+msgstr "保存至 Instapaper"
+
+#: galerie_flask/templates/items.html:55
+msgid "Save to Pocket"
+msgstr "保存至 Pocket"
+
+#: galerie_flask/templates/items.html:62
+msgid "Cancel"
+msgstr "取消"
 
 #: galerie_flask/templates/load_more_action_buttons.html:12
 msgid "Mark as read"

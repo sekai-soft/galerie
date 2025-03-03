@@ -10,11 +10,11 @@ from sentry_sdk import capture_exception
 from pocket import Pocket
 from requests.auth import HTTPBasicAuth
 from galerie.feed_filter import FeedFilter
-from galerie.image import extract_images, uid_to_item_id
+from galerie.rendered_item import extract_rendered_items, uid_to_item_id
 from galerie.rss_aggregator import AuthError
 from galerie.parse_feed_features import is_nitter_on_fly, extract_nitter_on_fly
 from .utils import requires_auth, compute_after_for_maybe_today, max_items, get_pocket_client,\
-    load_more_button_args, mark_as_read_button_args, images_args, add_image_ui_extras,\
+    load_more_button_args, mark_as_read_button_args, rendered_items_args, add_image_ui_extras,\
     decode_setup_to_cookies, is_instapaper_available, get_instapaper_auth, cookie_max_age
 from .get_aggregator import get_aggregator
 
@@ -107,22 +107,22 @@ def load_more():
         unread_items = g.aggregator.get_unread_items_by_iid_descending(max_items, from_iid, feed_filter)
     else:
         unread_items = g.aggregator.get_unread_items_by_iid_ascending(max_items, from_iid, feed_filter)
-    images = extract_images(unread_items)
-    for image in images:
-        add_image_ui_extras(image)
-    last_iid_str = uid_to_item_id(images[-1].uid) if images else ''
+    rendered_items = extract_rendered_items(unread_items)
+    for rendered_item in rendered_items:
+        add_image_ui_extras(rendered_item)
+    last_iid_str = uid_to_item_id(rendered_items[-1].uid) if rendered_items else ''
 
     args = {}
-    images_args(args, images, group is None)
+    rendered_items_args(args, rendered_items, group is None)
     mark_as_read_button_args(args, last_iid_str, today, group, sort_by_desc)
     load_more_button_args(args, last_iid_str, today, group, sort_by_desc, infinite_scroll)
 
     rendered_string = render_template('load_more.html', **args)
     resp = make_response(rendered_string)
-    if not images:
+    if not rendered_items:
         make_toast_header(resp, str(_("All items were loaded")))
     resp.headers['HX-Trigger-After-Settle'] = json.dumps({
-        "append": list(map(lambda i: i.uid, images))
+        "append": list(map(lambda i: i.uid, rendered_items))
     })
     return resp
 
