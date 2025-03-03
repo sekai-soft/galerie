@@ -81,3 +81,7 @@ class RssAggregator(ABC):
     @abstractmethod
     def mark_last_unread(self, count: int):
         pass
+
+    @abstractmethod
+    def get_item(self, iid: str) -> Item:
+        pass

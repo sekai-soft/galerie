@@ -143,6 +143,21 @@ textarea {
     padding-bottom: env(safe-area-inset-bottom, 1em);
 }
 
+.item-image-container {
+    position: relative;
+}
+
+.item-image-overlay {
+    position: absolute;
+    top: 8px;
+    right: 8px;
+    background-color: rgba(0, 0, 0, 0.5);
+    color: #F5F5F5;
+    padding: 4px 4px;
+    border-radius: 8px;
+    font-size: 0.75em;
+}
+
 .item-image {
     width: 100%;
     border-radius: 16px;

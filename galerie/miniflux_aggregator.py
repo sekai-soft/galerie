@@ -161,3 +161,6 @@ class MinifluxAggregator(RssAggregator):
         )
         entry_ids = [entry['id'] for entry in entries['entries']]
         self.client.update_entries(entry_ids, 'unread')
+
+    def get_item(self, iid: str) -> Item:
+        return _entry_dict_to_item(self.client.get_entry(int(iid)))

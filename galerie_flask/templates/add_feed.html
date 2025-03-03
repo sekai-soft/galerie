@@ -5,7 +5,9 @@
 {% block content %}
 <div class="header">
     <p>{{ _('Add feed') }}</p>
-    <a href="/">{{ _('Back to homepage') }}</a>
+    <div class="header-right">
+        <a href="javascript:history.back()" style="text-decoration: none;">↩️</a>
+    </div>
 </div>
 {% if error %}
 <p>{{ error }}</p>

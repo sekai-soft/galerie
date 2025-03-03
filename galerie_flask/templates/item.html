@@ -1,0 +1,35 @@
+{% extends 'base.html' %}
+
+{% block title %}{{ item.title }}{% endblock %}
+
+{% block content %}
+<div class="header">
+    <!-- <p><span class="tag">{{ item.feed_title }}</span> {{ item.title }}</p> -->
+    <p>{{ item.title }}</p>
+    <div class="header-right">
+        <a href="javascript:history.back()" style="text-decoration: none;">↩️</a>
+    </div>
+</div>
+{% for item in items %}
+<a href="{{ item.url }}">
+    <div class="item-image-container">
+        {% if item.video_url %}
+        <video
+            id="{{ item.uid }}"
+            class="item-image"
+            src="{{ item.video_url }}"
+            autoplay
+            muted
+        />
+        {% elif item.image_url %}
+        <img
+            id="{{ item.uid }}"
+            class="item-image"
+            src="{{ item.image_url }}"
+        />
+        {% endif %}
+        <div class="item-image-overlay">{{ loop.index }}/{{ items|length }}</div>
+    </div>
+</a>
+{% endfor %}
+{% endblock %}

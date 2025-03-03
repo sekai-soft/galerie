@@ -9,7 +9,7 @@ from flask import Blueprint, redirect, render_template, g, request, make_respons
 from flask_babel import _
 from pocket import Pocket
 from galerie.feed_filter import FeedFilter
-from galerie.rendered_item import extract_rendered_items, uid_to_item_id
+from galerie.rendered_item import convert_rendered_items, uid_to_item_id, convert_rendered_item
 from galerie.parse_feed_features import parse_twitter_handle
 from .utils import requires_auth, max_items, load_more_button_args,\
     mark_as_read_button_args, rendered_items_args, add_image_ui_extras, encode_setup_from_cookies, cookie_max_age
@@ -93,7 +93,7 @@ def index():
         unread_items = g.aggregator.get_unread_items_by_iid_descending(max_items, None, feed_filter)
     else:
         unread_items = g.aggregator.get_unread_items_by_iid_ascending(max_items, None, feed_filter)
-    rendered_items = extract_rendered_items(unread_items)
+    rendered_items = convert_rendered_items(unread_items)
     for rendered_item in rendered_items:
         add_image_ui_extras(rendered_item)
     last_iid_str = uid_to_item_id(rendered_items[-1].uid) if rendered_items else ''
@@ -179,7 +179,7 @@ def feeds():
 def feed_page():
     fid = request.args.get('fid')
     items = g.aggregator.get_feed_items_by_iid_descending(fid)
-    rendered_items = extract_rendered_items(items)
+    rendered_items = convert_rendered_items(items)
 
     args = {
         "feed": g.aggregator.get_feed(fid),
@@ -265,6 +265,15 @@ def add_feed():
     if twitter_handle:
         return render_template('add_feed.html', twitter_handle=twitter_handle, groups=g.aggregator.get_groups(), bookmarklet=bookmarklet)
     return render_template('add_feed.html', url=url, groups=g.aggregator.get_groups(), bookmarklet=bookmarklet)
+
+
+@pages_blueprint.route("/item")
+@catches_exceptions
+@requires_auth
+def item():
+    iid = request.args.get('iid')
+    rendered_items = convert_rendered_item(g.aggregator.get_item(iid))
+    return render_template('item.html', item=rendered_items[0], items=rendered_items)
 
 
 @pages_blueprint.route("/debug")

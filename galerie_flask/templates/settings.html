@@ -5,7 +5,9 @@
 {% block content %}
 <div class="header">
     <p>{{ _('Settings') }}</p>
-    <a href="/">{{ _('Back to homepage') }}</a>
+    <div class="header-right">
+        <a href="javascript:history.back()" style="text-decoration: none;">↩️</a>
+    </div>
 </div>
 <a href="/feeds">
     <button class="button" style="font-size: 1em">{{ _('Manage feeds')}}</button>

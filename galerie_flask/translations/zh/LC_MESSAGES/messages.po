@@ -77,11 +77,6 @@ msgstr "添加订阅源 | Galerie"
 msgid "Add feed"
 msgstr "添加订阅源"
 
-#: galerie_flask/templates/add_feed.html:8
-#: galerie_flask/templates/settings.html:8
-msgid "Back to homepage"
-msgstr "返回主页"
-
 #: galerie_flask/templates/add_feed.html:16
 msgid "Twitter feed"
 msgstr "Twitter 订阅源"

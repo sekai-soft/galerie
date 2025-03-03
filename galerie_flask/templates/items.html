@@ -1,8 +1,7 @@
 {% for item in items %}
 <div id="{{ item.uid }}" class="grid-item" x-data="{}">
     <a
-        href="{{ item.url }}"
-        target="_blank"
+        href="/item?iid={{ item.iid }}"
         {% if pocket_available or instapaper_available %}
         x-on:long-press.prevent="document.getElementById('share-menu-{{ item.uid }}').showModal()"
         data-long-press-delay="250"
