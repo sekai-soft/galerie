@@ -13,6 +13,16 @@ max_items = int(os.getenv('MAX_ITEMS', '15'))
 cookie_max_age = 60 * 60 * 24 * 365  # 1 year
 
 
+twitter_domains = {
+    "twitter.com",
+    "mobile.twitter.com",
+    "x.com",
+    "mobile.x.com",
+    "fxtwitter.com",
+    "fixupx.com"
+}
+
+
 def get_pocket_client():
     if 'POCKET_CONSUMER_KEY' in os.environ and 'pocket_auth' in request.cookies:
         pocket_consumer_key = os.environ['POCKET_CONSUMER_KEY']
@@ -74,10 +84,20 @@ def rendered_items_args(args: dict, rendered_items: List[RenderedItem], should_s
     })
 
 
+def fix_twitter_domain(url: str) -> str:
+    for domain in twitter_domains:
+        if url.startswith(f'http://{domain}'):
+            return url.replace(f'http://{domain}', 'https://fxtwitter.com')
+        elif url.startswith(f'https://{domain}'):
+            return url.replace(domain, 'twitter.com')
+    return url
+
+
 def add_image_ui_extras(rendered_item: RenderedItem):
     rendered_item.ui_extra['quoted_url'] = quote(rendered_item.url)
     rendered_item.ui_extra['encoded_tags'] = ''.join(map(
         lambda g: f'&tag={quote_plus(g.title)}&tag={quote(f'group_id={g.gid}')}', rendered_item.groups)) if rendered_item.groups else ''
+    rendered_item.ui_extra['shareable_url'] = fix_twitter_domain(rendered_item.url)
 
 
 def encode_setup_from_cookies() -> str:

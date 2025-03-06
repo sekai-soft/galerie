@@ -1,3 +1,9 @@
+// native share
+if (!navigator.share) {
+    document.getElementById('item-share-web-share-button').style.display = 'none';
+}
+
+// carousel
 let mediaIndex = 1;
 
 const nextMedia = (totalMediaCount) => {

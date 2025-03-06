@@ -12,7 +12,7 @@ from galerie.feed_filter import FeedFilter
 from galerie.rendered_item import convert_rendered_items, uid_to_item_id, convert_rendered_item
 from galerie.parse_feed_features import parse_twitter_handle
 from .utils import requires_auth, max_items, load_more_button_args,\
-    mark_as_read_button_args, rendered_items_args, add_image_ui_extras, encode_setup_from_cookies, cookie_max_age
+    mark_as_read_button_args, rendered_items_args, add_image_ui_extras, encode_setup_from_cookies, cookie_max_age, twitter_domains
 from .get_aggregator import get_aggregator
 
 
@@ -209,15 +209,6 @@ def is_valid_url(url: str) -> bool:
     except ValueError:
         return False
 
-
-twitter_domains = {
-    "twitter.com",
-    "mobile.twitter.com",
-    "x.com",
-    "mobile.x.com",
-    "fxtwitter.com",
-    "fixupx.com"
-}
 
 def extract_twitter_handle(url: str) -> Optional[str]:
     if urlparse(url).netloc not in twitter_domains:

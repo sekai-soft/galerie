@@ -243,12 +243,11 @@ textarea {
 .item-share-buttons {
     display: flex;
     justify-content: space-around;
-    margin-top: 8px;
+    margin-top: 16px;
+    margin-bottom: 16px;
 }
 
 .item-share-button {
-    width: 32px;
-    height: 32px;
     cursor: pointer;
 }
 
