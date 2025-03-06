@@ -9,7 +9,7 @@ from pocket import Pocket
 from galerie.rendered_item import RenderedItem
 from .get_aggregator import get_aggregator
 
-max_items = int(os.getenv('MAX_ITEMS', '15'))
+max_items = 5
 cookie_max_age = 60 * 60 * 24 * 365  # 1 year
 
 
