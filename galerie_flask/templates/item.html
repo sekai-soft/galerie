@@ -38,5 +38,6 @@
     >{{ loop.index }}/{{ items|length }}</div>
 </div>
 {% endfor %}
+<p>{{ item.text }}</p>
 <script src="{{ url_for('static', filename='item.js') }}"></script>
 {% endblock %}

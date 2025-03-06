@@ -3,6 +3,7 @@ import miniflux
 from datetime import datetime
 from urllib.parse import urlparse
 from typing import List, Optional, Dict
+from bs4 import BeautifulSoup
 from .item import Item, fix_nitter_url
 from .group import Group
 from .feed_filter import FeedFilter
@@ -26,6 +27,7 @@ def _entry_dict_to_item(entry_dict: dict) -> Item:
         for enclosure in entry_dict['enclosures']:
             if enclosure['mime_type'].startswith('image/'):
                 html += f'<img src="{enclosure["url"]}">'
+    text = BeautifulSoup(html, 'html.parser').get_text(" ", strip=True)
     return Item(
         created_timestamp_seconds=int(datetime.strptime(
             entry_dict['created_at'], "%Y-%m-%dT%H:%M:%S.%fZ").timestamp()),
@@ -35,7 +37,8 @@ def _entry_dict_to_item(entry_dict: dict) -> Item:
         groups=[_category_dict_to_group(entry_dict['feed']['category'])],
         title=entry_dict['title'],
         feed_title=entry_dict['feed']['title'],
-        fid=str(entry_dict['feed_id'])
+        fid=str(entry_dict['feed_id']),
+        text=text
     )
 
 

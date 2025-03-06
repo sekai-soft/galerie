@@ -20,6 +20,7 @@ class RenderedItem:
 
     image_url: str = ''
     video_url: str = ''
+    text: str = ''
     left_rendered_items: int = 0
     ui_extra: dict = field(default_factory=dict)
 
@@ -57,6 +58,7 @@ def convert_rendered_item(item: Item) -> RenderedItem:
 
             image_url=image_url,
             video_url=video_url,
+            text=item.text,
             left_rendered_items=total_target_elements - MAX_RENDERED_ITEMS_COUNT,))
 
     return res

@@ -21,3 +21,4 @@ class Item:
     title: str
     feed_title: str
     fid: str
+    text: str
