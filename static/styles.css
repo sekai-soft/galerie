@@ -165,12 +165,15 @@ textarea {
     object-fit: cover;
 }
 
+.item-image-contained {
+    height: 75vh;
+    object-fit: contain;
+    background-color: #F5F5F5;
+}
+
 .grid-item a {
     text-decoration: none;
     display: block;
-    overflow: hidden;
-    white-space: nowrap;
-    text-overflow: ellipsis;
 }
 
 .button-container {
@@ -229,6 +232,12 @@ textarea {
     flex-direction: row;
     justify-content: flex-end;
     gap: 1.5em;
+}
+
+.user-string-horizontal {
+    overflow: hidden;
+    white-space: nowrap;
+    text-overflow: ellipsis;
 }
 
 /** htmx-indicator **/

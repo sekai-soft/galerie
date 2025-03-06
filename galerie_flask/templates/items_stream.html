@@ -35,8 +35,8 @@
             {% endif %}
         </div>
     </a>
-    <a href="/feed?fid={{ item.fid }}" class="title">{{ item.title }}</a>
-    <a href="/feed?fid={{ item.fid }}" class="feed-title">
+    <a href="/feed?fid={{ item.fid }}" class="title user-string-horizontal">{{ item.title }}</a>
+    <a href="/feed?fid={{ item.fid }}" class="feed-title user-string-horizontal">
         {% if should_show_group %}
         <span class="tag">{{ item.groups[0].title }}</span>
         {% endif %}
