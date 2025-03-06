@@ -12,7 +12,8 @@ from galerie.feed_filter import FeedFilter
 from galerie.rendered_item import convert_rendered_items, uid_to_item_id, convert_rendered_item
 from galerie.parse_feed_features import parse_twitter_handle
 from .utils import requires_auth, max_items, load_more_button_args,\
-    mark_as_read_button_args, rendered_items_args, add_image_ui_extras, encode_setup_from_cookies, cookie_max_age, twitter_domains
+    mark_as_read_button_args, rendered_items_args, add_image_ui_extras, encode_setup_from_cookies, cookie_max_age, twitter_domains,\
+    is_instapaper_available, is_pocket_available
 from .get_aggregator import get_aggregator
 
 
@@ -267,7 +268,13 @@ def item():
     rendered_items = convert_rendered_item(item)
     for rendered_item in rendered_items:
         add_image_ui_extras(rendered_item)
-    return render_template('item.html', item=rendered_items[0], items=rendered_items)
+    return render_template(
+        'item.html',
+        item=rendered_items[0],
+        items=rendered_items,
+        is_pocket_available=is_pocket_available(),
+        is_instapaper_available=is_instapaper_available()
+    )
 
 
 @pages_blueprint.route("/debug")
