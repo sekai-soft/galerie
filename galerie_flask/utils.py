@@ -1,9 +1,7 @@
 import os
 import json
-import pytz
 from typing import Optional, List, Tuple
 from functools import wraps
-from datetime import datetime
 from urllib.parse import quote, quote_plus
 from flask import request, g, redirect, Response
 from flask_babel import _
@@ -72,8 +70,6 @@ def load_more_button_args(args: dict, from_iid: str, gid: Optional[str], sort_by
 def rendered_items_args(args: dict, rendered_items: List[RenderedItem], should_show_group: bool):
     args.update({
         "items": rendered_items,
-        "pocket_available": is_pocket_available(),
-        "instapaper_available": is_instapaper_available(),
         "should_show_group": should_show_group
     })
 

@@ -272,7 +272,10 @@ def add_feed():
 @requires_auth
 def item():
     iid = request.args.get('iid')
-    rendered_items = convert_rendered_item(g.aggregator.get_item(iid))
+    item = g.aggregator.get_item(iid)
+    rendered_items = convert_rendered_item(item)
+    for rendered_item in rendered_items:
+        add_image_ui_extras(rendered_item)
     return render_template('item.html', item=rendered_items[0], items=rendered_items)
 
 

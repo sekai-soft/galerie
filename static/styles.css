@@ -240,6 +240,18 @@ textarea {
     text-overflow: ellipsis;
 }
 
+.item-share-buttons {
+    display: flex;
+    justify-content: space-around;
+    margin-top: 8px;
+}
+
+.item-share-button {
+    width: 32px;
+    height: 32px;
+    cursor: pointer;
+}
+
 /** htmx-indicator **/
 .htmx-indicator {
     display:none;
