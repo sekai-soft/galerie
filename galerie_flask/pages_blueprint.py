@@ -73,7 +73,7 @@ def pwa_manifest():
 
 @pages_blueprint.route("/login")
 @catches_exceptions
-def login():
+def login_page():
     aggregator = get_aggregator()
     if aggregator:
         return redirect('/')
@@ -84,7 +84,7 @@ def login():
 @pages_blueprint.route("/")
 @catches_exceptions
 @requires_auth
-def index():
+def index_page():
     sort_by = request.args.get('sort', 'desc') == 'desc'
     gid = request.args.get('group') if request.args.get('group') else None
     infinite_scroll = request.cookies.get('infinite_scroll', '1') == '1'
@@ -125,7 +125,7 @@ def index():
 @pages_blueprint.route("/settings")
 @catches_exceptions
 @requires_auth
-def settings():
+def settings_page():
     infinite_scroll = request.cookies.get('infinite_scroll', '1') == '1'
     pocket_auth = json.loads(request.cookies.get('pocket_auth', '{}'))
     instapaper_auth = json.loads(request.cookies.get('instapaper_auth', '{}'))
@@ -145,7 +145,7 @@ def settings():
 
 @pages_blueprint.route("/pocket_oauth")
 @catches_exceptions
-def pocket_oauth():
+def pocket_oauth_redirect_page():
     consumer_key = os.environ['POCKET_CONSUMER_KEY']
     request_token = request.cookies.get('pocket_request_token')
     user_credentials = Pocket.get_credentials(consumer_key=consumer_key, code=request_token)
@@ -161,7 +161,7 @@ def pocket_oauth():
 @pages_blueprint.route("/feeds")
 @catches_exceptions
 @requires_auth
-def feeds():
+def feeds_page():
     feeds = g.aggregator.get_feeds()
     groups = g.aggregator.get_groups()
 
@@ -194,7 +194,7 @@ def feed_page():
 @pages_blueprint.route("/update_feed")
 @catches_exceptions
 @requires_auth
-def update_feed():
+def update_feed_page():
     fid = request.args.get('fid')
 
     args = {
@@ -234,7 +234,7 @@ bookmarklet = """javascript:(function() {
 @pages_blueprint.route("/add_feed")
 @catches_exceptions
 @requires_auth
-def add_feed():   
+def add_feed_page():   
     args = request.args
     url = None
     if 'url' in args and is_valid_url(args['url']):
@@ -263,7 +263,7 @@ def add_feed():
 @pages_blueprint.route("/item")
 @catches_exceptions
 @requires_auth
-def item():
+def item_page():
     iid = request.args.get('iid')
     item = g.aggregator.get_item(iid)
     rendered_items = convert_rendered_item(item)
@@ -281,5 +281,5 @@ def item():
 @pages_blueprint.route("/debug")
 @catches_exceptions
 @requires_auth
-def test_toast():
+def debug_page():
     return render_template('debug.html')
