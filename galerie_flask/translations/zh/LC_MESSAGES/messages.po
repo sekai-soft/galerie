@@ -156,7 +156,7 @@ msgstr "(没有订阅源)"
 msgid "(filtered)"
 msgstr "(已过滤)"
 
-#: galerie_flask/templates/grid_end_buttons.html:13
+#: galerie_flask/templates/load_more_button.html:13
 msgid "Load more"
 msgstr "加载更多"
 

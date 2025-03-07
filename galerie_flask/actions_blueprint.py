@@ -14,7 +14,7 @@ from galerie.rendered_item import convert_rendered_items
 from galerie.rss_aggregator import AuthError
 from galerie.parse_feed_features import is_nitter_on_fly, extract_nitter_on_fly
 from .utils import requires_auth, max_items, get_pocket_client,\
-    load_more_button_args, mark_as_read_button_args, rendered_items_args, add_image_ui_extras,\
+    load_more_button_args, mark_as_read_button_args, items_args, add_image_ui_extras,\
     decode_setup_to_cookies, is_instapaper_available, get_instapaper_auth, cookie_max_age
 from .get_aggregator import get_aggregator
 
@@ -96,30 +96,36 @@ def deauth():
 @catches_exceptions
 @requires_auth
 def load_more():
-    sort_by_desc = request.args.get('sort', 'desc') == 'desc'
-    group = request.args.get('group') if request.args.get('group') else None
+    sort_by = request.args.get('sort', 'desc') == 'desc'
+    gid = request.args.get('group') if request.args.get('group') else None
     from_iid = request.args.get('from_iid')
     infinite_scroll = request.cookies.get('infinite_scroll', '1') == '1'
    
-    feed_filter = FeedFilter(group)
-    if sort_by_desc:
+    feed_filter = FeedFilter(gid)
+    if sort_by:
         unread_items = g.aggregator.get_unread_items_by_iid_descending(max_items, from_iid, feed_filter)
     else:
         unread_items = g.aggregator.get_unread_items_by_iid_ascending(max_items, from_iid, feed_filter)
+    
     rendered_items = convert_rendered_items(unread_items)
     for rendered_item in rendered_items:
         add_image_ui_extras(rendered_item)
+    last_iid = unread_items[-1].iid if unread_items else ''    
 
-    last_iid_str = unread_items[-1].iid if unread_items else ''
-    
-    args = {}
-    rendered_items_args(args, rendered_items, group is None)
-    mark_as_read_button_args(args, last_iid_str, group, sort_by_desc)
-    load_more_button_args(args, last_iid_str, group, sort_by_desc, infinite_scroll)
+    if last_iid:
+        args = {}
+        items_args(args, rendered_items, gid is None)
+        load_more_button_args(args, last_iid, gid, sort_by, infinite_scroll)
+        rendered_string = \
+            render_template('items_stream.html', **args) + "\n" + \
+            render_template('load_more_button.html', **args)
+    else:
+        args = {}
+        mark_as_read_button_args(args, gid, sort_by)
+        rendered_string = render_template('mark_as_read_button.html', **args)
 
-    rendered_string = render_template('load_more.html', **args)
     resp = make_response(rendered_string)
-    if not rendered_items:
+    if not last_iid:
         make_toast_header(resp, str(_("All items were loaded")))
     resp.headers['HX-Trigger-After-Settle'] = json.dumps({
         "append": list(map(lambda i: i.uid, rendered_items))

@@ -59,15 +59,6 @@ def requires_auth(f):
     return decorated_function
 
 
-def mark_as_read_button_args(args: dict, to_iid: Optional[str], gid: Optional[str], sort_by_desc: bool):
-    args.update({
-        "to_iid": to_iid if to_iid is not None else "",
-        "gid": gid if gid is not None else "",
-        "sort": "desc" if sort_by_desc else "asc",
-        "mark_as_read_confirm": "Are you sure you want to mark this group as read?"
-    })
-
-
 def load_more_button_args(args: dict, from_iid: str, gid: Optional[str], sort_by_desc: bool, infinite_scroll: bool):
     args.update({
         "from_iid": from_iid,
@@ -77,7 +68,14 @@ def load_more_button_args(args: dict, from_iid: str, gid: Optional[str], sort_by
     })
 
 
-def rendered_items_args(args: dict, rendered_items: List[RenderedItem], should_show_group: bool):
+def mark_as_read_button_args(args: dict, gid: Optional[str], sort_by_desc: bool):
+    args.update({
+        "gid": gid if gid is not None else "",
+        "sort": "desc" if sort_by_desc else "asc"
+    })
+
+
+def items_args(args: dict, rendered_items: List[RenderedItem], should_show_group: bool):
     args.update({
         "items": rendered_items,
         "should_show_group": should_show_group

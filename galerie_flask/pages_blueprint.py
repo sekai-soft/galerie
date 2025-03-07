@@ -12,7 +12,7 @@ from galerie.feed_filter import FeedFilter
 from galerie.rendered_item import convert_rendered_items, convert_rendered_item
 from galerie.parse_feed_features import parse_twitter_handle
 from .utils import requires_auth, max_items, load_more_button_args,\
-    mark_as_read_button_args, rendered_items_args, add_image_ui_extras, encode_setup_from_cookies, cookie_max_age, twitter_domains,\
+    mark_as_read_button_args, items_args, add_image_ui_extras, encode_setup_from_cookies, cookie_max_age, twitter_domains,\
     is_instapaper_available, is_pocket_available
 from .get_aggregator import get_aggregator
 
@@ -85,39 +85,39 @@ def login():
 @catches_exceptions
 @requires_auth
 def index():
-    sort_by_desc = request.args.get('sort', 'desc') == 'desc'
+    sort_by = request.args.get('sort', 'desc') == 'desc'
     gid = request.args.get('group') if request.args.get('group') else None
     infinite_scroll = request.cookies.get('infinite_scroll', '1') == '1'
 
     feed_filter = FeedFilter(gid)
-    if sort_by_desc:
+    if sort_by:
         unread_items = g.aggregator.get_unread_items_by_iid_descending(max_items, None, feed_filter)
     else:
         unread_items = g.aggregator.get_unread_items_by_iid_ascending(max_items, None, feed_filter)
+    
     rendered_items = convert_rendered_items(unread_items)
     for rendered_item in rendered_items:
         add_image_ui_extras(rendered_item)
-
-    last_iid_str = unread_items[-1].iid if unread_items else ''
+    last_iid = unread_items[-1].iid if unread_items else ''
 
     groups = g.aggregator.get_groups()
     gids = [group.gid for group in groups]
-    unread_items_count = g.aggregator.get_unread_items_count_by_group_ids(gids)
-    groups = sorted(groups, key=lambda group: unread_items_count[group.gid], reverse=True)   
+    all_group_unread_counts = g.aggregator.get_unread_items_count_by_group_ids(gids)
+    groups = sorted(groups, key=lambda group: all_group_unread_counts[group.gid], reverse=True)   
 
     selected_group = next((group for group in groups if group.gid == gid), None)
-    all_read = all(count == 0 for count in unread_items_count.values())
+    all_groups_read = all(count == 0 for count in all_group_unread_counts.values())
 
     args = {
-        "unread_items_count": unread_items_count,
-        "all_read": all_read,
+        "all_group_unread_counts": all_group_unread_counts,
+        "all_groups_read": all_groups_read,
         "selected_group": selected_group,
         "groups": groups,
-        "sort_by_desc":sort_by_desc,
+        "sort_by_desc":sort_by,
     }
-    rendered_items_args(args, rendered_items, gid is None)
-    mark_as_read_button_args(args, last_iid_str, gid, sort_by_desc)
-    load_more_button_args(args, last_iid_str, gid, sort_by_desc, infinite_scroll)
+    items_args(args, rendered_items, gid is None)
+    load_more_button_args(args, last_iid, gid, sort_by, infinite_scroll)
+    mark_as_read_button_args(args, gid, sort_by)
 
     return render_template('index.html', **args)
 
@@ -187,7 +187,7 @@ def feed_page():
         "feed": g.aggregator.get_feed(fid),
         "groups": g.aggregator.get_groups(),
     }
-    rendered_items_args(args, rendered_items, False)
+    items_args(args, rendered_items, False)
     return render_template('feed.html', **args)
 
 
