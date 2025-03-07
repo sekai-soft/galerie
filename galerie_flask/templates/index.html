@@ -31,7 +31,7 @@
         <a href="/settings" style="text-decoration: none;">⚙️</a>
     </div>
 </div>
-{% if not items %}
+{% if not last_iid %}
 <div class="all-read">
     {% if all_groups_read %}
     <p>{{ _('✨ all read ✨') }}</p>
@@ -47,12 +47,11 @@
     {% endfor %}
     {% endif %}
 </div>
-{% else %}
+{% endif %}
 <div class="grid" id="grid">
     <div class="grid-sizer"></div>
     {% include 'items_stream.html' %}
 </div>
-{% endif %}
 {% if from_iid %}
 {% include 'load_more_button.html' %}
 {% else %}

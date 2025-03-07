@@ -114,6 +114,7 @@ def index_page():
         "selected_group": selected_group,
         "groups": groups,
         "sort_by_desc":sort_by,
+        "last_iid": last_iid,
     }
     items_args(args, rendered_items, gid is None)
     load_more_button_args(args, last_iid, gid, sort_by, infinite_scroll)
