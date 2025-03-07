@@ -25,10 +25,6 @@ class RenderedItem:
     ui_extra: dict = field(default_factory=dict)
 
 
-def uid_to_item_id(uid: str) -> str:
-    return uid.rsplit('-', 1)[0]
-
-
 def convert_rendered_item(item: Item) -> RenderedItem:
     res = []
 

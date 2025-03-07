@@ -9,7 +9,7 @@ from flask import Blueprint, redirect, render_template, g, request, make_respons
 from flask_babel import _
 from pocket import Pocket
 from galerie.feed_filter import FeedFilter
-from galerie.rendered_item import convert_rendered_items, uid_to_item_id, convert_rendered_item
+from galerie.rendered_item import convert_rendered_items, convert_rendered_item
 from galerie.parse_feed_features import parse_twitter_handle
 from .utils import requires_auth, max_items, load_more_button_args,\
     mark_as_read_button_args, rendered_items_args, add_image_ui_extras, encode_setup_from_cookies, cookie_max_age, twitter_domains,\
@@ -97,7 +97,8 @@ def index():
     rendered_items = convert_rendered_items(unread_items)
     for rendered_item in rendered_items:
         add_image_ui_extras(rendered_item)
-    last_iid_str = uid_to_item_id(rendered_items[-1].uid) if rendered_items else ''
+
+    last_iid_str = unread_items[-1].iid if unread_items else ''
 
     groups = g.aggregator.get_groups()
     gids = [group.gid for group in groups]

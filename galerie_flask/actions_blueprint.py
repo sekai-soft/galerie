@@ -10,7 +10,7 @@ from sentry_sdk import capture_exception
 from pocket import Pocket
 from requests.auth import HTTPBasicAuth
 from galerie.feed_filter import FeedFilter
-from galerie.rendered_item import convert_rendered_items, uid_to_item_id
+from galerie.rendered_item import convert_rendered_items
 from galerie.rss_aggregator import AuthError
 from galerie.parse_feed_features import is_nitter_on_fly, extract_nitter_on_fly
 from .utils import requires_auth, max_items, get_pocket_client,\
@@ -109,8 +109,9 @@ def load_more():
     rendered_items = convert_rendered_items(unread_items)
     for rendered_item in rendered_items:
         add_image_ui_extras(rendered_item)
-    last_iid_str = uid_to_item_id(rendered_items[-1].uid) if rendered_items else ''
 
+    last_iid_str = unread_items[-1].iid if unread_items else ''
+    
     args = {}
     rendered_items_args(args, rendered_items, group is None)
     mark_as_read_button_args(args, last_iid_str, group, sort_by_desc)
