@@ -23,13 +23,15 @@ The Docker image is `ghcr.io/sekai-soft/galerie:latest` and it's available in bo
 The Docker image is able to take no environment variable. If no RSS aggregator authentication related environment variable is present, it will require you to login with your RSS aggregator on web UI (just like the hosted instance).
 
 Here is a table of environment variables that the container takes
-| Name                  | Required | Comment                                                                                                                                                              |
-| --------------------- | -------- | -------------------------------------------------------------------------------------------------------------------------------------------------------------------- |
-| `MINIFLUX_ENDPOINT`   | No       | URL endpoint for your Miniflux API. `MINIFLUX_USERNAME` and `MINIFLUX_PASSWORD` has to be present.                                                                   |
-| `MINIFLUX_USERNAME`   | No       | Username for your Miniflux API                                                                                                                                       |
-| `MINIFLUX_PASSWORD`   | No       | Password for your Miniflux API                                                                                                                                       |
-| `POCKET_CONSUMER_KEY` | No       | For connecting to Pocket optionally. See ["Connect to Pocket" section](#connect-to-pocket)                                                                           |
-| `PORT`                | No       | The port that the server binds to. Defaults to `5000`.                                                                                                               |
+| Name                  | Required | Comment                                                                                                                                       |
+| --------------------- | -------- | --------------------------------------------------------------------------------------------------------------------------------------------- |
+| `MINIFLUX_ENDPOINT`   | No       | URL endpoint for your Miniflux API. `MINIFLUX_USERNAME` and `MINIFLUX_PASSWORD` has to be present.                                            |
+| `MINIFLUX_USERNAME`   | No       | Username for your Miniflux API                                                                                                                |
+| `MINIFLUX_PASSWORD`   | No       | Password for your Miniflux API                                                                                                                |
+| `POCKET_CONSUMER_KEY` | No       | For connecting to Pocket optionally. See ["Connect to Pocket" section](#connect-to-pocket)                                                    |
+| `PORT`                | No       | The port that the server binds to. Defaults to `5000`.                                                                                        |
+| `BASE_URL`            | No       | Internet facing URL that the server will be exposed at. Required if connecting to Pocket or Mastodon, or a secure context is needed.          |
+| `DEBUG`               | No       | Set `1` to enable debug mode. Exception will be thrown in process instead of displayed on an error page. Defaults to empty string (disabled). |
 
 Here is an example `docker-compose.yml` file
 ```yml
