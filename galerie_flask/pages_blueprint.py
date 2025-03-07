@@ -94,7 +94,7 @@ def index_page():
         unread_items = g.aggregator.get_unread_items_by_iid_descending(max_items, None, feed_filter)
     else:
         unread_items = g.aggregator.get_unread_items_by_iid_ascending(max_items, None, feed_filter)
-    
+
     rendered_items = convert_rendered_items(unread_items)
     for rendered_item in rendered_items:
         add_image_ui_extras(rendered_item)

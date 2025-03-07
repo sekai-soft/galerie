@@ -52,9 +52,10 @@
     <div class="grid-sizer"></div>
     {% include 'items_stream.html' %}
 </div>
-{% if from_iid %}
+{% if last_iid %}
 {% include 'load_more_button.html' %}
-{% else %}
+{% endif %}
+{% if not last_iid and items %}
 {% include 'mark_as_read_button.html' %}
 {% endif %}
 <script src="{{ url_for('static', filename='grid.js') }}"></script>
