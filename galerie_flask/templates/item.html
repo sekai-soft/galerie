@@ -20,7 +20,7 @@
         muted
         autoplay
         loop
-        {% if not loop.first %} style="display: none;" {% endif %}
+        {% if loop.index != u_index + 1 %} style="display: none;" {% endif %}
         onclick="e => e.preventDefault(); nextMedia({{ items|length }});"
     />
     {% elif item.image_url %}
@@ -28,14 +28,14 @@
         id="media-{{ loop.index }}"
         class="item-image item-image-contained"
         src="{{ item.image_url }}"
-        {% if not loop.first %} style="display: none;" {% endif %}
-        onclick="e => e.preventDefault(); nextMedia({{ items|length }});"
+        {% if loop.index != u_index + 1 %} style="display: none;" {% endif %}
+        onclick="e => e.preventDefault(); nextMedia();"
     />
     {% endif %}
     <div
         id="media-overlay-{{ loop.index }}"
         class="item-image-overlay next-media"
-        {% if not loop.first %} style="display: none;" {% endif %}
+        {% if loop.index != u_index + 1 %} style="display: none;" {% endif %}
     >{{ loop.index }}/{{ items|length }}</div> 
 </div>
 {% endfor %}
@@ -117,5 +117,9 @@
     </svg>
 </div>
 <p>{{ item.text }}</p>
+<script>
+    window.U_INDEX = {{ u_index }};
+    window.TOTAL_MEDIA_COUNT = {{ items|length }};
+</script>
 <script src="{{ url_for('static', filename='item.js') }}"></script>
 {% endblock %}

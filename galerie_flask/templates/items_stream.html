@@ -1,6 +1,6 @@
 {% for item in items %}
 <div id="{{ item.uid }}" class="grid-item" x-data="{}">
-    <a href="/item?iid={{ item.iid }}">
+    <a href="/item?uid={{ item.uid }}">
         <div class="item-image-container">
             {% if item.image_url %}
             <img

@@ -265,7 +265,9 @@ def add_feed_page():
 @catches_exceptions
 @requires_auth
 def item_page():
-    iid = request.args.get('iid')
+    uid = request.args.get('uid')
+    iid = uid.split('-')[0]
+    u_index = int(uid.split('-')[1])
     item = g.aggregator.get_item(iid)
     rendered_items = convert_rendered_item(item)
     for rendered_item in rendered_items:
@@ -274,6 +276,7 @@ def item_page():
         'item.html',
         item=rendered_items[0],
         items=rendered_items,
+        u_index=u_index,
         is_pocket_available=is_pocket_available(),
         is_instapaper_available=is_instapaper_available()
     )

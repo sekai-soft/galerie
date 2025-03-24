@@ -4,16 +4,19 @@ if (!navigator.share) {
 }
 
 // carousel
-let mediaIndex = 1;
+let mediaIndex = window.U_INDEX + 1;
+if (mediaIndex > window.TOTAL_MEDIA_COUNT) {
+    mediaIndex = 1;
+}
 
-const nextMedia = (totalMediaCount) => {
+const nextMedia = () => {
     const currentMedia = document.getElementById(`media-${mediaIndex}`);
     const currentMediaOverlay = document.getElementById(`media-overlay-${mediaIndex}`);
     currentMedia.style.display = 'none';
     currentMediaOverlay.style.display = 'none';
 
     mediaIndex += 1;
-    if (mediaIndex > totalMediaCount) {
+    if (mediaIndex > window.TOTAL_MEDIA_COUNT) {
         mediaIndex = 1;
     }
 
