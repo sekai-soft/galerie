@@ -2,13 +2,16 @@ import os
 import json
 import base64
 import requests
+import secrets
+import uuid
 from functools import wraps
-from urllib.parse import unquote, unquote_plus
+from urllib.parse import urlparse, unquote, unquote_plus
 from flask import request, g, Blueprint, make_response, render_template, Response
 from flask_babel import _, lazy_gettext as _l
 from sentry_sdk import capture_exception
 from pocket import Pocket
 from requests.auth import HTTPBasicAuth
+from webauthn import generate_registration_options, options_to_json, verify_registration_response
 from galerie.feed_filter import FeedFilter
 from galerie.rendered_item import convert_rendered_items
 from galerie.rss_aggregator import AuthError
@@ -17,6 +20,16 @@ from .utils import requires_auth, max_items, get_pocket_client,\
     load_more_button_args, mark_as_read_button_args, items_args, add_image_ui_extras,\
     decode_setup_to_cookies, is_instapaper_available, get_instapaper_auth, cookie_max_age
 from .get_aggregator import get_aggregator
+from .db import db, User, Passkey, PasskeyChallengeSession
+
+
+def get_hostname_from_base_url():
+    if 'BASE_URL' not in os.environ:
+        raise ValueError("Base URL was not configured")
+    base_url = os.environ['BASE_URL']
+    parsed_base_url = urlparse(base_url)
+    return parsed_base_url.netloc.split(':')[0]
+
 
 actions_blueprint = Blueprint('actions', __name__)
 
@@ -349,3 +362,86 @@ def mark_last_unread():
     count = int(request.args.get('count'))
     g.aggregator.mark_last_unread(count)
     return make_toast(200, f"Marked last {count} items as unread")
+
+
+@actions_blueprint.route('/passkey/generate_registration', methods=['POST'])
+@catches_exceptions
+def passkey_generate_registration():
+    if 'BASE_URL' not in os.environ:
+        return make_toast(500, "Base URL was not configured")
+
+    username = request.form.get('username')
+    if not username:
+        return make_toast(400, _("Username is required"))
+    user = db.session.query(User).filter(User.username == username).first()
+    if user:
+        return make_toast(400, _("Username already taken"))
+
+    hostname = get_hostname_from_base_url()
+    passkey_user_id_bytes = secrets.token_bytes(32)
+    challenge = secrets.token_bytes(32)
+    registration_options = generate_registration_options(
+        rp_id=hostname,
+        rp_name='Galerie',
+        user_name=username,
+        user_id=passkey_user_id_bytes,
+        user_display_name=username,
+        challenge=challenge
+    )
+
+    passkey_user_id = base64.b64encode(passkey_user_id_bytes).decode('utf-8')
+    db.session.add(User(username=username, passkey_user_id=passkey_user_id))
+
+    challenge_session_id = str(uuid.uuid4())
+    challenge = base64.b64encode(challenge).decode('utf-8')
+    db.session.add(PasskeyChallengeSession(session_id=challenge_session_id, challenge=challenge, passkey_user_id=passkey_user_id))
+    db.session.commit()
+
+    resp = make_response(options_to_json(registration_options))
+    resp.set_cookie('passkey_registration_session_id', challenge_session_id, max_age=cookie_max_age)
+    return resp
+
+
+@actions_blueprint.route('/passkey/verify_registration', methods=['POST'])
+@catches_exceptions
+def passkey_verify_registration():
+    if 'BASE_URL' not in os.environ:
+        return {"error": "Base URL was not configured"}, 500
+    hostname = get_hostname_from_base_url()
+
+    challenge_session_id = request.cookies.get('passkey_registration_session_id')
+    if not challenge_session_id:
+        return {"error": "Passkey registration session not found"}, 400
+    
+    challenge_session = db.session.query(PasskeyChallengeSession).filter(PasskeyChallengeSession.session_id == challenge_session_id).first()
+    if not challenge_session:
+        return {"error": "Passkey registration session not found"}, 400
+
+    try:
+        expected_challenge = base64.b64decode(challenge_session.challenge)
+        
+        verified_registration = verify_registration_response(
+            credential=request.get_data(as_text=True),
+            expected_challenge=expected_challenge,
+            expected_rp_id=hostname,
+            expected_origin=os.environ['BASE_URL']
+        )
+
+        passkey_id = base64.b64encode(verified_registration.credential_id).decode('utf-8')
+        passkey_user_id = challenge_session.passkey_user_id
+        public_key = base64.b64encode(verified_registration.credential_public_key).decode('utf-8')
+        db.session.add(Passkey(
+            passkey_id=passkey_id,
+            passkey_user_id=passkey_user_id,
+            public_key=public_key,
+            backed_up=False,
+            name="null",
+            transports="null"
+        ))
+        db.session.commit()
+    finally:
+        db.session.delete(challenge_session)
+        db.session.commit()
+
+    return {"ok": True}, 200
+

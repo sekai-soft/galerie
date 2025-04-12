@@ -27,9 +27,7 @@ if (isMacSafari) {
 }
 
 // toast listener
-document.body.addEventListener("toast", (event) => {
-  const message = event.detail.value;
-  
+const toast = (message) => {
   const toastEl = document.getElementById('toast');
   toastEl.classList.add('show');
   toastEl.textContent = message;
@@ -37,4 +35,8 @@ document.body.addEventListener("toast", (event) => {
   setTimeout(() => {
     toastEl.classList.remove('show');
   }, 2500);
+}
+
+document.body.addEventListener("toast", (event) => {
+  toast(event.detail.value)
 })

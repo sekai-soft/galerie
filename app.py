@@ -5,6 +5,7 @@ import click
 from dotenv import load_dotenv
 from flask import Flask, request
 from flask_babel import Babel
+from galerie_flask.db import db
 from galerie_flask.actions_blueprint import actions_blueprint
 from galerie_flask.pages_blueprint import pages_blueprint
 
@@ -25,9 +26,15 @@ app.config["BABEL_TRANSLATION_DIRECTORIES"] = os.path.join(
     os.path.abspath(os.path.dirname(__file__)),
     "galerie_flask",
     "translations")
+app.config["SQLALCHEMY_DATABASE_URI"] = "sqlite:///galerie.db"
 babel = Babel(app, locale_selector=get_locale)
 app.register_blueprint(pages_blueprint, url_prefix='/')
 app.register_blueprint(actions_blueprint, url_prefix='/actions')
+db.init_app(app)
+
+
+with app.app_context():
+    db.create_all()
 
 
 @app.cli.group()

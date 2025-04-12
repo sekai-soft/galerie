@@ -3,22 +3,10 @@
 {% block title %}{{ _('Login | Galerie') }}{% endblock %}
 
 {% block content %}
-<p>{{ _('Please login first') }}</p>
-<form x-data="{ selectedType: 'miniflux' }">
-    <p>{{ _('Type of RSS aggregator') }}</p>
-    <select name="type" x-model="selectedType">
-        <option value="miniflux">Miniflux</option>
-    </select>
-    <template x-if="selectedType === 'miniflux'">
-        <p>{{ _('Miniflux API endpoint') }}</p>
-    </template>
-    <input
-        type="text"
-        name="endpoint"
-        required
-        x-bind:placeholder="selectedType === 'miniflux' ? 'https://miniflux.example.net' : ''"
-        class="code-font"
-    >
+<p id="passkey-loading">{{ _('Detecting Passkey availability...') }}</p>
+<p id="passkey-unavailable" style="display: none;">{{ _('Passkey is unavailable. Please try with another browser or device.') }}</p>
+<form id="passkey-form" style="display: none;">
+    <p>{{ _('Please login first') }}</p>
     <p>{{ _('Username') }}</p>
     <input
         type="text"
@@ -27,55 +15,17 @@
         required
         class="code-font"
     >
-    <p>{{ _('Password') }}</p>
-    <input
-        type="password"
-        name="password"
-        required
-        class="code-font"
+    <br>
+    <br>
+    <button
+        class="button"
+        hx-swap="none"
+        hx-post="/actions/passkey/generate_registration"
+        hx-disabled-elt="this"
+        hx-on::after-request="passkeyGenerateRegistrationCallback(event.detail.xhr.response)"
     >
-    <br>
-    <br>
-    <div class="button-with-links">
-        <button
-            class="button"
-            hx-post="/actions/auth?next={{ next_url }}"
-            hx-swap="none"
-            hx-disabled-elt="this"
-        >
-            {{ _('Login') }} <span class="htmx-indicator">...</span>
-        </button>
-        <a href="javascript:document.getElementById('setup-using-code').showModal()">{{ _('Set up using a code') }}</a>
-    </div>      
+        {{ _('Sign up') }} <span class="htmx-indicator">...</span>
+    </button>
 </form>
-<dialog id="setup-using-code">
-    <form>
-        <textarea
-            type="text"
-            class="code-font"
-            placeholder="{{ _('Setup code') }}"
-            rows="8"
-            cols="24"
-            name="setup-code"
-            required
-        ></textarea>
-        <br>
-        <button
-            class="button"
-            style="margin-top: 0.5em"
-            hx-post="/actions/auth?next={{ next_url }}"
-            hx-swap="none"
-            hx-disabled-elt="this"
-        >
-            {{ _('Submit') }} <span class="htmx-indicator">...</span>
-        </button>
-        <button
-            class="button"
-            style="margin-top: 0.5em"
-            onclick="document.getElementById('setup-using-code').close()"
-        >
-            {{ _('Close') }}
-        </button>
-    </form>
-</dialog>
+<script src="{{ url_for('static', filename='login.js') }}"></script>
 {% endblock %}
