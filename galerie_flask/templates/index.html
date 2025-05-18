@@ -48,7 +48,7 @@
     {% if all_group_unread_counts[g.gid] != 0 %}
     <p>
         <a href="/?group={{ g.gid }}">
-            {{ g.title }} {{ _('has') }} {{ unread_items_count[g.gid] }} {{ _('unread items') }}
+            {{ g.title }} {{ _('has') }} {{ all_group_unread_counts[g.gid] }} {{ _('unread items') }}
         </a>
     </p>
     {% endif %}
