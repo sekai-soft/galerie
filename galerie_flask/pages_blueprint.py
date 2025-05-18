@@ -103,16 +103,15 @@ def index_page():
     groups = g.aggregator.get_groups()
     gids = [group.gid for group in groups]
     all_group_unread_counts = g.aggregator.get_unread_items_count_by_group_ids(gids)
+    all_unread_count = sum(all_group_unread_counts.values())
     groups = sorted(groups, key=lambda group: all_group_unread_counts[group.gid], reverse=True)   
-
     selected_group = next((group for group in groups if group.gid == gid), None)
-    all_groups_read = all(count == 0 for count in all_group_unread_counts.values())
 
     args = {
-        "all_group_unread_counts": all_group_unread_counts,
-        "all_groups_read": all_groups_read,
-        "selected_group": selected_group,
         "groups": groups,
+        "all_group_unread_counts": all_group_unread_counts,
+        "all_unread_count": all_unread_count,
+        "selected_group": selected_group,
         "sort_by_desc":sort_by,
         "last_iid": last_iid,
     }

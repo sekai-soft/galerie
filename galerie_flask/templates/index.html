@@ -6,9 +6,17 @@
 <div class="header" x-data="{}">
     <p>Galerie</p>
     <select id="groupSelect">
+        {% if all_unread_count == 0 %}
         <option value="_all" {{ 'selected=selected' if not selected_group else '' }}>{{ _('all groups') }}</option>
+        {% else %}
+        <option value="_all" {{ 'selected=selected' if not selected_group else '' }}>({{ all_unread_count }}) {{ _('all groups') }}</option>
+        {% endif %}
         {% for g in groups %}
-        <option value="{{ g.gid }}" {{ 'selected=selected' if selected_group and g.gid == selected_group.gid else '' }}>{% if all_group_unread_counts[g.gid] != 0 %}<span>• </span>{% endif %}{{ g.title }}</option>
+        {% if all_group_unread_counts[g.gid] == 0 %}
+        <option value="{{ g.gid }}" {{ 'selected=selected' if selected_group and g.gid == selected_group.gid else '' }}>{{ g.title }}</option>
+        {% else %}
+        <option value="{{ g.gid }}" {{ 'selected=selected' if selected_group and g.gid == selected_group.gid else '' }}>({{ all_group_unread_counts[g.gid] }}) {{ g.title }}</option>
+        {% endif %}
         {% endfor %}
     </select>
     <select id="sortSelect">
@@ -33,14 +41,14 @@
 </div>
 {% if not last_iid %}
 <div class="all-read">
-    {% if all_groups_read %}
+    {% if all_unread_count == 0 %}
     <p>{{ _('✨ all read ✨') }}</p>
     {% else %}
     {% for g in groups %}
     {% if all_group_unread_counts[g.gid] != 0 %}
     <p>
         <a href="/?group={{ g.gid }}">
-            {{ g.title }} {% if all_group_unread_counts[g.gid] > 100 %} {{ _('has some unread items') }} {% else %} {{ _('has a few unread items') }} {% endif %}
+            {{ g.title }} {{ _('has') }} {{ unread_items_count[g.gid] }} {{ _('unread items') }}
         </a>
     </p>
     {% endif %}
