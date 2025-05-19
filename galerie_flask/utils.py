@@ -82,12 +82,12 @@ def items_args(args: dict, rendered_items: List[RenderedItem], should_show_group
     })
 
 
-def fix_twitter_domain(url: str) -> str:
+def fix_shareable_url(url: str) -> str:
     for domain in twitter_domains:
         if url.startswith(f'http://{domain}'):
             return url.replace(f'http://{domain}', 'https://fxtwitter.com')
         elif url.startswith(f'https://{domain}'):
-            return url.replace(domain, 'twitter.com')
+            return url.replace(f'https://{domain}', 'https://fxtwitter.com')
     return url
 
 
@@ -95,7 +95,7 @@ def add_image_ui_extras(rendered_item: RenderedItem):
     rendered_item.ui_extra['quoted_url'] = quote(rendered_item.url)
     rendered_item.ui_extra['encoded_tags'] = ''.join(map(
         lambda g: f'&tag={quote_plus(g.title)}&tag={quote(f'group_id={g.gid}')}', rendered_item.groups)) if rendered_item.groups else ''
-    rendered_item.ui_extra['shareable_url'] = fix_twitter_domain(rendered_item.url)
+    rendered_item.ui_extra['shareable_url'] = fix_shareable_url(rendered_item.url)
 
 
 def encode_setup_from_cookies() -> str:
