@@ -48,6 +48,11 @@ textarea {
     line-height: 1;
 }
 
+.svg-icon {
+    width: 48px;
+    height: 48px;
+}
+
 /** sizes for > iPhone 12 Pro Max <= iPad Pro **/
 @media screen and (max-width: 1024px) {
     .logo-image {
@@ -90,6 +95,11 @@ textarea {
     .share-menu-text {
         font-size: 1em;
         line-height: 2;
+    }
+
+    .svg-icon {
+        width: 36px;
+        height: 36px;
     }
 }
 
@@ -135,6 +145,11 @@ textarea {
     .share-menu-text {
         font-size: 1.5em;
         line-height: 2;
+    }
+
+    .svg-icon {
+        width: 24px;
+        height: 24px;
     }
 }
 
