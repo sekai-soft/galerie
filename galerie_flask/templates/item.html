@@ -9,7 +9,7 @@
     <div class="header-right">
         <a href="javascript:history.back()" style="text-decoration: none;">
             <img 
-                src="{{ url_for('static', filename='back-icon.svg') }}"
+                src="{{ url_for('static', filename='back.svg') }}"
                 role="img"
                 width="48"
                 height="48"
@@ -50,7 +50,7 @@
     <!-- Open link -->
     <a href="{{ item.url }}" target="_blank">
         <img 
-            src="{{ url_for('static', filename='open-link-icon.svg') }}"
+            src="{{ url_for('static', filename='open-link.svg') }}"
             role="img"
             class="item-share-button"
             width="48"
@@ -60,7 +60,7 @@
     {% if is_instapaper_available %}
     <!-- Instapaper -->
     <img 
-        src="{{ url_for('static', filename='instapaper-icon.svg') }}"
+        src="{{ url_for('static', filename='instapaper.svg') }}"
         role="img"
         class="item-share-button"
         width="48"
@@ -73,7 +73,7 @@
     {% if is_pocket_available %}
     <!-- Pocket -->
     <img 
-        src="{{ url_for('static', filename='pocket-icon.svg') }}"
+        src="{{ url_for('static', filename='pocket.svg') }}"
         role="img"
         class="item-share-button"
         width="48"
@@ -86,7 +86,7 @@
     <!-- Web share -->
     <img 
         id="item-share-web-share-button"
-        src="{{ url_for('static', filename='web-share-icon.svg') }}"
+        src="{{ url_for('static', filename='web-share.svg') }}"
         role="img"
         class="item-share-button"
         width="48"

@@ -80,8 +80,8 @@ def read_svg_as_base64(filepath):
     return base64.b64encode(svg_content.encode('utf-8')).decode('utf-8')
 
 
-image_loading_svg_base64 = read_svg_as_base64('static/image-loading.svg')
-image_error_svg_base64 = read_svg_as_base64('static/image-error.svg')
+image_loading_svg_base64 = read_svg_as_base64('static/image_loading.svg')
+image_error_svg_base64 = read_svg_as_base64('static/image_error.svg')
 
 
 @app.context_processor
