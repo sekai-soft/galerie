@@ -26,7 +26,6 @@ select {
     cursor: pointer;
     text-align: center;
 
-    display: inline-block;
     position: relative;
     transition: transform 0.1s ease;
 }
