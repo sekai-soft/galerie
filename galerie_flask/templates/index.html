@@ -28,18 +28,18 @@
             id="refresh-button"
             href="javascript:window.location.reload();"
             style="text-decoration: none"
-        >⟳</a>
+        >🔄</a>
         <a
             href="javascript:void(0)"
             hx-confirm="{{ _('Are you sure you want to mark this group as read?') }}"
             hx-post="/actions/mark_as_read?group={{ gid }}&sort={{ sort }}"
             hx-disabled-elt="this"
             style="text-decoration: none;"
-        >☑</a>
+        >✅</a>
         <a
             href="/settings"
             style="text-decoration: none;"
-        >⚙</a>
+        >⚙️</a>
     </div>
 </div>
 {% if not last_iid %}
