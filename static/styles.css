@@ -242,11 +242,19 @@ textarea {
     z-index: 1000;
 }
 
+.header-left {
+    display: flex;
+    flex-direction: row;
+    justify-content: flex-start;
+    align-items: center;
+    gap: 1em;
+}
+
 .header-right {
     display: flex;
     flex-direction: row;
     justify-content: flex-end;
-    gap: 1.5em;
+    gap: 1em;
 }
 
 .user-string-horizontal {

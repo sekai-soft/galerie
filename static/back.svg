@@ -1,3 +1,8 @@
-<svg xmlns="http://www.w3.org/2000/svg" version="1.1" viewBox="-5.0 -10.0 110.0 135.0">
- <path fill="#F5F5F5" d="m63.691 31.344h-31.676l0.003906-4.5508c0-3.1523-3.5977-4.9492-6.1211-3.0586l-12.414 9.3164c-2.0234 1.5195-2.043 4.5469-0.039063 6.0898l12.414 9.5625c2.5156 1.9375 6.1562 0.14453 6.1562-3.0312v-4.4648h31.871c7.4336 0 13.938 5.5977 14.434 13.016 0.54297 8.1367-5.9219 14.93-13.941 14.93h-25.453v9.8633h25.457c13.543 0 24.48-11.352 23.805-25.039-0.62891-12.805-11.676-22.633-24.496-22.633z"/>
+<svg xmlns:x="http://ns.adobe.com/Extensibility/1.0/" xmlns:i="http://ns.adobe.com/AdobeIllustrator/10.0/" xmlns:graph="http://ns.adobe.com/Graphs/1.0/" xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink" version="1.1" x="0px" y="0px" viewBox="0 0 100 100" style="enable-background:new 0 0 100 100;" xml:space="preserve">
+    <switch>
+        <foreignObject requiredExtensions="http://ns.adobe.com/AdobeIllustrator/10.0/" x="0" y="0" width="1" height="1"/>
+        <g i:extraneous="self">
+            <path fill="#F5F5F5" d="M68.7,2.5c2.6,0,5.1,1,7.1,2.9c3.9,3.9,3.9,10.3,0,14.2L45.5,50l30.4,30.4c3.9,3.9,3.9,10.3,0,14.2    c-3.9,3.9-10.3,3.9-14.2,0L24.2,57.1c-1.9-1.9-2.9-4.4-2.9-7.1s1.1-5.2,2.9-7.1L61.6,5.4C63.6,3.5,66.2,2.5,68.7,2.5z"/>
+        </g>
+    </switch>
 </svg>

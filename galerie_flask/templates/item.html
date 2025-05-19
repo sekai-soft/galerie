@@ -4,9 +4,7 @@
 
 {% block content %}
 <div class="header">
-    <!-- <p class="user-string-horizontal"><span class="tag">{{ item.feed_title }}</span> {{ item.title }}</p> -->
-    <p class="user-string-horizontal">{{ item.title }}</p>
-    <div class="header-right">
+    <div class="header-left">
         <a href="javascript:history.back()" style="text-decoration: none;">
             <img 
                 src="{{ url_for('static', filename='back.svg') }}"
@@ -14,6 +12,7 @@
                 class="svg-icon"
             />
         </a>
+        <p class="user-string-horizontal">{{ item.title }}</p>
     </div>
 </div>
 {% for item in items %}
@@ -82,7 +81,7 @@
     <!-- Web share -->
     <img 
         id="item-share-web-share-button"
-        src="{{ url_for('static', filename='web-share.svg') }}"
+        src="{{ url_for('static', filename='web_share.svg') }}"
         role="img"
         class="item-share-button"
         class="svg-icon"

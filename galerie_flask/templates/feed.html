@@ -4,18 +4,20 @@
 
 {% block content %}
 <div class="header">
-    <p><span class="tag">{{ feed.group_title }}</span> {{ feed.title }}</p>
-    <div class="header-right">
-        <a href="/update_feed?fid={{ feed.fid }}" style="text-decoration: none;">
+    <div class="header-left">
+        <a href="javascript:history.back()" style="text-decoration: none;">
             <img 
-                src="{{ url_for('static', filename='settings.svg') }}"
+                src="{{ url_for('static', filename='back.svg') }}"
                 role="img"
                 class="svg-icon"
             />
         </a>
-        <a href="javascript:history.back()" style="text-decoration: none;">
+        <p><span class="tag">{{ feed.group_title }}</span> {{ feed.title }}</p>
+    </div>
+    <div class="header-right">
+        <a href="/update_feed?fid={{ feed.fid }}" style="text-decoration: none;">
             <img 
-                src="{{ url_for('static', filename='back.svg') }}"
+                src="{{ url_for('static', filename='settings.svg') }}"
                 role="img"
                 class="svg-icon"
             />

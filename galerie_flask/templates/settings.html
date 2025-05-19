@@ -4,8 +4,7 @@
 
 {% block content %}
 <div class="header">
-    <p>{{ _('Settings') }}</p>
-    <div class="header-right">
+    <div class="header-left">
         <a href="javascript:history.back()" style="text-decoration: none;">
             <img 
                 src="{{ url_for('static', filename='back.svg') }}"
@@ -13,6 +12,7 @@
                 class="svg-icon"
             />
         </a>
+        <p>{{ _('Settings') }}</p>
     </div>
 </div>
 <a href="/feeds">
