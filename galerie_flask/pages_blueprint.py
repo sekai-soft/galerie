@@ -42,13 +42,13 @@ def pwa_manifest():
             {
                 "purpose": "maskable",
                 "sizes": "512x512",
-                "src": "icon512_maskable.png",
+                "src": "icon512-maskable.png",
                 "type": "image/png"
             },
             {
                 "purpose": "any",
                 "sizes": "512x512",
-                "src": "icon512_rounded.png",
+                "src": "icon512-rounded.png",
                 "type": "image/png"
             }
         ],
