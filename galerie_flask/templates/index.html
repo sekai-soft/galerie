@@ -46,11 +46,12 @@
     {% else %}
     {% for g in groups %}
     {% if all_group_unread_counts[g.gid] != 0 %}
-    <p>
-        <a href="/?group={{ g.gid }}">
-            {{ g.title }} {{ _('has') }} {{ all_group_unread_counts[g.gid]|format_count }} {{ _('unread items') }}
-        </a>
-    </p>
+    <button
+        class="button"
+        onclick="window.location.href='/?group={{ g.gid }}';"
+    >{{ g.title }} {{ _('has') }} {{ all_group_unread_counts[g.gid]|format_count }} {{ _('unread items') }}</button>
+    <br>
+    <br>
     {% endif %}
     {% endfor %}
     {% endif %}
