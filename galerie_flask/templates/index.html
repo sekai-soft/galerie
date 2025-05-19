@@ -25,33 +25,21 @@
     </select>
     <div class="header-right">
         <a
-            class="refresh"
+            id="refresh-button"
             href="javascript:window.location.reload();"
-            style="text-decoration: none; display: none;"
-        >
-            <img 
-                src="{{ url_for('static', filename='refresh.svg') }}"
-                class="svg-button"
-            />
-        </a>
+            style="text-decoration: none"
+        >⟳</a>
         <a
             href="javascript:void(0)"
-            style="text-decoration: none;"
             hx-confirm="{{ _('Are you sure you want to mark this group as read?') }}"
             hx-post="/actions/mark_as_read?group={{ gid }}&sort={{ sort }}"
             hx-disabled-elt="this"
-        >
-            <img 
-                src="{{ url_for('static', filename='mark-as-read.svg') }}"
-                class="svg-button"
-            />
-        </a>
-        <a href="/settings" style="text-decoration: none;">
-            <img 
-                src="{{ url_for('static', filename='settings.svg') }}"
-                class="svg-button"
-            />
-        </a>
+            style="text-decoration: none;"
+        >☑</a>
+        <a
+            href="/settings"
+            style="text-decoration: none;"
+        >⚙</a>
     </div>
 </div>
 {% if not last_iid %}
@@ -61,10 +49,11 @@
     {% else %}
     {% for g in groups %}
     {% if all_group_unread_counts[g.gid] != 0 %}
-    <button
-        class="button"
-        onclick="window.location.href='/?group={{ g.gid }}';"
-    >{{ g.title }} {{ _('has') }} {{ all_group_unread_counts[g.gid]|format_count }} {{ _('unread items') }}</button>
+    <a href="/?group={{ g.gid }}">
+        <button class="button" style="font-size: 1em">
+            {{ g.title }} {{ _('has') }} {{ all_group_unread_counts[g.gid]|format_count }} {{ _('unread items') }}
+        </button>
+    </a>
     <br>
     <br>
     {% endif %}

@@ -36,38 +36,47 @@
 <div class="item-share-buttons">
     <!-- Open link -->
     <a href="{{ item.url }}" target="_blank">
-        <img 
-            src="{{ url_for('static', filename='open-link.svg') }}"
-            class="svg-button"
-        />
+        <button class="button" style="font-size: 1em">
+            <img src="{{ url_for('static', filename='open-link.svg') }}"/>
+            {{ _('Open link') }}
+        </button>
     </a>
-    {% if is_instapaper_available %}
+
     <!-- Instapaper -->
-    <img 
-        src="{{ url_for('static', filename='instapaper.svg') }}"
-        class="svg-button"
+    {% if is_instapaper_available %}
+    <button
+        class="button"
         hx-post="/actions/instapaper?url={{ item.ui_extra['quoted_url'] }}"
         hx-swap="none"
         hx-disabled-elt="this"
-    />
+    >
+        <img src="{{ url_for('static', filename='instapaper.svg') }}"/>
+        {{ _('Save to Instapaper') }}
+    </button>
     {% endif %}
-    {% if is_pocket_available %}
+
     <!-- Pocket -->
-    <img 
-        src="{{ url_for('static', filename='pocket.svg') }}"
-        class="svg-button"
+    {% if is_pocket_available %}
+    <button
+        class="button"
         hx-post="/actions/pocket?url={{ item.ui_extra['quoted_url'] }}{{ item.ui_extra['encoded_tags'] }}"
         hx-swap="none"
         hx-disabled-elt="this"
-    />
+    >
+        <img src="{{ url_for('static', filename='pocket.svg') }}"/>
+        {{ _('Save to Pocket') }}
+    </button>
     {% endif %}
+
     <!-- Web share -->
-    <img 
+     <button
         id="item-share-web-share-button"
-        src="{{ url_for('static', filename='web_share.svg') }}"
-        class="svg-button"
+        class="button"
         onclick="navigator.share({'url': '{{ item.ui_extra["shareable_url"] }}'})"
-    />
+    >
+        <img src="{{ url_for('static', filename='web_share.svg') }}"/>
+        {{ _('Share') }}
+    </button>
 </div>
 <p>{{ item.text }}</p>
 <script>

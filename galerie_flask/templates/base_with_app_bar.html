@@ -23,12 +23,11 @@
         <div class="app">
             <div class="header">
                 <div class="header-left">
-                    <img 
-                        src="{{ url_for('static', filename='back.svg') }}"
-                        id="back-button"
-                        class="svg-button"
-                        onclick="window.history.back()"
-                    />
+                    <a
+                        id="refresh-button"
+                        href="javascript:window.history.back();"
+                        style="text-decoration: none"
+                    ><</a>
                     <p class="user-string-horizontal">{% block header_title %}{% endblock %}</p>
                 </div>
                 <div class="header-right">

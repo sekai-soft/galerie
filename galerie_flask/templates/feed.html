@@ -5,12 +5,10 @@
 <span class="tag">{{ feed.group_title }}</span> {{ feed.title }}
 {% endblock %}
 {% block header_right_content %}
-<a href="/update_feed?fid={{ feed.fid }}" style="text-decoration: none;">
-    <img 
-        src="{{ url_for('static', filename='settings.svg') }}"
-        class="svg-button"
-    />
-</a>
+<a
+    href="/update_feed?fid={{ feed.fid }}"
+    style="text-decoration: none;"
+>⚙</a>
 {% endblock %}
 
 {% block content %}

@@ -3,12 +3,10 @@
 {% block title %}{{ _('Manage feeds') }}{% endblock %}
 {% block header_title %}{{ _('Manage feeds') }}{% endblock %}
 {% block header_right_content %}
-<a href="/add_feed" style="text-decoration: none;">
-    <img 
-        src="{{ url_for('static', filename='add.svg') }}"
-        class="svg-button"
-    />
-</a>
+<a
+    href="/add_feed"
+    style="text-decoration: none;"
+>+</a>
 {% endblock %}
 
 {% block content %}

@@ -48,11 +48,6 @@ textarea {
     line-height: 1;
 }
 
-.svg-button {
-    width: 2em;
-    height: 2em;
-}
-
 /** sizes for > iPhone 12 Pro Max <= iPad Pro **/
 @media screen and (max-width: 1024px) {
     .logo-image {
@@ -95,11 +90,6 @@ textarea {
     .share-menu-text {
         font-size: 1em;
         line-height: 2;
-    }
-
-    .svg-button {
-        width: 1.5em;
-        height: 1.5em;
     }
 }
 
@@ -145,11 +135,6 @@ textarea {
     .share-menu-text {
         font-size: 1.5em;
         line-height: 2;
-    }
-
-    .svg-button {
-        width: 1em;
-        height: 1em;
     }
 }
 
@@ -250,14 +235,9 @@ textarea {
     gap: 1em;
 }
 
-.svg-button {
-    cursor: pointer;
-}
-
 .header-right {
     display: flex;
     flex-direction: row;
-    justify-content: flex-end;
     gap: 1em;
 }
 
