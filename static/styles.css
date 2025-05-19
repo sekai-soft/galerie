@@ -43,11 +43,6 @@ textarea {
     gap: 2em;
 }
 
-.share-menu-text {
-    font-size: 1em;
-    line-height: 1;
-}
-
 /** sizes for > iPhone 12 Pro Max <= iPad Pro **/
 @media screen and (max-width: 1024px) {
     .logo-image {
@@ -85,11 +80,6 @@ textarea {
 
     .button-with-links {
         gap: 2em;
-    }
-
-    .share-menu-text {
-        font-size: 1em;
-        line-height: 2;
     }
 }
 
@@ -130,11 +120,6 @@ textarea {
 
     .button-with-links {
         gap: 1em;
-    }
-
-    .share-menu-text {
-        font-size: 1.5em;
-        line-height: 2;
     }
 }
 
@@ -216,17 +201,6 @@ textarea {
     font-size: 1em;
 }
 
-.share-menu {
-    position: fixed;
-    margin: auto 0 0 0;
-    width: 100%;
-    max-width: 100%;
-    text-align: center;
-    padding: 0;
-    border: 0;
-    z-index: 1000;
-}
-
 .header-left {
     display: flex;
     flex-direction: row;
@@ -253,6 +227,17 @@ textarea {
     gap: 1em;
     margin-top: 16px;
     margin-bottom: 16px;
+}
+
+.link-button {
+    text-decoration: none;
+    display: inline-block;
+    position: relative;
+    transition: transform 0.1s ease;
+}
+
+.link-button:active {
+    transform: translateY(2px) scale(0.9);
 }
 
 /** htmx-indicator **/
