@@ -7,7 +7,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: PROJECT VERSION\n"
 "Report-Msgid-Bugs-To: EMAIL@ADDRESS\n"
-"POT-Creation-Date: 2025-05-18 07:53+0000\n"
+"POT-Creation-Date: 2025-05-19 21:18+0000\n"
 "PO-Revision-Date: 2024-06-27 08:04+0000\n"
 "Last-Translator: FULL NAME <EMAIL@ADDRESS>\n"
 "Language: zh\n"
@@ -73,53 +73,54 @@ msgstr "订阅源已存在"
 msgid "Add feed | Galerie"
 msgstr "添加订阅源 | Galerie"
 
-#: galerie_flask/templates/add_feed.html:7
+#: galerie_flask/templates/add_feed.html:4
+#: galerie_flask/templates/settings.html:8
 msgid "Add feed"
 msgstr "添加订阅源"
 
-#: galerie_flask/templates/add_feed.html:18
+#: galerie_flask/templates/add_feed.html:13
 msgid "Twitter feed"
 msgstr "Twitter 订阅源"
 
-#: galerie_flask/templates/add_feed.html:27
-#: galerie_flask/templates/add_feed.html:36
+#: galerie_flask/templates/add_feed.html:22
+#: galerie_flask/templates/add_feed.html:31
 msgid "Feed URL"
 msgstr "订阅源 URL"
 
-#: galerie_flask/templates/add_feed.html:45
-#: galerie_flask/templates/update_feed.html:13
+#: galerie_flask/templates/add_feed.html:40
+#: galerie_flask/templates/update_feed.html:8
 msgid "Group"
 msgstr "分组"
 
-#: galerie_flask/templates/add_feed.html:59
+#: galerie_flask/templates/add_feed.html:54
 msgid "Confirm"
 msgstr "确认"
 
-#: galerie_flask/templates/add_feed.html:61
+#: galerie_flask/templates/add_feed.html:56
 msgid "Other ways to add feed"
 msgstr "其他添加订阅源的方式"
 
-#: galerie_flask/templates/add_feed.html:63
+#: galerie_flask/templates/add_feed.html:58
 msgid "1. Drag this bookmarklet to your browser's bookmark bar"
 msgstr "1. 将这个书签拖到浏览器的书签栏"
 
-#: galerie_flask/templates/add_feed.html:64
+#: galerie_flask/templates/add_feed.html:59
 msgid "Add to Galerie"
 msgstr "添加至 Galerie"
 
-#: galerie_flask/templates/add_feed.html:66
+#: galerie_flask/templates/add_feed.html:61
 msgid "2. Add"
 msgstr "2. 添加"
 
-#: galerie_flask/templates/add_feed.html:67
+#: galerie_flask/templates/add_feed.html:62
 msgid "this"
 msgstr "这个"
 
-#: galerie_flask/templates/add_feed.html:68
+#: galerie_flask/templates/add_feed.html:63
 msgid "iOS shortcut"
 msgstr "添加 iOS 快捷方式"
 
-#: galerie_flask/templates/add_feed.html:71
+#: galerie_flask/templates/add_feed.html:66
 #: galerie_flask/templates/login.html:77
 #: galerie_flask/templates/settings.html:32
 #: galerie_flask/templates/settings.html:79
@@ -127,6 +128,7 @@ msgid "Close"
 msgstr "关闭"
 
 #: galerie_flask/templates/base.html:8
+#: galerie_flask/templates/base_with_app_bar.html:8
 msgid "A Pinterest/Xiaohongshu photo wall style RSS reader"
 msgstr "一款 Pinterest/小红书照片墙式的 RSS 阅读器"
 
@@ -143,7 +145,7 @@ msgstr "糟糕，出错了"
 msgid "Logout"
 msgstr "登出"
 
-#: galerie_flask/templates/feeds.html:3 galerie_flask/templates/feeds.html:7
+#: galerie_flask/templates/feeds.html:3 galerie_flask/templates/feeds.html:4
 #: galerie_flask/templates/settings.html:13
 msgid "Manage feeds"
 msgstr "管理订阅源"
@@ -172,22 +174,38 @@ msgstr "最新优先"
 msgid "oldest first"
 msgstr "最旧优先"
 
-#: galerie_flask/templates/index.html:35
+#: galerie_flask/templates/index.html:34
 #: galerie_flask/templates/mark_as_read_button.html:8
 msgid "Are you sure you want to mark this group as read?"
 msgstr "确定要标记这个分组为已读吗？"
 
-#: galerie_flask/templates/index.html:45
+#: galerie_flask/templates/index.html:48
 msgid "✨ all read ✨"
 msgstr "✨ 全部已读 ✨"
 
-#: galerie_flask/templates/index.html:51
+#: galerie_flask/templates/index.html:54
 msgid "has"
 msgstr "有"
 
-#: galerie_flask/templates/index.html:51
+#: galerie_flask/templates/index.html:54
 msgid "unread items"
 msgstr "未读条目"
+
+#: galerie_flask/templates/item.html:41
+msgid "Open link"
+msgstr "打开链接"
+
+#: galerie_flask/templates/item.html:53
+msgid "Save to Instapaper"
+msgstr "保存至 Instapaper"
+
+#: galerie_flask/templates/item.html:65
+msgid "Save to Pocket"
+msgstr "保存至 Pocket"
+
+#: galerie_flask/templates/item.html:75
+msgid "Share"
+msgstr "分享至"
 
 #: galerie_flask/templates/load_more_button.html:13
 msgid "Load more"
@@ -251,7 +269,7 @@ msgstr "已连接到 Pocket"
 msgid "Back to settings"
 msgstr "返回设置"
 
-#: galerie_flask/templates/settings.html:7
+#: galerie_flask/templates/settings.html:4
 msgid "Settings"
 msgstr "设置"
 
@@ -320,11 +338,11 @@ msgstr "否"
 msgid "Update feed"
 msgstr "更新订阅源"
 
-#: galerie_flask/templates/update_feed.html:34
+#: galerie_flask/templates/update_feed.html:29
 msgid "Are you sure you want to delete this feed?"
 msgstr "确定要删除这个订阅源吗？"
 
-#: galerie_flask/templates/update_feed.html:36
+#: galerie_flask/templates/update_feed.html:31
 msgid "Delete feed"
 msgstr "删除订阅源"
 
