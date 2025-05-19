@@ -9,13 +9,13 @@
         {% if all_unread_count == 0 %}
         <option value="_all" {{ 'selected=selected' if not selected_group else '' }}>{{ _('all groups') }}</option>
         {% else %}
-        <option value="_all" {{ 'selected=selected' if not selected_group else '' }}>({{ all_unread_count }}) {{ _('all groups') }}</option>
+        <option value="_all" {{ 'selected=selected' if not selected_group else '' }}>({{ all_unread_count|format_count }}) {{ _('all groups') }}</option>
         {% endif %}
         {% for g in groups %}
         {% if all_group_unread_counts[g.gid] == 0 %}
         <option value="{{ g.gid }}" {{ 'selected=selected' if selected_group and g.gid == selected_group.gid else '' }}>{{ g.title }}</option>
         {% else %}
-        <option value="{{ g.gid }}" {{ 'selected=selected' if selected_group and g.gid == selected_group.gid else '' }}>({{ all_group_unread_counts[g.gid] }}) {{ g.title }}</option>
+        <option value="{{ g.gid }}" {{ 'selected=selected' if selected_group and g.gid == selected_group.gid else '' }}>({{ all_group_unread_counts[g.gid]|format_count }}) {{ g.title }}</option>
         {% endif %}
         {% endfor %}
     </select>
@@ -48,7 +48,7 @@
     {% if all_group_unread_counts[g.gid] != 0 %}
     <p>
         <a href="/?group={{ g.gid }}">
-            {{ g.title }} {{ _('has') }} {{ all_group_unread_counts[g.gid] }} {{ _('unread items') }}
+            {{ g.title }} {{ _('has') }} {{ all_group_unread_counts[g.gid]|format_count }} {{ _('unread items') }}
         </a>
     </p>
     {% endif %}

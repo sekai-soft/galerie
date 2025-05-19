@@ -29,6 +29,15 @@ babel = Babel(app, locale_selector=get_locale)
 app.register_blueprint(pages_blueprint, url_prefix='/')
 app.register_blueprint(actions_blueprint, url_prefix='/actions')
 
+# Custom template filter to abbreviate large numbers with k suffix
+@app.template_filter('format_count')
+def format_count(count):
+    if count is None:
+        return "0"
+    if count >= 1000:
+        return f"{count // 1000}k"
+    return str(count)
+
 
 @app.cli.group()
 def translate():
