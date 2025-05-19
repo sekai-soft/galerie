@@ -33,11 +33,11 @@
     >{{ loop.index }}/{{ items|length }}</div> 
 </div>
 {% endfor %}
+<p>{{ item.text }}</p>
 <div class="item-share-buttons">
     <!-- Open link -->
     <a href="{{ item.url }}" target="_blank">
         <button class="button" style="font-size: 1em">
-            <img src="{{ url_for('static', filename='open-link.svg') }}"/>
             {{ _('Open link') }}
         </button>
     </a>
@@ -50,7 +50,6 @@
         hx-swap="none"
         hx-disabled-elt="this"
     >
-        <img src="{{ url_for('static', filename='instapaper.svg') }}"/>
         {{ _('Save to Instapaper') }}
     </button>
     {% endif %}
@@ -63,7 +62,6 @@
         hx-swap="none"
         hx-disabled-elt="this"
     >
-        <img src="{{ url_for('static', filename='pocket.svg') }}"/>
         {{ _('Save to Pocket') }}
     </button>
     {% endif %}
@@ -74,11 +72,9 @@
         class="button"
         onclick="navigator.share({'url': '{{ item.ui_extra["shareable_url"] }}'})"
     >
-        <img src="{{ url_for('static', filename='web_share.svg') }}"/>
         {{ _('Share') }}
     </button>
 </div>
-<p>{{ item.text }}</p>
 <script>
     window.U_INDEX = {{ u_index }};
     window.TOTAL_MEDIA_COUNT = {{ items|length }};

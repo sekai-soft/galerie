@@ -249,7 +249,8 @@ textarea {
 
 .item-share-buttons {
     display: flex;
-    justify-content: space-around;
+    flex-direction: row;
+    gap: 1em;
     margin-top: 16px;
     margin-bottom: 16px;
 }
