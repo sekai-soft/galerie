@@ -6,7 +6,14 @@
 <div class="header">
     <p>{{ _('Settings') }}</p>
     <div class="header-right">
-        <a href="javascript:history.back()" style="text-decoration: none;">↩️</a>
+        <a href="javascript:history.back()" style="text-decoration: none;">
+            <img 
+                src="{{ url_for('static', filename='back-icon.svg') }}"
+                role="img"
+                width="48"
+                height="48"
+            />
+        </a>
     </div>
 </div>
 <a href="/feeds">

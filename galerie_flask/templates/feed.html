@@ -6,8 +6,22 @@
 <div class="header">
     <p><span class="tag">{{ feed.group_title }}</span> {{ feed.title }}</p>
     <div class="header-right">
-        <a href="/update_feed?fid={{ feed.fid }}" style="text-decoration: none;">🔧</a>
-        <a href="javascript:history.back()" style="text-decoration: none;">↩️</a>
+        <a href="/update_feed?fid={{ feed.fid }}" style="text-decoration: none;">
+            <img 
+                src="{{ url_for('static', filename='settings-icon.svg') }}"
+                role="img"
+                width="48"
+                height="48"
+            />
+        </a>
+        <a href="javascript:history.back()" style="text-decoration: none;">
+            <img 
+                src="{{ url_for('static', filename='back-icon.svg') }}"
+                role="img"
+                width="48"
+                height="48"
+            />
+        </a>
     </div>
 </div>
 <div class="grid" id="grid">

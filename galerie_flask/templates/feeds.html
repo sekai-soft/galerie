@@ -6,8 +6,22 @@
 <div class="header">
     <p>{{ _('Manage feeds') }}</p>
     <div class="header-right">
-        <a href="/add_feed" style="text-decoration: none;">➕</a>
-        <a href="javascript:history.back()" style="text-decoration: none;">↩️</a>
+        <a href="/add_feed" style="text-decoration: none;">
+            <img 
+                src="{{ url_for('static', filename='add-icon.svg') }}"
+                role="img"
+                width="48"
+                height="48"
+            />
+        </a>
+        <a href="javascript:history.back()" style="text-decoration: none;">
+            <img 
+                src="{{ url_for('static', filename='back-icon.svg') }}"
+                role="img"
+                width="48"
+                height="48"
+            />
+        </a>
     </div>
 </div>
 {% for feeds_in_group in feeds_by_groups %}

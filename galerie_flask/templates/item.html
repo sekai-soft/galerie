@@ -7,7 +7,14 @@
     <!-- <p class="user-string-horizontal"><span class="tag">{{ item.feed_title }}</span> {{ item.title }}</p> -->
     <p class="user-string-horizontal">{{ item.title }}</p>
     <div class="header-right">
-        <a href="javascript:history.back()" style="text-decoration: none;">↩️</a>
+        <a href="javascript:history.back()" style="text-decoration: none;">
+            <img 
+                src="{{ url_for('static', filename='back-icon.svg') }}"
+                role="img"
+                width="48"
+                height="48"
+            />
+        </a>
     </div>
 </div>
 {% for item in items %}
