@@ -1,20 +1,9 @@
-{% extends 'base.html' %}
+{% extends 'base_with_app_bar.html' %}
 
 {% block title %}{{ item.title }}{% endblock %}
+{% block header_title %}{{ item.title }}{% endblock %}
 
 {% block content %}
-<div class="header">
-    <div class="header-left">
-        <a href="javascript:history.back()" style="text-decoration: none;">
-            <img 
-                src="{{ url_for('static', filename='back.svg') }}"
-                role="img"
-                class="svg-icon"
-            />
-        </a>
-        <p class="user-string-horizontal">{{ item.title }}</p>
-    </div>
-</div>
 {% for item in items %}
 <div class="item-image-container">
     {% if item.video_url %}
@@ -49,18 +38,14 @@
     <a href="{{ item.url }}" target="_blank">
         <img 
             src="{{ url_for('static', filename='open-link.svg') }}"
-            role="img"
-            class="item-share-button"
-            class="svg-icon"
+            class="svg-button"
         />
     </a>
     {% if is_instapaper_available %}
     <!-- Instapaper -->
     <img 
         src="{{ url_for('static', filename='instapaper.svg') }}"
-        role="img"
-        class="item-share-button"
-        class="svg-icon"
+        class="svg-button"
         hx-post="/actions/instapaper?url={{ item.ui_extra['quoted_url'] }}"
         hx-swap="none"
         hx-disabled-elt="this"
@@ -70,9 +55,7 @@
     <!-- Pocket -->
     <img 
         src="{{ url_for('static', filename='pocket.svg') }}"
-        role="img"
-        class="item-share-button"
-        class="svg-icon"
+        class="svg-button"
         hx-post="/actions/pocket?url={{ item.ui_extra['quoted_url'] }}{{ item.ui_extra['encoded_tags'] }}"
         hx-swap="none"
         hx-disabled-elt="this"
@@ -82,9 +65,7 @@
     <img 
         id="item-share-web-share-button"
         src="{{ url_for('static', filename='web_share.svg') }}"
-        role="img"
-        class="item-share-button"
-        class="svg-icon"
+        class="svg-button"
         onclick="navigator.share({'url': '{{ item.ui_extra["shareable_url"] }}'})"
     />
 </div>

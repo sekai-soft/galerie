@@ -1,20 +1,9 @@
-{% extends 'base.html' %}
+{% extends 'base_with_app_bar.html' %}
 
 {% block title %}{{ _('Add feed | Galerie') }}{% endblock %}
+{% block header_title %}{{ _('Add feed') }}{% endblock %}
 
 {% block content %}
-<div class="header">
-    <div class="header-left">
-        <a href="javascript:history.back()" style="text-decoration: none;">
-            <img 
-                src="{{ url_for('static', filename='back.svg') }}"
-                role="img"
-                class="svg-icon"
-            />
-        </a>
-        <p>{{ _('Add feed') }}</p>
-    </div>
-</div>
 {% if error %}
 <p>{{ error }}</p>
 {% else %}  

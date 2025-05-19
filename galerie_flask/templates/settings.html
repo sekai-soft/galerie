@@ -1,20 +1,14 @@
-{% extends 'base.html' %}
+{% extends 'base_with_app_bar.html' %}
 
 {% block title %}{{ _('Settings | Galerie') }}{% endblock %}
+{% block header_title %}{{ _('Settings') }}{% endblock %}
 
 {% block content %}
-<div class="header">
-    <div class="header-left">
-        <a href="javascript:history.back()" style="text-decoration: none;">
-            <img 
-                src="{{ url_for('static', filename='back.svg') }}"
-                role="img"
-                class="svg-icon"
-            />
-        </a>
-        <p>{{ _('Settings') }}</p>
-    </div>
-</div>
+<a href="/add_feed">
+    <button class="button" style="font-size: 1em">{{ _('Add feed')}}</button>
+</a>
+<br>
+<br>
 <a href="/feeds">
     <button class="button" style="font-size: 1em">{{ _('Manage feeds')}}</button>
 </a>

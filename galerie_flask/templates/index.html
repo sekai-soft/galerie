@@ -5,7 +5,7 @@
 {% block content %}
 <div class="header" x-data="{}">
     <p>Galerie</p>
-    <select id="groupSelect">
+    <select id="group-select">
         {% if all_unread_count == 0 %}
         <option value="_all" {{ 'selected=selected' if not selected_group else '' }}>{{ _('all groups') }}</option>
         {% else %}
@@ -19,7 +19,7 @@
         {% endif %}
         {% endfor %}
     </select>
-    <select id="sortSelect">
+    <select id="sort-select">
         <option value="desc" {{ 'selected=selected' if sort_by_desc else '' }}>{{ _('newest first') }}</option>
         <option value="asc" {{ 'selected=selected' if not sort_by_desc else '' }}>{{ _('oldest first') }}</option>
     </select>
@@ -31,8 +31,7 @@
         >
             <img 
                 src="{{ url_for('static', filename='refresh.svg') }}"
-                role="img"
-                class="svg-icon"
+                class="svg-button"
             />
         </a>
         <a
@@ -44,15 +43,13 @@
         >
             <img 
                 src="{{ url_for('static', filename='mark-as-read.svg') }}"
-                role="img"
-                class="svg-icon"
+                class="svg-button"
             />
         </a>
         <a href="/settings" style="text-decoration: none;">
             <img 
                 src="{{ url_for('static', filename='settings.svg') }}"
-                role="img"
-                class="svg-icon"
+                class="svg-button"
             />
         </a>
     </div>

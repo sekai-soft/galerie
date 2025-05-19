@@ -18,7 +18,7 @@ const updateQueryParameter = (key, value) => {
     window.location.href = url.toString();
 }
 
-document.getElementById('groupSelect').addEventListener('change', (event) => {
+document.getElementById('group-select').addEventListener('change', (event) => {
 const groupId = event.target.value;
     if (groupId === '_all') {
         updateQueryParameter('group', null);
@@ -27,7 +27,7 @@ const groupId = event.target.value;
     }
 });
 
-document.getElementById('sortSelect').addEventListener('change', (event) => {
+document.getElementById('sort-select').addEventListener('change', (event) => {
     const sort = event.target.value;
     if (sort === 'desc') {
         updateQueryParameter('sort', null);

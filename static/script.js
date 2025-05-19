@@ -38,3 +38,12 @@ document.body.addEventListener("toast", (event) => {
     toastEl.classList.remove('show');
   }, 2500);
 })
+
+// only show back button if there is history
+const backButton = document.getElementById('back-button');
+if (backButton) {
+  const canGoBack = window.history.length > 1 && document.referrer !== '';
+  if (!canGoBack) {
+      backButton.style.display = 'none';
+  }
+}

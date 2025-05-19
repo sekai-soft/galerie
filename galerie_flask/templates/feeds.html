@@ -1,29 +1,17 @@
-{% extends 'base.html' %}
+{% extends 'base_with_app_bar.html' %}
 
 {% block title %}{{ _('Manage feeds') }}{% endblock %}
+{% block header_title %}{{ _('Manage feeds') }}{% endblock %}
+{% block header_right_content %}
+<a href="/add_feed" style="text-decoration: none;">
+    <img 
+        src="{{ url_for('static', filename='add.svg') }}"
+        class="svg-button"
+    />
+</a>
+{% endblock %}
 
 {% block content %}
-<div class="header">
-    <div class="header-left">
-        <a href="javascript:history.back()" style="text-decoration: none;">
-            <img 
-                src="{{ url_for('static', filename='back.svg') }}"
-                role="img"
-                class="svg-icon"
-            />
-        </a>
-        <p>{{ _('Manage feeds') }}</p>
-    </div>
-    <div class="header-right">
-        <a href="/add_feed" style="text-decoration: none;">
-            <img 
-                src="{{ url_for('static', filename='add.svg') }}"
-                role="img"
-                class="svg-icon"
-            />
-        </a>
-    </div>
-</div>
 {% for feeds_in_group in feeds_by_groups %}
 <p class="feeds">{{ feeds_in_group.group.title }}</p>
 {% if not feeds_in_group.feeds %}

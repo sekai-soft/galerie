@@ -1,20 +1,9 @@
-{% extends 'base.html' %}
+{% extends 'base_with_app_bar.html' %}
 
 {% block title %}{{ _('Update feed') }}{% endblock %}
+{% block header_title %}{{ feed.title }}{% endblock %}
 
 {% block content %}
-<div class="header">
-    <div class="header-left">
-        <a href="javascript:history.back()" style="text-decoration: none;">
-            <img 
-                src="{{ url_for('static', filename='back.svg') }}"
-                role="img"
-                class="svg-icon"
-            />
-        </a>
-        <p>{{ feed.title }}</p>
-    </div>
-</div>
 <p>
     {{ _('Group') }}
     <select

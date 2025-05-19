@@ -48,9 +48,9 @@ textarea {
     line-height: 1;
 }
 
-.svg-icon {
-    width: 48px;
-    height: 48px;
+.svg-button {
+    width: 2em;
+    height: 2em;
 }
 
 /** sizes for > iPhone 12 Pro Max <= iPad Pro **/
@@ -97,9 +97,9 @@ textarea {
         line-height: 2;
     }
 
-    .svg-icon {
-        width: 36px;
-        height: 36px;
+    .svg-button {
+        width: 1.5em;
+        height: 1.5em;
     }
 }
 
@@ -147,9 +147,9 @@ textarea {
         line-height: 2;
     }
 
-    .svg-icon {
-        width: 24px;
-        height: 24px;
+    .svg-button {
+        width: 1em;
+        height: 1em;
     }
 }
 
@@ -245,9 +245,13 @@ textarea {
 .header-left {
     display: flex;
     flex-direction: row;
-    justify-content: flex-start;
     align-items: center;
+    max-width: 100%;
     gap: 1em;
+}
+
+.svg-button {
+    cursor: pointer;
 }
 
 .header-right {
@@ -268,10 +272,6 @@ textarea {
     justify-content: space-around;
     margin-top: 16px;
     margin-bottom: 16px;
-}
-
-.item-share-button {
-    cursor: pointer;
 }
 
 /** htmx-indicator **/

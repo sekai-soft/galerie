@@ -1,29 +1,19 @@
-{% extends 'base.html' %}
+{% extends 'base_with_app_bar.html' %}
 
 {% block title %}{{ feed.title }}{% endblock %}
+{% block header_title %}
+<span class="tag">{{ feed.group_title }}</span> {{ feed.title }}
+{% endblock %}
+{% block header_right_content %}
+<a href="/update_feed?fid={{ feed.fid }}" style="text-decoration: none;">
+    <img 
+        src="{{ url_for('static', filename='settings.svg') }}"
+        class="svg-button"
+    />
+</a>
+{% endblock %}
 
 {% block content %}
-<div class="header">
-    <div class="header-left">
-        <a href="javascript:history.back()" style="text-decoration: none;">
-            <img 
-                src="{{ url_for('static', filename='back.svg') }}"
-                role="img"
-                class="svg-icon"
-            />
-        </a>
-        <p><span class="tag">{{ feed.group_title }}</span> {{ feed.title }}</p>
-    </div>
-    <div class="header-right">
-        <a href="/update_feed?fid={{ feed.fid }}" style="text-decoration: none;">
-            <img 
-                src="{{ url_for('static', filename='settings.svg') }}"
-                role="img"
-                class="svg-icon"
-            />
-        </a>
-    </div>
-</div>
 <div class="grid" id="grid">
     <div class="grid-sizer"></div>
     {% include 'items_stream.html' %}
