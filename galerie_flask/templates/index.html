@@ -69,7 +69,7 @@
 {% include 'load_more_button.html' %}
 {% endif %}
 {% if not last_iid and items %}
-{% include 'mark_as_read_button.html' %}
+{% include 'all_loaded_marker.html' %}
 {% endif %}
 <script src="{{ url_for('static', filename='grid.js') }}"></script>
 <script src="{{ url_for('static', filename='index.js') }}"></script>

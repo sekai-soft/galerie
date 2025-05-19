@@ -122,11 +122,9 @@ def load_more():
     else:
         args = {}
         mark_as_read_button_args(args, gid, sort_by)
-        rendered_string = render_template('mark_as_read_button.html', **args)
+        rendered_string = render_template('all_loaded_marker.html', **args)
 
     resp = make_response(rendered_string)
-    if not last_iid:
-        make_toast_header(resp, str(_("All items were loaded")))
     resp.headers['HX-Trigger-After-Settle'] = json.dumps({
         "append": list(map(lambda i: i.uid, rendered_items))
     })
