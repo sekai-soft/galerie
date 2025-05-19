@@ -25,6 +25,14 @@ select {
     padding: 0.5em;
     cursor: pointer;
     text-align: center;
+
+    display: inline-block;
+    position: relative;
+    transition: transform 0.1s ease;
+}
+
+.button:active {
+    transform: translateY(2px) scale(0.9);
 }
 
 .header {
