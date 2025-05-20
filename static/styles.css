@@ -3,11 +3,6 @@ input {
     width: 75%;
 }
 
-.logo-image {
-    height: 2em;
-    width: auto;
-}
-
 .app {
     width: 66%;
     margin: 0 auto;
@@ -65,11 +60,6 @@ textarea {
 
 /** sizes for > iPhone 12 Pro Max <= iPad Pro **/
 @media screen and (max-width: 1024px) {
-    .logo-image {
-        height: 2em;
-        width: auto;
-    }
-
     .app {
         width: 100%;
         margin: 0 auto;
@@ -105,11 +95,6 @@ textarea {
 
 /** sizes for <= iPhone 14 Pro Max **/
 @media screen and (max-width: 430px) {
-    .logo-image {
-        height: 1em;
-        width: auto;
-    }
-
     .app {
         width: 100%;
         margin: 0 auto;
