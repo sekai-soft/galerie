@@ -4,14 +4,10 @@ on:
   push:
     branches:
       - master
-  pull_request:
-    branches:
-      - master
 
 jobs:
   build:
     runs-on: ubuntu-latest
-    if: github.event_name == 'push'
     steps:
       - name: Checkout code
         uses: actions/checkout@v4
@@ -27,7 +23,9 @@ jobs:
         with:
           context: .
           platforms: linux/amd64
-          tags: ghcr.io/${{ github.repository }}:latest-amd64,ghcr.io/${{ github.repository_owner }}/rss-waterfall:latest-amd64
+          tags: |
+            ghcr.io/${{ github.repository }}:latest-amd64
+            ghcr.io/${{ github.repository }}:${{ github.sha }}-amd64
           push: true
       - name: Export digest
         run: |
@@ -43,8 +41,7 @@ jobs:
           retention-days: 1
 
   build-arm:
-    runs-on: buildjet-2vcpu-ubuntu-2204-arm
-    if: github.event_name == 'push'
+    runs-on: ubuntu-24.04-arm
     steps:
       - name: Checkout code
         uses: actions/checkout@v4
@@ -60,7 +57,9 @@ jobs:
         with:
           context: .
           platforms: linux/arm64
-          tags: ghcr.io/${{ github.repository }}:latest-arm64,ghcr.io/${{ github.repository_owner }}/rss-waterfall:latest-arm64
+          tags: |
+            ghcr.io/${{ github.repository }}:latest-arm64
+            ghcr.io/${{ github.repository }}:${{ github.sha }}-arm64
           push: true
       - name: Export digest
         run: |
@@ -80,7 +79,6 @@ jobs:
     needs:
       - build
       - build-arm
-    if: github.event_name == 'push'
     steps:
       - name: Download digests
         uses: actions/download-artifact@v4
@@ -100,12 +98,13 @@ jobs:
         working-directory: /tmp/digests
         run: |
           docker buildx imagetools create -t ghcr.io/${{ github.repository }}:latest $(printf 'ghcr.io/${{ github.repository }}@sha256:%s ' *)
-          docker buildx imagetools create -t ghcr.io/${{ github.repository_owner }}/rss-waterfall:latest $(printf 'ghcr.io/${{ github.repository_owner }}/rss-waterfall@sha256:%s ' *)
+          docker buildx imagetools create -t ghcr.io/${{ github.repository }}:${{ github.sha }} \
+            ghcr.io/${{ github.repository }}:${{ github.sha }}-amd64 \
+            ghcr.io/${{ github.repository }}:${{ github.sha }}-arm64
 
   deploy:
     runs-on: ubuntu-latest
     needs: merge
-    if: github.event_name == 'push'
     steps:
       - name: Setup Tailscale
         uses: tailscale/github-action@v2
