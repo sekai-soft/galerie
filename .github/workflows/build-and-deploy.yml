@@ -112,6 +112,11 @@ jobs:
           oauth-client-id: ${{ secrets.TS_OAUTH_CLIENT_ID }}
           oauth-secret: ${{ secrets.TS_OAUTH_SECRET }}
           tags: tag:ops
-      - name: Pull and restart latest container
+      - name: Pull and restart container
         run: |
-          ssh -o StrictHostKeyChecking=no -o UserKnownHostsFile=/dev/null "ubuntu@ktcorp" "cd /home/ubuntu/galerie && docker compose pull galerie && docker compose up -d"
+          ssh -o StrictHostKeyChecking=no -o UserKnownHostsFile=/dev/null "nixos@gibraltar" \
+            "mkdir -p /home/nixos/galerie && \
+             wget -O /home/nixos/galerie/compose.yaml https://raw.githubusercontent.com/sekai-soft/galerie/refs/heads/master/compose.production.yaml && \
+             sed -i 's|ghcr.io/sekai-soft/galerie:latest|ghcr.io/sekai-soft/galerie:${{ github.sha }}|g' /home/nixos/galerie/compose.yaml && \
+             docker compose -f /home/nixos/galerie/compose.yaml pull galerie && \
+             docker compose -f /home/nixos/galerie/compose.yaml up -d"
