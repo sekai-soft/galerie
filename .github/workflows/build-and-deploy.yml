@@ -116,7 +116,7 @@ jobs:
         run: |
           ssh -o StrictHostKeyChecking=no -o UserKnownHostsFile=/dev/null "nixos@gibraltar" \
             "mkdir -p /home/nixos/galerie && \
-             wget -O /home/nixos/galerie/compose.yaml https://raw.githubusercontent.com/sekai-soft/galerie/refs/heads/master/compose.production.yaml && \
+             wget -O /home/nixos/galerie/compose.yaml https://raw.githubusercontent.com/sekai-soft/galerie/${{ github.sha }}/compose.production.yaml && \
              sed -i 's|ghcr.io/sekai-soft/galerie:latest|ghcr.io/sekai-soft/galerie:${{ github.sha }}|g' /home/nixos/galerie/compose.yaml && \
              docker compose -f /home/nixos/galerie/compose.yaml pull galerie && \
              docker compose -f /home/nixos/galerie/compose.yaml up -d"

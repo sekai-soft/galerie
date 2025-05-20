@@ -6,8 +6,12 @@ services:
     restart: unless-stopped
     environment:
       BASE_URL: 'https://galerie-reader.app'
+    env_file:
+      - env
   cloudflared:
     image: cloudflare/cloudflared
     container_name: cloudflared
     restart: unless-stopped
     command: tunnel run galerie
+    env_file:
+      - env
