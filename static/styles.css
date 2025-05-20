@@ -23,9 +23,6 @@ input {
 
     position: relative;
     transition: transform 0.1s ease;
-    -webkit-transition: -webkit-transform 0.1s ease;
-    -webkit-tap-highlight-color: transparent;
-    -webkit-touch-callout: none;
 }
 
 .grid-item .feed-title {
@@ -34,9 +31,6 @@ input {
 
     position: relative;
     transition: transform 0.1s ease;
-    -webkit-transition: -webkit-transform 0.1s ease;
-    -webkit-tap-highlight-color: transparent;
-    -webkit-touch-callout: none;
 }
 
 .grid-item .title:active {
@@ -44,7 +38,6 @@ input {
     line-height: 2;
 
     transform: translateY(1px) scale(0.95);
-    -webkit-transform: translateY(1px) scale(0.95);
 }
 
 .grid-item .feed-title:active {
@@ -52,7 +45,6 @@ input {
     line-height: 1.75;
 
     transform: translateY(1px) scale(0.95);
-    -webkit-transform: translateY(1px) scale(0.95);
 }
 
 .grid-item {
@@ -161,14 +153,10 @@ textarea {
 
     position: relative;
     transition: transform 0.1s ease;
-    -webkit-transition: -webkit-transform 0.1s ease;
-    -webkit-tap-highlight-color: transparent;
-    -webkit-touch-callout: none;
 }
 
 .item-image-container:active {
     transform: translateY(2px) scale(0.9);
-    -webkit-transform: translateY(2px) scale(0.9);
 }
 
 .item-image-overlay {
@@ -272,14 +260,10 @@ textarea {
     text-decoration: none;
     position: relative;
     transition: transform 0.1s ease;
-    -webkit-transition: -webkit-transform 0.1s ease;
-    -webkit-tap-highlight-color: transparent;
-    -webkit-touch-callout: none;
 }
 
 .link-button:active {
     transform: translateY(2px) scale(0.9);
-    -webkit-transform: translateY(2px) scale(0.9);
 }
 
 /** htmx-indicator **/

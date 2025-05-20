@@ -28,14 +28,10 @@ select {
 
     position: relative;
     transition: transform 0.1s ease;
-    -webkit-transition: -webkit-transform 0.1s ease;
-    -webkit-tap-highlight-color: transparent;
-    -webkit-touch-callout: none;
 }
 
 .button:active {
     transform: translateY(2px) scale(0.9);
-    -webkit-transform: translateY(2px) scale(0.9);
 }
 
 .header {
