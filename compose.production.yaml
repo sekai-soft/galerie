@@ -1,0 +1,13 @@
+name: galerie
+services:
+  galerie:
+    image: ghcr.io/sekai-soft/galerie:latest
+    container_name: galerie
+    restart: unless-stopped
+    environment:
+      BASE_URL: 'https://galerie-reader.app'
+  cloudflared:
+    image: cloudflare/cloudflared
+    container_name: cloudflared
+    restart: unless-stopped
+    command: tunnel run
