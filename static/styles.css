@@ -1,8 +1,4 @@
 /** sizes for > iPad **/
-input {
-    width: 75%;
-}
-
 .app {
     width: 66%;
     margin: 0 auto;
@@ -23,23 +19,16 @@ input {
 .grid-item .feed-title {
     font-size: 0.75em;
     line-height: 1.75;
-
-    position: relative;
-    transition: transform 0.1s ease;
 }
 
 .grid-item .title:active {
     font-size: 1em;
     line-height: 2;
-
-    transform: translateY(1px) scale(0.95);
 }
 
 .grid-item .feed-title:active {
     font-size: 0.75em;
     line-height: 1.75;
-
-    transform: translateY(1px) scale(0.95);
 }
 
 .grid-item {
@@ -56,6 +45,10 @@ textarea {
     flex-direction: row;
     align-items: center;
     gap: 2em;
+}
+
+input {
+    width: 75%;
 }
 
 /** sizes for > iPhone 12 Pro Max <= iPad Pro **/
@@ -249,6 +242,24 @@ textarea {
 
 .link-button:active {
     transform: translateY(2px) scale(0.9);
+}
+
+.grid-item .title {
+    position: relative;
+    transition: transform 0.1s ease;
+}
+
+.grid-item .feed-title {
+    position: relative;
+    transition: transform 0.1s ease;
+}
+
+.grid-item .title:active {
+    transform: translateY(1px) scale(0.95);
+}
+
+.grid-item .feed-title:active {
+    transform: translateY(1px) scale(0.95);
 }
 
 /** htmx-indicator **/
