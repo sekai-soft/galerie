@@ -15,12 +15,12 @@ A Pinterest/Xiaohongshu photo wall style RSS reader
 * Quickly add images to Pocket
 
 ## Hosted instance
-Visit [galerie-reader.com](https://galerie-reader.com) and login with your RSS aggregator
+Visit [galerie-reader.app](https://galerie-reader.app) and login with your Miniflux instance
 
 ## Run your own server
 The Docker image is `ghcr.io/sekai-soft/galerie:latest` and it's available in both x86-64 and arm64
 
-The Docker image is able to take no environment variable. If no RSS aggregator authentication related environment variable is present, it will require you to login with your RSS aggregator on web UI (just like the hosted instance).
+The Docker image is able to take no environment variable. If Miniflux authentication related environment variable is present, it will require you to login with your Miniflux instance on web UI (just like the hosted instance).
 
 Here is a table of environment variables that the container takes
 | Name                  | Required | Comment                                                                                                                                       |

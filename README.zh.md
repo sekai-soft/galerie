@@ -14,12 +14,12 @@
 * 快速将图片添加至 Pocket
 
 ## 托管实例
-访问 [galerie-reader.com](https://galerie-reader.com) 并登陆您的 RSS 聚合器
+访问 [galerie-reader.app](https://galerie-reader.app) 并登陆您的 Miniflux 实例
 
 ## 自己运行服务器
 Docker 镜像是 `ghcr.io/sekai-soft/galerie:latest`，并且 x86-64 和 arm64 都可用
 
-Docker 镜像可以不接受任何环境变量。如果没有提供任何与 RSS 聚合器认证相关的环境变量，您需要在网页上使用您的 RSS 聚合器登录（就像托管实例一样）。
+Docker 镜像可以不接受任何环境变量。如果没有提供任何与 Miniflux 认证相关的环境变量，您需要在网页上使用您的 Miniflux 实例登录（就像托管实例一样）。
 
 以下是容器接受的环境变量表
 | 名称                  | 是否必需 | 备注                                                                                                                                        |

@@ -58,7 +58,7 @@ def pwa_manifest():
         "lang": "en-US",
         "name": "Galerie",
         "short_name": "Galerie",
-        "start_url": "https://galerie-reader.com",
+        "start_url": "https://galerie-reader.app",
         "share_target": {
             "action": "add_feed",
             "method": "GET",
@@ -226,7 +226,7 @@ def extract_twitter_handle(url: str) -> Optional[str]:
     return None
 
 bookmarklet = """javascript:(function() {
-  const url = `https://galerie-reader.com/add_feed?url=${window.location.href}`;
+  const url = `https://galerie-reader.app/add_feed?url=${window.location.href}`;
   window.open(url, '_blank').focus();
 })();
 """
