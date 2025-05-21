@@ -105,7 +105,8 @@ def index_page():
     all_unread_count = sum(all_group_unread_counts.values())
     groups = sorted(groups, key=lambda group: all_group_unread_counts[group.gid], reverse=True)   
     selected_group = next((group for group in groups if group.gid == gid), None)
-    remaining_count = (all_group_unread_counts[gid] if gid is not None else all_unread_count) - max_items
+    remaining_count = (all_group_unread_counts[gid] if gid is not None else all_unread_count)
+    remaining_count = remaining_count - max_items if remaining_count > max_items else 0
 
     args = {
         "groups": groups,

@@ -12,8 +12,9 @@
         hx-disabled-elt="this"
     >
     {% if remaining_count > 0 %}
-        {{ _('Load') }} {{ remaining_count }} {{ _('more') }} <span class="htmx-indicator">...</span></button>
+        {{ _('Load') }} {{ remaining_count }} {{ _('more') }} <span class="htmx-indicator">...</span>
     {% else %}
-        {{ _('Load') }} {{ _('more') }} <span class="htmx-indicator">...</span></button>
+        {{ _('Load') }} {{ _('more') }} <span class="htmx-indicator">...</span>
     {% endif %}
+    </button>
 </div>

@@ -35,7 +35,11 @@ def format_count(count):
     if count is None:
         return "0"
     if count >= 1000:
-        return f"{count / 1000:.1f}k"
+        k = count // 1000
+        h = (count - k * 1000) // 100
+        if h == 0:
+            return f"{k}k"
+        return f"{k}.{h}k"
     return str(count)
 
 

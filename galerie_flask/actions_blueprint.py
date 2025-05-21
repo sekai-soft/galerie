@@ -116,7 +116,8 @@ def load_more():
     if last_iid:
         args = {}
         items_args(args, rendered_items, gid is None)
-        load_more_button_args(args, last_iid, gid, sort_by, infinite_scroll, remaining_count - max_items)
+        remaining_count = remaining_count - max_items if remaining_count > max_items else 0
+        load_more_button_args(args, last_iid, gid, sort_by, infinite_scroll, remaining_count)
         rendered_string = \
             render_template('items_stream.html', **args) + "\n" + \
             render_template('load_more_button.html', **args)
