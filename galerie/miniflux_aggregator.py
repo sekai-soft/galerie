@@ -10,7 +10,7 @@ from .feed_filter import FeedFilter
 from .rss_aggregator import RssAggregator, AuthError, ConnectionInfo
 from .feed import Feed
 from .parse_feed_features import parse_feed_features
-from .twitter import fix_nitter_url
+from .twitter import fix_nitter_url, fix_nitter_rt_title
 
 
 TIMEOUT = 5
@@ -29,6 +29,10 @@ def _entry_dict_to_item(entry_dict: dict) -> Item:
             if enclosure['mime_type'].startswith('image/'):
                 html += f'<img src="{enclosure["url"]}">'
     text = BeautifulSoup(html, 'html.parser').get_text(" ", strip=True)
+
+    title = entry_dict['title']
+    title = fix_nitter_rt_title(title)
+
     return Item(
         created_timestamp_seconds=int(datetime.strptime(
             entry_dict['created_at'], "%Y-%m-%dT%H:%M:%S.%fZ").timestamp()),
@@ -36,7 +40,7 @@ def _entry_dict_to_item(entry_dict: dict) -> Item:
         iid=str(entry_dict['id']),
         url=fix_nitter_url(entry_dict['url']),
         groups=[_category_dict_to_group(entry_dict['feed']['category'])],
-        title=entry_dict['title'],
+        title=title,
         feed_title=entry_dict['feed']['title'],
         fid=str(entry_dict['feed_id']),
         text=text

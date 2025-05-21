@@ -1,4 +1,5 @@
 import os
+import re
 from typing import Optional
 from urllib.parse import urlparse
 
@@ -19,6 +20,17 @@ def get_nitter_rss_password():
 
 def fix_nitter_url(url: str) -> str:
     return url.replace(get_nitter_base_url(), "https://twitter.com")
+
+
+nitter_rt_pattern = r'^RT by @[\w\d_]+:(.*)'
+
+
+def fix_nitter_rt_title(title: str) -> str:
+    match = re.match(nitter_rt_pattern, title, re.DOTALL)
+    if match:
+        content = match.group(1)
+        return content.lstrip()
+    return title
 
 
 def create_nitter_feed_url(twitter_handle: str) -> str:
