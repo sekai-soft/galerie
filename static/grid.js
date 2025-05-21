@@ -14,4 +14,5 @@ document.body.addEventListener("append", (event) => {
   const uids = event.detail.value;
   const elements = uids.map(uid => document.getElementById(uid));
   grid.appended(elements)
+  window.animateCss();
 });

@@ -48,28 +48,4 @@ if (!canGoBack) {
   }
 }
 
-// Add animate css classes to elements
-const animateLongClasses = ['.button', '.link-button']
-document.addEventListener('DOMContentLoaded', () => {
-  for (const selector of animateLongClasses) {
-    document.querySelectorAll(selector).forEach(element => {
-      element.classList.add('animate-long');
-    });
-  }
-
-  if (window.isIos) {
-    document.querySelectorAll('.animate-long').forEach(element => {
-      element.addEventListener('touchstart', () => {
-        this.classList.add('pressed');
-      }, {passive: true});
-      
-      element.addEventListener('touchend', () =>{
-        this.classList.remove('pressed');
-      }, {passive: true});
-      
-      element.addEventListener('touchcancel', () => {
-        this.classList.remove('pressed');
-      }, {passive: true});
-    });
-  }
-});
+document.addEventListener('DOMContentLoaded', window.animateCss);
