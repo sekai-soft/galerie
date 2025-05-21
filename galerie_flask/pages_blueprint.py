@@ -106,6 +106,7 @@ def index_page():
     all_unread_count = sum(all_group_unread_counts.values())
     groups = sorted(groups, key=lambda group: all_group_unread_counts[group.gid], reverse=True)   
     selected_group = next((group for group in groups if group.gid == gid), None)
+    remaining_count = (all_group_unread_counts[gid] if gid is not None else all_unread_count) - max_items
 
     args = {
         "groups": groups,
@@ -116,7 +117,8 @@ def index_page():
         "last_iid": last_iid,
     }
     items_args(args, rendered_items, gid is None)
-    load_more_button_args(args, last_iid, gid, sort_by, infinite_scroll)
+    
+    load_more_button_args(args, last_iid, gid, sort_by, infinite_scroll, remaining_count)
     mark_as_read_button_args(args, gid, sort_by)
 
     return render_template('index.html', **args)

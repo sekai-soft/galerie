@@ -7,7 +7,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: PROJECT VERSION\n"
 "Report-Msgid-Bugs-To: EMAIL@ADDRESS\n"
-"POT-Creation-Date: 2025-05-21 05:37+0000\n"
+"POT-Creation-Date: 2025-05-21 05:59+0000\n"
 "PO-Revision-Date: 2024-06-27 08:04+0000\n"
 "Last-Translator: FULL NAME <EMAIL@ADDRESS>\n"
 "Language: zh\n"
@@ -27,41 +27,41 @@ msgstr "未知服务器错误: %(e)s"
 msgid "Failed to authenticate"
 msgstr "无法进行身份验证"
 
-#: galerie_flask/actions_blueprint.py:163
+#: galerie_flask/actions_blueprint.py:164
 #, python-format
 msgid "Added %(url)s to Pocket"
 msgstr "已将 %(url)s 添加到 Pocket"
 
-#: galerie_flask/actions_blueprint.py:172
+#: galerie_flask/actions_blueprint.py:173
 msgid "Setting updated"
 msgstr "设置已更新"
 
-#: galerie_flask/actions_blueprint.py:223
+#: galerie_flask/actions_blueprint.py:224
 msgid "Group updated"
 msgstr "分组已更新"
 
-#: galerie_flask/actions_blueprint.py:289
+#: galerie_flask/actions_blueprint.py:290
 msgid "Instapaper username or email is required"
 msgstr "Instapaper 用户名或邮箱是必需的"
 
-#: galerie_flask/actions_blueprint.py:298
+#: galerie_flask/actions_blueprint.py:299
 msgid "Failed to log into Instapaper"
 msgstr "无法登录到 Instapaper"
 
-#: galerie_flask/actions_blueprint.py:334
+#: galerie_flask/actions_blueprint.py:335
 msgid "Failed to add to Instapaper"
 msgstr "无法添加到 Instapaper"
 
-#: galerie_flask/actions_blueprint.py:335
+#: galerie_flask/actions_blueprint.py:336
 #, python-format
 msgid "Added %(url)s to Instapaper"
 msgstr "已将 %(url)s 添加到 Instapaper"
 
-#: galerie_flask/pages_blueprint.py:254
+#: galerie_flask/pages_blueprint.py:256
 msgid "Twitter feed already exists"
 msgstr "Twitter 订阅源已存在"
 
-#: galerie_flask/pages_blueprint.py:256
+#: galerie_flask/pages_blueprint.py:258
 msgid "Feed already exists"
 msgstr "订阅源已存在"
 
@@ -206,8 +206,12 @@ msgid "Share"
 msgstr "分享至"
 
 #: galerie_flask/templates/load_more_button.html:13
-msgid "Load more"
-msgstr "加载更多"
+msgid "Load"
+msgstr "加载"
+
+#: galerie_flask/templates/load_more_button.html:13
+msgid "more"
+msgstr "更多"
 
 #: galerie_flask/templates/login.html:3
 msgid "Login | Galerie"

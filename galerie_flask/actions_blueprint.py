@@ -96,9 +96,10 @@ def deauth():
 @catches_exceptions
 @requires_auth
 def load_more():
-    sort_by = request.args.get('sort', 'desc') == 'desc'
-    gid = request.args.get('group') if request.args.get('group') else None
     from_iid = request.args.get('from_iid')
+    gid = request.args.get('group') if request.args.get('group') else None
+    sort_by = request.args.get('sort', 'desc') == 'desc'
+    remaining_count = int(request.args.get('remaining_count'))
     infinite_scroll = request.cookies.get('infinite_scroll', '1') == '1'
    
     feed_filter = FeedFilter(gid)
@@ -115,7 +116,7 @@ def load_more():
     if last_iid:
         args = {}
         items_args(args, rendered_items, gid is None)
-        load_more_button_args(args, last_iid, gid, sort_by, infinite_scroll)
+        load_more_button_args(args, last_iid, gid, sort_by, infinite_scroll, remaining_count - max_items)
         rendered_string = \
             render_template('items_stream.html', **args) + "\n" + \
             render_template('load_more_button.html', **args)
