@@ -49,13 +49,15 @@ if (!canGoBack) {
 }
 
 // Add animate css classes to elements
-const isIos = /iPad|iPhone|iPod/.test(navigator.userAgent) && !window.MSStream;
+const animateLongClasses = ['.button', '.link-button']
 document.addEventListener('DOMContentLoaded', () => {
-  document.querySelectorAll('.button').forEach(button => {
-    button.classList.add('animate-long');
-  });
+  for (const selector of animateLongClasses) {
+    document.querySelectorAll(selector).forEach(element => {
+      element.classList.add('animate-long');
+    });
+  }
   
-  if (isIos) {
+  if (window.isIos) {
     // Add touch event handlers to elements with touch-animate class
     document.querySelectorAll('.animate-long').forEach(element => {
       element.addEventListener('touchstart', () => {

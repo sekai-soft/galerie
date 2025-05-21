@@ -1,7 +1,6 @@
 // only show refresh on iOS PWA
-const isIos = /iPad|iPhone|iPod/.test(navigator.userAgent) && !window.MSStream;
 const isStandalone = navigator.standalone || window.matchMedia("(display-mode: standalone)").matches;
-if (!isIos || !isStandalone) {
+if (!window.isIos || !isStandalone) {
     const refreshButton = document.getElementById('refresh-button');
     refreshButton.style.display = 'none';
 }
