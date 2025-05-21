@@ -8,12 +8,12 @@
     width: calc((100% - 64px) / 3)
 }
 
-.grid-item .title {
+.grid-item-title {
     font-size: 1em;
     line-height: 2;
 }
 
-.grid-item .feed-title {
+.grid-item-feed-title {
     font-size: 0.75em;
     line-height: 1.75;
 }
@@ -49,12 +49,12 @@ input {
         width: calc((100% - 64px) / 3)
     }
 
-    .grid-item .title {
+    .grid-item-title {
         font-size: 1em;
         line-height: 2;
     }
     
-    .grid-item .feed-title {
+    .grid-item-feed-title {
         font-size: 0.75em;
         line-height: 1.75;
     }
@@ -84,12 +84,12 @@ input {
         width: calc((100% - 32px) / 2)
     }
 
-    .grid-item .title {
+    .grid-item-title {
         font-size: 1em;
         line-height: 2;
     }
     
-    .grid-item .feed-title {
+    .grid-item-feed-title {
         font-size: 0.75em;
         line-height: 1.75;
     }
