@@ -47,3 +47,28 @@ if (!canGoBack) {
     backButton.style.display = 'none';
   }
 }
+
+// Add animate css classes to elements
+const isIos = /iPad|iPhone|iPod/.test(navigator.userAgent) && !window.MSStream;
+document.addEventListener('DOMContentLoaded', () => {
+  document.querySelectorAll('.button').forEach(button => {
+    button.classList.add('animate-long');
+  });
+  
+  if (isIos) {
+    // Add touch event handlers to elements with touch-animate class
+    document.querySelectorAll('.animate-long').forEach(element => {
+      element.addEventListener('touchstart', () => {
+        this.classList.add('pressed');
+      }, {passive: true});
+      
+      element.addEventListener('touchend', () =>{
+        this.classList.remove('pressed');
+      }, {passive: true});
+      
+      element.addEventListener('touchcancel', () => {
+        this.classList.remove('pressed');
+      }, {passive: true});
+    });
+  }
+});

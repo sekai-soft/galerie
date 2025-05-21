@@ -338,3 +338,25 @@ textarea {
     from {bottom: 24px; opacity: 1;}
     to {bottom: 0; opacity: 0;}
 }
+
+/* Element animations */
+.animate-long {
+    position: relative;
+    -webkit-tap-highlight-color: transparent;
+    -webkit-transition: transform 0.1s ease;
+    transition: transform 0.1s ease;
+    /* Prevent text selection during taps */
+    -webkit-touch-callout: none;
+    -webkit-user-select: none;
+    user-select: none;
+}
+
+.animate-long:active {
+    -webkit-transform: translateY(2px) scale(0.9);
+    transform: translateY(2px) scale(0.9);
+}
+
+.animate-long.pressed {
+    -webkit-transform: translateY(2px) scale(0.9);
+    transform: translateY(2px) scale(0.9);
+}
