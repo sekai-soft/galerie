@@ -10,5 +10,10 @@
         hx-target="#grid"
         hx-swap="beforeend"
         hx-disabled-elt="this"
-    >{{ _('Load') }} {{ remaining_count }} {{ _('more') }} <span class="htmx-indicator">...</span></button>
+    >
+    {% if remaining_count > 0 %}
+        {{ _('Load') }} {{ remaining_count }} {{ _('more') }} <span class="htmx-indicator">...</span></button>
+    {% else %}
+        {{ _('Load') }} {{ _('more') }} <span class="htmx-indicator">...</span></button>
+    {% endif %}
 </div>

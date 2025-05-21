@@ -10,7 +10,7 @@ from galerie.rendered_item import RenderedItem
 from galerie.twitter import fix_shareable_twitter_url
 from .get_aggregator import get_aggregator
 
-max_items = 15
+max_items = 10
 cookie_max_age = 60 * 60 * 24 * 365  # 1 year
 
 
