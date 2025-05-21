@@ -11,22 +11,9 @@
 .grid-item .title {
     font-size: 1em;
     line-height: 2;
-
-    position: relative;
-    transition: transform 0.1s ease;
 }
 
 .grid-item .feed-title {
-    font-size: 0.75em;
-    line-height: 1.75;
-}
-
-.grid-item .title:active {
-    font-size: 1em;
-    line-height: 2;
-}
-
-.grid-item .feed-title:active {
     font-size: 0.75em;
     line-height: 1.75;
 }
@@ -124,17 +111,6 @@ input {
 /* non-sizes */
 .app {
     padding-bottom: env(safe-area-inset-bottom, 1em);
-}
-
-.item-image-container {
-    position: relative;
-
-    position: relative;
-    transition: transform 0.1s ease;
-}
-
-.item-image-container:active {
-    transform: translateY(2px) scale(0.9);
 }
 
 .item-image-overlay {
@@ -236,25 +212,6 @@ textarea {
 
 .link-button {
     text-decoration: none;
-    position: relative;
-}
-
-.grid-item .title {
-    position: relative;
-    transition: transform 0.1s ease;
-}
-
-.grid-item .feed-title {
-    position: relative;
-    transition: transform 0.1s ease;
-}
-
-.grid-item .title:active {
-    transform: translateY(1px) scale(0.95);
-}
-
-.grid-item .feed-title:active {
-    transform: translateY(1px) scale(0.95);
 }
 
 /** htmx-indicator **/
@@ -338,8 +295,8 @@ textarea {
 .animate-long {
     position: relative;
     -webkit-tap-highlight-color: transparent;
-    -webkit-transition: transform 0.1s ease;
-    transition: transform 0.1s ease;
+    -webkit-transition: transform 0.2s ease;
+    transition: transform 0.2s ease;
     /* Prevent text selection during taps */
     -webkit-touch-callout: none;
     -webkit-user-select: none;

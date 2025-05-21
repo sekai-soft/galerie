@@ -49,16 +49,15 @@ if (!canGoBack) {
 }
 
 // Add animate css classes to elements
-const animateLongClasses = ['.button', '.link-button']
+const animateLongClasses = ['.button', '.link-button', '.item-image-container']
 document.addEventListener('DOMContentLoaded', () => {
   for (const selector of animateLongClasses) {
     document.querySelectorAll(selector).forEach(element => {
       element.classList.add('animate-long');
     });
   }
-  
+
   if (window.isIos) {
-    // Add touch event handlers to elements with touch-animate class
     document.querySelectorAll('.animate-long').forEach(element => {
       element.addEventListener('touchstart', () => {
         this.classList.add('pressed');
