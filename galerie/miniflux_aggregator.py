@@ -4,12 +4,13 @@ from datetime import datetime
 from urllib.parse import urlparse
 from typing import List, Optional, Dict
 from bs4 import BeautifulSoup
-from .item import Item, fix_nitter_url
+from .item import Item
 from .group import Group
 from .feed_filter import FeedFilter
 from .rss_aggregator import RssAggregator, AuthError, ConnectionInfo
 from .feed import Feed
 from .parse_feed_features import parse_feed_features
+from .twitter import fix_nitter_url
 
 
 TIMEOUT = 5

@@ -113,6 +113,10 @@ input {
     padding-bottom: env(safe-area-inset-bottom, 1em);
 }
 
+.item-image-container {
+    position: relative;
+}
+
 .item-image-overlay {
     position: absolute;
     top: 8px;

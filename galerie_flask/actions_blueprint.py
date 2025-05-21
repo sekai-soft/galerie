@@ -12,7 +12,7 @@ from requests.auth import HTTPBasicAuth
 from galerie.feed_filter import FeedFilter
 from galerie.rendered_item import convert_rendered_items
 from galerie.rss_aggregator import AuthError
-from galerie.parse_feed_features import is_nitter_on_fly, extract_nitter_on_fly
+from galerie.twitter import get_nitter_feed_url
 from .utils import requires_auth, max_items, get_pocket_client,\
     load_more_button_args, mark_as_read_button_args, items_args, add_image_ui_extras,\
     decode_setup_to_cookies, is_instapaper_available, get_instapaper_auth, cookie_max_age
@@ -236,18 +236,7 @@ def add_feed():
     if 'twitter_handle' in request.form:
         twitter_handle = request.form["twitter_handle"]
         twitter_handle = twitter_handle[1:] if twitter_handle[0] == '@' else twitter_handle
-
-        # find a nitter-on-fly feed
-        for feed in g.aggregator.get_feeds():
-            f_url = feed.features['feed_url']
-            if is_nitter_on_fly(f_url):
-                domain, password = extract_nitter_on_fly(f_url)
-                break
-               
-        if domain and password:
-            feed_url = f'https://{domain}/{twitter_handle}/rss?key={password}'
-        else:
-            return make_toast(400, "Cannot find an existing nitter-on-fly feed")
+        feed_url = get_nitter_feed_url(twitter_handle)
     elif 'url' in request.form:
         feed_url = request.form['url']
 
