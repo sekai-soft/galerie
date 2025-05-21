@@ -49,7 +49,7 @@ if (!canGoBack) {
 }
 
 // Add animate css classes to elements
-const animateLongClasses = ['.button', '.link-button', '.item-image-container']
+const animateLongClasses = ['.button', '.link-button']
 document.addEventListener('DOMContentLoaded', () => {
   for (const selector of animateLongClasses) {
     document.querySelectorAll(selector).forEach(element => {

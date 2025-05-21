@@ -1,7 +1,7 @@
 {% for item in items %}
 <div id="{{ item.uid }}" class="grid-item" x-data="{}">
     <a href="/item?uid={{ item.uid }}">
-        <div class="item-image-container">
+        <div class="item-image-container animate-long">
             {% if item.image_url %}
             <img
                 id="img-{{ item.uid }}"
@@ -29,12 +29,14 @@
             {% endif %}
         </div>
     </a>
-    <a href="/feed?fid={{ item.fid }}" class="title user-string-horizontal">{{ item.title }}</a>
-    <a href="/feed?fid={{ item.fid }}" class="feed-title user-string-horizontal">
-        {% if should_show_group %}
-        <span class="tag">{{ item.groups[0].title }}</span>
-        {% endif %}
-        {{ item.feed_title }}
-    </a>
+    <div class="animate-long">
+        <a href="/feed?fid={{ item.fid }}" class="title user-string-horizontal">{{ item.title }}</a>
+        <a href="/feed?fid={{ item.fid }}" class="feed-title user-string-horizontal">
+            {% if should_show_group %}
+            <span class="tag">{{ item.groups[0].title }}</span>
+            {% endif %}
+            {{ item.feed_title }}
+        </a>
+    </div>
 </div>
 {% endfor %}
