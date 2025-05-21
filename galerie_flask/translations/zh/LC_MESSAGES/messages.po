@@ -7,7 +7,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: PROJECT VERSION\n"
 "Report-Msgid-Bugs-To: EMAIL@ADDRESS\n"
-"POT-Creation-Date: 2025-05-19 21:28+0000\n"
+"POT-Creation-Date: 2025-05-21 05:37+0000\n"
 "PO-Revision-Date: 2024-06-27 08:04+0000\n"
 "Last-Translator: FULL NAME <EMAIL@ADDRESS>\n"
 "Language: zh\n"
@@ -69,57 +69,57 @@ msgstr "订阅源已存在"
 msgid "Add feed | Galerie"
 msgstr "添加订阅源 | Galerie"
 
-#: galerie_flask/templates/add_feed.html:4
-#: galerie_flask/templates/settings.html:8
+#: galerie_flask/templates/add_feed.html:5
+#: galerie_flask/templates/settings.html:9
 msgid "Add feed"
 msgstr "添加订阅源"
 
-#: galerie_flask/templates/add_feed.html:13
+#: galerie_flask/templates/add_feed.html:14
 msgid "Twitter feed"
 msgstr "Twitter 订阅源"
 
-#: galerie_flask/templates/add_feed.html:22
-#: galerie_flask/templates/add_feed.html:31
+#: galerie_flask/templates/add_feed.html:23
+#: galerie_flask/templates/add_feed.html:32
 msgid "Feed URL"
 msgstr "订阅源 URL"
 
-#: galerie_flask/templates/add_feed.html:40
-#: galerie_flask/templates/update_feed.html:8
+#: galerie_flask/templates/add_feed.html:41
+#: galerie_flask/templates/update_feed.html:9
 msgid "Group"
 msgstr "分组"
 
-#: galerie_flask/templates/add_feed.html:54
+#: galerie_flask/templates/add_feed.html:55
 msgid "Confirm"
 msgstr "确认"
 
-#: galerie_flask/templates/add_feed.html:56
+#: galerie_flask/templates/add_feed.html:57
 msgid "Other ways to add feed"
 msgstr "其他添加订阅源的方式"
 
-#: galerie_flask/templates/add_feed.html:58
+#: galerie_flask/templates/add_feed.html:59
 msgid "1. Drag this bookmarklet to your browser's bookmark bar"
 msgstr "1. 将这个书签拖到浏览器的书签栏"
 
-#: galerie_flask/templates/add_feed.html:59
+#: galerie_flask/templates/add_feed.html:60
 msgid "Add to Galerie"
 msgstr "添加至 Galerie"
 
-#: galerie_flask/templates/add_feed.html:61
+#: galerie_flask/templates/add_feed.html:62
 msgid "2. Add"
 msgstr "2. 添加"
 
-#: galerie_flask/templates/add_feed.html:62
+#: galerie_flask/templates/add_feed.html:63
 msgid "this"
 msgstr "这个"
 
-#: galerie_flask/templates/add_feed.html:63
+#: galerie_flask/templates/add_feed.html:64
 msgid "iOS shortcut"
 msgstr "添加 iOS 快捷方式"
 
-#: galerie_flask/templates/add_feed.html:66
+#: galerie_flask/templates/add_feed.html:67
 #: galerie_flask/templates/login.html:77
-#: galerie_flask/templates/settings.html:32
-#: galerie_flask/templates/settings.html:79
+#: galerie_flask/templates/settings.html:33
+#: galerie_flask/templates/settings.html:80
 msgid "Close"
 msgstr "关闭"
 
@@ -128,7 +128,6 @@ msgid "All items are loaded"
 msgstr "所有条目已加载"
 
 #: galerie_flask/templates/base.html:8
-#: galerie_flask/templates/base_with_app_bar.html:8
 msgid "A Pinterest/Xiaohongshu photo wall style RSS reader"
 msgstr "一款 Pinterest/小红书照片墙式的 RSS 阅读器"
 
@@ -141,20 +140,20 @@ msgid "Oops something went wrong"
 msgstr "糟糕，出错了"
 
 #: galerie_flask/templates/error.html:14
-#: galerie_flask/templates/settings.html:25
+#: galerie_flask/templates/settings.html:26
 msgid "Logout"
 msgstr "登出"
 
-#: galerie_flask/templates/feeds.html:3 galerie_flask/templates/feeds.html:4
-#: galerie_flask/templates/settings.html:13
+#: galerie_flask/templates/feeds.html:3 galerie_flask/templates/feeds.html:5
+#: galerie_flask/templates/settings.html:14
 msgid "Manage feeds"
 msgstr "管理订阅源"
 
-#: galerie_flask/templates/feeds.html:16
+#: galerie_flask/templates/feeds.html:18
 msgid "(No feed)"
 msgstr "(没有订阅源)"
 
-#: galerie_flask/templates/feeds.html:21
+#: galerie_flask/templates/feeds.html:23
 msgid "(filtered)"
 msgstr "(已过滤)"
 
@@ -190,19 +189,19 @@ msgstr "有"
 msgid "unread items"
 msgstr "未读条目"
 
-#: galerie_flask/templates/item.html:41
+#: galerie_flask/templates/item.html:42
 msgid "Open link"
 msgstr "打开链接"
 
-#: galerie_flask/templates/item.html:53
+#: galerie_flask/templates/item.html:54
 msgid "Save to Instapaper"
 msgstr "保存至 Instapaper"
 
-#: galerie_flask/templates/item.html:65
+#: galerie_flask/templates/item.html:66
 msgid "Save to Pocket"
 msgstr "保存至 Pocket"
 
-#: galerie_flask/templates/item.html:75
+#: galerie_flask/templates/item.html:76
 msgid "Share"
 msgstr "分享至"
 
@@ -235,7 +234,7 @@ msgid "Password"
 msgstr "密码"
 
 #: galerie_flask/templates/login.html:46
-#: galerie_flask/templates/settings.html:76
+#: galerie_flask/templates/settings.html:77
 msgid "Login"
 msgstr "登录"
 
@@ -264,68 +263,68 @@ msgstr "已连接到 Pocket"
 msgid "Back to settings"
 msgstr "返回设置"
 
-#: galerie_flask/templates/settings.html:4
+#: galerie_flask/templates/settings.html:5
 msgid "Settings"
 msgstr "设置"
 
-#: galerie_flask/templates/settings.html:18
+#: galerie_flask/templates/settings.html:19
 msgid "connection"
 msgstr "连接"
 
-#: galerie_flask/templates/settings.html:19
+#: galerie_flask/templates/settings.html:20
 msgid "[Server authenticated]"
 msgstr "[服务器端验证]"
 
-#: galerie_flask/templates/settings.html:28
+#: galerie_flask/templates/settings.html:29
 msgid "Show setup code"
 msgstr "显示初始设置码"
 
-#: galerie_flask/templates/settings.html:39
+#: galerie_flask/templates/settings.html:40
 msgid "Instapaper connection"
 msgstr "Instapaper 连接"
 
-#: galerie_flask/templates/settings.html:44
+#: galerie_flask/templates/settings.html:45
 msgid "Log into Instapaper"
 msgstr "登录到 Instapaper"
 
-#: galerie_flask/templates/settings.html:46
-#: galerie_flask/templates/settings.html:94
+#: galerie_flask/templates/settings.html:47
+#: galerie_flask/templates/settings.html:95
 msgid "Logged in as"
 msgstr "已用此身份登陆"
 
-#: galerie_flask/templates/settings.html:51
+#: galerie_flask/templates/settings.html:52
 msgid "Log out of Instapaper"
 msgstr "从 Instapaper 登出"
 
-#: galerie_flask/templates/settings.html:55
+#: galerie_flask/templates/settings.html:56
 msgid "Instapaper username or email"
 msgstr "Instapaper 用户名或邮箱"
 
-#: galerie_flask/templates/settings.html:62
+#: galerie_flask/templates/settings.html:63
 msgid "Instapaper password"
 msgstr "Instapaper 密码"
 
-#: galerie_flask/templates/settings.html:86
+#: galerie_flask/templates/settings.html:87
 msgid "Pocket connection"
 msgstr "Pocket 连接"
 
-#: galerie_flask/templates/settings.html:92
+#: galerie_flask/templates/settings.html:93
 msgid "Connect to Pocket"
 msgstr "连接到 Pocket"
 
-#: galerie_flask/templates/settings.html:99
+#: galerie_flask/templates/settings.html:100
 msgid "Disconnect from Pocket"
 msgstr "从 Pocket 断开连接"
 
-#: galerie_flask/templates/settings.html:104
+#: galerie_flask/templates/settings.html:105
 msgid "Infinite scroll"
 msgstr "无限滚动"
 
-#: galerie_flask/templates/settings.html:111
+#: galerie_flask/templates/settings.html:112
 msgid "Yes"
 msgstr "是"
 
-#: galerie_flask/templates/settings.html:112
+#: galerie_flask/templates/settings.html:113
 msgid "No"
 msgstr "否"
 
@@ -333,10 +332,11 @@ msgstr "否"
 msgid "Update feed"
 msgstr "更新订阅源"
 
-#: galerie_flask/templates/update_feed.html:29
+#: galerie_flask/templates/update_feed.html:30
 msgid "Are you sure you want to delete this feed?"
 msgstr "确定要删除这个订阅源吗？"
 
-#: galerie_flask/templates/update_feed.html:31
+#: galerie_flask/templates/update_feed.html:32
 msgid "Delete feed"
 msgstr "删除订阅源"
+

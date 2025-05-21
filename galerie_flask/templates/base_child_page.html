@@ -1,0 +1,20 @@
+{% extends 'base.html' %}
+
+{% block title %}{{ title }}{% endblock %}
+
+{% block content %}
+<div class="header">
+    <div class="header-left">
+        <a
+            id="back-button"
+            href="javascript:window.history.back();"
+            class="link-button"
+        >⬅️</a>
+        <p class="user-string-horizontal">{% block header_title %}{% endblock %}</p>
+    </div>
+    <div class="header-right">
+        {% block header_right_content %}{% endblock %}
+    </div>
+</div>
+{% block page_content %}{% endblock %}
+{% endblock %}

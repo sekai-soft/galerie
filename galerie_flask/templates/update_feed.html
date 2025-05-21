@@ -1,9 +1,10 @@
-{% extends 'base_with_app_bar.html' %}
+{% extends 'base_child_page.html' %}
 
 {% block title %}{{ _('Update feed') }}{% endblock %}
+
 {% block header_title %}{{ feed.title }}{% endblock %}
 
-{% block content %}
+{% block page_content %}
 <p>
     {{ _('Group') }}
     <select

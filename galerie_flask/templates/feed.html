@@ -1,9 +1,11 @@
-{% extends 'base_with_app_bar.html' %}
+{% extends 'base_child_page.html' %}
 
 {% block title %}{{ feed.title }}{% endblock %}
+
 {% block header_title %}
 <span class="tag">{{ feed.group_title }}</span> {{ feed.title }}
 {% endblock %}
+
 {% block header_right_content %}
 <a
     href="/update_feed?fid={{ feed.fid }}"
@@ -11,7 +13,7 @@
 >⚙️</a>
 {% endblock %}
 
-{% block content %}
+{% block page_content %}
 <div class="grid" id="grid">
     <div class="grid-sizer"></div>
     {% include 'items_stream.html' %}

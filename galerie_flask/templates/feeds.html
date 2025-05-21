@@ -1,7 +1,9 @@
-{% extends 'base_with_app_bar.html' %}
+{% extends 'base_child_page.html' %}
 
 {% block title %}{{ _('Manage feeds') }}{% endblock %}
+
 {% block header_title %}{{ _('Manage feeds') }}{% endblock %}
+
 {% block header_right_content %}
 <a
     href="/add_feed"
@@ -9,7 +11,7 @@
 >🆕</a>
 {% endblock %}
 
-{% block content %}
+{% block page_content %}
 {% for feeds_in_group in feeds_by_groups %}
 <p class="feeds">{{ feeds_in_group.group.title }}</p>
 {% if not feeds_in_group.feeds %}

@@ -1,9 +1,10 @@
-{% extends 'base_with_app_bar.html' %}
+{% extends 'base_child_page.html' %}
 
 {% block title %}{{ _('Settings | Galerie') }}{% endblock %}
+
 {% block header_title %}{{ _('Settings') }}{% endblock %}
 
-{% block content %}
+{% block page_content %}
 <a href="/add_feed">
     <button class="button" style="font-size: 1em">{{ _('Add feed')}}</button>
 </a>
