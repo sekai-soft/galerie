@@ -1,7 +1,6 @@
 import os
 import json
 import base64
-from typing import Optional
 from functools import wraps
 from urllib.parse import urlparse
 from sentry_sdk import capture_exception
@@ -235,17 +234,14 @@ def add_feed_page():
     
     if not url:
         return render_template('add_feed.html', groups=g.aggregator.get_groups(), bookmarklet=bookmarklet)
-    twitter_handle = extract_twitter_handle_from_url(url)
 
+    twitter_handle = extract_twitter_handle_from_url(url)
     for feed in g.aggregator.get_feeds():
         feed_url = feed.features["feed_url"]
-        if twitter_handle and twitter_handle == extract_twitter_handle_from_feed_url(feed_url):
-            return render_template('add_feed.html', error=_("Twitter feed already exists") + " @" + twitter_handle)
-        if url == feed_url:
-            return render_template('add_feed.html', error=_("Feed already exists") + " " + url)
+        if (twitter_handle and twitter_handle == extract_twitter_handle_from_feed_url(feed_url)) \
+                or (url == feed_url):
+            return redirect(f'/feed?fid={feed.fid}')
 
-    if twitter_handle:
-        return render_template('add_feed.html', twitter_handle=twitter_handle, groups=g.aggregator.get_groups(), bookmarklet=bookmarklet)
     return render_template('add_feed.html', url=url, groups=g.aggregator.get_groups(), bookmarklet=bookmarklet)
 
 

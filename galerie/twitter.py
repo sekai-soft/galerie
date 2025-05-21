@@ -22,7 +22,7 @@ def fix_nitter_url(url: str) -> str:
 
 
 def create_nitter_feed_url(twitter_handle: str) -> str:
-    return f"{get_nitter_base_url()}/@{twitter_handle}/rss?key={get_nitter_rss_password()}"
+    return f"{get_nitter_base_url()}/{twitter_handle}/rss?key={get_nitter_rss_password()}"
 
 
 def extract_twitter_handle_from_feed_url(url: str) -> Optional[str]:

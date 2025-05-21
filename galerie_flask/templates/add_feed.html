@@ -5,21 +5,9 @@
 {% block header_title %}{{ _('Add feed') }}{% endblock %}
 
 {% block page_content %}
-{% if error %}
-<p>{{ error }}</p>
-{% else %}  
 <form>
     <p>
-        {% if twitter_handle %}
-        {{ _('Twitter feed') }}
-        <input
-            type="text"
-            name="twitter_handle"
-            required
-            value="@{{ twitter_handle }}"
-            readonly
-        >
-        {% elif url %}
+        {% if url %}
         {{ _('Feed URL') }} 
         <input
             type="text"
@@ -69,5 +57,4 @@
         </dialog>
     </div>
 </form>
-{% endif %}
 {% endblock %}
