@@ -253,7 +253,7 @@ def item_page():
     iid = uid.split('-')[0]
     u_index = int(uid.split('-')[1])
     item = g.aggregator.get_item(iid)
-    rendered_items = convert_rendered_item(item)
+    rendered_items = convert_rendered_item(item, ignore_rendered_items_cap=True)
     for rendered_item in rendered_items:
         add_image_ui_extras(rendered_item)
     return render_template(

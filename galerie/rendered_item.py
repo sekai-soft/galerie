@@ -1,4 +1,4 @@
-from typing import List
+from typing import List, Optional
 from dataclasses import dataclass, field
 from bs4 import BeautifulSoup
 from .item import Item
@@ -25,13 +25,14 @@ class RenderedItem:
     ui_extra: dict = field(default_factory=dict)
 
 
-def convert_rendered_item(item: Item) -> RenderedItem:
+def convert_rendered_item(item: Item, ignore_rendered_items_cap: Optional[bool]=False) -> RenderedItem:
     res = []
 
     soup = BeautifulSoup(item.html, 'html.parser')
     target_elements = soup.find_all(['img', 'video'])
     total_target_elements = len(target_elements)
-    target_elements = target_elements[:MAX_RENDERED_ITEMS_COUNT]
+    if not ignore_rendered_items_cap:
+        target_elements = target_elements[:MAX_RENDERED_ITEMS_COUNT]
 
     for i, target_element in enumerate(target_elements):
         if target_element.name == 'img':
