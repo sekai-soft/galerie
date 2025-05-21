@@ -12,7 +12,7 @@ from requests.auth import HTTPBasicAuth
 from galerie.feed_filter import FeedFilter
 from galerie.rendered_item import convert_rendered_items
 from galerie.rss_aggregator import AuthError
-from galerie.twitter import get_nitter_feed_url
+from galerie.twitter import create_nitter_feed_url
 from .utils import requires_auth, max_items, get_pocket_client,\
     load_more_button_args, mark_as_read_button_args, items_args, add_image_ui_extras,\
     decode_setup_to_cookies, is_instapaper_available, get_instapaper_auth, cookie_max_age
@@ -236,7 +236,7 @@ def add_feed():
     if 'twitter_handle' in request.form:
         twitter_handle = request.form["twitter_handle"]
         twitter_handle = twitter_handle[1:] if twitter_handle[0] == '@' else twitter_handle
-        feed_url = get_nitter_feed_url(twitter_handle)
+        feed_url = create_nitter_feed_url(twitter_handle)
     elif 'url' in request.form:
         feed_url = request.form['url']
 

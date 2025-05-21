@@ -10,9 +10,9 @@ from flask_babel import _
 from pocket import Pocket
 from galerie.feed_filter import FeedFilter
 from galerie.rendered_item import convert_rendered_items, convert_rendered_item
-from galerie.parse_feed_features import parse_twitter_handle
+from galerie.twitter import extract_twitter_handle_from_feed_url, extract_twitter_handle_from_url
 from .utils import requires_auth, max_items, load_more_button_args,\
-    mark_as_read_button_args, items_args, add_image_ui_extras, encode_setup_from_cookies, cookie_max_age, twitter_domains,\
+    mark_as_read_button_args, items_args, add_image_ui_extras, encode_setup_from_cookies, cookie_max_age, \
     is_instapaper_available, is_pocket_available
 from .get_aggregator import get_aggregator
 
@@ -214,19 +214,6 @@ def is_valid_url(url: str) -> bool:
         return False
 
 
-def extract_twitter_handle(url: str) -> Optional[str]:
-    if urlparse(url).netloc not in twitter_domains:
-        return None
-    
-    path = urlparse(url).path
-    if path.startswith('/'):
-        path = path[1:]
-    
-    handle = path.split('/')[0]
-    if handle:
-        return handle
-    return None
-
 bookmarklet = """javascript:(function() {
   const url = `https://galerie-reader.app/add_feed?url=${window.location.href}`;
   window.open(url, '_blank').focus();
@@ -248,11 +235,11 @@ def add_feed_page():
     
     if not url:
         return render_template('add_feed.html', groups=g.aggregator.get_groups(), bookmarklet=bookmarklet)
-    twitter_handle = extract_twitter_handle(url)
+    twitter_handle = extract_twitter_handle_from_url(url)
 
     for feed in g.aggregator.get_feeds():
         feed_url = feed.features["feed_url"]
-        if twitter_handle and twitter_handle == parse_twitter_handle(feed_url):
+        if twitter_handle and twitter_handle == extract_twitter_handle_from_feed_url(feed_url):
             return render_template('add_feed.html', error=_("Twitter feed already exists") + " @" + twitter_handle)
         if url == feed_url:
             return render_template('add_feed.html', error=_("Feed already exists") + " " + url)

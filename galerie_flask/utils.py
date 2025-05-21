@@ -7,20 +7,11 @@ from flask import request, g, redirect, Response
 from flask_babel import _
 from pocket import Pocket
 from galerie.rendered_item import RenderedItem
+from galerie.twitter import fix_shareable_twitter_url
 from .get_aggregator import get_aggregator
 
 max_items = 5
 cookie_max_age = 60 * 60 * 24 * 365  # 1 year
-
-
-twitter_domains = {
-    "twitter.com",
-    "mobile.twitter.com",
-    "x.com",
-    "mobile.x.com",
-    "fxtwitter.com",
-    "fixupx.com"
-}
 
 
 def get_pocket_client():
@@ -83,20 +74,14 @@ def items_args(args: dict, rendered_items: List[RenderedItem], should_show_group
     })
 
 
-def fix_shareable_url(url: str) -> str:
-    for domain in twitter_domains:
-        if url.startswith(f'http://{domain}'):
-            return url.replace(f'http://{domain}', 'https://fxtwitter.com')
-        elif url.startswith(f'https://{domain}'):
-            return url.replace(f'https://{domain}', 'https://fxtwitter.com')
-    return url
+
 
 
 def add_image_ui_extras(rendered_item: RenderedItem):
     rendered_item.ui_extra['quoted_url'] = quote(rendered_item.url)
     rendered_item.ui_extra['encoded_tags'] = ''.join(map(
         lambda g: f'&tag={quote_plus(g.title)}&tag={quote(f'group_id={g.gid}')}', rendered_item.groups)) if rendered_item.groups else ''
-    rendered_item.ui_extra['shareable_url'] = fix_shareable_url(rendered_item.url)
+    rendered_item.ui_extra['shareable_url'] = fix_shareable_twitter_url(rendered_item.url)
 
 
 def encode_setup_from_cookies() -> str:
