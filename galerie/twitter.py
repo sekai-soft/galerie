@@ -33,6 +33,12 @@ def fix_nitter_rt_title(title: str) -> str:
     return title
 
 
+def fix_nitter_urls_in_text(text: str) -> str:
+    nitter_base_url = get_nitter_base_url()
+    nitter_hostname = urlparse(nitter_base_url).netloc
+    return text.replace(nitter_hostname, "twitter.com")
+
+
 def create_nitter_feed_url(twitter_handle: str) -> str:
     return f"{get_nitter_base_url()}/{twitter_handle}/rss?key={get_nitter_rss_password()}"
 
