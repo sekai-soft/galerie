@@ -10,7 +10,7 @@ from .feed_filter import FeedFilter
 from .rss_aggregator import RssAggregator, AuthError, ConnectionInfo
 from .feed import Feed
 from .parse_feed_features import parse_feed_features
-from .twitter import fix_nitter_url, fix_nitter_rt_title, fix_nitter_urls_in_text
+from .twitter import fix_nitter_url, fix_nitter_rt_title, fix_nitter_urls_in_text, fix_nitter_rt_in_text
 from .feed_icon import FeedIcon
 
 
@@ -32,6 +32,7 @@ def _entry_dict_to_item(entry_dict: dict) -> Item:
                 html += f'<img src="{enclosure["url"]}">'
     text = BeautifulSoup(html, 'html.parser').get_text(" ", strip=True)
     text = fix_nitter_urls_in_text(text)
+    text = fix_nitter_rt_in_text(text)
 
     title = entry_dict['title']
     title = fix_nitter_rt_title(title)

@@ -22,11 +22,11 @@ def fix_nitter_url(url: str) -> str:
     return url.replace(get_nitter_base_url(), "https://twitter.com")
 
 
-nitter_rt_pattern = r'^RT by @[\w\d_]+:(.*)'
+nitter_rt_title_pattern = r'^RT(?: by)? @[\w\d_]+:(.*)'
 
 
 def fix_nitter_rt_title(title: str) -> str:
-    match = re.match(nitter_rt_pattern, title, re.DOTALL)
+    match = re.match(nitter_rt_title_pattern, title, re.DOTALL)
     if match:
         content = match.group(1)
         return content.lstrip()
@@ -37,6 +37,17 @@ def fix_nitter_urls_in_text(text: str) -> str:
     nitter_base_url = get_nitter_base_url()
     nitter_hostname = urlparse(nitter_base_url).netloc
     return text.replace(nitter_hostname, "twitter.com")
+
+
+nitter_rt_text_pattern = r'RT @[\w\d_]+ :\s*(.*)'
+
+
+def fix_nitter_rt_in_text(text: str) -> str:
+    match = re.match(nitter_rt_text_pattern, text, re.DOTALL)
+    if match:
+        content = match.group(1)
+        return content.lstrip()
+    return text
 
 
 def create_nitter_feed_url(twitter_handle: str) -> str:
