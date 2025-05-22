@@ -1,0 +1,20 @@
+{% extends 'base_child_page.html' %}
+
+{% block title %}{{ _('Clean up previewed feeds') }}{% endblock %}
+
+{% block header_title %}{{ _('Clean up previewed feeds') }}{% endblock %}
+
+{% block page_content %}
+{% if previewed_feeds %}
+<button
+    class="button"
+    hx-post="/actions/clean_up_previewed_feeds"
+    hx-swap="none"
+    hx-disabled-elt="this"
+>
+    {{ _('Clean up') }} {{ previewed_feeds|length }} {{ ('previewed feeds') }} <span class="htmx-indicator">...</span>
+</button>
+{% else %}
+<p>{{ _('There is no previewed feed to clean up') }}</p>
+{% endif %}
+{% endblock %}

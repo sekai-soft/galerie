@@ -142,7 +142,7 @@ def settings_page():
         pocket_auth=pocket_auth,
         infinite_scroll=infinite_scroll,
         setup_code=setup_code,
-        instapaper_auth=instapaper_auth)
+        instapaper_auth=instapaper_auth,)
 
 
 @pages_blueprint.route("/pocket_oauth")
@@ -312,6 +312,17 @@ def add_preview_feed_page():
         "preview_group": preview_group
     }
     return render_template('add_preview_feed.html', **args)
+
+
+@pages_blueprint.route("/clean_up_preview_feeds")
+@catches_exceptions
+@requires_auth
+def clean_up_preview_feeds_page():
+    previewed_feeds = g.aggregator.get_feeds_by_group(g.aggregator.get_preview_group().gid)
+
+    return render_template(
+        'clean_up_previewed_feeds.html',
+        previewed_feeds=previewed_feeds,)
 
 
 @pages_blueprint.route("/debug")

@@ -107,3 +107,15 @@ class RssAggregator(ABC):
             if group.title == PREVIEW_GROUP_TITLE:
                 return group
         return None
+    
+    def get_feeds_by_group(self, gid: str) -> List[Feed]:
+        res = []
+        for feed in self.get_feeds():
+            if feed.gid == gid:
+                res.append(feed)
+        return res
+
+    def delete_feeds(self, gid: str):
+        for feed in self.get_feeds():
+            if feed.gid == gid:
+                self.delete_feed(feed.fid)

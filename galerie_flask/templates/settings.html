@@ -5,6 +5,7 @@
 {% block header_title %}{{ _('Settings') }}{% endblock %}
 
 {% block page_content %}
+<p>{{ _('Feed management') }}</p>
 <a href="/add_feed">
     <button class="button" style="font-size: 1em">{{ _('Add feed')}}</button>
 </a>
@@ -12,6 +13,11 @@
 <br>
 <a href="/feeds">
     <button class="button" style="font-size: 1em">{{ _('Manage feeds')}}</button>
+</a>
+<br>
+<br>
+<a href="/clean_up_preview_feeds">
+    <button class="button" style="font-size: 1em">{{ _('Clean up previewed feeds')}}</button>
 </a>
 <br>
 <br>

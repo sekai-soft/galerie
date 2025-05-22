@@ -327,6 +327,18 @@ def instapaper():
     return make_toast(200, str(_l('Added %(url)s to Instapaper', url=url)))
 
 
+@actions_blueprint.route('/clean_up_previewed_feeds', methods=['POST'])
+@requires_auth
+@catches_exceptions
+def clean_up_previewed_feeds():
+    preview_group = g.aggregator.get_preview_group()
+    g.aggregator.delete_feeds(preview_group.gid)
+
+    resp = make_response()
+    resp.headers['HX-Refresh'] = "true"
+    return resp
+
+
 @actions_blueprint.route('/mark_last_unread', methods=['POST'])
 @requires_auth
 @catches_exceptions
