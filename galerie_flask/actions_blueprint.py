@@ -240,8 +240,6 @@ def add_feed():
     else:
         feed_url = url
 
-    print(feed_url)
-
     if not feed_url:
         return make_toast(400, "URL is required")
     try:

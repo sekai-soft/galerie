@@ -7,7 +7,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: PROJECT VERSION\n"
 "Report-Msgid-Bugs-To: EMAIL@ADDRESS\n"
-"POT-Creation-Date: 2025-05-21 05:59+0000\n"
+"POT-Creation-Date: 2025-05-22 06:20+0000\n"
 "PO-Revision-Date: 2024-06-27 08:04+0000\n"
 "Last-Translator: FULL NAME <EMAIL@ADDRESS>\n"
 "Language: zh\n"
@@ -27,43 +27,35 @@ msgstr "未知服务器错误: %(e)s"
 msgid "Failed to authenticate"
 msgstr "无法进行身份验证"
 
-#: galerie_flask/actions_blueprint.py:164
+#: galerie_flask/actions_blueprint.py:165
 #, python-format
 msgid "Added %(url)s to Pocket"
 msgstr "已将 %(url)s 添加到 Pocket"
 
-#: galerie_flask/actions_blueprint.py:173
+#: galerie_flask/actions_blueprint.py:174
 msgid "Setting updated"
 msgstr "设置已更新"
 
-#: galerie_flask/actions_blueprint.py:224
+#: galerie_flask/actions_blueprint.py:225
 msgid "Group updated"
 msgstr "分组已更新"
 
-#: galerie_flask/actions_blueprint.py:290
+#: galerie_flask/actions_blueprint.py:279
 msgid "Instapaper username or email is required"
 msgstr "Instapaper 用户名或邮箱是必需的"
 
-#: galerie_flask/actions_blueprint.py:299
+#: galerie_flask/actions_blueprint.py:288
 msgid "Failed to log into Instapaper"
 msgstr "无法登录到 Instapaper"
 
-#: galerie_flask/actions_blueprint.py:335
+#: galerie_flask/actions_blueprint.py:324
 msgid "Failed to add to Instapaper"
 msgstr "无法添加到 Instapaper"
 
-#: galerie_flask/actions_blueprint.py:336
+#: galerie_flask/actions_blueprint.py:325
 #, python-format
 msgid "Added %(url)s to Instapaper"
 msgstr "已将 %(url)s 添加到 Instapaper"
-
-#: galerie_flask/pages_blueprint.py:256
-msgid "Twitter feed already exists"
-msgstr "Twitter 订阅源已存在"
-
-#: galerie_flask/pages_blueprint.py:258
-msgid "Feed already exists"
-msgstr "订阅源已存在"
 
 #: galerie_flask/templates/add_feed.html:3
 msgid "Add feed | Galerie"
@@ -74,49 +66,45 @@ msgstr "添加订阅源 | Galerie"
 msgid "Add feed"
 msgstr "添加订阅源"
 
-#: galerie_flask/templates/add_feed.html:14
-msgid "Twitter feed"
-msgstr "Twitter 订阅源"
-
-#: galerie_flask/templates/add_feed.html:23
-#: galerie_flask/templates/add_feed.html:32
+#: galerie_flask/templates/add_feed.html:11
+#: galerie_flask/templates/add_feed.html:20
 msgid "Feed URL"
 msgstr "订阅源 URL"
 
-#: galerie_flask/templates/add_feed.html:41
+#: galerie_flask/templates/add_feed.html:29
 #: galerie_flask/templates/update_feed.html:9
 msgid "Group"
 msgstr "分组"
 
-#: galerie_flask/templates/add_feed.html:55
+#: galerie_flask/templates/add_feed.html:43
 msgid "Confirm"
 msgstr "确认"
 
-#: galerie_flask/templates/add_feed.html:57
+#: galerie_flask/templates/add_feed.html:45
 msgid "Other ways to add feed"
 msgstr "其他添加订阅源的方式"
 
-#: galerie_flask/templates/add_feed.html:59
+#: galerie_flask/templates/add_feed.html:47
 msgid "1. Drag this bookmarklet to your browser's bookmark bar"
 msgstr "1. 将这个书签拖到浏览器的书签栏"
 
-#: galerie_flask/templates/add_feed.html:60
+#: galerie_flask/templates/add_feed.html:48
 msgid "Add to Galerie"
 msgstr "添加至 Galerie"
 
-#: galerie_flask/templates/add_feed.html:62
+#: galerie_flask/templates/add_feed.html:50
 msgid "2. Add"
 msgstr "2. 添加"
 
-#: galerie_flask/templates/add_feed.html:63
+#: galerie_flask/templates/add_feed.html:51
 msgid "this"
 msgstr "这个"
 
-#: galerie_flask/templates/add_feed.html:64
+#: galerie_flask/templates/add_feed.html:52
 msgid "iOS shortcut"
 msgstr "添加 iOS 快捷方式"
 
-#: galerie_flask/templates/add_feed.html:67
+#: galerie_flask/templates/add_feed.html:55
 #: galerie_flask/templates/login.html:77
 #: galerie_flask/templates/settings.html:33
 #: galerie_flask/templates/settings.html:80
@@ -189,27 +177,33 @@ msgstr "有"
 msgid "unread items"
 msgstr "未读条目"
 
-#: galerie_flask/templates/item.html:42
+#: galerie_flask/templates/item.html:50
+msgid "retweeted from "
+msgstr "转发自 "
+
+#: galerie_flask/templates/item.html:59
 msgid "Open link"
 msgstr "打开链接"
 
-#: galerie_flask/templates/item.html:54
+#: galerie_flask/templates/item.html:71
 msgid "Save to Instapaper"
 msgstr "保存至 Instapaper"
 
-#: galerie_flask/templates/item.html:66
+#: galerie_flask/templates/item.html:83
 msgid "Save to Pocket"
 msgstr "保存至 Pocket"
 
-#: galerie_flask/templates/item.html:76
+#: galerie_flask/templates/item.html:93
 msgid "Share"
 msgstr "分享至"
 
-#: galerie_flask/templates/load_more_button.html:13
+#: galerie_flask/templates/load_more_button.html:15
+#: galerie_flask/templates/load_more_button.html:17
 msgid "Load"
 msgstr "加载"
 
-#: galerie_flask/templates/load_more_button.html:13
+#: galerie_flask/templates/load_more_button.html:15
+#: galerie_flask/templates/load_more_button.html:17
 msgid "more"
 msgstr "更多"
 
@@ -343,4 +337,13 @@ msgstr "确定要删除这个订阅源吗？"
 #: galerie_flask/templates/update_feed.html:32
 msgid "Delete feed"
 msgstr "删除订阅源"
+
+#~ msgid "Twitter feed already exists"
+#~ msgstr "Twitter 订阅源已存在"
+
+#~ msgid "Feed already exists"
+#~ msgstr "订阅源已存在"
+
+#~ msgid "Twitter feed"
+#~ msgstr "Twitter 订阅源"
 

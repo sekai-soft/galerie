@@ -261,9 +261,20 @@ def item_page():
 
     feed_icon = g.aggregator.get_feed_icon(item.fid)
 
+    rt = None
+    item_url = item.url
+    item_url_twitter_handle = extract_twitter_handle_from_url(item_url)
+    if item_url_twitter_handle:
+        feed = g.aggregator.get_feed(item.fid)
+        feed_url = feed.features["feed_url"]
+        feed_url_twitter_handle = extract_twitter_handle_from_feed_url(feed_url)
+        if feed_url_twitter_handle and feed_url_twitter_handle != item_url_twitter_handle:
+            rt = item_url_twitter_handle
+
     return render_template(
         'item.html',
         feed_icon=feed_icon,
+        rt=rt,
         item=rendered_items[0],
         items=rendered_items,
         u_index=u_index,
