@@ -20,8 +20,8 @@
 {% for feed in feeds_in_group.feeds %}
 <p class="feeds">
     {% if not loop.last %}├─{% else %}└─{% endif %}
-    {% if feed.features.rss_lambda_image_simple_filters %} <span class="tag">{{ _('(filtered)') }}</span> {% endif %}
-    {% if feed.features.rss_lambda_image_simple_filters_param %} <span class="tag">{{ feed.features.rss_lambda_image_simple_filters_param | join(', ') }}</span> {% endif %}
+    {% if feed.features.rss_lambda_image_simple_filters %} <span class="highlight-text">{{ _('(filtered)') }}</span> {% endif %}
+    {% if feed.features.rss_lambda_image_simple_filters_param %} <span class="highlight-text">{{ feed.features.rss_lambda_image_simple_filters_param | join(', ') }}</span> {% endif %}
     <a href="/feed?fid={{ feed.fid }}" style="text-decoration: none;">{% if feed.features.twitter_handle %} 🐦 @{{feed.features.twitter_handle}} {% else %} {{ feed.features.feed_url }} {% endif %}</a>
 </p>
 {% endfor %}

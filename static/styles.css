@@ -169,7 +169,7 @@ textarea {
     resize: none;
 }
 
-.tag {
+.highlight-text {
     color: #CCCCCC;
     background-color: #2E2E2E;
     border: 1px solid #CCCCCC;
@@ -206,7 +206,7 @@ textarea {
     text-overflow: ellipsis;
 }
 
-.item-share-buttons {
+.item-buttons {
     display: flex;
     flex-direction: row;
     gap: 1em;
@@ -216,6 +216,18 @@ textarea {
 
 .link-button {
     text-decoration: none;
+}
+
+.item-feed-title {
+    display: flex;
+    align-items: center;
+    cursor: pointer
+}
+
+.item-feed-icon {
+    margin-right: 8px;
+    border-radius: 50%;
+    width: 1em;
 }
 
 /** htmx-indicator **/

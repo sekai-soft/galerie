@@ -34,8 +34,16 @@
     >{{ loop.index }}/{{ items|length }}</div> 
 </div>
 {% endfor %}
+
+<a href="/feed?fid={{ item.fid }}" style="font-size: 1em">
+    <p class="animate-long item-feed-title">
+    <img class="item-feed-icon" src="data:{{ feed_icon.data }}">
+    {{ item.feed_title }}
+</p>
+</a>
+
 <p>{{ item.text }}</p>
-<div class="item-share-buttons">
+<div class="item-buttons">
     <!-- Open link -->
     <a href="{{ item.url }}" target="_blank">
         <button class="button" style="font-size: 1em">
@@ -68,7 +76,7 @@
     {% endif %}
 
     <!-- Web share -->
-     <button
+    <button
         id="item-share-web-share-button"
         class="button"
         onclick="navigator.share({'url': '{{ item.ui_extra["shareable_url"] }}'})"

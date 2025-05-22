@@ -11,9 +11,11 @@ from .rss_aggregator import RssAggregator, AuthError, ConnectionInfo
 from .feed import Feed
 from .parse_feed_features import parse_feed_features
 from .twitter import fix_nitter_url, fix_nitter_rt_title, fix_nitter_urls_in_text
+from .feed_icon import FeedIcon
 
 
 TIMEOUT = 5
+
 
 def _category_dict_to_group(category_dict: dict) -> Group:
     return Group(
@@ -173,3 +175,10 @@ class MinifluxAggregator(RssAggregator):
 
     def get_item(self, iid: str) -> Item:
         return _entry_dict_to_item(self.client.get_entry(int(iid)))
+
+    def get_feed_icon(self, fid: str) -> FeedIcon:
+        fi = self.client.get_feed_icon(int(fid))
+        return FeedIcon(
+            data=fi['data'],
+            mime_type=fi['mime_type']
+        )

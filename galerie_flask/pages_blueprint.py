@@ -253,12 +253,17 @@ def item_page():
     uid = request.args.get('uid')
     iid = uid.split('-')[0]
     u_index = int(uid.split('-')[1])
+
     item = g.aggregator.get_item(iid)
     rendered_items = convert_rendered_item(item, ignore_rendered_items_cap=True)
     for rendered_item in rendered_items:
         add_image_ui_extras(rendered_item)
+
+    feed_icon = g.aggregator.get_feed_icon(item.fid)
+
     return render_template(
         'item.html',
+        feed_icon=feed_icon,
         item=rendered_items[0],
         items=rendered_items,
         u_index=u_index,

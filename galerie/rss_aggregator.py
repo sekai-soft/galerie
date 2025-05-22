@@ -5,6 +5,7 @@ from .item import Item
 from .group import Group
 from .feed_filter import FeedFilter
 from .feed import Feed
+from .feed_icon import FeedIcon
 
 
 class AuthError(Exception): pass
@@ -84,4 +85,8 @@ class RssAggregator(ABC):
 
     @abstractmethod
     def get_item(self, iid: str) -> Item:
+        pass
+
+    @abstractmethod
+    def get_feed_icon(self, fid: str) -> FeedIcon:
         pass
