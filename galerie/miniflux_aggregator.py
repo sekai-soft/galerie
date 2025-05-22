@@ -176,8 +176,13 @@ class MinifluxAggregator(RssAggregator):
     def get_item(self, iid: str) -> Item:
         return _entry_dict_to_item(self.client.get_entry(int(iid)))
 
-    def get_feed_icon(self, fid: str) -> FeedIcon:
-        fi = self.client.get_feed_icon(int(fid))
+    def get_feed_icon(self, fid: str) -> Optional[FeedIcon]:
+        try:
+            fi = self.client.get_feed_icon(int(fid))
+        except miniflux.ClientError as e:
+            if e.status_code == 404:
+                return None
+            raise e
         return FeedIcon(
             data=fi['data'],
             mime_type=fi['mime_type']

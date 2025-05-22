@@ -37,7 +37,9 @@
 
 <a href="/feed?fid={{ item.fid }}" style="font-size: 1em">
     <p class="animate-long item-feed-title">
+        {% if feed_icon %}
         <img class="item-feed-icon" src="data:{{ feed_icon.data }}">
+        {% endif %}
         {{ item.feed_title }}
     </p>
 </a>
