@@ -1,13 +1,44 @@
 name: galerie
 services:
+  # application
   galerie:
     image: ghcr.io/sekai-soft/galerie:latest
     container_name: galerie
     restart: unless-stopped
     environment:
       BASE_URL: 'https://galerie-reader.app'
+      SQLALCHEMY_DATABASE_URI: 'postgres://galerie:secret@postgres/galerie?sslmode=disable'
+      MINIFLUX_BASE_URL: 'http://miniflux'
+      # NITTER_BASE_URL: 'http://nitter'
     env_file:
       - env
+  postgres:
+    image: postgres:15
+    container_name: postgres
+    restart: unless-stopped
+    environment:
+      - POSTGRES_USER=galerie
+      - POSTGRES_PASSWORD=secret
+      - POSTGRES_DB=galerie
+    volumes:
+      - postgres:/var/lib/postgresql/data
+    network_mode: service:postgres-tailscale
+  postgres-tailscale:
+    image: tailscale/tailscale:latest
+    container_name: postgres-tailscale
+    restart: unless-stopped
+    hostname: galerie-postgres
+    environment:
+      - TS_EXTRA_ARGS=--advertise-tags=tag:server
+      - TS_STATE_DIR=/var/lib/tailscale
+    env_file:
+      - env
+    volumes:
+      - postgres-tailscale:/var/lib/tailscale
+      - /dev/net/tun:/dev/net/tun
+    cap_add:
+      - net_admin
+      - sys_module
   cloudflared:
     image: cloudflare/cloudflared
     container_name: cloudflared
@@ -15,3 +46,98 @@ services:
     command: tunnel run galerie
     env_file:
       - env
+
+  # miniflux
+  miniflux:
+    image: miniflux/miniflux:latest
+    container_name: miniflux
+    restart: unless-stopped
+    depends_on:
+      miniflux-postgres:
+        condition: service_healthy
+    environment:
+      - DATABASE_URL=postgres://miniflux:secret@miniflux-postgres/miniflux?sslmode=disable
+      - RUN_MIGRATIONS=1
+      - CREATE_ADMIN=1
+      - PORT=80
+      - BASE_URL=http://miniflux/
+      - WORKER_POOL_SIZE=1
+    env_file:
+      - env
+    network_mode: service:miniflux-tailscale
+  miniflux-tailscale:
+    image: tailscale/tailscale:latest
+    container_name: miniflux-tailscale
+    restart: unless-stopped
+    hostname: galerie-miniflux
+    environment:
+      - TS_EXTRA_ARGS=--advertise-tags=tag:server
+      - TS_STATE_DIR=/var/lib/tailscale
+    env_file:
+      - env
+    volumes:
+      - miniflux-tailscale:/var/lib/tailscale
+      - /dev/net/tun:/dev/net/tun
+    cap_add:
+      - net_admin
+      - sys_module
+  miniflux-postgres:
+    image: postgres:15
+    container_name: miniflux-postgres
+    restart: unless-stopped
+    environment:
+      - POSTGRES_USER=miniflux
+      - POSTGRES_PASSWORD=secret
+      - POSTGRES_DB=miniflux
+    volumes:
+      - miniflux-postgres:/var/lib/postgresql/data
+    healthcheck:
+      test: ["CMD", "pg_isready", "-U", "miniflux"]
+      interval: 10s
+      start_period: 30s
+
+  # nitter
+  nitter:
+    image: ghcr.io/sekai-soft/nitter-self-contained
+    container_name: nitter
+    restart: unless-stopped
+    volumes:
+      - nitter-data:/nitter-data
+      - ./twitter-credentials.json:/nitter-data/twitter-credentials.json # TODO
+    depends_on:
+      nitter-redis:
+        condition: service_healthy
+    environment:
+      - NITTER_ACCOUNTS_FILE=/nitter-data/guest_accounts.json
+      - DISABLE_REDIS=1
+      - DISABLE_NGINX=1
+      - REDIS_HOST=nitter-redis
+      - TWITTER_CREDENTIALS_FILE=/nitter-data/twitter-credentials.json
+      - INSTANCE_PORT=80
+      - INSTANCE_HOSTNAME=nitter
+      - INSTANCE_RSS_MINUTES=5
+    healthcheck:
+      test: wget -nv --tries=1 --spider http://127.0.0.1:80 || exit 1
+      interval: 5s
+      timeout: 5s
+      retries: 12
+  nitter-redis:
+    image: redis:6-alpine
+    container_name: nitter-redis
+    restart: unless-stopped
+    command: redis-server --save 60 1 --loglevel warning
+    volumes:
+      - nitter-redis:/data
+    healthcheck:
+      test: redis-cli ping
+      interval: 5s
+      timeout: 5s
+      retries: 12
+
+volumes:
+  postgres:
+  postgres-tailscale:
+  miniflux-postgres:
+  miniflux-tailscale:
+  nitter-data:
+  nitter-redis:
