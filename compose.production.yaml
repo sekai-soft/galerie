@@ -22,23 +22,6 @@ services:
       - POSTGRES_DB=galerie
     volumes:
       - postgres:/var/lib/postgresql/data
-    network_mode: service:postgres-tailscale
-  postgres-tailscale:
-    image: tailscale/tailscale:latest
-    container_name: postgres-tailscale
-    restart: unless-stopped
-    hostname: galerie-postgres
-    environment:
-      - TS_EXTRA_ARGS=--advertise-tags=tag:server
-      - TS_STATE_DIR=/var/lib/tailscale
-    env_file:
-      - env
-    volumes:
-      - postgres-tailscale:/var/lib/tailscale
-      - /dev/net/tun:/dev/net/tun
-    cap_add:
-      - net_admin
-      - sys_module
   cloudflared:
     image: cloudflare/cloudflared
     container_name: cloudflared
@@ -64,23 +47,6 @@ services:
       - WORKER_POOL_SIZE=1
     env_file:
       - env
-    network_mode: service:miniflux-tailscale
-  miniflux-tailscale:
-    image: tailscale/tailscale:latest
-    container_name: miniflux-tailscale
-    restart: unless-stopped
-    hostname: galerie-miniflux
-    environment:
-      - TS_EXTRA_ARGS=--advertise-tags=tag:server
-      - TS_STATE_DIR=/var/lib/tailscale
-    env_file:
-      - env
-    volumes:
-      - miniflux-tailscale:/var/lib/tailscale
-      - /dev/net/tun:/dev/net/tun
-    cap_add:
-      - net_admin
-      - sys_module
   miniflux-postgres:
     image: postgres:15
     container_name: miniflux-postgres
@@ -136,8 +102,6 @@ services:
 
 volumes:
   postgres:
-  postgres-tailscale:
   miniflux-postgres:
-  miniflux-tailscale:
   nitter-data:
   nitter-redis:
