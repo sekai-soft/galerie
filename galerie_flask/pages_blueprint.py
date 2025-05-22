@@ -116,7 +116,7 @@ def index_page():
         "sort_by_desc":sort_by,
         "last_iid": last_iid,
     }
-    items_args(args, rendered_items, gid is None)
+    items_args(args, rendered_items, True, gid is None)
     
     load_more_button_args(args, last_iid, gid, sort_by, infinite_scroll, remaining_count)
     mark_as_read_button_args(args, gid, sort_by)
@@ -187,9 +187,8 @@ def feed_page():
 
     args = {
         "feed": g.aggregator.get_feed(fid),
-        "groups": g.aggregator.get_groups(),
     }
-    items_args(args, rendered_items, False)
+    items_args(args, rendered_items, False, False)
     return render_template('feed.html', **args)
 
 
@@ -243,7 +242,7 @@ def add_feed_page():
                 or (url == feed_url):
             return redirect(f'/feed?fid={feed.fid}')
 
-    return render_template('add_feed.html', url=url, groups=g.aggregator.get_groups(), bookmarklet=bookmarklet)
+    return render_template('add_feed.html', url=url, bookmarklet=bookmarklet)
 
 
 @pages_blueprint.route("/item")
@@ -281,6 +280,38 @@ def item_page():
         is_pocket_available=is_pocket_available(),
         is_instapaper_available=is_instapaper_available()
     )
+
+
+@pages_blueprint.route("/preview_feed")
+@catches_exceptions
+@requires_auth
+def preview_feed_page():
+    fid = request.args.get('fid')
+    items = g.aggregator.get_feed_items_by_iid_descending(fid)
+    rendered_items = convert_rendered_items(items)
+
+    args = {
+        "feed": g.aggregator.get_feed(fid),
+    }
+    items_args(args, rendered_items, False, False)
+    return render_template('preview_feed.html', **args)
+
+
+@pages_blueprint.route("/add_preview_feed")
+@catches_exceptions
+@requires_auth
+def add_preview_feed_page():
+    fid = request.args.get('fid')
+
+    feed = g.aggregator.get_feed(fid)
+    groups = g.aggregator.get_groups()
+    preview_group = g.aggregator.get_preview_group()
+    args = {
+        "feed": feed,
+        "groups": groups + [preview_group],
+        "preview_group": preview_group
+    }
+    return render_template('add_preview_feed.html', **args)
 
 
 @pages_blueprint.route("/debug")

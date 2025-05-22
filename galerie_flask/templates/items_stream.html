@@ -28,12 +28,14 @@
             </div>
             {% endif %}
             <a class="grid-item-title user-string-horizontal">{{ item.title }}</a>
+            {% if should_show_feed_title %}
             <a class="grid-item-feed-title user-string-horizontal">
-                {% if should_show_group %}
+                {% if should_show_feed_group %}
                 <span class="highlight-text">{{ item.groups[0].title }}</span>
                 {% endif %}
                 {{ item.feed_title }}
             </a>
+            {% endif %}
         </div>
     </a>
 </div>

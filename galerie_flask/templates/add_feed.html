@@ -25,22 +25,14 @@
         >
         {% endif %}
     </p>
-    <p>
-        {{ _('Group') }}
-        <select name="group">
-            {% for g in groups %}
-            <option value="{{ g.gid }}">{{ g.title }}</option>
-            {% endfor %}
-        </select>
-    </p>
     <div class="button-with-links">
         <button
             class="button"
-            hx-post="/actions/add_feed"
+            hx-post="/actions/preview_feed"
             hx-swap="none"
             hx-disabled-elt="this"
         >
-            {{ _('Confirm') }} <span class="htmx-indicator">...</span>
+            {{ _('Preview feed') }} <span class="htmx-indicator">...</span>
         </button>
         <a href="javascript:document.getElementById('other-ways-to-add-feed').showModal()">{{ _('Other ways to add feed') }}</a>
         <dialog id="other-ways-to-add-feed">

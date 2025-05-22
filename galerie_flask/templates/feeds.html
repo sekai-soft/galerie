@@ -4,13 +4,6 @@
 
 {% block header_title %}{{ _('Manage feeds') }}{% endblock %}
 
-{% block header_right_content %}
-<a
-    href="/add_feed"
-    class="link-button"
->🆕</a>
-{% endblock %}
-
 {% block page_content %}
 {% for feeds_in_group in feeds_by_groups %}
 <p class="feeds">{{ feeds_in_group.group.title }}</p>

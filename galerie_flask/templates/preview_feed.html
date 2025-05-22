@@ -1,0 +1,21 @@
+{% extends 'base_child_page.html' %}
+
+{% block title %}{{ feed.title }}{% endblock %}
+
+{% block header_title %}
+{{ feed.title }}
+{% endblock %}
+
+{% block header_right_content %}
+<a class="animate-long" href="/add_preview_feed?fid={{ feed.fid }}">
+    {{ _('Add feed') }}
+</a>
+{% endblock %}
+
+{% block page_content %}
+<div class="grid" id="grid">
+    <div class="grid-sizer"></div>
+    {% include 'items_stream.html' %}
+</div>
+<script src="{{ url_for('static', filename='grid.js') }}"></script>
+{% endblock %}

@@ -85,7 +85,7 @@ class MinifluxAggregator(RssAggregator):
             'miniflux': True,
         })
 
-    def get_groups(self) -> List[Group]:
+    def _get_groups(self) -> List[Group]:
         return list(map(_category_dict_to_group, self.client.get_categories()))
 
     def get_unread_items_by_iid_ascending(self, count: int, from_iid_exclusive: Optional[str], feed_filter: FeedFilter) -> List[Item]:
@@ -155,8 +155,17 @@ class MinifluxAggregator(RssAggregator):
     def update_feed_group(self, fid: str, gid: str):
         self.client.update_feed(int(fid), category_id=int(gid))
 
-    def add_feed(self, feed_url: str, gid: str) -> str:
-        return str(self.client.create_feed(feed_url, category_id=int(gid)))
+    def add_feed(self, feed_url: str, gid: str, disabled: bool) -> Optional[str]:
+        try:
+            fid = self.client.create_feed(
+                feed_url,
+                category_id=int(gid),
+                disabled=disabled)
+        except miniflux.ClientError as e:
+            if e.get_error_reason() == "parser: unable to detect feed format":
+                return None
+            raise e
+        return str(fid)
 
     def delete_feed(self, fid: str):
         self.client.delete_feed(int(fid))
@@ -187,3 +196,6 @@ class MinifluxAggregator(RssAggregator):
             data=fi['data'],
             mime_type=fi['mime_type']
         )
+
+    def enable_feed(self, fid: str):
+        self.client.update_feed(int(fid), disabled=False)

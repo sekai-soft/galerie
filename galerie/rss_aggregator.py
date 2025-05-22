@@ -2,7 +2,7 @@ from abc import abstractmethod, ABC
 from typing import List, Optional, Dict
 from dataclasses import dataclass
 from .item import Item
-from .group import Group
+from .group import Group, PREVIEW_GROUP_TITLE
 from .feed_filter import FeedFilter
 from .feed import Feed
 from .feed_icon import FeedIcon
@@ -24,9 +24,16 @@ class RssAggregator(ABC):
         pass
 
     @abstractmethod
-    def get_groups(self) -> List[Group]:
+    def _get_groups(self) -> List[Group]:
         pass
-    
+
+    def get_groups(self) -> List[Group]:
+        res = []
+        for group in self._get_groups():
+            if group.title != PREVIEW_GROUP_TITLE:
+                res.append(group)
+        return res
+
     @abstractmethod
     def get_unread_items_by_iid_ascending(self, count: int, from_iid_exclusive: Optional[str], feed_filter: FeedFilter) -> List[Item]:   
         pass
@@ -68,7 +75,7 @@ class RssAggregator(ABC):
         pass
 
     @abstractmethod
-    def add_feed(self, feed_url: str, gid: str) -> str:
+    def add_feed(self, feed_url: str, gid: str, disabled: bool) -> Optional[str]:
         pass
 
     @abstractmethod
@@ -90,3 +97,13 @@ class RssAggregator(ABC):
     @abstractmethod
     def get_feed_icon(self, fid: str) -> FeedIcon:
         pass
+
+    @abstractmethod
+    def enable_feed(self, fid: str):
+        pass
+
+    def get_preview_group(self) -> Optional[Group]:
+        for group in self._get_groups():
+            if group.title == PREVIEW_GROUP_TITLE:
+                return group
+        return None

@@ -67,14 +67,12 @@ def mark_as_read_button_args(args: dict, gid: Optional[str], sort_by_desc: bool)
     })
 
 
-def items_args(args: dict, rendered_items: List[RenderedItem], should_show_group: bool):
+def items_args(args: dict, rendered_items: List[RenderedItem], should_show_feed_title: bool, should_show_feed_group: bool):
     args.update({
         "items": rendered_items,
-        "should_show_group": should_show_group
+        "should_show_feed_title": should_show_feed_title,
+        "should_show_feed_group": should_show_feed_group,
     })
-
-
-
 
 
 def add_image_ui_extras(rendered_item: RenderedItem):

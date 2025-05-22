@@ -115,7 +115,7 @@ def load_more():
 
     if last_iid:
         args = {}
-        items_args(args, rendered_items, gid is None)
+        items_args(args, rendered_items, True, gid is None)
         remaining_count = remaining_count - max_items if remaining_count > max_items else 0
         load_more_button_args(args, last_iid, gid, sort_by, infinite_scroll, remaining_count)
         rendered_string = \
@@ -220,40 +220,42 @@ def update_feed_group():
     group = request.form.get('update_feed_group')
     if group is None:
         return make_toast(400, "Group id is required")
-    
+        
     g.aggregator.update_feed_group(fid, group)
+
+    enable = request.args.get('enable', '0') == '1'
+    if enable:
+        g.aggregator.enable_feed(fid)
+
     return make_toast(200, str(_("Group updated")))
 
 
-@actions_blueprint.route('/add_feed', methods=['POST'])
+@actions_blueprint.route('/preview_feed', methods=['POST'])
 @requires_auth
 @catches_exceptions
-def add_feed():
-    if 'group' not in request.form:
-        return make_toast(400, "Group is required")
-    gid = request.form.get('group')
-    
+def preview_feed():
+    preview_group = g.aggregator.get_preview_group()
+    if not preview_group:
+        return make_toast(400, "Preview group is absent")
+    preview_gid = preview_group.gid
+
     url = request.form['url']
     twitter_handle = extract_twitter_handle_from_url(url)
     if twitter_handle:
         feed_url = create_nitter_feed_url(twitter_handle)
     else:
         feed_url = url
-
     if not feed_url:
         return make_toast(400, "URL is required")
-    try:
-        fid = g.aggregator.add_feed(feed_url, gid)
-        g.aggregator.mark_all_feed_items_as_read(fid)
-    except Exception as e:
-        # TODO: this is miniflux specific
-        return make_toast(400, e.get_error_reason())
 
-    if fid:
-        resp = make_response()
-        resp.headers['HX-Redirect'] = f'/feed?fid={fid}'
-        return resp
-    return make_toast(400, "Failed to add feed")
+    fid = g.aggregator.add_feed(feed_url, preview_gid, disabled=True)
+    if not fid:
+        return make_toast(400, _('Unable to detect a valid feed'))
+    g.aggregator.mark_all_feed_items_as_read(fid)
+
+    resp = make_response()
+    resp.headers['HX-Redirect'] = f'/preview_feed?fid={fid}'
+    return resp
 
 
 @actions_blueprint.route('/delete_feed', methods=['POST'])

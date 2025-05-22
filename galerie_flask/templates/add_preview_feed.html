@@ -1,16 +1,16 @@
 {% extends 'base_child_page.html' %}
 
-{% block title %}{{ _('Update feed') }}{% endblock %}
+{% block title %}{{ _('Add feed') }}{% endblock %}
 
 {% block header_title %}{{ feed.title }}{% endblock %}
 
 {% block page_content %}
 <p>
-    {{ _('Update group') }}
+    {{ _('Assign group') }}
     <select
         name="update_feed_group"
         hx-trigger="change"
-        hx-post="/actions/update_feed_group?fid={{ feed.fid }}"
+        hx-post="/actions/update_feed_group?fid={{ feed.fid }}&enable=1"
         hx-swap="none"
         hx-disabled-elt="this"
     >
@@ -18,17 +18,14 @@
             <option
                 value="{{ group.gid }}"
                 {{ 'selected=selected' if group.gid == feed.gid else '' }}
-            >{{ group.title }}</option>
+            >
+                {% if group.gid == preview_group.gid %}
+                ({{ _('Unassigned') }})
+                {% else %}
+                {{ group.title }}
+                {% endif %}
+            </option>
         {% endfor %}
     </select>
 </p>
-<button
-    class="button"
-    hx-post="/actions/delete_feed?fid={{ feed.fid }}"
-    hx-swap="none"
-    hx-disabled-elt="this"
-    hx-confirm="{{ _('Are you sure you want to delete this feed?') }}"
->
-    {{ _('Delete feed') }} <span class="htmx-indicator">...</span>
-</button>
 {% endblock %}
