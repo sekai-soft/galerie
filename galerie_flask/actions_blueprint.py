@@ -7,14 +7,12 @@ from urllib.parse import unquote, unquote_plus
 from flask import request, g, Blueprint, make_response, render_template, Response
 from flask_babel import _, lazy_gettext as _l
 from sentry_sdk import capture_exception
-from pocket import Pocket
 from requests.auth import HTTPBasicAuth
 from galerie.feed_filter import FeedFilter
 from galerie.rendered_item import convert_rendered_items
 from galerie.rss_aggregator import AuthError
 from galerie.twitter import create_nitter_feed_url, extract_twitter_handle_from_url
-from .utils import requires_auth, max_items, get_pocket_client,\
-    load_more_button_args, mark_as_read_button_args, items_args, add_image_ui_extras,\
+from .utils import requires_auth, max_items, load_more_button_args, mark_as_read_button_args, items_args, add_image_ui_extras,\
     decode_setup_to_cookies, is_instapaper_available, get_instapaper_auth, cookie_max_age
 from .get_aggregator import get_aggregator
 
@@ -148,23 +146,6 @@ def mark_as_read():
     return resp
 
 
-@actions_blueprint.route('/pocket', methods=['POST'])
-@catches_exceptions
-def pocket():
-    pocket_client = get_pocket_client()
-    if not pocket_client:
-        return make_toast(400, "Pocket was not configured")
-
-    encoded_url = request.args.get('url')
-    url = unquote(encoded_url)
-
-    encoded_tags = request.args.getlist('tag')
-    tags = list(map(unquote_plus, encoded_tags))
-
-    pocket_client.add(url, tags=','.join(tags))
-    return make_toast(200, str(_l('Added %(url)s to Pocket', url=url)))
-
-
 @actions_blueprint.route('/set_infinite_scroll', methods=['POST'])
 @catches_exceptions
 def set_infinite_scroll():
@@ -172,40 +153,6 @@ def set_infinite_scroll():
     resp = make_response()
     resp.set_cookie('infinite_scroll', infinite_scroll, max_age=cookie_max_age)
     make_toast_header(resp, _("Setting updated"))
-    return resp
-
-
-@actions_blueprint.route('/connect_to_pocket', methods=['POST'])
-@catches_exceptions
-def connect_to_pocket():
-    if 'POCKET_CONSUMER_KEY' not in os.environ:
-        return make_toast(500, "Pocket consumer key was not configured")
-    consumer_key = os.environ['POCKET_CONSUMER_KEY']
-
-    if 'BASE_URL' not in os.environ:
-        return make_toast(500, "Base URL was not configured")
-    redirect_uri = os.environ['BASE_URL'] + '/pocket_oauth'
-
-    request_token = Pocket.get_request_token(
-        consumer_key=consumer_key,
-        redirect_uri=redirect_uri)
-    auth_url = Pocket.get_auth_url(
-        code=request_token,
-        redirect_uri=redirect_uri)
-
-    resp = make_response()
-    resp.set_cookie('pocket_request_token', request_token)
-    resp.headers['HX-Redirect'] = auth_url
-    return resp
-
-
-@actions_blueprint.route('/disconnect_from_pocket', methods=['POST'])
-@catches_exceptions
-def disconnect_from_pocket():
-    resp = make_response()
-    resp.delete_cookie('pocket_request_token')
-    resp.delete_cookie('pocket_auth')
-    resp.headers['HX-Refresh'] = "true"
     return resp
 
 

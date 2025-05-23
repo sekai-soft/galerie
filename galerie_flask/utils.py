@@ -1,29 +1,15 @@
-import os
 import json
 from typing import Optional, List, Tuple
 from functools import wraps
 from urllib.parse import quote, quote_plus
 from flask import request, g, redirect, Response
 from flask_babel import _
-from pocket import Pocket
 from galerie.rendered_item import RenderedItem
 from galerie.twitter import fix_shareable_twitter_url
 from .get_aggregator import get_aggregator
 
 max_items = 10
 cookie_max_age = 60 * 60 * 24 * 365  # 1 year
-
-
-def get_pocket_client():
-    if 'POCKET_CONSUMER_KEY' in os.environ and 'pocket_auth' in request.cookies:
-        pocket_consumer_key = os.environ['POCKET_CONSUMER_KEY']
-        pocket_auth = json.loads(request.cookies['pocket_auth'])
-        return Pocket(pocket_consumer_key, pocket_auth['access_token'])
-    return None
-
-
-def is_pocket_available():
-    return get_pocket_client() is not None
 
 
 def get_instapaper_auth() -> Tuple[str, str]:
@@ -87,8 +73,6 @@ def encode_setup_from_cookies() -> str:
         'auth': request.cookies['auth']
     }
 
-    if 'pocket_auth' in request.cookies:
-        data['pocket_auth'] = request.cookies['pocket_auth']
     if 'infinite_scroll' in request.cookies:
         data['infinite_scroll'] = request.cookies['infinite_scroll']
     if 'instapaper_auth' in request.cookies:
@@ -101,8 +85,6 @@ def decode_setup_to_cookies(setup_code: str, response: Response):
     setup = json.loads(setup_code)
     response.set_cookie('auth', setup['auth'], max_age=cookie_max_age)
 
-    if 'pocket_auth' in setup:
-        response.set_cookie('pocket_auth', setup['pocket_auth'], max_age=cookie_max_age)
     if 'infinite_scroll' in setup:
         response.set_cookie('infinite_scroll', setup['infinite_scroll'], max_age=cookie_max_age)
     if 'instapaper_auth' in setup:

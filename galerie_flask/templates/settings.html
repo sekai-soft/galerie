@@ -90,24 +90,6 @@
 <br>
 <br>
 <hr>
-<p>{{ _('Pocket connection') }}</p>
-{% if not pocket_auth %}
-<button
-    class="button"
-    hx-post="/actions/connect_to_pocket"
-    hx-swap="none"
->{{ _('Connect to Pocket')}}</button>
-{% else %}
-<p>{{ _('Logged in as') }} {{ pocket_auth['username'] }}</p>
-<button
-    class="button"
-    hx-post="/actions/disconnect_from_pocket"
-    hx-swap="none"
->{{ _('Disconnect from Pocket')}}</button>
-{% endif %}
-<br>
-<br>
-<hr>
 <p>{{ _('Infinite scroll')}}</p>
 <select
     name="infinite_scroll"

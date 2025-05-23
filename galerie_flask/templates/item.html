@@ -74,18 +74,6 @@
     </button>
     {% endif %}
 
-    <!-- Pocket -->
-    {% if is_pocket_available %}
-    <button
-        class="button"
-        hx-post="/actions/pocket?url={{ item.ui_extra['quoted_url'] }}{{ item.ui_extra['encoded_tags'] }}"
-        hx-swap="none"
-        hx-disabled-elt="this"
-    >
-        {{ _('Save to Pocket') }}
-    </button>
-    {% endif %}
-
     <!-- Web share -->
     <button
         id="item-share-web-share-button"

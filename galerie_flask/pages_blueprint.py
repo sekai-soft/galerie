@@ -6,13 +6,12 @@ from urllib.parse import urlparse
 from sentry_sdk import capture_exception
 from flask import Blueprint, redirect, render_template, g, request, make_response, jsonify
 from flask_babel import _
-from pocket import Pocket
 from galerie.feed_filter import FeedFilter
 from galerie.rendered_item import convert_rendered_items, convert_rendered_item
 from galerie.twitter import extract_twitter_handle_from_feed_url, extract_twitter_handle_from_url
 from .utils import requires_auth, max_items, load_more_button_args,\
     mark_as_read_button_args, items_args, add_image_ui_extras, encode_setup_from_cookies, cookie_max_age, \
-    is_instapaper_available, is_pocket_available
+    is_instapaper_available
 from .get_aggregator import get_aggregator
 
 
@@ -129,7 +128,6 @@ def index_page():
 @requires_auth
 def settings_page():
     infinite_scroll = request.cookies.get('infinite_scroll', '1') == '1'
-    pocket_auth = json.loads(request.cookies.get('pocket_auth', '{}'))
     instapaper_auth = json.loads(request.cookies.get('instapaper_auth', '{}'))
     
     setup_code = encode_setup_from_cookies()
@@ -139,25 +137,9 @@ def settings_page():
     return render_template(
         'settings.html',
         connection_info=g.aggregator.connection_info(),
-        pocket_auth=pocket_auth,
         infinite_scroll=infinite_scroll,
         setup_code=setup_code,
         instapaper_auth=instapaper_auth,)
-
-
-@pages_blueprint.route("/pocket_oauth")
-@catches_exceptions
-def pocket_oauth_redirect_page():
-    consumer_key = os.environ['POCKET_CONSUMER_KEY']
-    request_token = request.cookies.get('pocket_request_token')
-    user_credentials = Pocket.get_credentials(consumer_key=consumer_key, code=request_token)
-
-    resp = make_response(render_template(
-        'pocket_oauth.html',
-        username=user_credentials['username']))
-    resp.delete_cookie('pocket_request_token')
-    resp.set_cookie('pocket_auth', json.dumps(user_credentials), max_age=cookie_max_age)
-    return resp
 
 
 @pages_blueprint.route("/feeds")
@@ -277,7 +259,6 @@ def item_page():
         item=rendered_items[0],
         items=rendered_items,
         u_index=u_index,
-        is_pocket_available=is_pocket_available(),
         is_instapaper_available=is_instapaper_available()
     )
 
