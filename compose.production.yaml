@@ -12,6 +12,8 @@ services:
       # NITTER_BASE_URL: 'http://nitter'
     env_file:
       - env
+    networks:
+      - galerie_network
   postgres:
     image: postgres:15
     container_name: postgres
@@ -22,6 +24,11 @@ services:
       - POSTGRES_DB=galerie
     volumes:
       - postgres:/var/lib/postgresql/data
+    networks:
+      - galerie_network
+      - tailscale_network
+    ports:
+      - "5432:5432"
   cloudflared:
     image: cloudflare/cloudflared
     container_name: cloudflared
@@ -29,6 +36,8 @@ services:
     command: tunnel run galerie
     env_file:
       - env
+    networks:
+      - galerie_network
 
   # miniflux
   miniflux:
@@ -47,6 +56,11 @@ services:
       - WORKER_POOL_SIZE=1
     env_file:
       - env
+    networks:
+      - galerie_network
+      - tailscale_network
+    ports:
+      - "8080:80"
   miniflux-postgres:
     image: postgres:15
     container_name: miniflux-postgres
@@ -61,6 +75,8 @@ services:
       test: ["CMD", "pg_isready", "-U", "miniflux"]
       interval: 10s
       start_period: 30s
+    networks:
+      - galerie_network
 
   # nitter
   nitter:
@@ -69,7 +85,7 @@ services:
     restart: unless-stopped
     volumes:
       - nitter-data:/nitter-data
-      - ./twitter-credentials.json:/nitter-data/twitter-credentials.json # TODO
+      - ./twitter-credentials.json:/nitter-data/twitter-credentials.json
     depends_on:
       nitter-redis:
         condition: service_healthy
@@ -87,6 +103,8 @@ services:
       interval: 5s
       timeout: 5s
       retries: 12
+    networks:
+      - galerie_network
   nitter-redis:
     image: redis:6-alpine
     container_name: nitter-redis
@@ -99,9 +117,37 @@ services:
       interval: 5s
       timeout: 5s
       retries: 12
+    networks:
+      - galerie_network
+
+  # tailscale
+  tailscale:
+    image: tailscale/tailscale:latest
+    container_name: tailscale
+    restart: unless-stopped
+    hostname: galerie-dev
+    volumes:
+      - tailscale:/var/lib/tailscale
+    cap_add:
+      - NET_ADMIN
+    environment:
+      - TS_EXTRA_ARGS=--advertise-tags=tag:server
+      - TS_STATE_DIR=/var/lib/tailscale
+    env_file:
+      - env
+    command: tailscaled --tun=userspace-networking --socks5-server=localhost:1055
+    networks:
+      - tailscale_network
 
 volumes:
   postgres:
   miniflux-postgres:
   nitter-data:
   nitter-redis:
+  tailscale:
+
+networks:
+  galerie_network:
+    driver: bridge
+  tailscale_network:
+    driver: bridge
