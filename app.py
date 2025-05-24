@@ -5,6 +5,7 @@ import click
 from dotenv import load_dotenv
 from flask import Flask, request
 from flask_babel import Babel
+from galerie_flask.db import db
 from galerie_flask.actions_blueprint import actions_blueprint
 from galerie_flask.pages_blueprint import pages_blueprint
 
@@ -21,6 +22,7 @@ def get_locale():
 
 app = Flask(__name__, static_url_path='/static')
 app.config['TEMPLATES_AUTO_RELOAD'] = True
+app.config["SQLALCHEMY_DATABASE_URI"] = os.environ['SQLALCHEMY_DATABASE_URI']
 app.config["BABEL_TRANSLATION_DIRECTORIES"] = os.path.join(
     os.path.abspath(os.path.dirname(__file__)),
     "galerie_flask",
@@ -28,6 +30,12 @@ app.config["BABEL_TRANSLATION_DIRECTORIES"] = os.path.join(
 babel = Babel(app, locale_selector=get_locale)
 app.register_blueprint(pages_blueprint, url_prefix='/')
 app.register_blueprint(actions_blueprint, url_prefix='/actions')
+db.init_app(app)
+
+
+with app.app_context():
+    db.create_all()
+
 
 # Custom template filter to abbreviate large numbers with k suffix
 @app.template_filter('format_count')
