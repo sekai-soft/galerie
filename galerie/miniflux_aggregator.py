@@ -104,12 +104,12 @@ class MinifluxAggregator(RssAggregator):
         for gid in gids:
             res[gid] = 0
 
-        feeds = self.client.get_feeds()
-        feed_counters = self.client.get_feed_counters()["unreads"]        
+        feeds = self.get_feeds()
+        feed_counters = self.client.get_feed_counters()["unreads"]
         for feed in feeds:
-            feed_id = str(feed['id'])
+            feed_id = feed.fid
             if feed_id in feed_counters:
-                gid = str(feed['category']['id'])
+                gid = feed.gid
                 res[gid] += feed_counters[feed_id]
 
         return res
@@ -126,7 +126,7 @@ class MinifluxAggregator(RssAggregator):
             host=urlparse(self.base_url).hostname,
         )
 
-    def get_feeds(self) -> List[Feed]:
+    def _get_feeds(self) -> List[Feed]:
         return list(map(_feed_dict_to_feed, self.client.get_feeds()))
 
     def get_feed_items_by_iid_descending(self, fid: str) -> List[Item]:

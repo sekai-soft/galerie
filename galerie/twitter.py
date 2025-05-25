@@ -3,6 +3,7 @@ import re
 from typing import Optional
 from urllib.parse import urlparse
 
+
 def get_nitter_base_url():
     if 'NITTER_BASE_URL' not in os.environ:
         raise ValueError("NITTER_BASE_URL environment variable is not set.")

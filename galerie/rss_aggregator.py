@@ -51,8 +51,15 @@ class RssAggregator(ABC):
         pass
 
     @abstractmethod
-    def get_feeds(self) -> List[Feed]:
+    def _get_feeds(self) -> List[Feed]:
         pass
+    
+    def get_feeds(self) -> List[Feed]:
+        res = []
+        for feed in self._get_feeds():
+            if feed.group_title != PREVIEW_GROUP_TITLE:
+                res.append(feed)
+        return res
 
     @abstractmethod
     def get_feed_items_by_iid_descending(self, fid: str) -> List[Item]:

@@ -1,17 +1,26 @@
 import os
-import json
+import base64
 from functools import wraps
-from urllib.parse import urlparse
+from urllib.parse import urlparse, unquote
 from sentry_sdk import capture_exception
 from flask import Blueprint, redirect, render_template, g, request, jsonify
 from flask_babel import _
 from galerie.feed_filter import FeedFilter
 from galerie.rendered_item import convert_rendered_items, convert_rendered_item
-from galerie.twitter import extract_twitter_handle_from_feed_url, extract_twitter_handle_from_url
+from galerie.twitter import extract_twitter_handle_from_feed_url, extract_twitter_handle_from_url, get_nitter_base_url
 from .utils import requires_auth, max_items, load_more_button_args,\
     mark_as_read_button_args, items_args, add_image_ui_extras
 from .get_aggregator import get_aggregator
 from .instapaper import get_instapaper_auth, is_instapaper_available
+
+
+def get_base_url():
+    if 'BASE_URL' not in os.environ:
+        return ''
+    base_url = os.environ['BASE_URL']
+    if base_url.endswith('/'):
+        return base_url[:-1]
+    return base_url
 
 
 pages_blueprint = Blueprint('pages', __name__, static_folder='static', template_folder='templates')
@@ -55,7 +64,7 @@ def pwa_manifest():
         "lang": "en-US",
         "name": "Galerie",
         "short_name": "Galerie",
-        "start_url": "https://galerie-reader.app",
+        "start_url": get_base_url(),
         "share_target": {
             "action": "add_feed",
             "method": "GET",
@@ -202,10 +211,10 @@ def is_valid_url(url: str) -> bool:
         return False
 
 
-bookmarklet = """javascript:(function() {
-  const url = `https://galerie-reader.app/add_feed?url=${window.location.href}`;
+bookmarklet = f"""javascript:(function() {{
+  const url = `{get_base_url()}/add_feed?url=${{window.location.href}}`;
   window.open(url, '_blank').focus();
-})();
+}})();
 """
 
 @pages_blueprint.route("/add_feed")
@@ -311,6 +320,16 @@ def clean_up_preview_feeds_page():
     return render_template(
         'clean_up_previewed_feeds.html',
         previewed_feeds=previewed_feeds,)
+
+
+@pages_blueprint.route("/m/<encoded_url>")
+def media_proxy(encoded_url):
+    decoded_url = base64.urlsafe_b64decode(encoded_url).decode('utf-8')
+    if decoded_url.startswith(get_nitter_base_url()):
+        twitter_media_path = unquote(urlparse(decoded_url).path.split('/')[-1])
+        twitter_media_url = 'https://pbs.twimg.com/' + twitter_media_path
+        return redirect(twitter_media_url)
+    return redirect(decoded_url)
 
 
 @pages_blueprint.route("/debug")
