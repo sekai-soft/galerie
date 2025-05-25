@@ -12,12 +12,6 @@ def get_nitter_base_url():
     return nitter_base_url
 
 
-def get_nitter_rss_password():
-    if 'NITTER_RSS_PASSWORD' not in os.environ:
-        raise ValueError("NITTER_RSS_PASSWORD environment variable is not set.")
-    return os.environ['NITTER_RSS_PASSWORD']
-
-
 def fix_nitter_url(url: str) -> str:
     return url.replace(get_nitter_base_url(), "https://twitter.com")
 
@@ -51,7 +45,10 @@ def fix_nitter_rt_in_text(text: str) -> str:
 
 
 def create_nitter_feed_url(twitter_handle: str) -> str:
-    return f"{get_nitter_base_url()}/{twitter_handle}/rss?key={get_nitter_rss_password()}"
+    rss_password = os.environ.get('NITTER_RSS_PASSWORD')
+    if not rss_password:
+        return f"{get_nitter_base_url()}/{twitter_handle}/rss"
+    return f"{get_nitter_base_url()}/{twitter_handle}/rss?key={rss_password}"
 
 
 def extract_twitter_handle_from_feed_url(url: str) -> Optional[str]:

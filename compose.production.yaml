@@ -9,7 +9,7 @@ services:
       BASE_URL: 'https://galerie-reader.app'
       SQLALCHEMY_DATABASE_URI: 'postgresql://galerie:secret@postgres/galerie?sslmode=disable'
       MINIFLUX_BASE_URL: 'http://miniflux'
-      # NITTER_BASE_URL: 'http://nitter'
+      NITTER_BASE_URL: 'http://nitter'
     env_file:
       - env
   postgres:
