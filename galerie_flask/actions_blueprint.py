@@ -1,20 +1,20 @@
 import os
 import json
-import base64
 import requests
 from functools import wraps
-from urllib.parse import unquote, unquote_plus
+from urllib.parse import unquote
 from flask import request, g, Blueprint, make_response, render_template, Response
 from flask_babel import _, lazy_gettext as _l
 from sentry_sdk import capture_exception
 from requests.auth import HTTPBasicAuth
 from galerie.feed_filter import FeedFilter
 from galerie.rendered_item import convert_rendered_items
-from galerie.rss_aggregator import AuthError
 from galerie.twitter import create_nitter_feed_url, extract_twitter_handle_from_url
-from .utils import requires_auth, max_items, load_more_button_args, mark_as_read_button_args, items_args, add_image_ui_extras,\
-    decode_setup_to_cookies, is_instapaper_available, get_instapaper_auth, cookie_max_age
+from .utils import requires_auth, max_items, load_more_button_args, mark_as_read_button_args, items_args, add_image_ui_extras, \
+    is_instapaper_available, get_instapaper_auth, cookie_max_age
 from .get_aggregator import get_aggregator
+from .miniflux_admin import get_miniflux_admin, MinifluxAdminException, MinifluxAdminErrorCode
+
 
 actions_blueprint = Blueprint('actions', __name__)
 
@@ -37,6 +37,19 @@ def catches_exceptions(f):
     def decorated_function(*args, **kwargs):
         try:
             return f(*args, **kwargs)
+        except MinifluxAdminException as e:
+            if e.error_code == MinifluxAdminErrorCode.USERNAME_ALREADY_EXISTS:
+                return make_toast(400, _("Username already exists"))
+            elif e.error_code == MinifluxAdminErrorCode.WRONG_CREDENTIALS:
+                return make_toast(400, _("Wrong credentials"))
+            elif e.error_code == MinifluxAdminErrorCode.LOGGED_OUT:
+                return make_toast(401, "Logged out")
+            elif e.error_code == MinifluxAdminErrorCode.ABSENT_USER:
+                return make_toast(404, "User not found")
+            elif e.error_code == MinifluxAdminErrorCode.SESSION_EXPIRED:
+                return make_toast(401, _("Your session has expired"))
+            else:
+                return make_toast(500, str(_l("Unknown MinifluxAdminException: %(e)s", e=str(e))))
         except Exception as e:
             if os.getenv('DEBUG', '0') == '1':
                 raise e
@@ -45,47 +58,66 @@ def catches_exceptions(f):
     return decorated_function
 
 
-@actions_blueprint.route('/auth', methods=['POST'])
+@actions_blueprint.route('/signup', methods=['POST'])
 @catches_exceptions
-def auth():
+def signup():
     next_url = request.args.get('next', '/')
 
-    if 'setup-code' in request.form and request.form['setup-code']:
-        resp = make_response()
-        setup_code = request.form['setup-code']
-        setup_code = base64.b64decode(setup_code)
-        setup_code = setup_code.decode("utf-8")
-        decode_setup_to_cookies(setup_code, resp)
-        resp.headers['HX-Redirect'] = next_url
-        return resp
-
-    endpoint = request.form.get('endpoint')
     username = request.form.get('username', '')
+    if not username:
+        return make_toast(400, _("Username is required"))
+
     password = request.form.get('password', '')
-    aggregator_type = request.form.get('type', 'miniflux')
-    try:
-        aggregator = get_aggregator(
-            logging_in_endpoint=endpoint,
-            logging_in_username=username,
-            logging_in_password=password,
-            aggregator_type=aggregator_type)
-        if not aggregator:
-            raise AuthError()
-        persisted_auth = aggregator.persisted_auth()
+    if not password:
+        return make_toast(400, _("Password is required"))
 
-        resp = make_response()
-        resp.set_cookie('auth', persisted_auth, max_age=cookie_max_age)
-        resp.headers['HX-Redirect'] = next_url
-        return resp
-    except AuthError:
-        return make_toast(401, str(_("Failed to authenticate")))
+    repeat_password = request.form.get('repeat_password', '')
+    if not repeat_password:
+        return make_toast(400, _("Password is required"))
 
+    if password != repeat_password:
+        return make_toast(400, _("Passwords do not match"))
 
-@actions_blueprint.route("/deauth", methods=['POST'])
-@catches_exceptions
-def deauth():
+    miniflux_admin = get_miniflux_admin()
+    miniflux_admin.sign_up(username, password)
+
     resp = make_response()
-    resp.delete_cookie('auth')
+    resp.headers['HX-Redirect'] = next_url
+    return resp
+
+
+@actions_blueprint.route('/login', methods=['POST'])
+@catches_exceptions
+def login():
+    next_url = request.args.get('next', '/')
+
+    username = request.form.get('username', '')
+    if not username:
+        return make_toast(400, _("Username is required"))
+
+    password = request.form.get('password', '')
+    if not password:
+        return make_toast(400, _("Password is required"))
+
+    miniflux_aggregator, session_token = get_aggregator(username, password)
+
+    resp = make_response()
+    resp.set_cookie('session_token', session_token, max_age=cookie_max_age)
+    resp.headers['HX-Redirect'] = next_url
+    return resp
+
+
+@actions_blueprint.route("/logout", methods=['POST'])
+@catches_exceptions
+def logout():
+    if 'session_token' not in request.cookies:
+        return make_toast(400, "You are not logged in")
+
+    miniflux_admin = get_miniflux_admin()
+    miniflux_admin.log_out(request.cookies['session_token'])
+
+    resp = make_response()
+    resp.delete_cookie('session_token')
     resp.headers['HX-Redirect'] = '/login'
     return resp
 

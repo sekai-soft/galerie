@@ -1,46 +1,37 @@
 import os
-import base64
-import json
-from typing import Optional
+from typing import Optional, Tuple
 from flask import request
 from galerie.rss_aggregator import RssAggregator
 from galerie.miniflux_aggregator import MinifluxAggregator
+from .miniflux_admin import get_miniflux_admin
 
 
-def try_get_miniflux_aggregator(
-        logging_in_endpoint: Optional[str] = None,
-        logging_in_username: Optional[str] = None,
-        logging_in_password: Optional[str] = None,
-        aggregator_type: Optional[str] = None) -> Optional[MinifluxAggregator]:
-    # determine in env
+def get_aggregator(login_username: Optional[str]=None, login_password: Optional[str]=None) -> Optional[Tuple[RssAggregator, Optional[str]]]:
+    # self-hosted instance
     env_endpoint = os.getenv('MINIFLUX_ENDPOINT')
     env_username = os.getenv('MINIFLUX_USERNAME')
     env_password = os.getenv('MINIFLUX_PASSWORD')
     if env_endpoint and env_username and env_password:
-        return MinifluxAggregator(env_endpoint, env_username, env_password, False)
+        return MinifluxAggregator(
+            env_endpoint,
+            env_username,
+            env_password,
+            False
+        ), None
     
-    # determine from login form
-    if aggregator_type == 'miniflux' and logging_in_endpoint and logging_in_username is not None and logging_in_password is not None:
-        return MinifluxAggregator(logging_in_endpoint, logging_in_username, logging_in_password, True)
-
-    # determine from persisted auth
-    auth_cookie = request.cookies.get('auth')
-    if not auth_cookie:
-        return None
-    auth = json.loads(auth_cookie)
-    cookie_base_url = auth.get('base_url')
-    cookie_username = auth.get('username')
-    cookie_password = auth.get('password')
-    is_miniflux = auth.get('miniflux', False)
-    if is_miniflux and cookie_base_url and cookie_username and cookie_password:
-        return MinifluxAggregator(cookie_base_url, cookie_username, cookie_password, True)
-
-    return None
-
-
-def get_aggregator(
-    logging_in_endpoint: Optional[str] = None,
-    logging_in_username: Optional[str] = None,
-    logging_in_password: Optional[str] = None,
-    aggregator_type: Optional[str] = None) -> Optional[RssAggregator]:
-    return try_get_miniflux_aggregator(logging_in_endpoint, logging_in_username, logging_in_password, aggregator_type)
+    # managed instance
+    miniflux_admin = get_miniflux_admin()
+    
+    session_token = request.cookies.get('session_token')
+    if not session_token:
+        if not login_username or not login_password:
+            return None, None
+        session_token = miniflux_admin.log_in(login_username, login_password)
+    
+    miniflux_username, miniflux_password = miniflux_admin.verify_session(session_token)
+    return MinifluxAggregator(
+        miniflux_admin.base_url,
+        miniflux_username,
+        miniflux_password,
+        True
+    ), session_token

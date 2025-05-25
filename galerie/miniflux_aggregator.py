@@ -7,7 +7,7 @@ from bs4 import BeautifulSoup
 from .item import Item
 from .group import Group
 from .feed_filter import FeedFilter
-from .rss_aggregator import RssAggregator, AuthError, ConnectionInfo
+from .rss_aggregator import RssAggregator, ConnectionInfo
 from .feed import Feed
 from .parse_feed_features import parse_feed_features
 from .twitter import fix_nitter_url, fix_nitter_rt_title, fix_nitter_urls_in_text, fix_nitter_rt_in_text
@@ -59,7 +59,7 @@ def _feed_dict_to_feed(feed_dict: dict) -> Feed:
         title=feed_dict['title'],
         group_title=feed_dict['category']['title']
     )
-    
+
 
 class MinifluxAggregator(RssAggregator):
     def __init__(
@@ -73,18 +73,6 @@ class MinifluxAggregator(RssAggregator):
         self.password = password
         self.client = miniflux.Client(base_url, username, password, timeout=TIMEOUT)
         self.frontend_or_backend = frontend_or_backend
-    
-    def persisted_auth(self) -> str:
-        try:
-            self.client.me()
-        except miniflux.ClientError:
-            raise AuthError()
-        return json.dumps({
-            'base_url': self.base_url,
-            'username': self.username,
-            'password': self.password,
-            'miniflux': True,
-        })
 
     def _get_groups(self) -> List[Group]:
         return list(map(_category_dict_to_group, self.client.get_categories()))
@@ -200,3 +188,19 @@ class MinifluxAggregator(RssAggregator):
 
     def enable_feed(self, fid: str):
         self.client.update_feed(int(fid), disabled=False)
+
+    def create_group(self, title: str, hide_globally: bool) -> str:
+        gid = self.client.create_category(title)["id"]
+
+        if hide_globally:
+            _endpoint = self.client._get_endpoint(f"/categories/{gid}")
+            _data = {"hide_globally": True}
+            _response = self.client._session.put(
+                _endpoint,
+                data=json.dumps(_data),
+                timeout=self.client._timeout,
+            )
+            if _response.status_code != 201:
+                self.client._handle_error_response(_response)
+
+        return str(gid)

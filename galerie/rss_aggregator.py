@@ -8,9 +8,6 @@ from .feed import Feed
 from .feed_icon import FeedIcon
 
 
-class AuthError(Exception): pass
-
-
 @dataclass
 class ConnectionInfo:
     aggregator_type: str
@@ -19,10 +16,6 @@ class ConnectionInfo:
 
 
 class RssAggregator(ABC):
-    @abstractmethod
-    def persisted_auth(self) -> str:
-        pass
-
     @abstractmethod
     def _get_groups(self) -> List[Group]:
         pass
@@ -100,6 +93,10 @@ class RssAggregator(ABC):
 
     @abstractmethod
     def enable_feed(self, fid: str):
+        pass
+
+    @abstractmethod
+    def create_group(self, title: str, hide_globally: bool) -> str:
         pass
 
     def get_preview_group(self) -> Optional[Group]:

@@ -27,9 +27,9 @@
 {% if connection_info.frontend_or_backend %}
 <button
     class="button"
-    hx-post="/actions/deauth"
+    hx-post="/actions/logout"
     hx-swap="none"
->{{ _('Logout')}}</button>
+>{{ _('Log out')}}</button>
 <br>
 <br>
 <a href="javascript:document.getElementById('setup-code').showModal()">{{ _('Show setup code') }}</a>

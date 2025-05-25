@@ -72,11 +72,18 @@ def pwa_manifest():
 @pages_blueprint.route("/login")
 @catches_exceptions
 def login_page():
-    aggregator = get_aggregator()
+    aggregator, _ = get_aggregator()
     if aggregator:
         return redirect('/')
     next_url = request.args.get('next', '/')
     return render_template('login.html', next_url=next_url)
+
+
+@pages_blueprint.route("/signup")
+@catches_exceptions
+def signup_page():
+    next_url = request.args.get('next', '/')
+    return render_template('signup.html', next_url=next_url)
 
 
 @pages_blueprint.route("/")

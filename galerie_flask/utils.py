@@ -26,7 +26,7 @@ def is_instapaper_available():
 def requires_auth(f):
     @wraps(f)
     def decorated_function(*args, **kwargs):
-        aggregator = get_aggregator()
+        aggregator, _ = get_aggregator()
         if not aggregator:
             if request.path.startswith('/actions'):
                 return redirect('/login')

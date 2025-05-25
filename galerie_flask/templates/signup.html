@@ -1,9 +1,9 @@
 {% extends 'base.html' %}
 
-{% block title %}{{ _('Log in | Galerie') }}{% endblock %}
+{% block title %}{{ _('Sign up | Galerie') }}{% endblock %}
 
 {% block content %}
-<p>{{ _('Log in') }}</p>
+<p>{{ _('Sign up') }}</p>
 <form>
     <p>{{ _('Username') }}</p>
     <input
@@ -20,21 +20,22 @@
         required
         class="code-font"
     >
+    <p>{{ _('Repeat password') }}</p>
+    <input
+        type="password"
+        name="repeat_password"
+        required
+        class="code-font"
+    >
     <br>
     <br>
     <button
         class="button"
-        hx-post="/actions/login?next={{ next_url }}"
+        hx-post="/actions/signup?next={{ next_url }}"
         hx-swap="none"
         hx-disabled-elt="this"
     >
-        {{ _('Log in') }} <span class="htmx-indicator">...</span>
-    </button>
+        {{ _('Sign up') }} <span class="htmx-indicator">...</span>
+    </button>    
 </form>
-<br>
-<a href="/signup?next=/login" style="font-size: 1em;">
-    <button class="button">
-        {{ _('Sign up') }}
-    </button>
-</a>
 {% endblock %}
