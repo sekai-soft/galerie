@@ -15,6 +15,7 @@ from .utils import requires_auth, max_items, load_more_button_args, mark_as_read
 from .get_aggregator import get_aggregator
 from .miniflux_admin import get_miniflux_admin, MinifluxAdminException, MinifluxAdminErrorCode
 from .instapaper import get_instapaper_auth, is_instapaper_available
+from .instapaper_manager import get_instapaper_manager
 
 
 actions_blueprint = Blueprint('actions', __name__)
@@ -267,13 +268,16 @@ def log_into_instapaper():
         "password": password
     })
     if auth_res.status_code != 200:
-        return make_toast(400, _("Failed to log into Instapaper"))
+        return make_toast(400, _("Wrong Instapaper credentials"))
+    
+    instapaper_manager = get_instapaper_manager()
+    instapaper_manager.add_instapaper_connection(
+        session_token=request.cookies.get('session_token'),
+        instapaper_username=username_or_email,
+        instapaper_password=password
+    )
 
     resp = make_response()
-    resp.set_cookie('instapaper_auth', json.dumps({
-        'username_or_email': username_or_email,
-        'password': password
-    }), max_age=cookie_max_age)
     resp.headers['HX-Refresh'] = "true"
     return resp
 
@@ -281,8 +285,12 @@ def log_into_instapaper():
 @actions_blueprint.route('/log_out_of_instapaper', methods=['POST'])
 @catches_exceptions
 def log_out_of_instapaper():
+    instapaper_manager = get_instapaper_manager()
+    instapaper_manager.remove_instapaper_connection(
+        request.cookies.get('session_token'),
+    )
+
     resp = make_response()
-    resp.delete_cookie('instapaper_auth')
     resp.headers['HX-Refresh'] = "true"
     return resp
 
