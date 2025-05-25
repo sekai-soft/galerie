@@ -33,7 +33,7 @@
         >
             {{ _('Preview feed') }} <span class="htmx-indicator">...</span>
         </button>
-        <a href="javascript:document.getElementById('other-ways-to-add-feed').showModal()">{{ _('Other ways to add feed') }}</a>
+        <a class="animate-long" href="javascript:document.getElementById('other-ways-to-add-feed').showModal()">{{ _('Other ways to add feed') }}</a>
         <dialog id="other-ways-to-add-feed">
             <p>{{ _("1. Drag this bookmarklet to your browser's bookmark bar") }}</p>
             <a href="{{ bookmarklet }}">{{ _('Add to Galerie')}}</a>
