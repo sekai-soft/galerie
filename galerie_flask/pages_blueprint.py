@@ -311,10 +311,10 @@ def add_preview_feed_page():
     return render_template('add_preview_feed.html', **args)
 
 
-@pages_blueprint.route("/clean_up_preview_feeds")
+@pages_blueprint.route("/clean_up_previewed_feeds")
 @catches_exceptions
 @requires_auth
-def clean_up_preview_feeds_page():
+def clean_up_previewed_feeds_page():
     previewed_feeds = g.aggregator.get_feeds_by_group_id(g.aggregator.get_preview_group().gid)
 
     return render_template(
