@@ -7,7 +7,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: PROJECT VERSION\n"
 "Report-Msgid-Bugs-To: EMAIL@ADDRESS\n"
-"POT-Creation-Date: 2025-05-23 01:24+0000\n"
+"POT-Creation-Date: 2025-05-25 07:22+0000\n"
 "PO-Revision-Date: 2024-06-27 08:04+0000\n"
 "Last-Translator: FULL NAME <EMAIL@ADDRESS>\n"
 "Language: zh\n"
@@ -18,40 +18,66 @@ msgstr ""
 "Content-Transfer-Encoding: 8bit\n"
 "Generated-By: Babel 2.17.0\n"
 
-#: galerie_flask/actions_blueprint.py:44
+#: galerie_flask/actions_blueprint.py:43
+msgid "Username already exists"
+msgstr "用户名已存在"
+
+#: galerie_flask/actions_blueprint.py:45
+msgid "Wrong credentials"
+msgstr "用户名或密码错误"
+
+#: galerie_flask/actions_blueprint.py:51
+msgid "Your session has expired"
+msgstr "您的会话已过期"
+
+#: galerie_flask/actions_blueprint.py:53
+#, python-format
+msgid "Unknown MinifluxAdminException: %(e)s"
+msgstr "未知 MinifluxAdminException: %(e)s"
+
+#: galerie_flask/actions_blueprint.py:58
 #, python-format
 msgid "Unknown server error: %(e)s"
 msgstr "未知服务器错误: %(e)s"
 
-#: galerie_flask/actions_blueprint.py:81
-msgid "Failed to authenticate"
-msgstr "无法进行身份验证"
+#: galerie_flask/actions_blueprint.py:69 galerie_flask/actions_blueprint.py:97
+msgid "Username is required"
+msgstr "用户名是必需的"
 
-#: galerie_flask/actions_blueprint.py:155
+#: galerie_flask/actions_blueprint.py:73 galerie_flask/actions_blueprint.py:77
+#: galerie_flask/actions_blueprint.py:101
+msgid "Password is required"
+msgstr "密码是必需的"
+
+#: galerie_flask/actions_blueprint.py:80
+msgid "Passwords do not match"
+msgstr "密码不匹配"
+
+#: galerie_flask/actions_blueprint.py:188
 msgid "Setting updated"
 msgstr "设置已更新"
 
-#: galerie_flask/actions_blueprint.py:177
+#: galerie_flask/actions_blueprint.py:210
 msgid "Group updated"
 msgstr "分组已更新"
 
-#: galerie_flask/actions_blueprint.py:200
+#: galerie_flask/actions_blueprint.py:233
 msgid "Unable to detect a valid feed"
 msgstr "无法检测到有效的订阅源"
 
-#: galerie_flask/actions_blueprint.py:228
+#: galerie_flask/actions_blueprint.py:261
 msgid "Instapaper username or email is required"
 msgstr "Instapaper 用户名或邮箱是必需的"
 
-#: galerie_flask/actions_blueprint.py:237
+#: galerie_flask/actions_blueprint.py:270
 msgid "Failed to log into Instapaper"
 msgstr "无法登录到 Instapaper"
 
-#: galerie_flask/actions_blueprint.py:273
+#: galerie_flask/actions_blueprint.py:306
 msgid "Failed to add to Instapaper"
 msgstr "无法添加到 Instapaper"
 
-#: galerie_flask/actions_blueprint.py:274
+#: galerie_flask/actions_blueprint.py:307
 #, python-format
 msgid "Added %(url)s to Instapaper"
 msgstr "已将 %(url)s 添加到 Instapaper"
@@ -67,43 +93,40 @@ msgstr "添加订阅源 | Galerie"
 msgid "Add feed"
 msgstr "添加订阅源"
 
-#: galerie_flask/templates/add_feed.html:11
-#: galerie_flask/templates/add_feed.html:20
-msgid "Feed URL"
-msgstr "订阅源 URL"
+#: galerie_flask/templates/add_feed.html:10
+msgid "Twitter or RSS URL"
+msgstr "Twitter 或 RSS URL"
 
-#: galerie_flask/templates/add_feed.html:35
+#: galerie_flask/templates/add_feed.html:34
 msgid "Preview feed"
 msgstr "预览订阅源"
 
-#: galerie_flask/templates/add_feed.html:37
+#: galerie_flask/templates/add_feed.html:36
 msgid "Other ways to add feed"
 msgstr "其他添加订阅源的方式"
 
-#: galerie_flask/templates/add_feed.html:39
+#: galerie_flask/templates/add_feed.html:38
 msgid "1. Drag this bookmarklet to your browser's bookmark bar"
 msgstr "1. 将这个书签拖到浏览器的书签栏"
 
-#: galerie_flask/templates/add_feed.html:40
+#: galerie_flask/templates/add_feed.html:39
 msgid "Add to Galerie"
 msgstr "添加至 Galerie"
 
-#: galerie_flask/templates/add_feed.html:42
+#: galerie_flask/templates/add_feed.html:41
 msgid "2. Add"
 msgstr "2. 添加"
 
-#: galerie_flask/templates/add_feed.html:43
+#: galerie_flask/templates/add_feed.html:42
 msgid "this"
 msgstr "这个"
 
-#: galerie_flask/templates/add_feed.html:44
+#: galerie_flask/templates/add_feed.html:43
 msgid "iOS shortcut"
 msgstr "添加 iOS 快捷方式"
 
-#: galerie_flask/templates/add_feed.html:47
-#: galerie_flask/templates/login.html:77
-#: galerie_flask/templates/settings.html:39
-#: galerie_flask/templates/settings.html:86
+#: galerie_flask/templates/add_feed.html:46
+#: galerie_flask/templates/settings.html:73
 msgid "Close"
 msgstr "关闭"
 
@@ -146,8 +169,8 @@ msgid "Oops something went wrong"
 msgstr "糟糕，出错了"
 
 #: galerie_flask/templates/error.html:14
-#: galerie_flask/templates/settings.html:32
-msgid "Logout"
+#: galerie_flask/templates/settings.html:99
+msgid "Log out"
 msgstr "登出"
 
 #: galerie_flask/templates/feeds.html:3 galerie_flask/templates/feeds.html:5
@@ -222,45 +245,25 @@ msgid "more"
 msgstr "更多"
 
 #: galerie_flask/templates/login.html:3
-msgid "Login | Galerie"
+msgid "Log in | Galerie"
 msgstr "登录 | Galerie"
 
-#: galerie_flask/templates/login.html:6
-msgid "Please login first"
-msgstr "请先登录"
+#: galerie_flask/templates/login.html:6 galerie_flask/templates/login.html:31
+msgid "Log in"
+msgstr "登录"
 
-#: galerie_flask/templates/login.html:8
-msgid "Type of RSS aggregator"
-msgstr "RSS 聚合器类型"
-
-#: galerie_flask/templates/login.html:13
-msgid "Miniflux API endpoint"
-msgstr "Miniflux API 节点"
-
-#: galerie_flask/templates/login.html:22
+#: galerie_flask/templates/login.html:8 galerie_flask/templates/signup.html:8
 msgid "Username"
 msgstr "用户名"
 
-#: galerie_flask/templates/login.html:30
+#: galerie_flask/templates/login.html:16 galerie_flask/templates/signup.html:16
 msgid "Password"
 msgstr "密码"
 
-#: galerie_flask/templates/login.html:46
-#: galerie_flask/templates/settings.html:83
-msgid "Login"
-msgstr "登录"
-
-#: galerie_flask/templates/login.html:48
-msgid "Set up using a code"
-msgstr "使用初始设置码设置"
-
-#: galerie_flask/templates/login.html:56
-msgid "Setup code"
-msgstr "初始设置码"
-
-#: galerie_flask/templates/login.html:70
-msgid "Submit"
-msgstr "提交"
+#: galerie_flask/templates/login.html:37 galerie_flask/templates/signup.html:6
+#: galerie_flask/templates/signup.html:38
+msgid "Sign up"
+msgstr "注册"
 
 #: galerie_flask/templates/settings.html:3
 msgid "Settings | Galerie"
@@ -275,52 +278,60 @@ msgid "Feed management"
 msgstr "订阅源管理"
 
 #: galerie_flask/templates/settings.html:25
-msgid "connection"
-msgstr "连接"
-
-#: galerie_flask/templates/settings.html:26
-msgid "[Server authenticated]"
-msgstr "[服务器端验证]"
-
-#: galerie_flask/templates/settings.html:35
-msgid "Show setup code"
-msgstr "显示初始设置码"
-
-#: galerie_flask/templates/settings.html:46
 msgid "Instapaper connection"
 msgstr "Instapaper 连接"
 
-#: galerie_flask/templates/settings.html:51
+#: galerie_flask/templates/settings.html:29
+msgid "Instapaper is not configured"
+msgstr "Instapaper 未配置"
+
+#: galerie_flask/templates/settings.html:34
 msgid "Log into Instapaper"
 msgstr "登录到 Instapaper"
 
-#: galerie_flask/templates/settings.html:53
+#: galerie_flask/templates/settings.html:37
 msgid "Logged in as"
 msgstr "已用此身份登陆"
 
-#: galerie_flask/templates/settings.html:58
+#: galerie_flask/templates/settings.html:43
 msgid "Log out of Instapaper"
 msgstr "从 Instapaper 登出"
 
-#: galerie_flask/templates/settings.html:62
+#: galerie_flask/templates/settings.html:49
 msgid "Instapaper username or email"
 msgstr "Instapaper 用户名或邮箱"
 
-#: galerie_flask/templates/settings.html:69
+#: galerie_flask/templates/settings.html:56
 msgid "Instapaper password"
 msgstr "Instapaper 密码"
 
-#: galerie_flask/templates/settings.html:93
+#: galerie_flask/templates/settings.html:70
+msgid "Login"
+msgstr "登录"
+
+#: galerie_flask/templates/settings.html:80
 msgid "Infinite scroll"
 msgstr "无限滚动"
 
-#: galerie_flask/templates/settings.html:100
+#: galerie_flask/templates/settings.html:87
 msgid "Yes"
 msgstr "是"
 
-#: galerie_flask/templates/settings.html:101
+#: galerie_flask/templates/settings.html:88
 msgid "No"
 msgstr "否"
+
+#: galerie_flask/templates/settings.html:101
+msgid "Connected to"
+msgstr "连接至"
+
+#: galerie_flask/templates/signup.html:3
+msgid "Sign up | Galerie"
+msgstr "注册 | Galerie"
+
+#: galerie_flask/templates/signup.html:23
+msgid "Repeat password"
+msgstr "重复密码"
 
 #: galerie_flask/templates/update_feed.html:3
 msgid "Update feed"
