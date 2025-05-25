@@ -9,8 +9,9 @@ from galerie.feed_filter import FeedFilter
 from galerie.rendered_item import convert_rendered_items, convert_rendered_item
 from galerie.twitter import extract_twitter_handle_from_feed_url, extract_twitter_handle_from_url
 from .utils import requires_auth, max_items, load_more_button_args,\
-    mark_as_read_button_args, items_args, add_image_ui_extras, is_instapaper_available
+    mark_as_read_button_args, items_args, add_image_ui_extras
 from .get_aggregator import get_aggregator
+from .instapaper import get_instapaper_auth, is_instapaper_available
 
 
 pages_blueprint = Blueprint('pages', __name__, static_folder='static', template_folder='templates')
@@ -132,14 +133,20 @@ def index_page():
 @catches_exceptions
 @requires_auth
 def settings_page():
+    connection_info = g.aggregator.connection_info()
     infinite_scroll = request.cookies.get('infinite_scroll', '1') == '1'
-    instapaper_auth = json.loads(request.cookies.get('instapaper_auth', '{}'))
+    instapaper_available = is_instapaper_available()
+    instapaper_auth = None
+    if instapaper_available:
+        instapaper_auth = get_instapaper_auth()
     
     return render_template(
         'settings.html',
-        connection_info=g.aggregator.connection_info(),
+        connection_info=connection_info,
         infinite_scroll=infinite_scroll,
-        instapaper_auth=instapaper_auth,)
+        is_instapaper_available=instapaper_available,
+        instapaper_auth=instapaper_auth
+    )
 
 
 @pages_blueprint.route("/feeds")

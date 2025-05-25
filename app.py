@@ -22,19 +22,23 @@ def get_locale():
 
 app = Flask(__name__, static_url_path='/static')
 app.config['TEMPLATES_AUTO_RELOAD'] = True
-app.config["SQLALCHEMY_DATABASE_URI"] = os.environ['SQLALCHEMY_DATABASE_URI']
+
+if 'SQLALCHEMY_DATABASE_URI' in os.environ:
+    app.config["SQLALCHEMY_DATABASE_URI"] = os.environ['SQLALCHEMY_DATABASE_URI']
+
 app.config["BABEL_TRANSLATION_DIRECTORIES"] = os.path.join(
     os.path.abspath(os.path.dirname(__file__)),
     "galerie_flask",
-    "translations")
+    "translations"
+)
 babel = Babel(app, locale_selector=get_locale)
 app.register_blueprint(pages_blueprint, url_prefix='/')
 app.register_blueprint(actions_blueprint, url_prefix='/actions')
-db.init_app(app)
 
-
-with app.app_context():
-    db.create_all()
+if 'SQLALCHEMY_DATABASE_URI' in os.environ:
+    db.init_app(app)
+    with app.app_context():
+        db.create_all()
 
 
 # Custom template filter to abbreviate large numbers with k suffix

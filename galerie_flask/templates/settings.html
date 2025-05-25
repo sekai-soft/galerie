@@ -23,19 +23,27 @@
 <br>
 <hr>
 <p>{{ _('Instapaper connection') }}</p>
-{% if not instapaper_auth %}
+
+{% if not is_instapaper_available %}
+{% if not connection_info.managed_or_self_hosted %}
+<p>{{ _('Instapaper is not configured')}}</p>
+{% else %}
 <button
     class="button"
     onclick="document.getElementById('log-into-instapaper').showModal()"
 >{{ _('Log into Instapaper')}}</button>
+{% endif %}
 {% else %}
-<p>{{ _('Logged in as') }} {{ instapaper_auth['username_or_email'] }}</p>
+<p>{{ _('Logged in as') }} {{ instapaper_auth[0] }}</p>
+{% if connection_info.managed_or_self_hosted %}
 <button
     class="button"
     hx-post="/actions/log_out_of_instapaper"
     hx-swap="none"
 >{{ _('Log out of Instapaper')}}</button>
 {% endif %}
+{% endif %}
+
 <dialog id="log-into-instapaper">
     <form>
         <p>{{ _('Instapaper username or email') }}</p>

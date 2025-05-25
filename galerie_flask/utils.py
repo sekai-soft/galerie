@@ -1,26 +1,13 @@
-import json
-from typing import Optional, List, Tuple
+from typing import Optional, List
 from functools import wraps
 from urllib.parse import quote, quote_plus
-from flask import request, g, redirect, Response
-from flask_babel import _
+from flask import request, g, redirect
 from galerie.rendered_item import RenderedItem
 from galerie.twitter import fix_shareable_twitter_url
 from .get_aggregator import get_aggregator
 
 max_items = 10
 cookie_max_age = 60 * 60 * 24 * 365  # 1 year
-
-
-def get_instapaper_auth() -> Tuple[str, str]:
-    if 'instapaper_auth' in request.cookies:
-        instapaper_auth = json.loads(request.cookies['instapaper_auth'])
-        return instapaper_auth['username_or_email'], instapaper_auth['password']
-    return None, None
-
-
-def is_instapaper_available():
-    return 'instapaper_auth' in request.cookies
 
 
 def requires_auth(f):

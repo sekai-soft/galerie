@@ -11,9 +11,10 @@ from galerie.feed_filter import FeedFilter
 from galerie.rendered_item import convert_rendered_items
 from galerie.twitter import create_nitter_feed_url, extract_twitter_handle_from_url
 from .utils import requires_auth, max_items, load_more_button_args, mark_as_read_button_args, items_args, add_image_ui_extras, \
-    is_instapaper_available, get_instapaper_auth, cookie_max_age
+    cookie_max_age
 from .get_aggregator import get_aggregator
 from .miniflux_admin import get_miniflux_admin, MinifluxAdminException, MinifluxAdminErrorCode
+from .instapaper import get_instapaper_auth, is_instapaper_available
 
 
 actions_blueprint = Blueprint('actions', __name__)
