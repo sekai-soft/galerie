@@ -315,11 +315,12 @@ def add_preview_feed_page():
 @catches_exceptions
 @requires_auth
 def clean_up_preview_feeds_page():
-    previewed_feeds = g.aggregator.get_feeds_by_group(g.aggregator.get_preview_group().gid)
+    previewed_feeds = g.aggregator.get_feeds_by_group_id(g.aggregator.get_preview_group().gid)
 
     return render_template(
         'clean_up_previewed_feeds.html',
-        previewed_feeds=previewed_feeds,)
+        previewed_feeds=previewed_feeds
+    )
 
 
 @pages_blueprint.route("/m/<encoded_url>")

@@ -203,3 +203,7 @@ class MinifluxAggregator(RssAggregator):
                 self.client._handle_error_response(_response)
 
         return str(gid)
+
+    def get_feeds_by_group_id(self, gid: str) -> List[Feed]:
+        feeds = self.client.get_category_feeds(int(gid))
+        return list(map(_feed_dict_to_feed, feeds))

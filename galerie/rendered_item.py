@@ -55,7 +55,7 @@ def convert_rendered_item(item: Item, ignore_rendered_items_cap: Optional[bool]=
 
             image_url=image_url,
             video_url=video_url,
-            text=item.text,
+            text=item.text if item.text else "(No text)",
             left_rendered_items=total_target_elements - MAX_RENDERED_ITEMS_COUNT,))
 
     return res

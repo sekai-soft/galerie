@@ -105,20 +105,16 @@ class RssAggregator(ABC):
     def create_group(self, title: str, hide_globally: bool) -> str:
         pass
 
+    @abstractmethod
+    def get_feeds_by_group_id(self, gid: str) -> List[Feed]:
+        pass
+
     def get_preview_group(self) -> Optional[Group]:
         for group in self._get_groups():
             if group.title == PREVIEW_GROUP_TITLE:
                 return group
         return None
-    
-    def get_feeds_by_group(self, gid: str) -> List[Feed]:
-        res = []
-        for feed in self.get_feeds():
-            if feed.gid == gid:
-                res.append(feed)
-        return res
 
-    def delete_feeds(self, gid: str):
-        for feed in self.get_feeds():
-            if feed.gid == gid:
-                self.delete_feed(feed.fid)
+    def delete_feeds_by_group_id(self, gid: str):
+        for feed in self.get_feeds_by_group_id(gid):
+            self.delete_feed(feed.fid)

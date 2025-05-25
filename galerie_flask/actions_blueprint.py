@@ -320,7 +320,7 @@ def instapaper():
 @catches_exceptions
 def clean_up_previewed_feeds():
     preview_group = g.aggregator.get_preview_group()
-    g.aggregator.delete_feeds(preview_group.gid)
+    g.aggregator.delete_feeds_by_group_id(preview_group.gid)
 
     resp = make_response()
     resp.headers['HX-Refresh'] = "true"
