@@ -57,7 +57,8 @@ def _feed_dict_to_feed(feed_dict: dict) -> Feed:
         gid=str(feed_dict['category']['id']),
         features=parse_feed_features(feed_dict['feed_url']),
         title=feed_dict['title'],
-        group_title=feed_dict['category']['title']
+        group_title=feed_dict['category']['title'],
+        error=feed_dict.get('parsing_error_count', 0) > 0,
     )
 
 

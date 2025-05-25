@@ -1,23 +1,40 @@
-{% extends 'base_child_page.html' %}
+{% extends 'base.html' %}
 
 {% block title %}{{ _('Manage feeds') }}{% endblock %}
 
-{% block header_title %}{{ _('Manage feeds') }}{% endblock %}
-
-{% block page_content %}
-{% for feeds_in_group in feeds_by_groups %}
-<p class="feeds">{{ feeds_in_group.group.title }}</p>
-{% if not feeds_in_group.feeds %}
-<p class="feeds">{{ _('(No feed)') }}</p>
+{% block content %}
+<div class="header" x-data="{}">
+    <div class="header-left">
+         <a
+            id="back-button"
+            href="javascript:window.history.back();"
+            class="link-button"
+        >⬅️</a>
+        <p>{{ _('Manage feeds') }}</p>
+        <select id="group-select">
+            {% for g in groups %}
+            <option value="{{ g.gid }}" {{ 'selected=selected' if g.gid == gid else '' }}>{{ g.title }}</option>
+            {% endfor %}
+        </select>
+    </div>
+    <div class="header-right">
+        <a
+            href="/feed_settings?group={{ gid }}"
+            class="link-button"
+        >⚙️</a>
+    </div>
+</div>
+{% if feeds|length == 0 %}
+<p class="animate-long">{{ _('No feeds in this group') }}</p>
+{% else %}
+{% for feed in feeds %}
+<a style="font-size: 1em" href="/feed?fid={{ feed.fid }}">
+    <p class="animate-long user-string-horizontal">
+        {% if feed.error %}<span>⚠️</span>{% endif %}
+        {{ feed.title }}
+    </p>
+</a>
+{% endfor %}
 {% endif %}
-{% for feed in feeds_in_group.feeds %}
-<p class="feeds">
-    {% if not loop.last %}├─{% else %}└─{% endif %}
-    {% if feed.features.rss_lambda_image_simple_filters %} <span class="highlight-text">{{ _('(filtered)') }}</span> {% endif %}
-    {% if feed.features.rss_lambda_image_simple_filters_param %} <span class="highlight-text">{{ feed.features.rss_lambda_image_simple_filters_param | join(', ') }}</span> {% endif %}
-    <a href="/feed?fid={{ feed.fid }}" style="text-decoration: none;">{% if feed.features.twitter_handle %} 🐦 @{{feed.features.twitter_handle}} {% else %} {{ feed.features.feed_url }} {% endif %}</a>
-</p>
-{% endfor %}
-<br>
-{% endfor %}
+<script src="{{ url_for('static', filename='feeds.js') }}"></script>
 {% endblock %}

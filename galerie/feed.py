@@ -9,3 +9,4 @@ class Feed:
     features: Dict
     title: str
     group_title: str
+    error: bool

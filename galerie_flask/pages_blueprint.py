@@ -162,17 +162,24 @@ def settings_page():
 @catches_exceptions
 @requires_auth
 def feeds_page():
-    feeds = g.aggregator.get_feeds()
     groups = g.aggregator.get_groups()
+    if not groups:
+        raise ValueError("No groups found")
 
-    feeds_by_groups = []
-    for group in groups:
-        feeds_by_groups.append({
-            "group": group,
-            "feeds": [feed for feed in feeds if feed.gid == group.gid]
-        })
+    groups = sorted(groups, key=lambda group: group.gid, reverse=True)
+    gid = request.args.get('group')
+    if gid is None:
+        return redirect(f'/feeds?group={groups[0].gid}')
+    
+    feeds = g.aggregator.get_feeds_by_group_id(gid)
+    feeds = sorted(feeds, key=lambda feed: (0 if feed.error else 1, feed.title))
 
-    return render_template('feeds.html', feeds_by_groups=feeds_by_groups)
+    return render_template(
+        'feeds.html',
+        groups=groups,
+        gid=gid,
+        feeds=feeds,
+    )
 
 
 @pages_blueprint.route("/feed")

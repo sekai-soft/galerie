@@ -174,14 +174,6 @@ textarea {
     padding-right: 0.25em;
 }
 
-.feeds {
-    margin: 0;
-}
-
-.feeds > a {
-    font-size: 1em;
-}
-
 .header-left {
     display: flex;
     flex-direction: row;
