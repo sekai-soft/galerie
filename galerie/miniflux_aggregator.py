@@ -67,12 +67,12 @@ class MinifluxAggregator(RssAggregator):
         base_url: str,
         username: str,
         password: str,
-        frontend_or_backend: bool):
+        managed_or_self_hosted: bool):
         self.base_url = base_url
         self.username = username
         self.password = password
         self.client = miniflux.Client(base_url, username, password, timeout=TIMEOUT)
-        self.frontend_or_backend = frontend_or_backend
+        self.managed_or_self_hosted = managed_or_self_hosted
 
     def _get_groups(self) -> List[Group]:
         return list(map(_category_dict_to_group, self.client.get_categories()))
@@ -122,9 +122,8 @@ class MinifluxAggregator(RssAggregator):
 
     def connection_info(self) -> ConnectionInfo:
         return ConnectionInfo(
-            aggregator_type='Miniflux',
+            managed_or_self_hosted=self.managed_or_self_hosted,
             host=urlparse(self.base_url).hostname,
-            frontend_or_backend=self.frontend_or_backend
         )
 
     def get_feeds(self) -> List[Feed]:

@@ -66,28 +66,3 @@ def add_image_ui_extras(rendered_item: RenderedItem):
     rendered_item.ui_extra['encoded_tags'] = ''.join(map(
         lambda g: f'&tag={quote_plus(g.title)}&tag={quote(f'group_id={g.gid}')}', rendered_item.groups)) if rendered_item.groups else ''
     rendered_item.ui_extra['shareable_url'] = fix_shareable_twitter_url(rendered_item.url)
-
-
-def encode_setup_from_cookies() -> str:
-    data = {
-        'auth': request.cookies['auth']
-    }
-
-    if 'infinite_scroll' in request.cookies:
-        data['infinite_scroll'] = request.cookies['infinite_scroll']
-    if 'instapaper_auth' in request.cookies:
-        data['instapaper_auth'] = request.cookies['instapaper_auth']
-
-    return json.dumps(data)
-
-
-def decode_setup_to_cookies(setup_code: str, response: Response):
-    setup = json.loads(setup_code)
-    response.set_cookie('auth', setup['auth'], max_age=cookie_max_age)
-
-    if 'infinite_scroll' in setup:
-        response.set_cookie('infinite_scroll', setup['infinite_scroll'], max_age=cookie_max_age)
-    if 'instapaper_auth' in setup:
-        response.set_cookie('instapaper_auth', setup['instapaper_auth'], max_age=cookie_max_age)
-
-    return response

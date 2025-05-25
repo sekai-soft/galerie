@@ -157,10 +157,6 @@ dialog {
     color: #F5F5F5;
 }
 
-.setup-code {
-    word-break: break-all;
-}
-
 textarea {
     color: #F5F5F5;
     border: none;

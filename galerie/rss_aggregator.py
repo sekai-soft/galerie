@@ -10,9 +10,8 @@ from .feed_icon import FeedIcon
 
 @dataclass
 class ConnectionInfo:
-    aggregator_type: str
-    host: str
-    frontend_or_backend: bool
+    managed_or_self_hosted: bool
+    host: Optional[str]
 
 
 class RssAggregator(ABC):

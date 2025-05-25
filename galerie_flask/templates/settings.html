@@ -22,27 +22,6 @@
 <br>
 <br>
 <hr>
-<p>{{ connection_info.aggregator_type }} {{ _('connection') }}</p>
-<p>{{ connection_info.host }} {{ _('[Server authenticated]') if not connection_info.frontend_or_backend else '' }}</p>
-{% if connection_info.frontend_or_backend %}
-<button
-    class="button"
-    hx-post="/actions/logout"
-    hx-swap="none"
->{{ _('Log out')}}</button>
-<br>
-<br>
-<a href="javascript:document.getElementById('setup-code').showModal()">{{ _('Show setup code') }}</a>
-<dialog id="setup-code">
-    <p class="setup-code">{{ setup_code }}</p>
-    <button class="button" onclick="document.getElementById('setup-code').close()">
-        {{ _('Close') }}
-    </button>
-</dialog>
-{% endif %}
-<br>
-<br>
-<hr>
 <p>{{ _('Instapaper connection') }}</p>
 {% if not instapaper_auth %}
 <button
@@ -100,6 +79,19 @@
     <option value="1" {{ 'selected=selected' if infinite_scroll else '' }}>{{ _('Yes')}}</option>
     <option value="0" {{ 'selected=selected' if not infinite_scroll else '' }}>{{ _('No')}}</option>
 </select>
+<br>
+<br>
+<hr>
+{% if connection_info.managed_or_self_hosted %}
+<br>
+<button
+    class="button"
+    hx-post="/actions/logout"
+    hx-swap="none"
+>{{ _('Log out')}}</button>
+{% else %}
+<p>{{ _('Connected to')}} {{ connection_info.host }}</p>
+{% endif %}
 <div class="footer">
     <p><a href="https://github.com/sekai-soft/galerie" target="_blank">GitHub</a> | <a href="https://sekaisoft.tech" target="_blank">Sekaisoft</a></p>
 </div>

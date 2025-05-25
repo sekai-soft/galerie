@@ -1,17 +1,15 @@
 import os
 import json
-import base64
 from functools import wraps
 from urllib.parse import urlparse
 from sentry_sdk import capture_exception
-from flask import Blueprint, redirect, render_template, g, request, make_response, jsonify
+from flask import Blueprint, redirect, render_template, g, request, jsonify
 from flask_babel import _
 from galerie.feed_filter import FeedFilter
 from galerie.rendered_item import convert_rendered_items, convert_rendered_item
 from galerie.twitter import extract_twitter_handle_from_feed_url, extract_twitter_handle_from_url
 from .utils import requires_auth, max_items, load_more_button_args,\
-    mark_as_read_button_args, items_args, add_image_ui_extras, encode_setup_from_cookies, cookie_max_age, \
-    is_instapaper_available
+    mark_as_read_button_args, items_args, add_image_ui_extras, is_instapaper_available
 from .get_aggregator import get_aggregator
 
 
@@ -137,15 +135,10 @@ def settings_page():
     infinite_scroll = request.cookies.get('infinite_scroll', '1') == '1'
     instapaper_auth = json.loads(request.cookies.get('instapaper_auth', '{}'))
     
-    setup_code = encode_setup_from_cookies()
-    setup_code = base64.b64encode(setup_code.encode("utf-8"))
-    setup_code = setup_code.decode("utf-8")
-
     return render_template(
         'settings.html',
         connection_info=g.aggregator.connection_info(),
         infinite_scroll=infinite_scroll,
-        setup_code=setup_code,
         instapaper_auth=instapaper_auth,)
 
 
