@@ -7,7 +7,7 @@
 {% block page_content %}
 <form>
     <p>
-        {{ _('Twitter or RSS URL') }} 
+        {{ _('Feed URL') }} 
         {% if url %}
         <input
             type="text"
@@ -48,4 +48,5 @@
         </dialog>
     </div>
 </form>
+<p>{{ _('Supported feed types: Twitter, RSS') }}</p>
 {% endblock %}

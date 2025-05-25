@@ -7,7 +7,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: PROJECT VERSION\n"
 "Report-Msgid-Bugs-To: EMAIL@ADDRESS\n"
-"POT-Creation-Date: 2025-05-25 19:36+0000\n"
+"POT-Creation-Date: 2025-05-25 19:42+0000\n"
 "PO-Revision-Date: 2024-06-27 08:04+0000\n"
 "Last-Translator: FULL NAME <EMAIL@ADDRESS>\n"
 "Language: zh\n"
@@ -94,8 +94,8 @@ msgid "Add feed"
 msgstr "添加订阅源"
 
 #: galerie_flask/templates/add_feed.html:10
-msgid "Twitter or RSS URL"
-msgstr "Twitter 或 RSS URL"
+msgid "Feed URL"
+msgstr "订阅源 URL"
 
 #: galerie_flask/templates/add_feed.html:34
 msgid "Preview feed"
@@ -129,6 +129,10 @@ msgstr "添加 iOS 快捷方式"
 #: galerie_flask/templates/settings.html:73
 msgid "Close"
 msgstr "关闭"
+
+#: galerie_flask/templates/add_feed.html:51
+msgid "Supported feed types: Twitter, RSS"
+msgstr "支持的订阅源类型: Twitter, RSS"
 
 #: galerie_flask/templates/add_preview_feed.html:9
 msgid "Assign group"
@@ -352,4 +356,7 @@ msgstr "确定要删除这个订阅源吗？"
 #: galerie_flask/templates/update_feed.html:32
 msgid "Delete feed"
 msgstr "删除订阅源"
+
+#~ msgid "Twitter or RSS URL"
+#~ msgstr "Twitter 或 RSS URL"
 
