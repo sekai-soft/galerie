@@ -1,8 +1,12 @@
+import os
+import base64
 from typing import List, Optional
+from urllib.parse import unquote, urlparse
 from dataclasses import dataclass, field
 from bs4 import BeautifulSoup
 from .item import Item
 from .group import Group
+from .twitter import get_nitter_base_url
 
 
 MAX_RENDERED_ITEMS_COUNT = 4
@@ -23,6 +27,26 @@ class RenderedItem:
     text: str = ''
     left_rendered_items: int = 0
     ui_extra: dict = field(default_factory=dict)
+
+
+def get_media_proxy_custom_url() -> str:
+    url = os.environ.get('MEDIA_PROXY_CUSTOM_URL', '')
+    if not url.endswith('/'):
+        url += '/'
+    return url
+
+
+def fix_proxied_media_url(url: str) -> str:
+    media_proxy_custom_url = get_media_proxy_custom_url()
+
+    if url.startswith(media_proxy_custom_url):
+        encoded_url = url[len(media_proxy_custom_url):]
+        decoded_url = base64.urlsafe_b64decode(encoded_url).decode('utf-8')
+        if decoded_url.startswith(get_nitter_base_url()):
+            twitter_media_path = unquote(urlparse(decoded_url).path.split('/')[-1])
+            return 'https://pbs.twimg.com/' + twitter_media_path
+        return decoded_url
+    return url
 
 
 def convert_rendered_item(item: Item, ignore_rendered_items_cap: Optional[bool]=False) -> RenderedItem:
@@ -53,8 +77,8 @@ def convert_rendered_item(item: Item, ignore_rendered_items_cap: Optional[bool]=
             fid=item.fid,
             iid=item.iid,
 
-            image_url=image_url,
-            video_url=video_url,
+            image_url=fix_proxied_media_url(image_url),
+            video_url=fix_proxied_media_url(video_url),
             text=item.text if item.text else "(No text)",
             left_rendered_items=total_target_elements - MAX_RENDERED_ITEMS_COUNT,))
 

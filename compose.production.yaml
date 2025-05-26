@@ -10,6 +10,7 @@ services:
       SQLALCHEMY_DATABASE_URI: 'postgresql://galerie:secret@postgres/galerie?sslmode=disable'
       MINIFLUX_BASE_URL: 'http://miniflux'
       NITTER_BASE_URL: 'http://nitter'
+      MEDIA_PROXY_CUSTOM_URL: 'http://galerie-reader-media'
     env_file:
       - env
   postgres:
@@ -47,9 +48,8 @@ services:
       - PORT=80
       - BASE_URL=http://miniflux/
       - WORKER_POOL_SIZE=1
-      - MEDIA_PROXY_CUSTOM_URL=https://galerie-reader.app/m 
+      - MEDIA_PROXY_CUSTOM_URL=http://galerie-reader-media
       - MEDIA_PROXY_RESOURCE_TYPES=image,audio,video
-      - MEDIA_PROXY_MODE=all
     env_file:
       - env
     ports:

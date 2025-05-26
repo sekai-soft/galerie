@@ -386,16 +386,6 @@ def add_group_page():
     return render_template('add_group.html')
 
 
-@pages_blueprint.route("/m/<encoded_url>")
-def media_proxy(encoded_url):
-    decoded_url = base64.urlsafe_b64decode(encoded_url).decode('utf-8')
-    if decoded_url.startswith(get_nitter_base_url()):
-        twitter_media_path = unquote(urlparse(decoded_url).path.split('/')[-1])
-        twitter_media_url = 'https://pbs.twimg.com/' + twitter_media_path
-        return redirect(twitter_media_url)
-    return redirect(decoded_url)
-
-
 @pages_blueprint.route("/debug")
 @catches_exceptions
 @requires_auth
