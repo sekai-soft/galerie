@@ -234,7 +234,7 @@ def add_feed():
     if not feed_url:
         return make_toast(400, "URL is required")
 
-    fid = g.aggregator.add_feed(feed_url, gid, disabled=True)
+    fid = g.aggregator.add_feed(feed_url, gid)
     if not fid:
         return make_toast(400, _('Unable to detect a valid feed'))
     # g.aggregator.mark_all_feed_items_as_read(fid)
