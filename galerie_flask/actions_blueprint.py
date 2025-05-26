@@ -211,14 +211,13 @@ def update_feed_group():
     return make_toast(200, str(_("Group updated")))
 
 
-@actions_blueprint.route('/preview_feed', methods=['POST'])
+@actions_blueprint.route('/add_feed', methods=['POST'])
 @requires_auth
 @catches_exceptions
-def preview_feed():
-    preview_group = g.aggregator.get_preview_group()
-    if not preview_group:
-        return make_toast(400, "Preview group is absent")
-    preview_gid = preview_group.gid
+def add_feed():
+    if 'group' not in request.form:
+        return make_toast(400, "Group is required")
+    gid = request.form.get('group')
 
     url = request.form['url']
     existing_fid = g.aggregator.find_feed_by_feed_url(url)
@@ -235,13 +234,13 @@ def preview_feed():
     if not feed_url:
         return make_toast(400, "URL is required")
 
-    fid = g.aggregator.add_feed(feed_url, preview_gid, disabled=True)
+    fid = g.aggregator.add_feed(feed_url, gid, disabled=True)
     if not fid:
         return make_toast(400, _('Unable to detect a valid feed'))
     # g.aggregator.mark_all_feed_items_as_read(fid)
 
     resp = make_response()
-    resp.headers['HX-Redirect'] = f'/preview_feed?fid={fid}'
+    resp.headers['HX-Redirect'] = f'/feed?fid={fid}'
     return resp
 
 
