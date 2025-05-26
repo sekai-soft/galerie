@@ -7,7 +7,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: PROJECT VERSION\n"
 "Report-Msgid-Bugs-To: EMAIL@ADDRESS\n"
-"POT-Creation-Date: 2025-05-26 01:01+0000\n"
+"POT-Creation-Date: 2025-05-26 03:31+0000\n"
 "PO-Revision-Date: 2024-06-27 08:04+0000\n"
 "Last-Translator: FULL NAME <EMAIL@ADDRESS>\n"
 "Language: zh\n"
@@ -61,28 +61,28 @@ msgstr "设置已更新"
 msgid "Group updated"
 msgstr "分组已更新"
 
-#: galerie_flask/actions_blueprint.py:234
+#: galerie_flask/actions_blueprint.py:240
 msgid "Unable to detect a valid feed"
 msgstr "无法检测到有效的订阅源"
 
-#: galerie_flask/actions_blueprint.py:262
+#: galerie_flask/actions_blueprint.py:268
 msgid "Instapaper username or email is required"
 msgstr "Instapaper 用户名或邮箱是必需的"
 
-#: galerie_flask/actions_blueprint.py:271
+#: galerie_flask/actions_blueprint.py:277
 msgid "Wrong Instapaper credentials"
 msgstr "Instapaper 用户名或密码错误"
 
-#: galerie_flask/actions_blueprint.py:314
+#: galerie_flask/actions_blueprint.py:320
 msgid "Failed to add to Instapaper"
 msgstr "无法添加到 Instapaper"
 
-#: galerie_flask/actions_blueprint.py:315
+#: galerie_flask/actions_blueprint.py:321
 #, python-format
 msgid "Added %(url)s to Instapaper"
 msgstr "已将 %(url)s 添加到 Instapaper"
 
-#: galerie_flask/actions_blueprint.py:358
+#: galerie_flask/actions_blueprint.py:364
 msgid "You cannot delete the last group"
 msgstr "您不能删除最后一个分组"
 
@@ -151,24 +151,6 @@ msgstr "所有条目已加载"
 msgid "A Pinterest/Xiaohongshu photo wall style RSS reader"
 msgstr "一款 Pinterest/小红书照片墙式的 RSS 阅读器"
 
-#: galerie_flask/templates/clean_up_previewed_feeds.html:3
-#: galerie_flask/templates/clean_up_previewed_feeds.html:5
-#: galerie_flask/templates/settings.html:20
-msgid "Clean up previewed feeds"
-msgstr "清理预览过的订阅源"
-
-#: galerie_flask/templates/clean_up_previewed_feeds.html:23
-msgid "Clean up"
-msgstr "清理"
-
-#: galerie_flask/templates/clean_up_previewed_feeds.html:25
-msgid "Previewed feeds are automatically cleaned up everyday"
-msgstr "预览过的订阅源会在每天自动清理"
-
-#: galerie_flask/templates/clean_up_previewed_feeds.html:27
-msgid "There is no previewed feed to clean up"
-msgstr "没有预览过的订阅源可供清理"
-
 #: galerie_flask/templates/error.html:3
 msgid "Error"
 msgstr "错误"
@@ -181,6 +163,52 @@ msgstr "糟糕，出错了"
 #: galerie_flask/templates/settings.html:99
 msgid "Log out"
 msgstr "登出"
+
+#: galerie_flask/templates/feed_maintenance.html:3
+#: galerie_flask/templates/feed_maintenance.html:5
+#: galerie_flask/templates/settings.html:20
+msgid "Feed maintenance"
+msgstr "订阅源维护"
+
+#: galerie_flask/templates/feed_maintenance.html:8
+msgid "Clean up previewed feeds"
+msgstr "清理预览过的订阅源"
+
+#: galerie_flask/templates/feed_maintenance.html:24
+msgid "Clean up"
+msgstr "清理"
+
+#: galerie_flask/templates/feed_maintenance.html:26
+msgid "Previewed feeds are automatically cleaned up everyday"
+msgstr "预览过的订阅源会在每天自动清理"
+
+#: galerie_flask/templates/feed_maintenance.html:28
+msgid "There is no previewed feed to clean up"
+msgstr "没有预览过的订阅源可供清理"
+
+#: galerie_flask/templates/feed_maintenance.html:31
+msgid "Clean up dead feeds"
+msgstr "清理不活跃的订阅源"
+
+#: galerie_flask/templates/feed_maintenance.html:55
+msgid "Delete 0 dead feeds"
+msgstr "删除 0 个不活跃的订阅源"
+
+#: galerie_flask/templates/feed_maintenance.html:61
+msgid "There is no dead feed to clean up"
+msgstr "没有不活跃的订阅源可供清理"
+
+#: galerie_flask/templates/feed_maintenance.html:64
+msgid "Clean up duplicated Twitter feeds"
+msgstr "清理重复的 Twitter 订阅源"
+
+#: galerie_flask/templates/feed_maintenance.html:78
+msgid "Deduplicate"
+msgstr "去重"
+
+#: galerie_flask/templates/feed_maintenance.html:83
+msgid "There is no duplicated Twitter feed to clean up"
+msgstr "没有重复的 Twitter 订阅源可供清理"
 
 #: galerie_flask/templates/index.html:3
 msgid "Galerie"

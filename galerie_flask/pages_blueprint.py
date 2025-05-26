@@ -239,13 +239,10 @@ def add_feed_page():
     
     if not url:
         return render_template('add_feed.html', groups=g.aggregator.get_groups(), bookmarklet=bookmarklet)
-
-    twitter_handle = extract_twitter_handle_from_url(url)
-    for feed in g.aggregator.get_feeds():
-        feed_url = feed.features["feed_url"]
-        if (twitter_handle and twitter_handle == extract_twitter_handle_from_feed_url(feed_url)) \
-                or (url == feed_url):
-            return redirect(f'/feed?fid={feed.fid}')
+    
+    fid = g.aggregator.find_feed_by_feed_url(url)
+    if fid:
+        return redirect(f'/feed?fid={fid}')
 
     return render_template('add_feed.html', url=url, bookmarklet=bookmarklet)
 
@@ -327,10 +324,25 @@ def feed_maintenance_page():
     feeds = g.aggregator.get_feeds()
     dead_feeds = list(filter(lambda f: f.error, feeds))
 
+    maybe_duplicated_twitter_feeds = {}
+    for feed in feeds:
+        if feed.features.get('twitter_handle'):
+            twitter_handle = feed.features['twitter_handle'].lower()
+            if twitter_handle not in maybe_duplicated_twitter_feeds:
+                maybe_duplicated_twitter_feeds[twitter_handle] = []
+            maybe_duplicated_twitter_feeds[twitter_handle].append(feed.fid)
+
+    duplicated_twitter_feeds = []
+    for twitter_handle, feed_fids in maybe_duplicated_twitter_feeds.items():
+        if len(feed_fids) > 1:
+            duplicated_twitter_feeds.append((twitter_handle, feed_fids))
+    duplicated_twitter_feeds = sorted(duplicated_twitter_feeds, key=lambda feed: feed[0])
+
     return render_template(
         'feed_maintenance.html',
         previewed_feeds=previewed_feeds,
-        dead_feeds=dead_feeds
+        dead_feeds=dead_feeds,
+        duplicated_twitter_feeds=duplicated_twitter_feeds
     )
 
 
