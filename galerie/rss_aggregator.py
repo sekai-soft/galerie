@@ -2,7 +2,7 @@ from abc import abstractmethod, ABC
 from typing import List, Optional, Dict
 from dataclasses import dataclass
 from .item import Item
-from .group import Group, PREVIEW_GROUP_TITLE
+from .group import Group
 from .feed_filter import FeedFilter
 from .feed import Feed
 from .feed_icon import FeedIcon
@@ -15,17 +15,10 @@ class ConnectionInfo:
     host: Optional[str]
 
 
-class RssAggregator(ABC):
+class RssAggregator(ABC):  
     @abstractmethod
-    def _get_groups(self) -> List[Group]:
-        pass
-
     def get_groups(self) -> List[Group]:
-        res = []
-        for group in self._get_groups():
-            if group.title != PREVIEW_GROUP_TITLE:
-                res.append(group)
-        return res
+        pass
 
     @abstractmethod
     def get_unread_items_by_iid_ascending(self, count: int, from_iid_exclusive: Optional[str], feed_filter: FeedFilter) -> List[Item]:   
@@ -52,15 +45,8 @@ class RssAggregator(ABC):
         pass
 
     @abstractmethod
-    def _get_feeds(self) -> List[Feed]:
-        pass
-    
     def get_feeds(self) -> List[Feed]:
-        res = []
-        for feed in self._get_feeds():
-            if feed.group_title != PREVIEW_GROUP_TITLE:
-                res.append(feed)
-        return res
+        pass
 
     @abstractmethod
     def get_feed_items_by_iid_descending(self, fid: str) -> List[Item]:
@@ -103,7 +89,7 @@ class RssAggregator(ABC):
         pass
 
     @abstractmethod
-    def _create_group(self, title: str, hide_globally: bool) -> str:
+    def create_group(self, title: str, hide_globally: bool) -> str:
         pass
 
     @abstractmethod
@@ -117,12 +103,6 @@ class RssAggregator(ABC):
     @abstractmethod
     def delete_group(self, gid: str):
         pass
-
-    def get_preview_group(self) -> Optional[Group]:
-        for group in self._get_groups():
-            if group.title == PREVIEW_GROUP_TITLE:
-                return group
-        return None
 
     def delete_feeds_by_group_id(self, gid: str):
         for feed in self.get_feeds_by_group_id(gid):
@@ -150,11 +130,3 @@ class RssAggregator(ABC):
                 return feed.fid
 
         return None
-
-    def create_group(self, title: str, hide_globally: bool) -> str:
-        if title == PREVIEW_GROUP_TITLE:
-            raise ValueError(f"Cannot create group with title '{PREVIEW_GROUP_TITLE}'")
-        return self._create_group(title, hide_globally)
-
-    def create_preview_group(self):
-        self._create_group(PREVIEW_GROUP_TITLE, True)

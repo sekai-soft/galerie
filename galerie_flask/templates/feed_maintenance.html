@@ -5,29 +5,6 @@
 {% block header_title %}{{ _('Feed maintenance') }}{% endblock %}
 
 {% block page_content %}
-<p>{{ _('Clean up previewed feeds') }}</p>
-{% if previewed_feeds %}
-{% for feed in previewed_feeds %}
-    <a href="/preview_feed?fid={{ feed.fid }}" target="_blank" style="font-size: 1em;">
-        <p class="animate-long">
-            {{ feed.title }}
-        </p>
-    </a>
-{% endfor %}
-<br>
-<button
-    class="button"
-    hx-post="/actions/clean_up_previewed_feeds"
-    hx-swap="none"
-    hx-disabled-elt="this"
->
-    {{ _('Clean up') }} {{ previewed_feeds|length }} {{ ('previewed feeds') }} <span class="htmx-indicator">...</span>
-</button>
-<p>{{ _('Previewed but unassigned feeds are automatically cleaned up everyday') }}</p>
-{% else %}
-<p>{{ _('There is no previewed feed to clean up') }}</p>
-{% endif %}
-<hr>
 <p>{{ _('Clean up dead feeds') }}</p>
 {% if dead_feeds %}
 <form>

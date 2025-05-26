@@ -290,44 +290,10 @@ def item_page():
     )
 
 
-@pages_blueprint.route("/preview_feed")
-@catches_exceptions
-@requires_auth
-def preview_feed_page():
-    fid = request.args.get('fid')
-    items = g.aggregator.get_feed_items_by_iid_descending(fid)
-    rendered_items = convert_rendered_items(items)
-
-    args = {
-        "feed": g.aggregator.get_feed(fid),
-    }
-    items_args(args, rendered_items, False, False)
-    return render_template('preview_feed.html', **args)
-
-
-@pages_blueprint.route("/add_preview_feed")
-@catches_exceptions
-@requires_auth
-def add_preview_feed_page():
-    fid = request.args.get('fid')
-
-    feed = g.aggregator.get_feed(fid)
-    groups = g.aggregator.get_groups()
-    preview_group = g.aggregator.get_preview_group()
-    args = {
-        "feed": feed,
-        "groups": groups + [preview_group],
-        "preview_group": preview_group
-    }
-    return render_template('add_preview_feed.html', **args)
-
-
 @pages_blueprint.route("/feed_maintenance")
 @catches_exceptions
 @requires_auth
-def feed_maintenance_page():
-    previewed_feeds = g.aggregator.get_feeds_by_group_id(g.aggregator.get_preview_group().gid)
-    
+def feed_maintenance_page():   
     feeds = g.aggregator.get_feeds()
     dead_feeds = list(filter(lambda f: f.error, feeds))
 
@@ -347,7 +313,6 @@ def feed_maintenance_page():
 
     return render_template(
         'feed_maintenance.html',
-        previewed_feeds=previewed_feeds,
         dead_feeds=dead_feeds,
         duplicated_twitter_feeds=duplicated_twitter_feeds
     )

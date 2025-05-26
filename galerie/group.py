@@ -1,9 +1,6 @@
 from dataclasses import dataclass
 
 
-PREVIEW_GROUP_TITLE = '.preview'
-
-
 @dataclass
 class Group:
     title: str

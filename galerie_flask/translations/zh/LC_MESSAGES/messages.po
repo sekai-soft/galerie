@@ -7,7 +7,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: PROJECT VERSION\n"
 "Report-Msgid-Bugs-To: EMAIL@ADDRESS\n"
-"POT-Creation-Date: 2025-05-26 07:04+0000\n"
+"POT-Creation-Date: 2025-05-26 19:43+0000\n"
 "PO-Revision-Date: 2024-06-27 08:04+0000\n"
 "Last-Translator: FULL NAME <EMAIL@ADDRESS>\n"
 "Language: zh\n"
@@ -61,40 +61,39 @@ msgstr "设置已更新"
 msgid "Group updated"
 msgstr "分组已更新"
 
-#: galerie_flask/actions_blueprint.py:240
+#: galerie_flask/actions_blueprint.py:239
 msgid "Unable to detect a valid feed"
 msgstr "无法检测到有效的订阅源"
 
-#: galerie_flask/actions_blueprint.py:268
+#: galerie_flask/actions_blueprint.py:267
 msgid "Instapaper username or email is required"
 msgstr "Instapaper 用户名或邮箱是必需的"
 
-#: galerie_flask/actions_blueprint.py:277
+#: galerie_flask/actions_blueprint.py:276
 msgid "Wrong Instapaper credentials"
 msgstr "Instapaper 用户名或密码错误"
 
-#: galerie_flask/actions_blueprint.py:320
+#: galerie_flask/actions_blueprint.py:319
 msgid "Failed to add to Instapaper"
 msgstr "无法添加到 Instapaper"
 
-#: galerie_flask/actions_blueprint.py:321
+#: galerie_flask/actions_blueprint.py:320
 #, python-format
 msgid "Added %(url)s to Instapaper"
 msgstr "已将 %(url)s 添加到 Instapaper"
 
-#: galerie_flask/actions_blueprint.py:364
+#: galerie_flask/actions_blueprint.py:351
 msgid "You cannot delete the last group"
 msgstr "您不能删除最后一个分组"
 
-#: galerie_flask/actions_blueprint.py:418
+#: galerie_flask/actions_blueprint.py:405
 msgid "Name is required"
 msgstr "名字是必需的"
 
 #: galerie_flask/templates/add_feed.html:3
 #: galerie_flask/templates/add_feed.html:5
-#: galerie_flask/templates/add_preview_feed.html:3
+#: galerie_flask/templates/add_feed.html:46
 #: galerie_flask/templates/manage_feeds.html:21
-#: galerie_flask/templates/preview_feed.html:9
 msgid "Add feed"
 msgstr "添加订阅源"
 
@@ -102,46 +101,46 @@ msgstr "添加订阅源"
 msgid "Feed URL"
 msgstr "订阅源 URL"
 
-#: galerie_flask/templates/add_feed.html:34
-msgid "Preview feed"
-msgstr "预览订阅源"
+#: galerie_flask/templates/add_feed.html:30
+msgid "Group"
+msgstr "分组"
 
-#: galerie_flask/templates/add_feed.html:36
+#: galerie_flask/templates/add_feed.html:48
 msgid "Other ways to add feed"
 msgstr "其他添加订阅源的方式"
 
-#: galerie_flask/templates/add_feed.html:38
+#: galerie_flask/templates/add_feed.html:50
 msgid "1. Drag this bookmarklet to your browser's bookmark bar"
 msgstr "1. 将这个书签拖到浏览器的书签栏"
 
-#: galerie_flask/templates/add_feed.html:39
+#: galerie_flask/templates/add_feed.html:51
 msgid "Add to Galerie"
 msgstr "添加至 Galerie"
 
-#: galerie_flask/templates/add_feed.html:41
+#: galerie_flask/templates/add_feed.html:53
 msgid "2. Add"
 msgstr "2. 添加"
 
-#: galerie_flask/templates/add_feed.html:42
+#: galerie_flask/templates/add_feed.html:54
 msgid "this"
 msgstr "这个"
 
-#: galerie_flask/templates/add_feed.html:43
+#: galerie_flask/templates/add_feed.html:55
 msgid "iOS shortcut"
 msgstr "添加 iOS 快捷方式"
 
-#: galerie_flask/templates/add_feed.html:46
+#: galerie_flask/templates/add_feed.html:58
 #: galerie_flask/templates/settings.html:73
 msgid "Close"
 msgstr "关闭"
 
-#: galerie_flask/templates/add_feed.html:51
+#: galerie_flask/templates/add_feed.html:63
 msgid "Supported feed types: Twitter, RSS"
 msgstr "支持的订阅源类型: Twitter, RSS"
 
 #: galerie_flask/templates/add_group.html:3
 #: galerie_flask/templates/add_group.html:5
-#: galerie_flask/templates/add_group.html:23
+#: galerie_flask/templates/add_group.html:24
 #: galerie_flask/templates/manage_groups.html:9
 msgid "Add group"
 msgstr "添加分组"
@@ -149,25 +148,6 @@ msgstr "添加分组"
 #: galerie_flask/templates/add_group.html:10
 msgid "Group name"
 msgstr "分组名"
-
-#: galerie_flask/templates/add_preview_feed.html:9
-#: galerie_flask/templates/update_feed.html:9
-#: galerie_flask/templates/update_group.html:9
-msgid "Done"
-msgstr "完成"
-
-#: galerie_flask/templates/add_preview_feed.html:15
-msgid "Assign group"
-msgstr "指派分组"
-
-#: galerie_flask/templates/add_preview_feed.html:29
-msgid "Unassigned"
-msgstr "未分组"
-
-#: galerie_flask/templates/add_preview_feed.html:37
-#: galerie_flask/templates/feed_maintenance.html:26
-msgid "Previewed but unassigned feeds are automatically cleaned up everyday"
-msgstr "预览过但未分组的订阅源会在每天自动清理"
 
 #: galerie_flask/templates/all_loaded_marker.html:6
 msgid "All items are loaded"
@@ -190,6 +170,11 @@ msgstr "糟糕，出错了"
 msgid "Log out"
 msgstr "登出"
 
+#: galerie_flask/templates/feed.html:19
+#: galerie_flask/templates/update_feed.html:36
+msgid "Are you sure you want to delete this feed?"
+msgstr "确定要删除这个订阅源吗？"
+
 #: galerie_flask/templates/feed_maintenance.html:3
 #: galerie_flask/templates/feed_maintenance.html:5
 #: galerie_flask/templates/settings.html:20
@@ -197,38 +182,26 @@ msgid "Feed maintenance"
 msgstr "订阅源维护"
 
 #: galerie_flask/templates/feed_maintenance.html:8
-msgid "Clean up previewed feeds"
-msgstr "清理预览过的订阅源"
-
-#: galerie_flask/templates/feed_maintenance.html:24
-msgid "Clean up"
-msgstr "清理"
-
-#: galerie_flask/templates/feed_maintenance.html:28
-msgid "There is no previewed feed to clean up"
-msgstr "没有预览过的订阅源可供清理"
-
-#: galerie_flask/templates/feed_maintenance.html:31
 msgid "Clean up dead feeds"
 msgstr "清理不活跃的订阅源"
 
-#: galerie_flask/templates/feed_maintenance.html:55
+#: galerie_flask/templates/feed_maintenance.html:32
 msgid "Delete 0 dead feeds"
 msgstr "删除 0 个不活跃的订阅源"
 
-#: galerie_flask/templates/feed_maintenance.html:61
+#: galerie_flask/templates/feed_maintenance.html:38
 msgid "There is no dead feed to clean up"
 msgstr "没有不活跃的订阅源可供清理"
 
-#: galerie_flask/templates/feed_maintenance.html:64
+#: galerie_flask/templates/feed_maintenance.html:41
 msgid "Clean up duplicated Twitter feeds"
 msgstr "清理重复的 Twitter 订阅源"
 
-#: galerie_flask/templates/feed_maintenance.html:78
+#: galerie_flask/templates/feed_maintenance.html:55
 msgid "Deduplicate"
 msgstr "去重"
 
-#: galerie_flask/templates/feed_maintenance.html:83
+#: galerie_flask/templates/feed_maintenance.html:60
 msgid "There is no duplicated Twitter feed to clean up"
 msgstr "没有重复的 Twitter 订阅源可供清理"
 
@@ -398,15 +371,16 @@ msgstr "重复密码"
 msgid "Update feed"
 msgstr "更新订阅源"
 
+#: galerie_flask/templates/update_feed.html:9
+#: galerie_flask/templates/update_group.html:9
+msgid "Done"
+msgstr "完成"
+
 #: galerie_flask/templates/update_feed.html:15
 #: galerie_flask/templates/update_group.html:3
 #: galerie_flask/templates/update_group.html:5
 msgid "Update group"
 msgstr "更新分组"
-
-#: galerie_flask/templates/update_feed.html:36
-msgid "Are you sure you want to delete this feed?"
-msgstr "确定要删除这个订阅源吗？"
 
 #: galerie_flask/templates/update_feed.html:38
 msgid "Delete feed"
@@ -416,17 +390,17 @@ msgstr "删除订阅源"
 msgid "Rename group"
 msgstr "重命名分组"
 
-#: galerie_flask/templates/update_group.html:30
+#: galerie_flask/templates/update_group.html:31
 msgid "Confirm"
 msgstr "确认"
 
-#: galerie_flask/templates/update_group.html:39
+#: galerie_flask/templates/update_group.html:40
 msgid ""
 "Are you sure you want to delete this group? ALL FEEDS IN THIS GROUP WILL "
 "ALSO BE DELETED!!"
 msgstr "确定要删除这个分组吗？此分组中的所有订阅源也将被删除！"
 
-#: galerie_flask/templates/update_group.html:41
+#: galerie_flask/templates/update_group.html:42
 msgid "Delete group"
 msgstr "删除分组"
 

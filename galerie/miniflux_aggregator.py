@@ -77,7 +77,7 @@ class MinifluxAggregator(RssAggregator):
         self.client = miniflux.Client(base_url, username, password, timeout=TIMEOUT)
         self.managed_or_self_hosted = managed_or_self_hosted
 
-    def _get_groups(self) -> List[Group]:
+    def get_groups(self) -> List[Group]:
         _endpoint = self.client._get_endpoint("/categories?counts=true")
         _response = self.client._session.get(_endpoint, timeout=self.client._timeout)
         if _response.status_code != 200:
@@ -134,7 +134,7 @@ class MinifluxAggregator(RssAggregator):
             host=urlparse(self.base_url).hostname,
         )
 
-    def _get_feeds(self) -> List[Feed]:
+    def get_feeds(self) -> List[Feed]:
         return list(map(_feed_dict_to_feed, self.client.get_feeds()))
 
     def get_feed_items_by_iid_descending(self, fid: str) -> List[Item]:
@@ -196,7 +196,7 @@ class MinifluxAggregator(RssAggregator):
     def enable_feed(self, fid: str):
         self.client.update_feed(int(fid), disabled=False)
 
-    def _create_group(self, title: str, hide_globally: bool) -> str:
+    def create_group(self, title: str, hide_globally: bool) -> str:
         gid = self.client.create_category(title)["id"]
 
         if hide_globally:

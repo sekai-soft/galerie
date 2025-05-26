@@ -6,8 +6,6 @@ import miniflux
 from typing import Tuple
 from uuid import uuid4
 from werkzeug.security import generate_password_hash, check_password_hash
-from galerie.miniflux_aggregator import MinifluxAggregator
-from galerie.group import PREVIEW_GROUP_TITLE
 from .db import db, User, Session
 
 
@@ -51,14 +49,6 @@ class MinifluxAdmin(object):
         db.session.commit()
 
         self.client.create_user(username, miniflux_password)
-
-        miniflux_aggregator = MinifluxAggregator(
-            self.base_url,
-            username,
-            miniflux_password,
-            True
-        )
-        miniflux_aggregator.create_preview_group()
 
 
     def log_in(self, username: str, password: str) -> str:
