@@ -348,7 +348,7 @@ def rename_group():
     g.aggregator.rename_group(group, name)
 
     resp = make_response()
-    resp.headers['HX-Redirect'] = '/manage_feeds?group=' + group
+    resp.headers['HX-Redirect'] = '/manage_groups'
     return resp
 
 
@@ -366,7 +366,7 @@ def delete_group():
     g.aggregator.delete_group(group)
 
     resp = make_response()
-    resp.headers['HX-Redirect'] = '/manage_feeds'
+    resp.headers['HX-Redirect'] = '/manage_groups'
     return resp
 
 
