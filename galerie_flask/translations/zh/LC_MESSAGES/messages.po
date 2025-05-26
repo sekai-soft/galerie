@@ -7,7 +7,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: PROJECT VERSION\n"
 "Report-Msgid-Bugs-To: EMAIL@ADDRESS\n"
-"POT-Creation-Date: 2025-05-26 06:46+0000\n"
+"POT-Creation-Date: 2025-05-26 07:04+0000\n"
 "PO-Revision-Date: 2024-06-27 08:04+0000\n"
 "Last-Translator: FULL NAME <EMAIL@ADDRESS>\n"
 "Language: zh\n"
@@ -151,12 +151,23 @@ msgid "Group name"
 msgstr "分组名"
 
 #: galerie_flask/templates/add_preview_feed.html:9
+#: galerie_flask/templates/update_feed.html:9
+#: galerie_flask/templates/update_group.html:9
+msgid "Done"
+msgstr "完成"
+
+#: galerie_flask/templates/add_preview_feed.html:15
 msgid "Assign group"
 msgstr "指派分组"
 
-#: galerie_flask/templates/add_preview_feed.html:23
+#: galerie_flask/templates/add_preview_feed.html:29
 msgid "Unassigned"
 msgstr "未分组"
+
+#: galerie_flask/templates/add_preview_feed.html:37
+#: galerie_flask/templates/feed_maintenance.html:26
+msgid "Previewed but unassigned feeds are automatically cleaned up everyday"
+msgstr "预览过但未分组的订阅源会在每天自动清理"
 
 #: galerie_flask/templates/all_loaded_marker.html:6
 msgid "All items are loaded"
@@ -192,12 +203,6 @@ msgstr "清理预览过的订阅源"
 #: galerie_flask/templates/feed_maintenance.html:24
 msgid "Clean up"
 msgstr "清理"
-
-#: galerie_flask/templates/feed_maintenance.html:26
-msgid ""
-"Previewed feeds that are not added to a group are automatically cleaned "
-"up everyday"
-msgstr "预览过但是尚未添加的订阅源会在每天被自动清理"
 
 #: galerie_flask/templates/feed_maintenance.html:28
 msgid "There is no previewed feed to clean up"
@@ -252,14 +257,18 @@ msgid "Start adding some feeds ❤️"
 msgstr "开始添加一些订阅源 ❤️"
 
 #: galerie_flask/templates/index.html:52
-msgid "All read ✨ Go touch some grass 🌱"
-msgstr "全部已读 ✨ 去接触一下大自然吧 🌱"
+msgid "All read ✨"
+msgstr "全部已读 ✨"
 
-#: galerie_flask/templates/index.html:58
+#: galerie_flask/templates/index.html:53
+msgid "Go touch some grass 🌱"
+msgstr "去接触一下大自然吧 🌱"
+
+#: galerie_flask/templates/index.html:59
 msgid "has"
 msgstr "有"
 
-#: galerie_flask/templates/index.html:58
+#: galerie_flask/templates/index.html:59
 msgid "unread items"
 msgstr "未读条目"
 
@@ -389,35 +398,35 @@ msgstr "重复密码"
 msgid "Update feed"
 msgstr "更新订阅源"
 
-#: galerie_flask/templates/update_feed.html:9
+#: galerie_flask/templates/update_feed.html:15
 #: galerie_flask/templates/update_group.html:3
 #: galerie_flask/templates/update_group.html:5
 msgid "Update group"
 msgstr "更新分组"
 
-#: galerie_flask/templates/update_feed.html:30
+#: galerie_flask/templates/update_feed.html:36
 msgid "Are you sure you want to delete this feed?"
 msgstr "确定要删除这个订阅源吗？"
 
-#: galerie_flask/templates/update_feed.html:32
+#: galerie_flask/templates/update_feed.html:38
 msgid "Delete feed"
 msgstr "删除订阅源"
 
-#: galerie_flask/templates/update_group.html:10
+#: galerie_flask/templates/update_group.html:16
 msgid "Rename group"
 msgstr "重命名分组"
 
-#: galerie_flask/templates/update_group.html:24
+#: galerie_flask/templates/update_group.html:30
 msgid "Confirm"
 msgstr "确认"
 
-#: galerie_flask/templates/update_group.html:33
+#: galerie_flask/templates/update_group.html:39
 msgid ""
 "Are you sure you want to delete this group? ALL FEEDS IN THIS GROUP WILL "
 "ALSO BE DELETED!!"
 msgstr "确定要删除这个分组吗？此分组中的所有订阅源也将被删除！"
 
-#: galerie_flask/templates/update_group.html:35
+#: galerie_flask/templates/update_group.html:41
 msgid "Delete group"
 msgstr "删除分组"
 

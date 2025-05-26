@@ -4,6 +4,12 @@
 
 {% block header_title %}{{ _('Update group') }} "{{ group.title }}"{% endblock %}
 
+{% block header_right_content %}
+<a class="animate-long" href="/manage_groups">
+    {{ _('Done') }}
+</a>
+{% endblock %}
+
 {% block page_content %}
 <form>
     <p>

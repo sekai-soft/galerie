@@ -4,6 +4,12 @@
 
 {% block header_title %}{{ feed.title }}{% endblock %}
 
+{% block header_right_content %}
+<a class="animate-long" href="/">
+    {{ _('Done') }}
+</a>
+{% endblock %}
+
 {% block page_content %}
 <p>
     {{ _('Assign group') }}
@@ -28,4 +34,5 @@
         {% endfor %}
     </select>
 </p>
+<p>{{ _('Previewed but unassigned feeds are automatically cleaned up everyday') }}</p>
 {% endblock %}

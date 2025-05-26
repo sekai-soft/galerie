@@ -23,7 +23,7 @@
 >
     {{ _('Clean up') }} {{ previewed_feeds|length }} {{ ('previewed feeds') }} <span class="htmx-indicator">...</span>
 </button>
-<p>{{ _('Previewed feeds that are not added to a group are automatically cleaned up everyday') }}</p>
+<p>{{ _('Previewed but unassigned feeds are automatically cleaned up everyday') }}</p>
 {% else %}
 <p>{{ _('There is no previewed feed to clean up') }}</p>
 {% endif %}

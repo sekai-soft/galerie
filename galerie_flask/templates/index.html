@@ -49,7 +49,8 @@
         <p class="animate-long">{{ _('Start adding some feeds ❤️') }}</p>
     </a>
     {% elif all_unread_count == 0 %}
-    <p>{{ _('All read ✨ Go touch some grass 🌱') }}</p>
+    <p>{{ _('All read ✨') }}</p>
+    <p>{{ _('Go touch some grass 🌱') }}</p>
     {% else %}
     {% for g in groups %}
     {% if all_group_unread_counts[g.gid] != 0 %}
