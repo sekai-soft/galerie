@@ -238,7 +238,7 @@ def preview_feed():
     fid = g.aggregator.add_feed(feed_url, preview_gid, disabled=True)
     if not fid:
         return make_toast(400, _('Unable to detect a valid feed'))
-    g.aggregator.mark_all_feed_items_as_read(fid)
+    # g.aggregator.mark_all_feed_items_as_read(fid)
 
     resp = make_response()
     resp.headers['HX-Redirect'] = f'/preview_feed?fid={fid}'
