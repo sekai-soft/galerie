@@ -15,6 +15,7 @@
         muted
         autoplay
         loop
+        controls
         {% if loop.index != u_index + 1 %} style="display: none;" {% endif %}
         onclick="e => e.preventDefault(); nextMedia({{ items|length }});"
     />
