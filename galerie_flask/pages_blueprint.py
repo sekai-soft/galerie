@@ -1,13 +1,12 @@
 import os
-import base64
 from functools import wraps
-from urllib.parse import urlparse, unquote
+from urllib.parse import urlparse
 from sentry_sdk import capture_exception
-from flask import Blueprint, redirect, render_template, g, request, jsonify
+from flask import Blueprint, redirect, render_template, g, request, jsonify, make_response
 from flask_babel import _
 from galerie.feed_filter import FeedFilter
 from galerie.rendered_item import convert_rendered_items, convert_rendered_item
-from galerie.twitter import extract_twitter_handle_from_feed_url, extract_twitter_handle_from_url, get_nitter_base_url
+from galerie.twitter import extract_twitter_handle_from_feed_url, extract_twitter_handle_from_url
 from .utils import requires_auth, max_items, load_more_button_args,\
     mark_as_read_button_args, items_args, add_image_ui_extras
 from .get_aggregator import get_aggregator
@@ -36,6 +35,17 @@ def catches_exceptions(f):
                 raise e
             capture_exception(e)
             return render_template('error.html', error=str(e))
+    return decorated_function
+
+
+def no_cache(view_function):
+    @wraps(view_function)
+    def decorated_function(*args, **kwargs):
+        response = make_response(view_function(*args, **kwargs))
+        response.headers["Cache-Control"] = "no-cache, no-store, must-revalidate"
+        response.headers["Pragma"] = "no-cache"
+        response.headers["Expires"] = "0"
+        return response
     return decorated_function
 
 
@@ -163,6 +173,7 @@ def settings_page():
 @pages_blueprint.route("/manage_feeds")
 @catches_exceptions
 @requires_auth
+@no_cache
 def manage_feeds_page():
     groups = g.aggregator.get_groups()
     if not groups:
@@ -343,6 +354,7 @@ def update_group_page():
 @pages_blueprint.route("/manage_groups")
 @catches_exceptions
 @requires_auth
+@no_cache
 def manage_groups_page():
     groups = g.aggregator.get_groups()
     if not groups:
