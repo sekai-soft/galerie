@@ -49,3 +49,8 @@ if (!canGoBack) {
 }
 
 document.addEventListener('DOMContentLoaded', window.animateCss);
+
+// back listener
+document.body.addEventListener("back", () => {
+  window.history.back();
+})

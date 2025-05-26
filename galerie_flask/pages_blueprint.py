@@ -226,7 +226,7 @@ def is_valid_url(url: str) -> bool:
 
 
 bookmarklet = f"""javascript:(function() {{
-  const url = `{get_base_url()}/add_feed?url=${{window.location.href}}`;
+  const url = `{get_base_url()}/add_feed?url=${{window.location.href}}&view_feed=1`;
   window.open(url, '_blank').focus();
 }})();
 """
@@ -250,12 +250,17 @@ def add_feed_page():
     fid = g.aggregator.find_feed_by_feed_url(url)
     if fid:
         return redirect(f'/feed?fid={fid}')
+    
+    add_feed_behavior = ''
+    if 'view_feed' in args and args['view_feed'] == '1':
+        add_feed_behavior += '?view_feed=1'
 
     return render_template(
         'add_feed.html',
         url=url,
         bookmarklet=bookmarklet,
-        groups=g.aggregator.get_groups()
+        groups=g.aggregator.get_groups(),
+        add_feed_behavior=add_feed_behavior
     )
 
 

@@ -1,6 +1,7 @@
 import os
 import json
 import requests
+from typing import Dict
 from functools import wraps
 from urllib.parse import unquote
 from flask import request, g, Blueprint, make_response, render_template, Response
@@ -21,16 +22,31 @@ from .instapaper_manager import get_instapaper_manager
 actions_blueprint = Blueprint('actions', __name__)
 
 
-def make_toast_header(resp: Response, message: str):
-    resp.headers['HX-Trigger'] = json.dumps({
-        "toast": message
-    })
+def make_hx_trigger_header(resp: Response, trigger_message: Dict):
+    resp.headers['HX-Trigger'] = json.dumps(trigger_message)
 
 
 def make_toast(status_code: int, message: str):
     resp = make_response()
-    make_toast_header(resp, message)
+    make_hx_trigger_header(resp, {
+        "toast": message
+    })
     resp.status_code = status_code
+    return resp
+
+
+def make_back(status_code: int=200):
+    resp = make_response()
+    make_hx_trigger_header(resp, {
+        "back": True
+    })
+    resp.status_code = status_code
+    return resp
+
+
+def make_hx_redirect(url: str):
+    resp = make_response()
+    resp.headers['HX-Redirect'] = url
     return resp
 
 
@@ -51,12 +67,12 @@ def catches_exceptions(f):
             elif e.error_code == MinifluxAdminErrorCode.SESSION_EXPIRED:
                 return make_toast(401, _("Your session has expired"))
             else:
-                return make_toast(500, str(_l("Unknown MinifluxAdminException: %(e)s", e=str(e))))
+                return make_toast(500, f"Unknown MinifluxAdminException: {str(e)}")
         except Exception as e:
             if os.getenv('DEBUG', '0') == '1':
                 raise e
             capture_exception(e)
-            return make_toast(500, str(_l("Unknown server error: %(e)s", e=str(e))))
+            return make_toast(500, f"Unknown server error: str(e)")
     return decorated_function
 
 
@@ -83,9 +99,7 @@ def signup():
     miniflux_admin = get_miniflux_admin()
     miniflux_admin.sign_up(username, password)
 
-    resp = make_response()
-    resp.headers['HX-Redirect'] = next_url
-    return resp
+    return make_hx_redirect(next_url)
 
 
 @actions_blueprint.route('/login', methods=['POST'])
@@ -101,11 +115,10 @@ def login():
     if not password:
         return make_toast(400, _("Password is required"))
 
-    miniflux_aggregator, session_token = get_aggregator(username, password)
+    session_token = get_aggregator(username, password)[1]
 
-    resp = make_response()
+    resp = make_hx_redirect(next_url)
     resp.set_cookie('session_token', session_token, max_age=cookie_max_age)
-    resp.headers['HX-Redirect'] = next_url
     return resp
 
 
@@ -118,9 +131,8 @@ def logout():
     miniflux_admin = get_miniflux_admin()
     miniflux_admin.log_out(request.cookies['session_token'])
 
-    resp = make_response()
+    resp = make_hx_redirect('/login')
     resp.delete_cookie('session_token')
-    resp.headers['HX-Redirect'] = '/login'
     return resp
 
 
@@ -184,9 +196,9 @@ def mark_as_read():
 @catches_exceptions
 def set_infinite_scroll():
     infinite_scroll = request.form.get('infinite_scroll', '0')
-    resp = make_response()
+
+    resp = make_toast(200, _("Setting updated"))
     resp.set_cookie('infinite_scroll', infinite_scroll, max_age=cookie_max_age)
-    make_toast_header(resp, _("Setting updated"))
     return resp
 
 
@@ -219,12 +231,17 @@ def add_feed():
         return make_toast(400, "Group is required")
     gid = request.form.get('group')
 
+    view_feed = request.args.get('view_feed', '0') == '1'
+
+    def make_response(fid: str):
+        if view_feed:
+            return make_hx_redirect(f'/feed?fid={fid}')
+        return make_back()
+
     url = request.form['url']
     existing_fid = g.aggregator.find_feed_by_feed_url(url)
     if existing_fid:
-        resp = make_response()
-        resp.headers['HX-Redirect'] = f'/feed?fid={existing_fid}'
-        return resp
+        return make_response(existing_fid)
 
     twitter_handle = extract_twitter_handle_from_url(url)
     if twitter_handle:
@@ -237,11 +254,8 @@ def add_feed():
     fid = g.aggregator.add_feed(feed_url, gid)
     if not fid:
         return make_toast(400, _('Unable to detect a valid feed'))
-    # g.aggregator.mark_all_feed_items_as_read(fid)
 
-    resp = make_response()
-    resp.headers['HX-Redirect'] = f'/feed?fid={fid}'
-    return resp
+    return make_response(fid)
 
 
 @actions_blueprint.route('/delete_feed', methods=['POST'])
@@ -250,13 +264,11 @@ def add_feed():
 def delete_feed():
     if 'fid' not in request.args:
         return make_toast(400, "Feed is required")
-
     fid = request.args.get('fid')
+
     g.aggregator.delete_feed(fid)
 
-    resp = make_response()
-    resp.headers['HX-Redirect'] = '/manage_feeds'
-    return resp
+    return make_back()
 
 
 @actions_blueprint.route('/log_into_instapaper', methods=['POST'])
@@ -334,9 +346,7 @@ def rename_group():
     
     g.aggregator.rename_group(group, name)
 
-    resp = make_response()
-    resp.headers['HX-Redirect'] = '/manage_groups'
-    return resp
+    return make_back()
 
 
 @actions_blueprint.route('/delete_group', methods=['POST'])
@@ -352,9 +362,7 @@ def delete_group():
 
     g.aggregator.delete_group(group)
 
-    resp = make_response()
-    resp.headers['HX-Redirect'] = '/manage_groups'
-    return resp
+    return make_back()
 
 
 @actions_blueprint.route('/delete_feeds', methods=['POST'])
@@ -406,9 +414,7 @@ def create_group():
 
     g.aggregator.create_group(name)
 
-    resp = make_response()
-    resp.headers['HX-Redirect'] = '/manage_groups'
-    return resp
+    return make_back()
 
 
 @actions_blueprint.route('/mark_last_unread', methods=['POST'])
