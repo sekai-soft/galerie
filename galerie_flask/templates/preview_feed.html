@@ -2,9 +2,7 @@
 
 {% block title %}{{ feed.title }}{% endblock %}
 
-{% block header_title %}
-{{ feed.title }}
-{% endblock %}
+{% block header_title %}{{ feed.title }}{% endblock %}
 
 {% block header_right_content %}
 <a class="animate-long" href="/add_preview_feed?fid={{ feed.fid }}">

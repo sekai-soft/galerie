@@ -208,3 +208,6 @@ class MinifluxAggregator(RssAggregator):
     def get_feeds_by_group_id(self, gid: str) -> List[Feed]:
         feeds = self.client.get_category_feeds(int(gid))
         return list(map(_feed_dict_to_feed, feeds))
+
+    def rename_group(self, gid: str, new_title: str):
+        self.client.update_category(int(gid), new_title)

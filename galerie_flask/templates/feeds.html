@@ -19,7 +19,7 @@
     </div>
     <div class="header-right">
         <a
-            href="/feed_settings?group={{ gid }}"
+            href="/update_group?group={{ gid }}"
             class="link-button"
         >⚙️</a>
     </div>
@@ -30,7 +30,7 @@
 {% for feed in feeds %}
 <a style="font-size: 1em" href="/feed?fid={{ feed.fid }}">
     <p class="animate-long user-string-horizontal">
-        {% if feed.error %}<span>⚠️</span>{% endif %}
+        {% if feed.error %}<span class="highlight-text">⚠️</span>{% endif %}
         {{ feed.title }}
     </p>
 </a>

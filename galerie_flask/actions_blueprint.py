@@ -327,6 +327,25 @@ def clean_up_previewed_feeds():
     return resp
 
 
+@actions_blueprint.route('/rename_group', methods=['POST'])
+@requires_auth
+@catches_exceptions
+def rename_group():
+    group = request.args.get('group')
+    if group is None:
+        return make_toast(400, "Group is required")
+
+    name = request.form.get('name')
+    if name is None:
+        return make_toast(400, "Name is required")
+    
+    g.aggregator.rename_group(group, name)
+
+    resp = make_response()
+    resp.headers['HX-Redirect'] = '/feeds?group=' + group
+    return resp
+
+
 @actions_blueprint.route('/mark_last_unread', methods=['POST'])
 @requires_auth
 @catches_exceptions

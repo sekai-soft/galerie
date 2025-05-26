@@ -1,0 +1,37 @@
+{% extends 'base_child_page.html' %}
+
+{% block title %}{{ _('Update group') }}{% endblock %}
+
+{% block header_title %}{{ _('Update group') }} "{{ group.title }}"{% endblock %}
+
+{% block page_content %}
+<form>
+    <p>
+        {{ _('Rename group') }} 
+        <input
+            type="text"
+            name="name"
+            required
+            value="{{ group.title }}"
+        >
+    </p>
+    <button
+        class="button"
+        hx-post="/actions/rename_group?group={{ group.gid }}"
+        hx-swap="none"
+        hx-disabled-elt="this"
+    >
+        {{ _('Confirm') }} <span class="htmx-indicator">...</span>
+    </button>
+</form>
+<br>
+<button
+    class="button"
+    hx-post="/actions/delete_group?group={{ group.gid }}"
+    hx-swap="none"
+    hx-disabled-elt="this"
+    hx-confirm="{{ _('Are you sure you want to delete this group?') }}"
+>
+    {{ _('Delete group') }} <span class="htmx-indicator">...</span>
+</button>
+{% endblock %}

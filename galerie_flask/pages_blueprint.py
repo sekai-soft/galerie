@@ -330,6 +330,18 @@ def clean_up_previewed_feeds_page():
     )
 
 
+@pages_blueprint.route("/update_group")
+@catches_exceptions
+@requires_auth
+def update_group_page():
+    gid = request.args.get('group')
+
+    return render_template(
+        'update_group.html',
+        group=g.aggregator.get_group(gid),
+    )
+
+
 @pages_blueprint.route("/m/<encoded_url>")
 def media_proxy(encoded_url):
     decoded_url = base64.urlsafe_b64decode(encoded_url).decode('utf-8')
