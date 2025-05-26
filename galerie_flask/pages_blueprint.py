@@ -167,7 +167,7 @@ def manage_feeds_page():
     groups = g.aggregator.get_groups()
     if not groups:
         raise ValueError("No groups found")
-    groups = sorted(groups, key=lambda group: group.gid, reverse=True)
+    groups = sorted(groups, key=lambda group: group.feed_count, reverse=True)
 
     gid = request.args.get('group')
     if gid is None:
@@ -178,8 +178,7 @@ def manage_feeds_page():
 
     feed_counts = {}
     for group in groups:
-        gid = group.gid
-        feed_counts[gid] = group.feed_count
+        feed_counts[group.gid] = group.feed_count
 
     return render_template(
         'manage_feeds.html',
