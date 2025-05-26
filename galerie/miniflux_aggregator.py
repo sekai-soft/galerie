@@ -151,12 +151,12 @@ class MinifluxAggregator(RssAggregator):
     def update_feed_group(self, fid: str, gid: str):
         self.client.update_feed(int(fid), category_id=int(gid))
 
-    def add_feed(self, feed_url: str, gid: str, disabled: bool) -> Optional[str]:
+    def add_feed(self, feed_url: str, gid: str) -> Optional[str]:
         try:
             fid = self.client.create_feed(
                 feed_url,
                 category_id=int(gid),
-                disabled=disabled)
+            )
         except miniflux.ClientError as e:
             if e.get_error_reason() == "parser: unable to detect feed format":
                 return None
@@ -193,24 +193,8 @@ class MinifluxAggregator(RssAggregator):
             mime_type=fi['mime_type']
         )
 
-    def enable_feed(self, fid: str):
-        self.client.update_feed(int(fid), disabled=False)
-
-    def create_group(self, title: str, hide_globally: bool) -> str:
-        gid = self.client.create_category(title)["id"]
-
-        if hide_globally:
-            _endpoint = self.client._get_endpoint(f"/categories/{gid}")
-            _data = {"hide_globally": True}
-            _response = self.client._session.put(
-                _endpoint,
-                data=json.dumps(_data),
-                timeout=self.client._timeout,
-            )
-            if _response.status_code != 201:
-                self.client._handle_error_response(_response)
-
-        return str(gid)
+    def create_group(self, title: str) -> str:
+        return str(self.client.create_category(title)["id"])
 
     def get_feeds_by_group_id(self, gid: str) -> List[Feed]:
         feeds = self.client.get_category_feeds(int(gid))

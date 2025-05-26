@@ -404,7 +404,7 @@ def create_group():
     if not name:
         return make_toast(400, _("Name is required"))
 
-    g.aggregator.create_group(name, hide_globally=False)
+    g.aggregator.create_group(name)
 
     resp = make_response()
     resp.headers['HX-Redirect'] = '/manage_groups'

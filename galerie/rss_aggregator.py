@@ -61,7 +61,7 @@ class RssAggregator(ABC):
         pass
 
     @abstractmethod
-    def add_feed(self, feed_url: str, gid: str, disabled: bool) -> Optional[str]:
+    def add_feed(self, feed_url: str, gid: str) -> Optional[str]:
         pass
 
     @abstractmethod
@@ -85,11 +85,7 @@ class RssAggregator(ABC):
         pass
 
     @abstractmethod
-    def enable_feed(self, fid: str):
-        pass
-
-    @abstractmethod
-    def create_group(self, title: str, hide_globally: bool) -> str:
+    def create_group(self, title: str) -> str:
         pass
 
     @abstractmethod
