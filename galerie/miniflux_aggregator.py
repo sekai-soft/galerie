@@ -21,6 +21,7 @@ def _category_dict_to_group(category_dict: dict) -> Group:
     return Group(
         gid=str(category_dict['id']),
         title=category_dict['title'],
+        feed_count=category_dict.get('feed_count', 0),
     )
 
 
@@ -77,7 +78,12 @@ class MinifluxAggregator(RssAggregator):
         self.managed_or_self_hosted = managed_or_self_hosted
 
     def _get_groups(self) -> List[Group]:
-        return list(map(_category_dict_to_group, self.client.get_categories()))
+        _endpoint = self.client._get_endpoint("/categories?counts=true")
+        _response = self.client._session.get(_endpoint, timeout=self.client._timeout)
+        if _response.status_code != 200:
+            self.client._handle_error_response(_response)
+        res = _response.json()
+        return list(map(_category_dict_to_group, res))
 
     def get_unread_items_by_iid_ascending(self, count: int, from_iid_exclusive: Optional[str], feed_filter: FeedFilter) -> List[Item]:
         entries = self.client.get_entries(
@@ -190,7 +196,7 @@ class MinifluxAggregator(RssAggregator):
     def enable_feed(self, fid: str):
         self.client.update_feed(int(fid), disabled=False)
 
-    def create_group(self, title: str, hide_globally: bool) -> str:
+    def _create_group(self, title: str, hide_globally: bool) -> str:
         gid = self.client.create_category(title)["id"]
 
         if hide_globally:

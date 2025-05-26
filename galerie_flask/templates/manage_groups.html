@@ -1,0 +1,21 @@
+{% extends 'base_child_page.html' %}
+
+{% block title %}{{ _('Manage groups') }}{% endblock %}
+
+{% block header_title %}{{ _('Manage groups') }}{% endblock %}
+
+{% block header_right_content %}
+<a class="animate-long" href="/add_group">
+    {{ _('Add group') }}
+</a>
+{% endblock %}
+
+{% block page_content %}
+{% for group in groups %}
+<a style="font-size: 1em" href="/update_group?group={{ group.gid }}">
+    <p class="animate-long user-string-horizontal">
+        ({{ group.feed_count }}) {{ group.title }}
+    </p>
+</a>
+{% endfor %}
+{% endblock %}

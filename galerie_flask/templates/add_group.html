@@ -1,0 +1,26 @@
+{% extends 'base_child_page.html' %}
+
+{% block title %}{{ _('Add group') }}{% endblock %}
+
+{% block header_title %}{{ _('Add group') }}{% endblock %}
+
+{% block page_content %}
+<form>
+    <p>
+        {{ _('Group name') }}
+        <input
+            type="text"
+            name="name"
+            required
+        >
+    </p>
+    <button
+        class="button"
+        hx-post="/actions/create_group"
+        hx-swap="none"
+        hx-disabled-elt="this"
+    >
+        {{ _('Add group') }} <span class="htmx-indicator">...</span>
+    </button>
+</form>
+{% endblock %}

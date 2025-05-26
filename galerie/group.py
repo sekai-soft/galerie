@@ -8,3 +8,4 @@ PREVIEW_GROUP_TITLE = '.preview'
 class Group:
     title: str
     gid: str
+    feed_count: int

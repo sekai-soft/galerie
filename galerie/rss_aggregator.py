@@ -103,7 +103,7 @@ class RssAggregator(ABC):
         pass
 
     @abstractmethod
-    def create_group(self, title: str, hide_globally: bool) -> str:
+    def _create_group(self, title: str, hide_globally: bool) -> str:
         pass
 
     @abstractmethod
@@ -150,3 +150,8 @@ class RssAggregator(ABC):
                 return feed.fid
 
         return None
+
+    def create_group(self, title: str, hide_globally: bool) -> str:
+        if title == PREVIEW_GROUP_TITLE:
+            raise ValueError(f"Cannot create group with title '{PREVIEW_GROUP_TITLE}'")
+        return self._create_group(title, hide_globally)

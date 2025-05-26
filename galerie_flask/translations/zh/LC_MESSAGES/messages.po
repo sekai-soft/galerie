@@ -7,7 +7,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: PROJECT VERSION\n"
 "Report-Msgid-Bugs-To: EMAIL@ADDRESS\n"
-"POT-Creation-Date: 2025-05-26 04:25+0000\n"
+"POT-Creation-Date: 2025-05-26 05:57+0000\n"
 "PO-Revision-Date: 2024-06-27 08:04+0000\n"
 "Last-Translator: FULL NAME <EMAIL@ADDRESS>\n"
 "Language: zh\n"
@@ -86,11 +86,15 @@ msgstr "已将 %(url)s 添加到 Instapaper"
 msgid "You cannot delete the last group"
 msgstr "您不能删除最后一个分组"
 
+#: galerie_flask/actions_blueprint.py:418
+msgid "Name is required"
+msgstr "名字是必需的"
+
 #: galerie_flask/templates/add_feed.html:3
 #: galerie_flask/templates/add_feed.html:5
 #: galerie_flask/templates/add_preview_feed.html:3
+#: galerie_flask/templates/manage_feeds.html:21
 #: galerie_flask/templates/preview_feed.html:9
-#: galerie_flask/templates/settings.html:10
 msgid "Add feed"
 msgstr "添加订阅源"
 
@@ -134,6 +138,17 @@ msgstr "关闭"
 #: galerie_flask/templates/add_feed.html:51
 msgid "Supported feed types: Twitter, RSS"
 msgstr "支持的订阅源类型: Twitter, RSS"
+
+#: galerie_flask/templates/add_group.html:3
+#: galerie_flask/templates/add_group.html:5
+#: galerie_flask/templates/add_group.html:23
+#: galerie_flask/templates/manage_groups.html:9
+msgid "Add group"
+msgstr "添加分组"
+
+#: galerie_flask/templates/add_group.html:10
+msgid "Group name"
+msgstr "分组名"
 
 #: galerie_flask/templates/add_preview_feed.html:9
 msgid "Assign group"
@@ -179,8 +194,10 @@ msgid "Clean up"
 msgstr "清理"
 
 #: galerie_flask/templates/feed_maintenance.html:26
-msgid "Previewed feeds are automatically cleaned up everyday"
-msgstr "预览过的订阅源会在每天自动清理"
+msgid ""
+"Previewed feeds that are not added to a group are automatically cleaned "
+"up everyday"
+msgstr "预览过但是尚未添加的订阅源会在每天被自动清理"
 
 #: galerie_flask/templates/feed_maintenance.html:28
 msgid "There is no previewed feed to clean up"
@@ -288,13 +305,19 @@ msgstr "注册"
 
 #: galerie_flask/templates/manage_feeds.html:3
 #: galerie_flask/templates/manage_feeds.html:13
-#: galerie_flask/templates/settings.html:15
-msgid "View feeds"
-msgstr "查看订阅源"
+#: galerie_flask/templates/settings.html:10
+msgid "Manage feeds"
+msgstr "管理订阅源"
 
-#: galerie_flask/templates/manage_feeds.html:22
+#: galerie_flask/templates/manage_feeds.html:25
 msgid "No feeds in this group"
 msgstr "此分组没有订阅源"
+
+#: galerie_flask/templates/manage_groups.html:3
+#: galerie_flask/templates/manage_groups.html:5
+#: galerie_flask/templates/settings.html:15
+msgid "Manage groups"
+msgstr "管理分组"
 
 #: galerie_flask/templates/settings.html:3
 #: galerie_flask/templates/settings.html:5

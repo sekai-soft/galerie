@@ -409,6 +409,21 @@ def clean_up_duplicated_twitter_feeds():
     return resp
 
 
+@actions_blueprint.route('/create_group', methods=['POST'])
+@requires_auth
+@catches_exceptions
+def create_group():
+    name = request.form.get('name')
+    if not name:
+        return make_toast(400, _("Name is required"))
+
+    g.aggregator.create_group(name, hide_globally=False)
+
+    resp = make_response()
+    resp.headers['HX-Redirect'] = '/manage_groups'
+    return resp
+
+
 @actions_blueprint.route('/mark_last_unread', methods=['POST'])
 @requires_auth
 @catches_exceptions

@@ -165,25 +165,19 @@ def manage_feeds_page():
     groups = g.aggregator.get_groups()
     if not groups:
         raise ValueError("No groups found")
-
     groups = sorted(groups, key=lambda group: group.gid, reverse=True)
+
     gid = request.args.get('group')
     if gid is None:
         return redirect(f'/manage_feeds?group={groups[0].gid}')
     
-    all_feeds = g.aggregator.get_feeds()
-    feeds = []
-    for feed in all_feeds:
-        if feed.gid == gid:
-            feeds.append(feed)
+    feeds = g.aggregator.get_feeds_by_group_id(gid)
     feeds = sorted(feeds, key=lambda feed: (0 if feed.error else 1, feed.title))
 
     feed_counts = {}
-    for feed in all_feeds:
-        gid = feed.gid
-        if gid not in feed_counts:
-            feed_counts[gid] = 0
-        feed_counts[gid] += 1
+    for group in groups:
+        gid = group.gid
+        feed_counts[gid] = group.feed_count
 
     return render_template(
         'manage_feeds.html',
@@ -368,6 +362,28 @@ def update_group_page():
         'update_group.html',
         group=g.aggregator.get_group(gid),
     )
+
+
+@pages_blueprint.route("/manage_groups")
+@catches_exceptions
+@requires_auth
+def manage_groups_page():
+    groups = g.aggregator.get_groups()
+    if not groups:
+        raise ValueError("No groups found")
+    groups = sorted(groups, key=lambda group: group.gid, reverse=True)
+
+    return render_template(
+        'manage_groups.html',
+        groups=groups,
+    )
+
+
+@pages_blueprint.route("/add_group")
+@catches_exceptions
+@requires_auth
+def add_group_page():
+    return render_template('add_group.html')
 
 
 @pages_blueprint.route("/m/<encoded_url>")
