@@ -231,17 +231,10 @@ def add_feed():
         return make_toast(400, "Group is required")
     gid = request.form.get('group')
 
-    view_feed = request.args.get('view_feed', '0') == '1'
-
-    def make_response(fid: str):
-        if view_feed:
-            return make_hx_redirect(f'/feed?fid={fid}')
-        return make_back()
-
     url = request.form['url']
     existing_fid = g.aggregator.find_feed_by_feed_url(url)
     if existing_fid:
-        return make_response(existing_fid)
+        return make_toast(200, _('This feed already exists'))
 
     twitter_handle = extract_twitter_handle_from_url(url)
     if twitter_handle:
@@ -255,7 +248,15 @@ def add_feed():
     if not fid:
         return make_toast(400, _('Unable to detect a valid feed'))
 
-    return make_response(fid)
+    view_feed = request.args.get('view_feed', '0') == '1'
+    if view_feed:
+        return make_hx_redirect(f'/feed?fid={fid}')
+    
+    go_home = request.args.get('go_home', '0') == '1'
+    if go_home:
+        return make_hx_redirect('/')
+
+    return make_back()
 
 
 @actions_blueprint.route('/delete_feed', methods=['POST'])

@@ -45,12 +45,12 @@
 {% if not last_iid %}
 <div class="all-read">
     {% if all_feed_count == 0%}
-    <a href="/add_feed" style="font-size: 1em;">
-        <p class="animate-long">{{ _('Start adding some feeds ❤️') }}</p>
+    <a href="/add_feed?go_home=1" style="font-size: 1em;">
+        <p class="animate-long">{{ _('start adding some feeds ❤️') }}</p>
     </a>
     {% elif all_unread_count == 0 %}
-    <p>{{ _('All read ✨') }}</p>
-    <p>{{ _('Go touch some grass 🌱') }}</p>
+    <p>{{ _('all read ✨') }}</p>
+    <p>{{ _('go touch some grass 🌱') }}</p>
     {% else %}
     {% for g in groups %}
     {% if all_group_unread_counts[g.gid] != 0 %}

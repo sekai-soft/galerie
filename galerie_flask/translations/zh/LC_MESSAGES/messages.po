@@ -7,7 +7,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: PROJECT VERSION\n"
 "Report-Msgid-Bugs-To: EMAIL@ADDRESS\n"
-"POT-Creation-Date: 2025-05-26 19:43+0000\n"
+"POT-Creation-Date: 2025-05-26 23:55+0000\n"
 "PO-Revision-Date: 2024-06-27 08:04+0000\n"
 "Last-Translator: FULL NAME <EMAIL@ADDRESS>\n"
 "Language: zh\n"
@@ -18,75 +18,69 @@ msgstr ""
 "Content-Transfer-Encoding: 8bit\n"
 "Generated-By: Babel 2.17.0\n"
 
-#: galerie_flask/actions_blueprint.py:44
+#: galerie_flask/actions_blueprint.py:60
 msgid "Username already exists"
 msgstr "用户名已存在"
 
-#: galerie_flask/actions_blueprint.py:46
+#: galerie_flask/actions_blueprint.py:62
 msgid "Wrong credentials"
 msgstr "用户名或密码错误"
 
-#: galerie_flask/actions_blueprint.py:52
+#: galerie_flask/actions_blueprint.py:68
 msgid "Your session has expired"
 msgstr "您的会话已过期"
 
-#: galerie_flask/actions_blueprint.py:54
-#, python-format
-msgid "Unknown MinifluxAdminException: %(e)s"
-msgstr "未知 MinifluxAdminException: %(e)s"
-
-#: galerie_flask/actions_blueprint.py:59
-#, python-format
-msgid "Unknown server error: %(e)s"
-msgstr "未知服务器错误: %(e)s"
-
-#: galerie_flask/actions_blueprint.py:70 galerie_flask/actions_blueprint.py:98
+#: galerie_flask/actions_blueprint.py:86 galerie_flask/actions_blueprint.py:112
 msgid "Username is required"
 msgstr "用户名是必需的"
 
-#: galerie_flask/actions_blueprint.py:74 galerie_flask/actions_blueprint.py:78
-#: galerie_flask/actions_blueprint.py:102
+#: galerie_flask/actions_blueprint.py:90 galerie_flask/actions_blueprint.py:94
+#: galerie_flask/actions_blueprint.py:116
 msgid "Password is required"
 msgstr "密码是必需的"
 
-#: galerie_flask/actions_blueprint.py:81
+#: galerie_flask/actions_blueprint.py:97
 msgid "Passwords do not match"
 msgstr "密码不匹配"
 
-#: galerie_flask/actions_blueprint.py:189
+#: galerie_flask/actions_blueprint.py:200
 msgid "Setting updated"
 msgstr "设置已更新"
 
-#: galerie_flask/actions_blueprint.py:211
+#: galerie_flask/actions_blueprint.py:223
 msgid "Group updated"
 msgstr "分组已更新"
 
-#: galerie_flask/actions_blueprint.py:239
+#: galerie_flask/actions_blueprint.py:237
+msgid "This feed already exists"
+msgstr "此订阅源已存在"
+
+#: galerie_flask/actions_blueprint.py:249
 msgid "Unable to detect a valid feed"
 msgstr "无法检测到有效的订阅源"
 
-#: galerie_flask/actions_blueprint.py:267
+#: galerie_flask/actions_blueprint.py:280
 msgid "Instapaper username or email is required"
 msgstr "Instapaper 用户名或邮箱是必需的"
 
-#: galerie_flask/actions_blueprint.py:276
+#: galerie_flask/actions_blueprint.py:289
 msgid "Wrong Instapaper credentials"
 msgstr "Instapaper 用户名或密码错误"
 
-#: galerie_flask/actions_blueprint.py:319
+#: galerie_flask/actions_blueprint.py:332
 msgid "Failed to add to Instapaper"
 msgstr "无法添加到 Instapaper"
 
-#: galerie_flask/actions_blueprint.py:320
+#: galerie_flask/actions_blueprint.py:333
 #, python-format
 msgid "Added %(url)s to Instapaper"
 msgstr "已将 %(url)s 添加到 Instapaper"
 
-#: galerie_flask/actions_blueprint.py:351
+#: galerie_flask/actions_blueprint.py:362
 msgid "You cannot delete the last group"
 msgstr "您不能删除最后一个分组"
 
-#: galerie_flask/actions_blueprint.py:405
+#: galerie_flask/actions_blueprint.py:414
 msgid "Name is required"
 msgstr "名字是必需的"
 
@@ -171,7 +165,7 @@ msgid "Log out"
 msgstr "登出"
 
 #: galerie_flask/templates/feed.html:19
-#: galerie_flask/templates/update_feed.html:36
+#: galerie_flask/templates/update_feed.html:30
 msgid "Are you sure you want to delete this feed?"
 msgstr "确定要删除这个订阅源吗？"
 
@@ -226,15 +220,15 @@ msgid "Are you sure you want to mark this group as read?"
 msgstr "确定要标记这个分组为已读吗？"
 
 #: galerie_flask/templates/index.html:49
-msgid "Start adding some feeds ❤️"
+msgid "start adding some feeds ❤️"
 msgstr "开始添加一些订阅源 ❤️"
 
 #: galerie_flask/templates/index.html:52
-msgid "All read ✨"
+msgid "all read ✨"
 msgstr "全部已读 ✨"
 
 #: galerie_flask/templates/index.html:53
-msgid "Go touch some grass 🌱"
+msgid "go touch some grass 🌱"
 msgstr "去接触一下大自然吧 🌱"
 
 #: galerie_flask/templates/index.html:59
@@ -245,19 +239,19 @@ msgstr "有"
 msgid "unread items"
 msgstr "未读条目"
 
-#: galerie_flask/templates/item.html:52
+#: galerie_flask/templates/item.html:53
 msgid "retweeted from "
 msgstr "转发自 "
 
-#: galerie_flask/templates/item.html:61
+#: galerie_flask/templates/item.html:62
 msgid "Open link"
 msgstr "打开链接"
 
-#: galerie_flask/templates/item.html:73
+#: galerie_flask/templates/item.html:74
 msgid "Save to Instapaper"
 msgstr "保存至 Instapaper"
 
-#: galerie_flask/templates/item.html:83
+#: galerie_flask/templates/item.html:84
 msgid "Share"
 msgstr "分享至"
 
@@ -372,35 +366,30 @@ msgid "Update feed"
 msgstr "更新订阅源"
 
 #: galerie_flask/templates/update_feed.html:9
-#: galerie_flask/templates/update_group.html:9
-msgid "Done"
-msgstr "完成"
-
-#: galerie_flask/templates/update_feed.html:15
 #: galerie_flask/templates/update_group.html:3
 #: galerie_flask/templates/update_group.html:5
 msgid "Update group"
 msgstr "更新分组"
 
-#: galerie_flask/templates/update_feed.html:38
+#: galerie_flask/templates/update_feed.html:32
 msgid "Delete feed"
 msgstr "删除订阅源"
 
-#: galerie_flask/templates/update_group.html:16
+#: galerie_flask/templates/update_group.html:10
 msgid "Rename group"
 msgstr "重命名分组"
 
-#: galerie_flask/templates/update_group.html:31
+#: galerie_flask/templates/update_group.html:25
 msgid "Confirm"
 msgstr "确认"
 
-#: galerie_flask/templates/update_group.html:40
+#: galerie_flask/templates/update_group.html:34
 msgid ""
 "Are you sure you want to delete this group? ALL FEEDS IN THIS GROUP WILL "
 "ALSO BE DELETED!!"
 msgstr "确定要删除这个分组吗？此分组中的所有订阅源也将被删除！"
 
-#: galerie_flask/templates/update_group.html:42
+#: galerie_flask/templates/update_group.html:36
 msgid "Delete group"
 msgstr "删除分组"
 

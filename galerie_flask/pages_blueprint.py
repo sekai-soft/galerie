@@ -254,17 +254,12 @@ def add_feed_page():
         url = args['text']
     elif 'title' in args and is_valid_url(args['title']):
         url = args['title']
-    
-    if not url:
-        return render_template('add_feed.html', groups=g.aggregator.get_groups(), bookmarklet=bookmarklet)
-    
-    fid = g.aggregator.find_feed_by_feed_url(url)
-    if fid:
-        return redirect(f'/feed?fid={fid}')
-    
+
     add_feed_behavior = ''
-    if 'view_feed' in args and args['view_feed'] == '1':
+    if args.get('view_feed', '0')== '1':
         add_feed_behavior += '?view_feed=1'
+    if args.get('go_home', '0')== '1':
+        add_feed_behavior += '?go_home=1'
 
     return render_template(
         'add_feed.html',
