@@ -3,7 +3,7 @@
 {% block title %}{{ _('Manage feeds') }}{% endblock %}
 
 {% block content %}
-<div class="header" x-data="{}">
+<div class="header">
     <div class="header-left">
          <a
             id="back-button"
@@ -36,5 +36,5 @@
 </a>
 {% endfor %}
 {% endif %}
-<script src="{{ url_for('static', filename='feeds.js') }}"></script>
+<script src="{{ url_for('static', filename='manage_feeds.js') }}"></script>
 {% endblock %}

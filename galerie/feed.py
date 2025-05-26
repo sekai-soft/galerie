@@ -10,3 +10,4 @@ class Feed:
     title: str
     group_title: str
     error: bool
+    site_url: str

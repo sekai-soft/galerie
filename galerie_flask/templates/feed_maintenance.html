@@ -1,0 +1,67 @@
+{% extends 'base_child_page.html' %}
+
+{% block title %}{{ _('Feed maintenance') }}{% endblock %}
+
+{% block header_title %}{{ _('Feed maintenance') }}{% endblock %}
+
+{% block page_content %}
+<p>{{ _('Clean up previewed feeds') }}</p>
+{% if previewed_feeds %}
+{% for feed in previewed_feeds %}
+    <a href="/preview_feed?fid={{ feed.fid }}" target="_blank" style="font-size: 1em;">
+        <p class="animate-long">
+            {{ feed.title }}
+        </p>
+    </a>
+{% endfor %}
+<br>
+<button
+    class="button"
+    hx-post="/actions/clean_up_previewed_feeds"
+    hx-swap="none"
+    hx-disabled-elt="this"
+>
+    {{ _('Clean up') }} {{ previewed_feeds|length }} {{ ('previewed feeds') }} <span class="htmx-indicator">...</span>
+</button>
+<p>{{ _('Previewed feeds are automatically cleaned up everyday') }}</p>
+{% else %}
+<p>{{ _('There is no previewed feed to clean up') }}</p>
+{% endif %}
+<hr>
+<p>{{ _('Clean up dead feeds') }}</p>
+{% if dead_feeds %}
+<form>
+    {% for feed in dead_feeds %}
+    <div style="display: flex; align-items: center; gap: 1em;">
+        <div>
+            <input type="checkbox" id="dead-feed-{{ feed.fid }}" name="dead-feed-{{ feed.fid }}">
+        </div>
+        <a href="{{ feed.site_url }}" target="_blank" style="font-size: 1em;">
+            <p class="animate-long" style="margin-top: 8px; margin-bottom: 8px;">
+                {{ feed.title }}
+            </p>
+        </a>
+    </div>
+    {% endfor %}
+    <button
+        id="clean-up-dead-feeds-button"
+        class="button"
+        style="margin-top: 1em; display: none;"
+        hx-post="/actions/delete_feeds"
+        hx-include="input[id^='dead-feed-']:checked"
+        hx-swap="none"
+        hx-disabled-elt="this"
+    >
+        {{ _('Delete 0 dead feeds') }} <span class="htmx-indicator">...</span>
+    </button>
+</form>
+<br>
+<br>
+{% else %}
+<p>{{ _('There is no dead feed to clean up') }}</p>
+{% endif %}
+<hr>
+<p>{{ _('Clean up duplicate Twitter feeds') }}</p>
+<hr>
+<script src="{{ url_for('static', filename='feed_maintenance.js') }}"></script>
+{% endblock %}

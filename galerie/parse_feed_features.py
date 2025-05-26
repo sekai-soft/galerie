@@ -32,7 +32,7 @@ def parse_feature_rss_lambda(features: Dict):
 
 def parse_feed_features(feed_url: str) -> Dict:
     features = {
-        "feed_url": unquote_plus(feed_url)
+        "feed_url": unquote_plus(feed_url),
     }
     parse_feature_rss_lambda(features)
     return features

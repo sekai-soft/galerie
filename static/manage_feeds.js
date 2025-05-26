@@ -10,7 +10,7 @@ const updateQueryParameter = (key, value) => {
 }
 
 document.getElementById('group-select').addEventListener('change', (event) => {
-const groupId = event.target.value;
+    const groupId = event.target.value;
     if (groupId === '_all') {
         updateQueryParameter('group', null);
     } else {

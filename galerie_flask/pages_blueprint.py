@@ -318,15 +318,19 @@ def add_preview_feed_page():
     return render_template('add_preview_feed.html', **args)
 
 
-@pages_blueprint.route("/clean_up_previewed_feeds")
+@pages_blueprint.route("/feed_maintenance")
 @catches_exceptions
 @requires_auth
-def clean_up_previewed_feeds_page():
+def feed_maintenance_page():
     previewed_feeds = g.aggregator.get_feeds_by_group_id(g.aggregator.get_preview_group().gid)
+    
+    feeds = g.aggregator.get_feeds()
+    dead_feeds = list(filter(lambda f: f.error, feeds))
 
     return render_template(
-        'clean_up_previewed_feeds.html',
-        previewed_feeds=previewed_feeds
+        'feed_maintenance.html',
+        previewed_feeds=previewed_feeds,
+        dead_feeds=dead_feeds
     )
 
 

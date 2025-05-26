@@ -364,6 +364,20 @@ def delete_group():
     return resp
 
 
+@actions_blueprint.route('/delete_feeds', methods=['POST'])
+@requires_auth
+@catches_exceptions
+def delete_feeds():
+    for item in request.form:
+        if item.startswith('dead-feed-'):
+            fid = item[len("dead-feed-"):]
+            g.aggregator.delete_feed(fid)
+
+    resp = make_response()
+    resp.headers['HX-Refresh'] = "true"
+    return resp
+
+
 @actions_blueprint.route('/mark_last_unread', methods=['POST'])
 @requires_auth
 @catches_exceptions

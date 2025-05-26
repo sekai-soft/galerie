@@ -1,5 +1,5 @@
 {% for item in items %}
-<div id="{{ item.uid }}" class="grid-item" x-data="{}">
+<div id="{{ item.uid }}" class="grid-item">
     <a href="/item?uid={{ item.uid }}">
         <div class="animate-long item-image-container">
             {% if item.image_url %}
