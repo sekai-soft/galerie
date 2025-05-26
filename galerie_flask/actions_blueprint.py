@@ -346,6 +346,24 @@ def rename_group():
     return resp
 
 
+@actions_blueprint.route('/delete_group', methods=['POST'])
+@requires_auth
+@catches_exceptions
+def delete_group():
+    group = request.args.get('group')
+    if group is None:
+        return make_toast(400, "Group is required")
+    
+    if len(g.aggregator.get_groups()) == 1:
+        return make_toast(400, _("You cannot delete the last group"))
+
+    g.aggregator.delete_group(group)
+
+    resp = make_response()
+    resp.headers['HX-Redirect'] = '/feeds'
+    return resp
+
+
 @actions_blueprint.route('/mark_last_unread', methods=['POST'])
 @requires_auth
 @catches_exceptions

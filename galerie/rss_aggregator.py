@@ -113,6 +113,10 @@ class RssAggregator(ABC):
     def rename_group(self, gid: str, new_title: str):
         pass
 
+    @abstractmethod
+    def delete_group(self, gid: str):
+        pass
+
     def get_preview_group(self) -> Optional[Group]:
         for group in self._get_groups():
             if group.title == PREVIEW_GROUP_TITLE:

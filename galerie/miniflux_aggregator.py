@@ -211,3 +211,6 @@ class MinifluxAggregator(RssAggregator):
 
     def rename_group(self, gid: str, new_title: str):
         self.client.update_category(int(gid), new_title)
+
+    def delete_group(self, gid: str):
+        self.client.delete_category(int(gid))
