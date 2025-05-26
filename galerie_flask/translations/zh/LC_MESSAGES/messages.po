@@ -7,7 +7,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: PROJECT VERSION\n"
 "Report-Msgid-Bugs-To: EMAIL@ADDRESS\n"
-"POT-Creation-Date: 2025-05-26 00:58+0000\n"
+"POT-Creation-Date: 2025-05-26 01:01+0000\n"
 "PO-Revision-Date: 2024-06-27 08:04+0000\n"
 "Last-Translator: FULL NAME <EMAIL@ADDRESS>\n"
 "Language: zh\n"
@@ -182,15 +182,6 @@ msgstr "糟糕，出错了"
 msgid "Log out"
 msgstr "登出"
 
-#: galerie_flask/templates/feeds.html:3 galerie_flask/templates/feeds.html:13
-#: galerie_flask/templates/settings.html:15
-msgid "Manage feeds"
-msgstr "管理订阅源"
-
-#: galerie_flask/templates/feeds.html:28
-msgid "No feeds in this group"
-msgstr "此分组没有订阅源"
-
 #: galerie_flask/templates/index.html:3
 msgid "Galerie"
 msgstr "Galerie"
@@ -266,6 +257,16 @@ msgstr "密码"
 #: galerie_flask/templates/signup.html:6 galerie_flask/templates/signup.html:38
 msgid "Sign up"
 msgstr "注册"
+
+#: galerie_flask/templates/manage_feeds.html:3
+#: galerie_flask/templates/manage_feeds.html:13
+#: galerie_flask/templates/settings.html:15
+msgid "Manage feeds"
+msgstr "管理订阅源"
+
+#: galerie_flask/templates/manage_feeds.html:28
+msgid "No feeds in this group"
+msgstr "此分组没有订阅源"
 
 #: galerie_flask/templates/settings.html:3
 #: galerie_flask/templates/settings.html:5
@@ -364,28 +365,4 @@ msgstr "确定要删除这个分组吗？此分组中的所有订阅源也将被
 #: galerie_flask/templates/update_group.html:35
 msgid "Delete group"
 msgstr "删除分组"
-
-#~ msgid "Twitter or RSS URL"
-#~ msgstr "Twitter 或 RSS URL"
-
-#~ msgid "Add feed | Galerie"
-#~ msgstr "添加订阅源 | Galerie"
-
-#~ msgid "Error | Galerie"
-#~ msgstr "错误 | Galerie"
-
-#~ msgid "(No feed)"
-#~ msgstr "(没有订阅源)"
-
-#~ msgid "(filtered)"
-#~ msgstr "(已过滤)"
-
-#~ msgid "Log in | Galerie"
-#~ msgstr "登录 | Galerie"
-
-#~ msgid "Settings | Galerie"
-#~ msgstr "设置 | Galerie"
-
-#~ msgid "Sign up | Galerie"
-#~ msgstr "注册 | Galerie"
 
