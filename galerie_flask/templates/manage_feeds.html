@@ -1,6 +1,6 @@
 {% extends 'base.html' %}
 
-{% block title %}{{ _('Manage feeds') }}{% endblock %}
+{% block title %}{{ _('View feeds') }}{% endblock %}
 
 {% block content %}
 <div class="header">
@@ -10,18 +10,12 @@
             href="javascript:window.history.back();"
             class="link-button"
         >⬅️</a>
-        <p>{{ _('Manage feeds') }}</p>
+        <p>{{ _('View feeds') }}</p>
         <select id="group-select">
             {% for g in groups %}
-            <option value="{{ g.gid }}" {{ 'selected=selected' if g.gid == gid else '' }}>{{ g.title }}</option>
+            <option value="{{ g.gid }}" {{ 'selected=selected' if g.gid == gid else '' }}>({{ feed_counts[g.gid] }}) {{ g.title }}</option>
             {% endfor %}
         </select>
-    </div>
-    <div class="header-right">
-        <a
-            href="/update_group?group={{ gid }}"
-            class="link-button"
-        >⚙️</a>
     </div>
 </div>
 {% if feeds|length == 0 %}

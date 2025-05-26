@@ -171,14 +171,26 @@ def manage_feeds_page():
     if gid is None:
         return redirect(f'/manage_feeds?group={groups[0].gid}')
     
-    feeds = g.aggregator.get_feeds_by_group_id(gid)
+    all_feeds = g.aggregator.get_feeds()
+    feeds = []
+    for feed in all_feeds:
+        if feed.gid == gid:
+            feeds.append(feed)
     feeds = sorted(feeds, key=lambda feed: (0 if feed.error else 1, feed.title))
+
+    feed_counts = {}
+    for feed in all_feeds:
+        gid = feed.gid
+        if gid not in feed_counts:
+            feed_counts[gid] = 0
+        feed_counts[gid] += 1
 
     return render_template(
         'manage_feeds.html',
         groups=groups,
         gid=gid,
         feeds=feeds,
+        feed_counts=feed_counts,
     )
 
 
