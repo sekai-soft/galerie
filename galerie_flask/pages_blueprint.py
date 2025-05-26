@@ -251,7 +251,12 @@ def add_feed_page():
     if fid:
         return redirect(f'/feed?fid={fid}')
 
-    return render_template('add_feed.html', url=url, bookmarklet=bookmarklet)
+    return render_template(
+        'add_feed.html',
+        url=url,
+        bookmarklet=bookmarklet,
+        groups=g.aggregator.get_groups()
+    )
 
 
 @pages_blueprint.route("/item")
