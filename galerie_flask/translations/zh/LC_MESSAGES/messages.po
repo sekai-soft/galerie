@@ -7,7 +7,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: PROJECT VERSION\n"
 "Report-Msgid-Bugs-To: EMAIL@ADDRESS\n"
-"POT-Creation-Date: 2025-05-26 05:57+0000\n"
+"POT-Creation-Date: 2025-05-26 06:46+0000\n"
 "PO-Revision-Date: 2024-06-27 08:04+0000\n"
 "Last-Translator: FULL NAME <EMAIL@ADDRESS>\n"
 "Language: zh\n"
@@ -247,15 +247,19 @@ msgstr "最旧优先"
 msgid "Are you sure you want to mark this group as read?"
 msgstr "确定要标记这个分组为已读吗？"
 
-#: galerie_flask/templates/index.html:48
-msgid "✨ all read ✨"
-msgstr "✨ 全部已读 ✨"
+#: galerie_flask/templates/index.html:49
+msgid "Start adding some feeds ❤️"
+msgstr "开始添加一些订阅源 ❤️"
 
-#: galerie_flask/templates/index.html:54
+#: galerie_flask/templates/index.html:52
+msgid "All read ✨ Go touch some grass 🌱"
+msgstr "全部已读 ✨ 去接触一下大自然吧 🌱"
+
+#: galerie_flask/templates/index.html:58
 msgid "has"
 msgstr "有"
 
-#: galerie_flask/templates/index.html:54
+#: galerie_flask/templates/index.html:58
 msgid "unread items"
 msgstr "未读条目"
 

@@ -155,3 +155,6 @@ class RssAggregator(ABC):
         if title == PREVIEW_GROUP_TITLE:
             raise ValueError(f"Cannot create group with title '{PREVIEW_GROUP_TITLE}'")
         return self._create_group(title, hide_globally)
+
+    def create_preview_group(self):
+        self._create_group(PREVIEW_GROUP_TITLE, True)

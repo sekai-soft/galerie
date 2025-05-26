@@ -58,7 +58,7 @@ class MinifluxAdmin(object):
             miniflux_password,
             True
         )
-        miniflux_aggregator.create_group(PREVIEW_GROUP_TITLE, True)
+        miniflux_aggregator.create_preview_group()
 
 
     def log_in(self, username: str, password: str) -> str:

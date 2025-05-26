@@ -121,6 +121,7 @@ def index_page():
     selected_group = next((group for group in groups if group.gid == gid), None)
     remaining_count = (all_group_unread_counts[gid] if gid is not None else all_unread_count)
     remaining_count = remaining_count - max_items if remaining_count > max_items else 0
+    all_feed_count = sum(group.feed_count for group in groups)
 
     args = {
         "groups": groups,
@@ -129,6 +130,7 @@ def index_page():
         "selected_group": selected_group,
         "sort_by_desc":sort_by,
         "last_iid": last_iid,
+        "all_feed_count": all_feed_count
     }
     items_args(args, rendered_items, True, gid is None)
     

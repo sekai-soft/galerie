@@ -44,8 +44,12 @@
 </div>
 {% if not last_iid %}
 <div class="all-read">
-    {% if all_unread_count == 0 %}
-    <p>{{ _('✨ all read ✨') }}</p>
+    {% if all_feed_count == 0%}
+    <a href="/add_feed" style="font-size: 1em;">
+        <p class="animate-long">{{ _('Start adding some feeds ❤️') }}</p>
+    </a>
+    {% elif all_unread_count == 0 %}
+    <p>{{ _('All read ✨ Go touch some grass 🌱') }}</p>
     {% else %}
     {% for g in groups %}
     {% if all_group_unread_counts[g.gid] != 0 %}
