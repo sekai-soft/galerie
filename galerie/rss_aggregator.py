@@ -3,7 +3,6 @@ from typing import List, Optional, Dict
 from dataclasses import dataclass
 from .item import Item
 from .group import Group
-from .feed_filter import FeedFilter
 from .feed import Feed
 from .feed_icon import FeedIcon
 from .twitter import extract_twitter_handle_from_url
@@ -21,11 +20,7 @@ class RssAggregator(ABC):
         pass
 
     @abstractmethod
-    def get_unread_items_by_iid_ascending(self, count: int, from_iid_exclusive: Optional[str], feed_filter: FeedFilter) -> List[Item]:   
-        pass
-
-    @abstractmethod
-    def get_unread_items_by_iid_descending(self, count: int, from_iid_exclusive: Optional[str], feed_filter: FeedFilter) -> List[Item]:
+    def get_items(self, count: int, from_iid_exclusive: Optional[str], group_id: Optional[str], sort_by_id_descending: bool, include_read: bool) -> List[Item]:
         pass
     
     @abstractmethod

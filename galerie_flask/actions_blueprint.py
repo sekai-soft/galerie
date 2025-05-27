@@ -8,7 +8,6 @@ from flask import request, g, Blueprint, make_response, render_template, Respons
 from flask_babel import _, lazy_gettext as _l
 from sentry_sdk import capture_exception
 from requests.auth import HTTPBasicAuth
-from galerie.feed_filter import FeedFilter
 from galerie.rendered_item import convert_rendered_items
 from galerie.twitter import create_nitter_feed_url, extract_twitter_handle_from_url
 from .utils import requires_auth, max_items, load_more_button_args, mark_as_read_button_args, items_args, add_image_ui_extras, \
@@ -142,15 +141,17 @@ def logout():
 def load_more():
     from_iid = request.args.get('from_iid')
     gid = request.args.get('group') if request.args.get('group') else None
-    sort_by = request.args.get('sort', 'desc') == 'desc'
+    sort_by_desc = request.args.get('sort', 'desc') == 'desc'
     remaining_count = int(request.args.get('remaining_count'))
     infinite_scroll = request.cookies.get('infinite_scroll', '1') == '1'
    
-    feed_filter = FeedFilter(gid)
-    if sort_by:
-        unread_items = g.aggregator.get_unread_items_by_iid_descending(max_items, from_iid, feed_filter)
-    else:
-        unread_items = g.aggregator.get_unread_items_by_iid_ascending(max_items, from_iid, feed_filter)
+    unread_items = g.aggregator.get_items(
+        count=max_items,
+        from_iid_exclusive=from_iid,
+        group_id=gid,
+        sort_by_id_descending=sort_by_desc,
+        include_read=False
+    )
     
     rendered_items = convert_rendered_items(unread_items)
     for rendered_item in rendered_items:
@@ -161,13 +162,13 @@ def load_more():
         args = {}
         items_args(args, rendered_items, True, gid is None)
         remaining_count = remaining_count - max_items if remaining_count > max_items else 0
-        load_more_button_args(args, last_iid, gid, sort_by, infinite_scroll, remaining_count)
+        load_more_button_args(args, last_iid, gid, sort_by_desc, infinite_scroll, remaining_count)
         rendered_string = \
             render_template('items_stream.html', **args) + "\n" + \
             render_template('load_more_button.html', **args)
     else:
         args = {}
-        mark_as_read_button_args(args, gid, sort_by)
+        mark_as_read_button_args(args, gid, sort_by_desc)
         rendered_string = render_template('all_loaded_marker.html', **args)
 
     resp = make_response(rendered_string)

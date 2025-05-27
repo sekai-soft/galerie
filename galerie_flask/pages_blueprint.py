@@ -4,7 +4,6 @@ from urllib.parse import urlparse
 from sentry_sdk import capture_exception
 from flask import Blueprint, redirect, render_template, g, request, jsonify, make_response
 from flask_babel import _
-from galerie.feed_filter import FeedFilter
 from galerie.rendered_item import convert_rendered_items, convert_rendered_item
 from galerie.twitter import extract_twitter_handle_from_feed_url, extract_twitter_handle_from_url
 from .utils import requires_auth, max_items, load_more_button_args,\
@@ -108,15 +107,17 @@ def signup_page():
 @catches_exceptions
 @requires_auth
 def index_page():
-    sort_by = request.args.get('sort', 'desc') == 'desc'
+    sort_by_desc = request.args.get('sort', 'desc') == 'desc'
     gid = request.args.get('group') if request.args.get('group') else None
     infinite_scroll = request.cookies.get('infinite_scroll', '1') == '1'
 
-    feed_filter = FeedFilter(gid)
-    if sort_by:
-        unread_items = g.aggregator.get_unread_items_by_iid_descending(max_items, None, feed_filter)
-    else:
-        unread_items = g.aggregator.get_unread_items_by_iid_ascending(max_items, None, feed_filter)
+    unread_items = g.aggregator.get_items(
+        count=max_items,
+        from_iid_exclusive=None,
+        group_id=gid,
+        sort_by_id_descending=sort_by_desc,
+        include_read=False
+    )
 
     rendered_items = convert_rendered_items(unread_items)
     for rendered_item in rendered_items:
@@ -125,7 +126,7 @@ def index_page():
 
     groups = g.aggregator.get_groups()
     gids = [group.gid for group in groups]
-    all_group_unread_counts = g.aggregator.get_unread_items_count_by_group_ids(gids)
+    all_group_unread_counts = g.aggregator.get_unread_items_count_by_group_ids(gids, False)
     all_unread_count = sum(all_group_unread_counts.values())
     groups = sorted(groups, key=lambda group: all_group_unread_counts[group.gid], reverse=True)   
     selected_group = next((group for group in groups if group.gid == gid), None)
@@ -138,14 +139,14 @@ def index_page():
         "all_group_unread_counts": all_group_unread_counts,
         "all_unread_count": all_unread_count,
         "selected_group": selected_group,
-        "sort_by_desc":sort_by,
+        "sort_by_desc": sort_by_desc,
         "last_iid": last_iid,
         "all_feed_count": all_feed_count
     }
     items_args(args, rendered_items, True, gid is None)
     
-    load_more_button_args(args, last_iid, gid, sort_by, infinite_scroll, remaining_count)
-    mark_as_read_button_args(args, gid, sort_by)
+    load_more_button_args(args, last_iid, gid, sort_by_desc, infinite_scroll, remaining_count)
+    mark_as_read_button_args(args, gid, sort_by_desc)
 
     return render_template('index.html', **args)
 

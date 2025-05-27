@@ -1,4 +1,3 @@
-import json
 import miniflux
 from datetime import datetime
 from urllib.parse import urlparse
@@ -6,7 +5,6 @@ from typing import List, Optional, Dict
 from bs4 import BeautifulSoup
 from .item import Item
 from .group import Group
-from .feed_filter import FeedFilter
 from .rss_aggregator import RssAggregator, ConnectionInfo
 from .feed import Feed
 from .parse_feed_features import parse_feed_features
@@ -85,40 +83,41 @@ class MinifluxAggregator(RssAggregator):
         res = _response.json()
         return list(map(_category_dict_to_group, res))
 
-    def get_unread_items_by_iid_ascending(self, count: int, from_iid_exclusive: Optional[str], feed_filter: FeedFilter) -> List[Item]:
-        entries = self.client.get_entries(
-            status='unread',
-            order='id',
-            direction='asc',
-            limit=count,
-            after_entry_id=None if from_iid_exclusive is None else int(from_iid_exclusive),
-            category_id=None if feed_filter.group_id is None else int(feed_filter.group_id)
-        )
-        return list(map(_entry_dict_to_item, entries['entries']))
-    
-    def get_unread_items_by_iid_descending(self, count: int, from_iid_exclusive: Optional[str], feed_filter: FeedFilter) -> List[Item]:
-        entries = self.client.get_entries(
-            status='unread',
-            order='id',
-            direction='desc',
-            limit=count,
-            before_entry_id=None if from_iid_exclusive is None else int(from_iid_exclusive),
-            category_id=None if feed_filter.group_id is None else int(feed_filter.group_id)
-        )
+    def get_items(self, count: int, from_iid_exclusive: Optional[str], group_id: Optional[str], sort_by_id_descending: bool, include_read: bool) -> List[Item]:
+        kwargs = {
+            "status": 'unread,read' if include_read else 'unread',
+            "order": 'id',
+            "direction": 'desc' if sort_by_id_descending else 'asc',
+            "limit": count,
+            "category_id": None if group_id is None else int(group_id)
+        }
+
+        before_or_after_entry_id = None if from_iid_exclusive is None else int(from_iid_exclusive)
+        if sort_by_id_descending:
+            kwargs["before_entry_id"] = before_or_after_entry_id
+        else:
+            kwargs["after_entry_id"] = before_or_after_entry_id
+
+        entries = self.client.get_entries(**kwargs)
+
         return list(map(_entry_dict_to_item, entries['entries']))
    
-    def get_unread_items_count_by_group_ids(self, gids: List[str]) -> Dict[str, int]:
+    def get_unread_items_count_by_group_ids(self, gids: List[str], include_read: bool) -> Dict[str, int]:
         res = {}
         for gid in gids:
             res[gid] = 0
 
         feeds = self.get_feeds()
-        feed_counters = self.client.get_feed_counters()["unreads"]
+        unread_feed_counters = self.client.get_feed_counters()["unreads"]
+        read_feed_counters = self.client.get_feed_counters()["reads"]
+
         for feed in feeds:
             feed_id = feed.fid
-            if feed_id in feed_counters:
-                gid = feed.gid
-                res[gid] += feed_counters[feed_id]
+            gid = feed.gid
+            if feed_id in unread_feed_counters:
+                res[gid] += unread_feed_counters[feed_id]
+            if include_read and feed_id in read_feed_counters:
+                res[gid] += read_feed_counters[feed_id]
 
         return res
     
