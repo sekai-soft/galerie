@@ -7,7 +7,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: PROJECT VERSION\n"
 "Report-Msgid-Bugs-To: EMAIL@ADDRESS\n"
-"POT-Creation-Date: 2025-05-26 23:55+0000\n"
+"POT-Creation-Date: 2025-05-27 03:15+0000\n"
 "PO-Revision-Date: 2024-06-27 08:04+0000\n"
 "Last-Translator: FULL NAME <EMAIL@ADDRESS>\n"
 "Language: zh\n"
@@ -18,69 +18,69 @@ msgstr ""
 "Content-Transfer-Encoding: 8bit\n"
 "Generated-By: Babel 2.17.0\n"
 
-#: galerie_flask/actions_blueprint.py:60
+#: galerie_flask/actions_blueprint.py:59
 msgid "Username already exists"
 msgstr "用户名已存在"
 
-#: galerie_flask/actions_blueprint.py:62
+#: galerie_flask/actions_blueprint.py:61
 msgid "Wrong credentials"
 msgstr "用户名或密码错误"
 
-#: galerie_flask/actions_blueprint.py:68
+#: galerie_flask/actions_blueprint.py:67
 msgid "Your session has expired"
 msgstr "您的会话已过期"
 
-#: galerie_flask/actions_blueprint.py:86 galerie_flask/actions_blueprint.py:112
+#: galerie_flask/actions_blueprint.py:85 galerie_flask/actions_blueprint.py:111
 msgid "Username is required"
 msgstr "用户名是必需的"
 
-#: galerie_flask/actions_blueprint.py:90 galerie_flask/actions_blueprint.py:94
-#: galerie_flask/actions_blueprint.py:116
+#: galerie_flask/actions_blueprint.py:89 galerie_flask/actions_blueprint.py:93
+#: galerie_flask/actions_blueprint.py:115
 msgid "Password is required"
 msgstr "密码是必需的"
 
-#: galerie_flask/actions_blueprint.py:97
+#: galerie_flask/actions_blueprint.py:96
 msgid "Passwords do not match"
 msgstr "密码不匹配"
 
-#: galerie_flask/actions_blueprint.py:200
+#: galerie_flask/actions_blueprint.py:210
 msgid "Setting updated"
 msgstr "设置已更新"
 
-#: galerie_flask/actions_blueprint.py:223
+#: galerie_flask/actions_blueprint.py:233
 msgid "Group updated"
 msgstr "分组已更新"
 
-#: galerie_flask/actions_blueprint.py:237
+#: galerie_flask/actions_blueprint.py:247
 msgid "This feed already exists"
 msgstr "此订阅源已存在"
 
-#: galerie_flask/actions_blueprint.py:249
+#: galerie_flask/actions_blueprint.py:259
 msgid "Unable to detect a valid feed"
 msgstr "无法检测到有效的订阅源"
 
-#: galerie_flask/actions_blueprint.py:280
+#: galerie_flask/actions_blueprint.py:290
 msgid "Instapaper username or email is required"
 msgstr "Instapaper 用户名或邮箱是必需的"
 
-#: galerie_flask/actions_blueprint.py:289
+#: galerie_flask/actions_blueprint.py:299
 msgid "Wrong Instapaper credentials"
 msgstr "Instapaper 用户名或密码错误"
 
-#: galerie_flask/actions_blueprint.py:332
+#: galerie_flask/actions_blueprint.py:342
 msgid "Failed to add to Instapaper"
 msgstr "无法添加到 Instapaper"
 
-#: galerie_flask/actions_blueprint.py:333
+#: galerie_flask/actions_blueprint.py:343
 #, python-format
 msgid "Added %(url)s to Instapaper"
 msgstr "已将 %(url)s 添加到 Instapaper"
 
-#: galerie_flask/actions_blueprint.py:362
+#: galerie_flask/actions_blueprint.py:372
 msgid "You cannot delete the last group"
 msgstr "您不能删除最后一个分组"
 
-#: galerie_flask/actions_blueprint.py:414
+#: galerie_flask/actions_blueprint.py:424
 msgid "Name is required"
 msgstr "名字是必需的"
 
@@ -203,39 +203,39 @@ msgstr "没有重复的 Twitter 订阅源可供清理"
 msgid "Galerie"
 msgstr "Galerie"
 
-#: galerie_flask/templates/index.html:10 galerie_flask/templates/index.html:12
+#: galerie_flask/templates/index.html:9 galerie_flask/templates/index.html:11
 msgid "all groups"
 msgstr "全部分组"
 
-#: galerie_flask/templates/index.html:23
-msgid "newest first"
-msgstr "最新优先"
+#: galerie_flask/templates/index.html:22
+msgid "unread only"
+msgstr "仅未读"
 
-#: galerie_flask/templates/index.html:24
-msgid "oldest first"
-msgstr "最旧优先"
+#: galerie_flask/templates/index.html:23
+msgid "include read"
+msgstr "包含已读"
 
 #: galerie_flask/templates/index.html:34
 msgid "Are you sure you want to mark this group as read?"
 msgstr "确定要标记这个分组为已读吗？"
 
-#: galerie_flask/templates/index.html:49
+#: galerie_flask/templates/index.html:54
 msgid "start adding some feeds ❤️"
 msgstr "开始添加一些订阅源 ❤️"
 
-#: galerie_flask/templates/index.html:52
+#: galerie_flask/templates/index.html:57
 msgid "all read ✨"
 msgstr "全部已读 ✨"
 
-#: galerie_flask/templates/index.html:53
+#: galerie_flask/templates/index.html:58
 msgid "go touch some grass 🌱"
 msgstr "去接触一下大自然吧 🌱"
 
-#: galerie_flask/templates/index.html:59
+#: galerie_flask/templates/index.html:64
 msgid "has"
 msgstr "有"
 
-#: galerie_flask/templates/index.html:59
+#: galerie_flask/templates/index.html:64
 msgid "unread items"
 msgstr "未读条目"
 
@@ -351,6 +351,10 @@ msgstr "是"
 #: galerie_flask/templates/settings.html:88
 msgid "No"
 msgstr "否"
+
+#: galerie_flask/templates/settings.html:94
+msgid "Logged in as: "
+msgstr "已用此身份登陆: "
 
 #: galerie_flask/templates/settings.html:101
 msgid "Connected to"
