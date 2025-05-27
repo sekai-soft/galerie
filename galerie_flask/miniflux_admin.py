@@ -11,6 +11,7 @@ from .db import db, User, Session
 
 STARTING_FEED_LIMIT = 50
 SESSION_EXPIRY_DAYS = 14
+admin_username = os.getenv('ADMIN_USERNAME')
 
 
 class MinifluxAdminErrorCode(enum.Enum):
@@ -33,6 +34,9 @@ class MinifluxAdmin(object):
 
 
     def sign_up(self, username: str, user_password: str):
+        if username == admin_username:
+            raise MinifluxAdminException(MinifluxAdminErrorCode.USERNAME_ALREADY_EXISTS)
+
         user_with_same_username = db.session.query(User).filter_by(username=username).first()
         if user_with_same_username:
             raise MinifluxAdminException(MinifluxAdminErrorCode.USERNAME_ALREADY_EXISTS)
@@ -52,6 +56,9 @@ class MinifluxAdmin(object):
 
 
     def log_in(self, username: str, password: str) -> str:
+        if username == admin_username:
+            raise MinifluxAdminException(MinifluxAdminErrorCode.USERNAME_ALREADY_EXISTS)
+
         user = db.session.query(User).filter_by(username=username).first()
         if not user:
             raise MinifluxAdminException(MinifluxAdminErrorCode.WRONG_CREDENTIALS)
