@@ -46,7 +46,8 @@ def _entry_dict_to_item(entry_dict: dict) -> Item:
         title=title,
         feed_title=entry_dict['feed']['title'],
         fid=str(entry_dict['feed_id']),
-        text=text
+        text=text,
+        unread_or_not=entry_dict['status'] == 'unread',
     )
 
 

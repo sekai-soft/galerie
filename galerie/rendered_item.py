@@ -21,6 +21,7 @@ class RenderedItem:
     feed_title: str
     fid: str
     iid: str
+    unread_or_not: bool
 
     image_url: str = ''
     video_url: str = ''
@@ -76,6 +77,7 @@ def convert_rendered_item(item: Item, ignore_rendered_items_cap: Optional[bool]=
             feed_title=item.feed_title,
             fid=item.fid,
             iid=item.iid,
+            unread_or_not=item.unread_or_not,
 
             image_url=fix_proxied_media_url(image_url),
             video_url=fix_proxied_media_url(video_url),

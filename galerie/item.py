@@ -14,3 +14,4 @@ class Item:
     feed_title: str
     fid: str
     text: str
+    unread_or_not: bool
