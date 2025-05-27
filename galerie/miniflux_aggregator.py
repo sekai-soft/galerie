@@ -85,7 +85,7 @@ class MinifluxAggregator(RssAggregator):
 
     def get_items(self, count: int, from_iid_exclusive: Optional[str], group_id: Optional[str], sort_by_id_descending: bool, include_read: bool) -> List[Item]:
         kwargs = {
-            "status": 'unread,read' if include_read else 'unread',
+            "status": ['unread', 'read'] if include_read else 'unread',
             "order": 'id',
             "direction": 'desc' if sort_by_id_descending else 'asc',
             "limit": count,

@@ -25,11 +25,20 @@ document.getElementById('group-select').addEventListener('change', (event) => {
     }
 });
 
-document.getElementById('sort-select').addEventListener('change', (event) => {
-    const sort = event.target.value;
-    if (sort === 'desc') {
+document.getElementById('sort-button').addEventListener('click', (event) => {
+    const sort = event.target.textContent;
+    if (sort === '⬆️') {
         updateQueryParameter('sort', null);
-    } else if (sort === 'asc') {
+    } else if (sort === '⬇️') {
         updateQueryParameter('sort', 'asc');
+    }
+})
+
+document.getElementById('read-select').addEventListener('change', (event) => {
+    const read = event.target.value;
+    if (read === '0') {
+        updateQueryParameter('read', null);
+    } else if (read === '1') {
+        updateQueryParameter('read', '1');
     }
 })

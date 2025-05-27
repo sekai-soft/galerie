@@ -141,6 +141,7 @@ def logout():
 def load_more():
     from_iid = request.args.get('from_iid')
     gid = request.args.get('group') if request.args.get('group') else None
+    include_read = request.args.get('read', '0') == '1'
     sort_by_desc = request.args.get('sort', 'desc') == 'desc'
     remaining_count = int(request.args.get('remaining_count'))
     infinite_scroll = request.cookies.get('infinite_scroll', '1') == '1'
@@ -150,7 +151,7 @@ def load_more():
         from_iid_exclusive=from_iid,
         group_id=gid,
         sort_by_id_descending=sort_by_desc,
-        include_read=False
+        include_read=include_read
     )
     
     rendered_items = convert_rendered_items(unread_items)
@@ -162,7 +163,15 @@ def load_more():
         args = {}
         items_args(args, rendered_items, True, gid is None)
         remaining_count = remaining_count - max_items if remaining_count > max_items else 0
-        load_more_button_args(args, last_iid, gid, sort_by_desc, infinite_scroll, remaining_count)
+        load_more_button_args(
+            args=args,
+            from_iid=last_iid,
+            gid=gid,
+            sort_by_desc=sort_by_desc,
+            infinite_scroll=infinite_scroll,
+            remaining_count=remaining_count,
+            include_read=include_read
+        )
         rendered_string = \
             render_template('items_stream.html', **args) + "\n" + \
             render_template('load_more_button.html', **args)

@@ -23,13 +23,22 @@ def requires_auth(f):
     return decorated_function
 
 
-def load_more_button_args(args: dict, from_iid: str, gid: Optional[str], sort_by_desc: bool, infinite_scroll: bool, remaining_count: int = 0):
+def load_more_button_args(
+        args: dict,
+        from_iid: str,
+        gid: Optional[str],
+        sort_by_desc: bool,
+        infinite_scroll: bool,
+        remaining_count: int,
+        include_read: bool
+    ):
     args.update({
         "from_iid": from_iid,
         "gid": gid if gid is not None else "",
         "sort": "desc" if sort_by_desc else "asc",
         "infinite_scroll": infinite_scroll,
-        "remaining_count": remaining_count
+        "remaining_count": remaining_count,
+        "include_read": "1" if include_read else "0"
     })
 
 

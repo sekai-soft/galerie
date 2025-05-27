@@ -4,7 +4,6 @@
 
 {% block content %}
 <div class="header">
-    <p>Galerie</p>
     <select id="group-select">
         {% if all_unread_count == 0 %}
         <option value="_all" {{ 'selected=selected' if not selected_group else '' }}>{{ _('all groups') }}</option>
@@ -12,17 +11,18 @@
         <option value="_all" {{ 'selected=selected' if not selected_group else '' }}>({{ all_unread_count|format_count }}) {{ _('all groups') }}</option>
         {% endif %}
         {% for g in groups %}
-        {% if all_group_unread_counts[g.gid] == 0 %}
+        {% if all_group_counts[g.gid] == 0 %}
         <option value="{{ g.gid }}" {{ 'selected=selected' if selected_group and g.gid == selected_group.gid else '' }}>{{ g.title }}</option>
         {% else %}
-        <option value="{{ g.gid }}" {{ 'selected=selected' if selected_group and g.gid == selected_group.gid else '' }}>({{ all_group_unread_counts[g.gid]|format_count }}) {{ g.title }}</option>
+        <option value="{{ g.gid }}" {{ 'selected=selected' if selected_group and g.gid == selected_group.gid else '' }}>({{ all_group_counts[g.gid]|format_count }}) {{ g.title }}</option>
         {% endif %}
         {% endfor %}
     </select>
-    <select id="sort-select">
-        <option value="desc" {{ 'selected=selected' if sort_by_desc else '' }}>{{ _('newest first') }}</option>
-        <option value="asc" {{ 'selected=selected' if not sort_by_desc else '' }}>{{ _('oldest first') }}</option>
+    <select id="read-select">
+        <option value="0" {{ 'selected=selected' if include_read == '0' else '' }}>{{ _('unread only') }}</option>
+        <option value="1" {{ 'selected=selected' if include_read == '1' else '' }}>{{ _('include read') }}</option>
     </select>
+    <p style="visibility: hidden;">.</p>
     <div class="header-right">
         <a
             id="refresh-button"
@@ -36,6 +36,11 @@
             hx-disabled-elt="this"
             class="link-button"
         >✅</a>
+        <a
+            id="sort-button"
+            href="javascript:void(0)"
+            class="link-button"
+        >{{ '⬇️' if sort_by_desc else '⬆️' }}</a>
         <a
             href="/settings"
             class="link-button"
@@ -53,10 +58,10 @@
     <p>{{ _('go touch some grass 🌱') }}</p>
     {% else %}
     {% for g in groups %}
-    {% if all_group_unread_counts[g.gid] != 0 %}
+    {% if all_group_counts[g.gid] != 0 %}
     <a href="/?group={{ g.gid }}">
         <button class="button" style="font-size: 1em">
-            {{ g.title }} {{ _('has') }} {{ all_group_unread_counts[g.gid]|format_count }} {{ _('unread items') }}
+            {{ g.title }} {{ _('has') }} {{ all_group_counts[g.gid]|format_count }} {{ _('unread items') }}
         </button>
     </a>
     <br>
