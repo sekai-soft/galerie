@@ -160,13 +160,15 @@ def settings_page():
     instapaper_auth = None
     if instapaper_available:
         instapaper_auth = get_instapaper_auth()
+    username = g.aggregator.get_username()
     
     return render_template(
         'settings.html',
         connection_info=connection_info,
         infinite_scroll=infinite_scroll,
         is_instapaper_available=instapaper_available,
-        instapaper_auth=instapaper_auth
+        instapaper_auth=instapaper_auth,
+        username=username,
     )
 
 

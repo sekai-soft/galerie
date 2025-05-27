@@ -91,7 +91,7 @@
 <br>
 <hr>
 {% if connection_info.managed_or_self_hosted %}
-<br>
+<p>{{ _('Logged in as: ') }} {{ username }}</p>
 <button
     class="button"
     hx-post="/actions/logout"

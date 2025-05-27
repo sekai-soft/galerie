@@ -100,6 +100,10 @@ class RssAggregator(ABC):
     def delete_group(self, gid: str):
         pass
 
+    @abstractmethod
+    def get_username(self) -> str:
+        pass
+
     def delete_feeds_by_group_id(self, gid: str):
         for feed in self.get_feeds_by_group_id(gid):
             self.delete_feed(feed.fid)

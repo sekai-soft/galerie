@@ -205,3 +205,6 @@ class MinifluxAggregator(RssAggregator):
 
     def delete_group(self, gid: str):
         self.client.delete_category(int(gid))
+
+    def get_username(self) -> str:
+        return self.client.me()['username']
