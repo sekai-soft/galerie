@@ -13,7 +13,7 @@ from galerie.twitter import create_nitter_feed_url, extract_twitter_handle_from_
 from .utils import requires_auth, max_items, load_more_button_args, mark_as_read_button_args, items_args, add_image_ui_extras, \
     cookie_max_age
 from .get_aggregator import get_aggregator
-from .miniflux_admin import get_miniflux_admin, MinifluxAdminException, MinifluxAdminErrorCode
+from .miniflux_admin import get_miniflux_admin, MinifluxAdminException
 from .instapaper import get_instapaper_auth, is_instapaper_available
 from .instapaper_manager import get_instapaper_manager
 
@@ -55,23 +55,16 @@ def catches_exceptions(f):
         try:
             return f(*args, **kwargs)
         except MinifluxAdminException as e:
-            if e.error_code == MinifluxAdminErrorCode.USERNAME_ALREADY_EXISTS:
-                return make_toast(400, _("Username already exists"))
-            elif e.error_code == MinifluxAdminErrorCode.WRONG_CREDENTIALS:
-                return make_toast(400, _("Wrong credentials"))
-            elif e.error_code == MinifluxAdminErrorCode.LOGGED_OUT:
-                return make_toast(401, "Logged out")
-            elif e.error_code == MinifluxAdminErrorCode.ABSENT_USER:
-                return make_toast(404, "User not found")
-            elif e.error_code == MinifluxAdminErrorCode.SESSION_EXPIRED:
-                return make_toast(401, _("Your session has expired"))
-            else:
-                return make_toast(500, f"Unknown MinifluxAdminException: {str(e)}")
+            if not e.expected:
+                if os.getenv('DEBUG', '0') == '1':
+                    raise e
+                capture_exception(e)
+            return make_toast(e.status_code, e.human_readable_message)
         except Exception as e:
             if os.getenv('DEBUG', '0') == '1':
                 raise e
             capture_exception(e)
-            return make_toast(500, f"Unknown server error: str(e)")
+            return make_toast(500, f"Unknown server error: {str(e)}")
     return decorated_function
 
 

@@ -1,10 +1,10 @@
 import os
-import enum
 import datetime
 import secrets
 import miniflux
 from typing import Tuple
 from uuid import uuid4
+from flask_babel import _
 from werkzeug.security import generate_password_hash, check_password_hash
 from .db import db, User, Session
 
@@ -14,17 +14,11 @@ SESSION_EXPIRY_DAYS = 14
 admin_username = os.getenv('ADMIN_USERNAME')
 
 
-class MinifluxAdminErrorCode(enum.Enum):
-    USERNAME_ALREADY_EXISTS = 0
-    WRONG_CREDENTIALS = 1
-    LOGGED_OUT = 2
-    ABSENT_USER = 3
-    SESSION_EXPIRED = 4
-
-
 class MinifluxAdminException(Exception):
-    def __init__(self, error_code: MinifluxAdminErrorCode):
-        self.error_code = error_code
+    def __init__(self, status_code: int, human_readable_message: str, expected: bool):
+        self.status_code = status_code
+        self.human_readable_message = human_readable_message
+        self.expected = expected
 
 
 class MinifluxAdmin(object):
@@ -35,11 +29,11 @@ class MinifluxAdmin(object):
 
     def sign_up(self, username: str, user_password: str):
         if username == admin_username:
-            raise MinifluxAdminException(MinifluxAdminErrorCode.USERNAME_ALREADY_EXISTS)
+            raise MinifluxAdminException(400, _("Username already exists"), True)
 
         user_with_same_username = db.session.query(User).filter_by(username=username).first()
         if user_with_same_username:
-            raise MinifluxAdminException(MinifluxAdminErrorCode.USERNAME_ALREADY_EXISTS)
+            raise MinifluxAdminException(400, _("Username already exists"), True)
 
         miniflux_password = secrets.token_urlsafe(16)
         new_user = User(
@@ -57,13 +51,13 @@ class MinifluxAdmin(object):
 
     def log_in(self, username: str, password: str) -> str:
         if username == admin_username:
-            raise MinifluxAdminException(MinifluxAdminErrorCode.USERNAME_ALREADY_EXISTS)
+            raise MinifluxAdminException(400, _("Username already exists"), True)
 
         user = db.session.query(User).filter_by(username=username).first()
         if not user:
-            raise MinifluxAdminException(MinifluxAdminErrorCode.WRONG_CREDENTIALS)
+            raise MinifluxAdminException(400, _("Wrong credentials"), True)
         if not check_password_hash(user.user_password_hashed, password):
-            raise MinifluxAdminException(MinifluxAdminErrorCode.WRONG_CREDENTIALS)
+            raise MinifluxAdminException(400, _("Wrong credentials"), True)
 
         session_uuid = str(uuid4())
         new_session = Session(
@@ -82,16 +76,16 @@ class MinifluxAdmin(object):
     def verify_session(self, session_uuid: str) -> Tuple[str, str]:
         session = db.session.query(Session).filter_by(uuid=session_uuid).first()
         if not session:
-            raise MinifluxAdminException(MinifluxAdminErrorCode.LOGGED_OUT)
+            raise MinifluxAdminException(401, "Logged out", False)
         
         if session.created_at < datetime.datetime.now() - datetime.timedelta(days=SESSION_EXPIRY_DAYS):
             db.session.delete(session)
             db.session.commit()
-            raise MinifluxAdminException(MinifluxAdminErrorCode.SESSION_EXPIRED)
+            raise MinifluxAdminException(401, _("Your session has expired. Please log in again."), True)
 
         user = db.session.query(User).filter_by(uuid=session.user_uuid).first()
         if not user:
-            raise MinifluxAdminException(MinifluxAdminErrorCode.ABSENT_USER)
+            raise MinifluxAdminException(404, "User not found", False)
         
         session.accessed_at = datetime.datetime.now()
         db.session.commit()
@@ -102,7 +96,7 @@ class MinifluxAdmin(object):
     def log_out(self, session_uuid: str):
         session = db.session.query(Session).filter_by(uuid=session_uuid).first()
         if not session:
-            raise MinifluxAdminException(MinifluxAdminErrorCode.LOGGED_OUT)
+            return
 
         db.session.delete(session)
         db.session.commit()

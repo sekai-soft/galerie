@@ -10,6 +10,7 @@ from .utils import requires_auth, max_items, load_more_button_args,\
     mark_as_read_button_args, items_args, add_image_ui_extras
 from .get_aggregator import get_aggregator
 from .instapaper import get_instapaper_auth, is_instapaper_available
+from .miniflux_admin import MinifluxAdminException
 
 
 def get_base_url():
@@ -29,6 +30,12 @@ def catches_exceptions(f):
     def decorated_function(*args, **kwargs):
         try:
             return f(*args, **kwargs)
+        except MinifluxAdminException as e:
+            if not e.expected:
+                if os.getenv('DEBUG', '0') == '1':
+                    raise e
+                capture_exception(e)
+            return render_template('error.html', error=e.human_readable_message)
         except Exception as e:
             if os.getenv('DEBUG', '0') == '1':
                 raise e
