@@ -140,6 +140,8 @@ def index_page():
     remaining_count = remaining_count - max_items if remaining_count > max_items else 0
     all_feed_count = sum(group.feed_count for group in groups)
 
+    feeds = g.aggregator.get_feeds()
+
     args = {
         "groups": groups,
         "all_group_counts": all_group_counts,
@@ -147,7 +149,8 @@ def index_page():
         "selected_group": selected_group,
         "sort_by_desc": sort_by_desc,
         "last_iid": last_iid,
-        "all_feed_count": all_feed_count
+        "all_feed_count": all_feed_count,
+        "feeds": feeds,
     }
     items_args(args, rendered_items, True, gid is None)
     

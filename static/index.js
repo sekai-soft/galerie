@@ -17,11 +17,20 @@ const updateQueryParameter = (key, value) => {
 }
 
 document.getElementById('group-select').addEventListener('change', (event) => {
-    const groupId = event.target.value;
-    if (groupId === '_all') {
+    const id = event.target.value;
+    if (id === '_all') {
         updateQueryParameter('group', null);
-    } else {
+        return;
+    }
+    if (id.startsWith('group-')) {
+        const groupId = id.split('group-')[1];
         updateQueryParameter('group', groupId);
+        return;
+    }
+    if (id.startsWith('feed-')) {
+        const feedId = id.split('feed-')[1];
+        window.location.href = '/feed?fid=' + feedId;
+        return;
     }
 });
 
