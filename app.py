@@ -12,14 +12,13 @@ from galerie_flask.pages_blueprint import pages_blueprint
 
 load_dotenv()
 
-if os.getenv('SENTRY_DSN'):
-    sentry_sdk.init(
-        dsn=os.getenv('SENTRY_DSN'),
-    )
+if 'SENTRY_DSN' in os.environ:
+    sentry_sdk.init(dsn=os.environ['SENTRY_DSN'])
 
 
 def get_locale():
     return request.accept_languages.best_match(['en', 'zh']) 
+
 
 app = Flask(__name__, static_url_path='/static')
 app.config['TEMPLATES_AUTO_RELOAD'] = True
@@ -33,8 +32,10 @@ app.config["BABEL_TRANSLATION_DIRECTORIES"] = os.path.join(
     "translations"
 )
 babel = Babel(app, locale_selector=get_locale)
+
 app.register_blueprint(pages_blueprint, url_prefix='/')
 app.register_blueprint(actions_blueprint, url_prefix='/actions')
+
 
 if 'SQLALCHEMY_DATABASE_URI' in os.environ:
     db.init_app(app)
@@ -128,8 +129,16 @@ image_error_svg_base64 = read_svg_as_base64('static/image_error.svg')
 
 
 @app.context_processor
-def inject_svg_base64():
-    return dict(
-        image_loading_svg_base64=image_loading_svg_base64,
-        image_error_svg_base64=image_error_svg_base64
-    )
+def inject():
+    injects = {
+        'image_loading_svg_base64': image_loading_svg_base64,
+        'image_error_svg_base64': image_error_svg_base64,
+    }
+
+    if 'SENTRY_DSN' in os.environ:
+        injects['sentry_dsn'] = f"""
+<script src="https://browser.sentry-cdn.com/9.22.0/bundle.min.js"></script>
+<script>Sentry.init({{dsn: '{os.environ['SENTRY_DSN']}'}});</script>
+""".strip()
+
+    return injects
