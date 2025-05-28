@@ -136,9 +136,6 @@ def inject():
     }
 
     if 'SENTRY_DSN' in os.environ:
-        injects['sentry_dsn'] = f"""
-<script src="https://browser.sentry-cdn.com/9.22.0/bundle.min.js"></script>
-<script>Sentry.init({{dsn: '{os.environ['SENTRY_DSN']}'}});</script>
-""".strip()
+        injects['sentry_dsn'] = os.environ['SENTRY_DSN']
 
     return injects

@@ -17,9 +17,14 @@
         <script src="https://cdn.jsdelivr.net/npm/imagesloaded@5.0.0/imagesloaded.pkgd.min.js"></script>
         <script src="https://cdn.jsdelivr.net/npm/htmx.org@1.9.11/dist/htmx.min.js"></script>
         <script src="https://cdn.jsdelivr.net/npm/js-cookie@3.0.5/dist/js.cookie.min.js"></script>
-        {{ sentry_dsn }}
+        {% if sentry_dsn %}
+        <script src="https://browser.sentry-cdn.com/9.22.0/bundle.min.js"></script>
+        {% endif %}
     </head>
     <body>
+        {% if sentry_dsn %}
+        <script>Sentry.init({ dsn: '{{ sentry_dsn }}' });</script>
+        {% endif %}
         <div class="app">
             {% block content %}{% endblock %}
         </div>
