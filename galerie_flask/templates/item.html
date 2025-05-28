@@ -77,18 +77,24 @@
 
     <!-- Web share -->
     <button
-        id="item-share-web-share-button"
+        id="item-web-share-button"
         class="button"
         onclick="navigator.share({'url': '{{ item.shareable_url }}'})"
     >
         {{ _('Share') }}
     </button>
+
+    <!-- Copy link -->
+    <button
+        id="item-copy-link-button"
+        class="button"
+    >📋</button>
 </div>
 
 <script>
     window.U_INDEX = {{ u_index }};
     window.TOTAL_MEDIA_COUNT = {{ items|length }};
+    window.SHAREABLE_URL = "{{ item.shareable_url }}";
 </script>
 <script src="{{ url_for('static', filename='item.js') }}"></script>
-
 {% endblock %}

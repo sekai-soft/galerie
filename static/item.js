@@ -1,6 +1,6 @@
-// native share
+// web share
 if (!navigator.share) {
-    document.getElementById('item-share-web-share-button').style.display = 'none';
+    document.getElementById('item-web-share-button').style.display = 'none';
 }
 
 // carousel
@@ -25,3 +25,20 @@ const nextMedia = () => {
     nextMedia.style.display = 'block';
     nextMediaOverlay.style.display = 'block';
 }
+
+// copy to clipboard
+document.getElementById('item-copy-link-button').addEventListener('click', () => {
+    navigator.clipboard.writeText(window.SHAREABLE_URL).then(() => {
+        document.body.dispatchEvent(new CustomEvent('toast', {
+            detail: {
+                value: 'Copied to clipboard',
+            }
+        }));
+    }).catch(() => {
+        document.body.dispatchEvent(new CustomEvent('toast', {
+            detail: {
+                value: 'Failed to copy to clipboard',
+            }
+        }));
+    });
+})
