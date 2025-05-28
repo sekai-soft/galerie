@@ -7,7 +7,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: PROJECT VERSION\n"
 "Report-Msgid-Bugs-To: EMAIL@ADDRESS\n"
-"POT-Creation-Date: 2025-05-27 03:15+0000\n"
+"POT-Creation-Date: 2025-05-28 02:18+0000\n"
 "PO-Revision-Date: 2024-06-27 08:04+0000\n"
 "Last-Translator: FULL NAME <EMAIL@ADDRESS>\n"
 "Language: zh\n"
@@ -18,71 +18,71 @@ msgstr ""
 "Content-Transfer-Encoding: 8bit\n"
 "Generated-By: Babel 2.17.0\n"
 
-#: galerie_flask/actions_blueprint.py:59
-msgid "Username already exists"
-msgstr "用户名已存在"
-
-#: galerie_flask/actions_blueprint.py:61
-msgid "Wrong credentials"
-msgstr "用户名或密码错误"
-
-#: galerie_flask/actions_blueprint.py:67
-msgid "Your session has expired"
-msgstr "您的会话已过期"
-
-#: galerie_flask/actions_blueprint.py:85 galerie_flask/actions_blueprint.py:111
+#: galerie_flask/actions_blueprint.py:77 galerie_flask/actions_blueprint.py:103
 msgid "Username is required"
 msgstr "用户名是必需的"
 
-#: galerie_flask/actions_blueprint.py:89 galerie_flask/actions_blueprint.py:93
-#: galerie_flask/actions_blueprint.py:115
+#: galerie_flask/actions_blueprint.py:81 galerie_flask/actions_blueprint.py:85
+#: galerie_flask/actions_blueprint.py:107
 msgid "Password is required"
 msgstr "密码是必需的"
 
-#: galerie_flask/actions_blueprint.py:96
+#: galerie_flask/actions_blueprint.py:88
 msgid "Passwords do not match"
 msgstr "密码不匹配"
 
-#: galerie_flask/actions_blueprint.py:210
+#: galerie_flask/actions_blueprint.py:200
 msgid "Setting updated"
 msgstr "设置已更新"
 
-#: galerie_flask/actions_blueprint.py:233
+#: galerie_flask/actions_blueprint.py:223
 msgid "Group updated"
 msgstr "分组已更新"
 
-#: galerie_flask/actions_blueprint.py:247
+#: galerie_flask/actions_blueprint.py:237
 msgid "This feed already exists"
 msgstr "此订阅源已存在"
 
-#: galerie_flask/actions_blueprint.py:259
+#: galerie_flask/actions_blueprint.py:249
 msgid "Unable to detect a valid feed"
 msgstr "无法检测到有效的订阅源"
 
-#: galerie_flask/actions_blueprint.py:290
+#: galerie_flask/actions_blueprint.py:280
 msgid "Instapaper username or email is required"
 msgstr "Instapaper 用户名或邮箱是必需的"
 
-#: galerie_flask/actions_blueprint.py:299
+#: galerie_flask/actions_blueprint.py:289
 msgid "Wrong Instapaper credentials"
 msgstr "Instapaper 用户名或密码错误"
 
-#: galerie_flask/actions_blueprint.py:342
+#: galerie_flask/actions_blueprint.py:337
 msgid "Failed to add to Instapaper"
 msgstr "无法添加到 Instapaper"
 
-#: galerie_flask/actions_blueprint.py:343
-#, python-format
-msgid "Added %(url)s to Instapaper"
-msgstr "已将 %(url)s 添加到 Instapaper"
+#: galerie_flask/actions_blueprint.py:338
+msgid "Saved to Instapaper"
+msgstr "保存到了 Instapaper"
 
-#: galerie_flask/actions_blueprint.py:372
+#: galerie_flask/actions_blueprint.py:367
 msgid "You cannot delete the last group"
 msgstr "您不能删除最后一个分组"
 
-#: galerie_flask/actions_blueprint.py:424
+#: galerie_flask/actions_blueprint.py:419
 msgid "Name is required"
 msgstr "名字是必需的"
+
+#: galerie_flask/miniflux_admin.py:32 galerie_flask/miniflux_admin.py:36
+#: galerie_flask/miniflux_admin.py:54
+msgid "Username already exists"
+msgstr "用户名已存在"
+
+#: galerie_flask/miniflux_admin.py:58 galerie_flask/miniflux_admin.py:60
+msgid "Wrong credentials"
+msgstr "用户名或密码错误"
+
+#: galerie_flask/miniflux_admin.py:84
+msgid "Your session has expired. Please log in again."
+msgstr "您的会话已过期。请重新登录。"
 
 #: galerie_flask/templates/add_feed.html:3
 #: galerie_flask/templates/add_feed.html:5

@@ -220,15 +220,15 @@ textarea {
 
 /** htmx-indicator **/
 .htmx-indicator {
-    display:none;
+    display: none;
 }
 
 .htmx-request .htmx-indicator {
-    display:inline;
+    display: inline;
 }
 
 .htmx-request.htmx-indicator {
-    display:inline;
+    display: inline;
 }
 
 /* The toast - position it at the bottom and in the middle of the screen */

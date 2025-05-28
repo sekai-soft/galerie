@@ -67,7 +67,7 @@
     {% if is_instapaper_available %}
     <button
         class="button"
-        hx-post="/actions/instapaper?url={{ item.quoted_url }}"
+        hx-post="/actions/instapaper?url={{ item.quoted_url }}&title={{ item.quoted_title }}&text={{ item.quoted_text }}"
         hx-swap="none"
         hx-disabled-elt="this"
     >

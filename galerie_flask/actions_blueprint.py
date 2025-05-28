@@ -320,17 +320,22 @@ def instapaper():
         return make_toast(400, "Instapaper was not configured")
     username_or_email, password = get_instapaper_auth()
 
-    encoded_url = request.args.get('url')
-    url = unquote(encoded_url)
+    url = unquote(request.args.get('url'))
+    title = unquote(request.args.get('title', ''))
+    text = unquote(request.args.get('text', ''))
 
     add_res = requests.post(
         "https://www.instapaper.com/api/add",
         auth=HTTPBasicAuth(username_or_email, password),
-        data={"url": url}
+        data={
+            "url": url,
+            "title": title,
+            "selection": text, # optional, plain text, no HTML, UTF-8. Will show up as the description under an item in the interface.
+        }
     )
     if add_res.status_code != 201:
         return make_toast(400, _('Failed to add to Instapaper',))
-    return make_toast(200, str(_l('Added %(url)s to Instapaper', url=url)))
+    return make_toast(200, _('Saved to Instapaper'))
 
 
 @actions_blueprint.route('/rename_group', methods=['POST'])
