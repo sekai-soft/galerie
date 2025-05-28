@@ -2,6 +2,7 @@ import os
 import base64
 import sentry_sdk
 import click
+import datetime
 from dotenv import load_dotenv
 from flask import Flask, request
 from flask_babel import Babel
@@ -41,9 +42,8 @@ if 'SQLALCHEMY_DATABASE_URI' in os.environ:
         db.create_all()
 
 
-# Custom template filter to abbreviate large numbers with k suffix
 @app.template_filter('format_count')
-def format_count(count):
+def format_count(count: int) -> str:
     if count is None:
         return "0"
     if count >= 1000:
@@ -53,6 +53,33 @@ def format_count(count):
             return f"{k}k"
         return f"{k}.{h}k"
     return str(count)
+
+
+@app.template_filter('time_ago')
+def time_ago(dt) -> str:
+    try:
+        diff = datetime.datetime.now() - dt
+        seconds = diff.total_seconds()
+
+        if seconds < 60:
+            return "Just now"
+        elif seconds < 3600:
+            minutes = int(seconds // 60)
+            return f"{minutes} {'minute' if minutes == 1 else 'minutes'} ago"
+        elif seconds < 86400:
+            hours = int(seconds // 3600)
+            return f"{hours} {'hour' if hours == 1 else 'hours'} ago"
+        elif seconds < 2592000:  # ~30 days
+            days = int(seconds // 86400)
+            return f"{days} {'day' if days == 1 else 'days'} ago"
+        elif seconds < 31536000:  # ~365 days
+            months = int(seconds // 2592000)
+            return f"{months} {'month' if months == 1 else 'months'} ago"
+        else:
+            years = int(seconds // 31536000)
+            return f"{years} {'year' if years == 1 else 'years'} ago"
+    except Exception:
+        return ""
 
 
 @app.cli.group()

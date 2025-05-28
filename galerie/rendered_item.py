@@ -1,5 +1,6 @@
 import os
 import base64
+import datetime
 from typing import List, Optional
 from urllib.parse import unquote, urlparse, quote
 from dataclasses import dataclass, field
@@ -22,6 +23,7 @@ class RenderedItem:
     fid: str
     iid: str
     unread_or_not: bool
+    published_at: datetime.datetime
 
     image_url: str = ''
     video_url: str = ''
@@ -88,6 +90,7 @@ def convert_rendered_item(item: Item, ignore_rendered_items_cap: Optional[bool]=
             fid=item.fid,
             iid=item.iid,
             unread_or_not=item.unread_or_not,
+            published_at=item.published_at,
 
             image_url=fix_proxied_media_url(image_url),
             video_url=fix_proxied_media_url(video_url),

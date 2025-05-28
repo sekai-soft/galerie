@@ -23,6 +23,21 @@ def _category_dict_to_group(category_dict: dict) -> Group:
     )
 
 
+def parse_published_at(date_string: str) -> datetime:
+    formats = [
+        "%Y-%m-%dT%H:%M:%S.%fZ",
+        "%Y-%m-%dT%H:%M:%SZ"
+    ]
+    
+    for fmt in formats:
+        try:
+            return datetime.strptime(date_string, fmt)
+        except ValueError:
+            continue
+    
+    raise ValueError(f"time data '{date_string}' doesn't match known formats")
+
+
 def _entry_dict_to_item(entry_dict: dict) -> Item:
     url = entry_dict['url']
 
@@ -44,8 +59,7 @@ def _entry_dict_to_item(entry_dict: dict) -> Item:
         feed_title = fix_nitter_feed_title(feed_title)
 
     return Item(
-        created_timestamp_seconds=int(datetime.strptime(
-            entry_dict['created_at'], "%Y-%m-%dT%H:%M:%S.%fZ").timestamp()),
+        published_at=parse_published_at(entry_dict['created_at']),
         html=html,
         iid=str(entry_dict['id']),
         url=url,

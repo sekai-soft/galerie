@@ -22,11 +22,6 @@
     margin-bottom: 32px;
 }
 
-textarea {
-    font-size: 2em;
-    line-height: 1.5;
-}
-
 .button-with-links {
     display: flex;
     flex-direction: row;
@@ -36,6 +31,10 @@ textarea {
 
 input {
     width: 75%;
+}
+
+.item-buttons {
+    gap: 1em;
 }
 
 /** sizes for > iPhone 12 Pro Max <= iPad Pro **/
@@ -63,13 +62,12 @@ input {
         margin-bottom: 32px;
     }
 
-    textarea {
-        font-size: 2em;
-        line-height: 1.5;
-    }
-
     .button-with-links {
         gap: 2em;
+    }
+
+    .item-buttons {
+        gap: 1em;
     }
 }
 
@@ -98,13 +96,12 @@ input {
         margin-bottom: 32px;
     }
 
-    textarea {
-        font-size: 1em;
-        line-height: 1;
-    }
-
     .button-with-links {
         gap: 1em;
+    }
+
+    .item-buttons {
+        gap: 0.5em;
     }
 }
 
@@ -157,14 +154,6 @@ dialog {
     color: #F5F5F5;
 }
 
-textarea {
-    color: #F5F5F5;
-    border: none;
-    border-bottom: 2px solid #999999;
-    background-color: #1A1A1A;
-    resize: none;
-}
-
 .highlight-text {
     color: #CCCCCC;
     background-color: #2E2E2E;
@@ -197,7 +186,6 @@ textarea {
 .item-buttons {
     display: flex;
     flex-direction: row;
-    gap: 1em;
     margin-top: 16px;
     margin-bottom: 16px;
 }

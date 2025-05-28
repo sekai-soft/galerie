@@ -36,24 +36,29 @@
 </div>
 {% endfor %}
 
-<a href="/feed?fid={{ item.fid }}" style="font-size: 1em">
-    <p class="animate-long item-feed-title">
-        {% if feed_icon %}
-        <img class="item-feed-icon" src="data:{{ feed_icon.data }}">
-        {% endif %}
-        {{ item.feed_title }}
-    </p>
-</a>
+<div style="display: flex; gap: 0.5em">
+    <a href="/feed?fid={{ item.fid }}" style="font-size: 1em">
+        <p class="animate-long item-feed-title">
+            {% if feed_icon %}
+            <img class="item-feed-icon" src="data:{{ feed_icon.data }}">
+            {% endif %}
+            {{ item.feed_title }}
+        </p>
+    </a>
+
+    {% if rt %}
+    <p>◁</p>
+    <a href="/add_feed?url=https://x.com/{{ rt }}&view_feed=1" style="font-size: 1em">
+        <p class="animate-long item-feed-title">
+            @{{ rt }}
+        </p>
+    </a>
+    {% endif %}
+</div>
 
 <p>{{ item.text }}</p>
 
-{% if rt %}
-<a href="/add_feed?url=https://x.com/{{ rt }}&view_feed=1" style="font-size: 1em">
-    <p class="animate-long item-feed-title">
-        ({{ _('retweeted from ') }} @{{ rt }})
-    </p>
-</a>
-{% endif %}
+<p>{{ item.published_at|time_ago }}</p>
 
 <div class="item-buttons">
     <!-- Open link -->

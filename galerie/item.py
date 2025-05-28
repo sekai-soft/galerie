@@ -1,3 +1,4 @@
+import datetime
 from .group import Group
 from typing import List
 from dataclasses import dataclass
@@ -5,7 +6,7 @@ from dataclasses import dataclass
 
 @dataclass
 class Item:
-    created_timestamp_seconds: int
+    published_at: datetime.datetime
     html: str
     iid: str
     url: str
