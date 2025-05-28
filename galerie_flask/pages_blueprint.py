@@ -227,6 +227,7 @@ def feed_page():
 
     args = {
         "feed": g.aggregator.get_feed(fid),
+        "context_feed_page": True,
     }
     items_args(args, rendered_items, False, False)
     return render_template('feed.html', **args)

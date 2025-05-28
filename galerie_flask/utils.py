@@ -1,6 +1,5 @@
 from typing import Optional, List
 from functools import wraps
-from urllib.parse import quote
 from flask import request, g, redirect
 from galerie.rendered_item import RenderedItem
 from .get_aggregator import get_aggregator
