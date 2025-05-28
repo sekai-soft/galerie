@@ -101,5 +101,5 @@
     window.TOTAL_MEDIA_COUNT = {{ items|length }};
     window.SHAREABLE_URL = "{{ item.shareable_url }}";
 </script>
-<script src="{{ url_for('static', filename='item.js') }}"></script>
+<script src="{{ static_url_for('static', filename='item.js') }}"></script>
 {% endblock %}

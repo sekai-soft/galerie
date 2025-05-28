@@ -8,3 +8,4 @@ miniflux==1.1.3
 flask-babel==4.0.0
 Flask-SQLAlchemy==3.1.1
 psycopg2_binary==2.9.10
+Flask-Static-Digest==0.4.1

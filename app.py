@@ -6,6 +6,7 @@ import datetime
 from dotenv import load_dotenv
 from flask import Flask, request
 from flask_babel import Babel
+from flask_static_digest import FlaskStaticDigest
 from galerie_flask.db import db
 from galerie_flask.actions_blueprint import actions_blueprint
 from galerie_flask.pages_blueprint import pages_blueprint
@@ -32,6 +33,9 @@ app.config["BABEL_TRANSLATION_DIRECTORIES"] = os.path.join(
     "translations"
 )
 babel = Babel(app, locale_selector=get_locale)
+
+flask_static_digest = FlaskStaticDigest()
+flask_static_digest.init_app(app)
 
 app.register_blueprint(pages_blueprint, url_prefix='/')
 app.register_blueprint(actions_blueprint, url_prefix='/actions')

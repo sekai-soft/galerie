@@ -6,12 +6,12 @@
         <meta http-equiv="X-UA-Compatible" content="ie=edge">
         <title>{% block title %}{% endblock %}</title>
         <meta name="description" content="{{ _('A Pinterest/Xiaohongshu photo wall style RSS reader') }}">
-        <link rel="icon" type="image/png" href="{{ url_for('static', filename='favicon.png') }}">
-        <link rel="stylesheet" type="text/css" href="{{ url_for('static', filename='base.css') }}">
-        <link rel="stylesheet" type="text/css" href="{{ url_for('static', filename='elements.css') }}">
-        <link rel="stylesheet" type="text/css" href="{{ url_for('static', filename='styles.css') }}">
+        <link rel="icon" type="image/png" href="{{ static_url_for('static', filename='favicon.png') }}">
+        <link rel="stylesheet" type="text/css" href="{{ static_url_for('static', filename='base.css') }}">
+        <link rel="stylesheet" type="text/css" href="{{ static_url_for('static', filename='elements.css') }}">
+        <link rel="stylesheet" type="text/css" href="{{ static_url_for('static', filename='styles.css') }}">
         <link rel="manifest" href="/manifest.json">
-        <link rel="apple-touch-icon" href="{{ url_for('static', filename='icon_apple.png') }}">
+        <link rel="apple-touch-icon" href="{{ static_url_for('static', filename='icon_apple.png') }}">
         <meta name="apple-mobile-web-app-capable" content="yes">
         <script src="https://cdn.jsdelivr.net/npm/masonry-layout@4.2.2/dist/masonry.pkgd.min.js"></script>
         <script src="https://cdn.jsdelivr.net/npm/imagesloaded@5.0.0/imagesloaded.pkgd.min.js"></script>
@@ -29,7 +29,7 @@
             {% block content %}{% endblock %}
         </div>
         <div id="toast">Default toast message</div>
-        <script src="{{ url_for('static', filename='utils.js') }}"></script>
-        <script src="{{ url_for('static', filename='script.js') }}"></script>
+        <script src="{{ static_url_for('static', filename='utils.js') }}"></script>
+        <script src="{{ static_url_for('static', filename='script.js') }}"></script>
     </body>
 </html>
