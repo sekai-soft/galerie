@@ -7,7 +7,7 @@ from flask_babel import _
 from galerie.rendered_item import convert_rendered_items, convert_rendered_item
 from galerie.twitter import extract_twitter_handle_from_feed_url, extract_twitter_handle_from_url
 from .utils import requires_auth, max_items, load_more_button_args,\
-    mark_as_read_button_args, items_args, add_image_ui_extras
+    mark_as_read_button_args, items_args
 from .get_aggregator import get_aggregator
 from .instapaper import get_instapaper_auth, is_instapaper_available
 from .miniflux_admin import MinifluxAdminException
@@ -128,8 +128,6 @@ def index_page():
     )
 
     rendered_items = convert_rendered_items(unread_items)
-    for rendered_item in rendered_items:
-        add_image_ui_extras(rendered_item)
     last_iid = unread_items[-1].iid if unread_items else ''
 
     groups = g.aggregator.get_groups()
@@ -299,9 +297,6 @@ def item_page():
 
     item = g.aggregator.get_item(iid)
     rendered_items = convert_rendered_item(item, ignore_rendered_items_cap=True)
-    for rendered_item in rendered_items:
-        add_image_ui_extras(rendered_item)
-
     feed_icon = g.aggregator.get_feed_icon(item.fid)
 
     rt = None

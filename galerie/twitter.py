@@ -13,6 +13,10 @@ def get_nitter_base_url():
     return nitter_base_url
 
 
+def is_nitter_url(url: str) -> bool:
+    return url.startswith(get_nitter_base_url())
+
+
 def fix_nitter_url(url: str) -> str:
     return url.replace(get_nitter_base_url(), "https://twitter.com")
 
@@ -43,6 +47,10 @@ def fix_nitter_rt_in_text(text: str) -> str:
         content = match.group(1)
         return content.lstrip()
     return text
+
+
+def fix_nitter_feed_title(feed_title: str) -> str:
+    return feed_title.rsplit(' / ', 1)[0]
 
 
 def create_nitter_feed_url(twitter_handle: str) -> str:

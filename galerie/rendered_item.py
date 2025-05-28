@@ -1,12 +1,12 @@
 import os
 import base64
 from typing import List, Optional
-from urllib.parse import unquote, urlparse
+from urllib.parse import unquote, urlparse, quote
 from dataclasses import dataclass, field
 from bs4 import BeautifulSoup
 from .item import Item
 from .group import Group
-from .twitter import get_nitter_base_url
+from .twitter import get_nitter_base_url, fix_shareable_twitter_url
 
 
 MAX_RENDERED_ITEMS_COUNT = 4
@@ -27,7 +27,13 @@ class RenderedItem:
     video_url: str = ''
     text: str = ''
     left_rendered_items: int = 0
-    ui_extra: dict = field(default_factory=dict)
+
+    quoted_url: str = field(init=False)
+    shareable_url: str = field(init=False)
+
+    def __post_init__(self):
+        self.quoted_url = quote(self.url)
+        self.shareable_url = fix_shareable_twitter_url(self.url)
 
 
 def get_media_proxy_custom_url() -> str:

@@ -8,7 +8,7 @@ from .group import Group
 from .rss_aggregator import RssAggregator, ConnectionInfo
 from .feed import Feed
 from .parse_feed_features import parse_feed_features
-from .twitter import fix_nitter_url, fix_nitter_rt_title, fix_nitter_urls_in_text, fix_nitter_rt_in_text
+from .twitter import fix_nitter_url, fix_nitter_rt_title, fix_nitter_urls_in_text, fix_nitter_rt_in_text, is_nitter_url, fix_nitter_feed_title
 from .feed_icon import FeedIcon
 
 
@@ -24,27 +24,34 @@ def _category_dict_to_group(category_dict: dict) -> Group:
 
 
 def _entry_dict_to_item(entry_dict: dict) -> Item:
+    url = entry_dict['url']
+
     html = entry_dict['content']
     if entry_dict['enclosures']:
         for enclosure in entry_dict['enclosures']:
             if enclosure['mime_type'].startswith('image/'):
                 html += f'<img src="{enclosure["url"]}">'
-    text = BeautifulSoup(html, 'html.parser').get_text(" ", strip=True)
-    text = fix_nitter_urls_in_text(text)
-    text = fix_nitter_rt_in_text(text)
 
+    text = BeautifulSoup(html, 'html.parser').get_text(" ", strip=True)
     title = entry_dict['title']
-    title = fix_nitter_rt_title(title)
+    feed_title = entry_dict['feed']['title']
+
+    if is_nitter_url(url):
+        url = fix_nitter_url(url)
+        text = fix_nitter_urls_in_text(text)
+        text = fix_nitter_rt_in_text(text)
+        title = fix_nitter_rt_title(title)
+        feed_title = fix_nitter_feed_title(feed_title)
 
     return Item(
         created_timestamp_seconds=int(datetime.strptime(
             entry_dict['created_at'], "%Y-%m-%dT%H:%M:%S.%fZ").timestamp()),
         html=html,
         iid=str(entry_dict['id']),
-        url=fix_nitter_url(entry_dict['url']),
+        url=url,
         groups=[_category_dict_to_group(entry_dict['feed']['category'])],
         title=title,
-        feed_title=entry_dict['feed']['title'],
+        feed_title=feed_title,
         fid=str(entry_dict['feed_id']),
         text=text,
         unread_or_not=entry_dict['status'] == 'unread',
@@ -52,11 +59,17 @@ def _entry_dict_to_item(entry_dict: dict) -> Item:
 
 
 def _feed_dict_to_feed(feed_dict: dict) -> Feed:
+    feed_url = feed_dict['feed_url']
+
+    title = feed_dict['title']
+    if is_nitter_url(feed_url):
+        title = fix_nitter_feed_title(title)
+
     return Feed(
         fid=str(feed_dict['id']),
         gid=str(feed_dict['category']['id']),
         features=parse_feed_features(feed_dict['feed_url']),
-        title=feed_dict['title'],
+        title=title,
         group_title=feed_dict['category']['title'],
         error=feed_dict.get('parsing_error_count', 0) > 0,
         site_url=fix_nitter_url(feed_dict.get('site_url', ''))

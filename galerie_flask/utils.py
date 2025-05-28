@@ -1,9 +1,8 @@
 from typing import Optional, List
 from functools import wraps
-from urllib.parse import quote, quote_plus
+from urllib.parse import quote
 from flask import request, g, redirect
 from galerie.rendered_item import RenderedItem
-from galerie.twitter import fix_shareable_twitter_url
 from .get_aggregator import get_aggregator
 
 max_items = 10
@@ -55,10 +54,3 @@ def items_args(args: dict, rendered_items: List[RenderedItem], should_show_feed_
         "should_show_feed_title": should_show_feed_title,
         "should_show_feed_group": should_show_feed_group,
     })
-
-
-def add_image_ui_extras(rendered_item: RenderedItem):
-    rendered_item.ui_extra['quoted_url'] = quote(rendered_item.url)
-    rendered_item.ui_extra['encoded_tags'] = ''.join(map(
-        lambda g: f'&tag={quote_plus(g.title)}&tag={quote(f'group_id={g.gid}')}', rendered_item.groups)) if rendered_item.groups else ''
-    rendered_item.ui_extra['shareable_url'] = fix_shareable_twitter_url(rendered_item.url)

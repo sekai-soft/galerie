@@ -67,7 +67,7 @@
     {% if is_instapaper_available %}
     <button
         class="button"
-        hx-post="/actions/instapaper?url={{ item.ui_extra['quoted_url'] }}"
+        hx-post="/actions/instapaper?url={{ item.quoted_url }}"
         hx-swap="none"
         hx-disabled-elt="this"
     >
@@ -79,7 +79,7 @@
     <button
         id="item-share-web-share-button"
         class="button"
-        onclick="navigator.share({'url': '{{ item.ui_extra["shareable_url"] }}'})"
+        onclick="navigator.share({'url': '{{ item.shareable_url }}'})"
     >
         {{ _('Share') }}
     </button>
