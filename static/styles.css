@@ -204,7 +204,7 @@ dialog {
 }
 
 .item-feed-icon {
-    margin-right: 8px;
+    margin-right: 0.5em;
     border-radius: 50%;
     width: 1em;
 }
