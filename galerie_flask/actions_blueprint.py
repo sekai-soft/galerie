@@ -150,16 +150,7 @@ def load_more():
     last_iid = unread_items[-1].iid if unread_items else ''
 
     if last_iid:
-        rendered_feed_icons = {}
-        for ri in rendered_items:
-            fid = ri.fid
-            if fid in rendered_feed_icons:
-                continue
-            rendered_feed_icons[fid] = g.aggregator.get_feed_icon(fid)
-
-        args = {
-            "feed_icons": rendered_feed_icons
-        }
+        args = {}
         items_args(args, rendered_items, True, gid is None)
         remaining_count = remaining_count - max_items if remaining_count > max_items else 0
         load_more_button_args(

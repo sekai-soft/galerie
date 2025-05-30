@@ -30,8 +30,8 @@
             <a class="grid-item-title user-string-horizontal">{{ item.title }}</a>
             {% if should_show_feed_title %}
             <div class="grid-item-feed-title user-string-horizontal">
-                {% if feed_icons and feed_icons[item.fid] %}
-                <img class="item-feed-icon" src="data:{{ feed_icons[item.fid].data }}">
+                {% if rendered_feed_icons and rendered_feed_icons[item.fid] %}
+                <img class="item-feed-icon" src="data:{{ rendered_feed_icons[item.fid].data }}">
                 {% endif %}
                 {{ item.feed_title }}
                 {% if should_show_feed_group %}

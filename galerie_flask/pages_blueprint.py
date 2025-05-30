@@ -139,14 +139,7 @@ def index_page():
     remaining_count = (all_group_counts[gid] if gid is not None else all_unread_count)
     remaining_count = remaining_count - max_items if remaining_count > max_items else 0
     all_feed_count = sum(group.feed_count for group in groups)
-
     feeds = g.aggregator.get_feeds()
-    rendered_feed_icons = {}
-    for ri in rendered_items:
-        fid = ri.fid
-        if fid in rendered_feed_icons:
-            continue
-        rendered_feed_icons[fid] = g.aggregator.get_feed_icon(fid)
 
     args = {
         "groups": groups,
@@ -157,7 +150,6 @@ def index_page():
         "last_iid": last_iid,
         "all_feed_count": all_feed_count,
         "feeds": feeds,
-        "feed_icons": rendered_feed_icons
     }
     items_args(args, rendered_items, True, gid is None)
     

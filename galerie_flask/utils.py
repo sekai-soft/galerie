@@ -48,8 +48,16 @@ def mark_as_read_button_args(args: dict, gid: Optional[str], sort_by_desc: bool)
 
 
 def items_args(args: dict, rendered_items: List[RenderedItem], should_show_feed_title: bool, should_show_feed_group: bool):
+    rendered_feed_icons = {}
+    for ri in rendered_items:
+        fid = ri.fid
+        if fid in rendered_feed_icons:
+            continue
+        rendered_feed_icons[fid] = g.aggregator.get_feed_icon(fid)
+
     args.update({
         "items": rendered_items,
         "should_show_feed_title": should_show_feed_title,
         "should_show_feed_group": should_show_feed_group,
+        "rendered_feed_icons": rendered_feed_icons
     })
