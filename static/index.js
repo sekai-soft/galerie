@@ -16,38 +16,40 @@ const updateQueryParameter = (key, value) => {
     window.location.href = url.toString();
 }
 
-document.getElementById('group-select').addEventListener('change', (event) => {
-    const id = event.target.value;
-    if (id === '_all') {
-        updateQueryParameter('group', null);
-        return;
-    }
-    if (id.startsWith('group-')) {
-        const groupId = id.split('group-')[1];
-        updateQueryParameter('group', groupId);
-        return;
-    }
-    if (id.startsWith('feed-')) {
-        const feedId = id.split('feed-')[1];
-        window.location.href = '/feed?fid=' + feedId;
-        return;
-    }
-});
+document.addEventListener('DOMContentLoaded', () => {
+    document.getElementById('group-select').addEventListener('change', (event) => {
+        const id = event.target.value;
+        if (id === '_all') {
+            updateQueryParameter('group', null);
+            return;
+        }
+        if (id.startsWith('group-')) {
+            const groupId = id.split('group-')[1];
+            updateQueryParameter('group', groupId);
+            return;
+        }
+        if (id.startsWith('feed-')) {
+            const feedId = id.split('feed-')[1];
+            window.location.href = '/feed?fid=' + feedId;
+            return;
+        }
+    });
 
-document.getElementById('sort-button').addEventListener('click', (event) => {
-    const sort = event.target.textContent;
-    if (sort === '⬆️') {
-        updateQueryParameter('sort', null);
-    } else if (sort === '⬇️') {
-        updateQueryParameter('sort', 'asc');
-    }
-})
+    document.getElementById('sort-button').addEventListener('click', (event) => {
+        const sort = event.target.textContent;
+        if (sort === '⬆️') {
+            updateQueryParameter('sort', null);
+        } else if (sort === '⬇️') {
+            updateQueryParameter('sort', 'asc');
+        }
+    })
 
-document.getElementById('read-select').addEventListener('change', (event) => {
-    const read = event.target.value;
-    if (read === '0') {
-        updateQueryParameter('read', null);
-    } else if (read === '1') {
-        updateQueryParameter('read', '1');
-    }
+    document.getElementById('read-select').addEventListener('change', (event) => {
+        const read = event.target.value;
+        if (read === '0') {
+            updateQueryParameter('read', null);
+        } else if (read === '1') {
+            updateQueryParameter('read', '1');
+        }
+    })
 })
