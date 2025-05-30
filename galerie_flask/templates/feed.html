@@ -3,7 +3,13 @@
 {% block title %}{{ feed.title }}{% endblock %}
 
 {% block header_title %}
-<span class="highlight-text">{{ feed.group_title }}</span> {{ feed.title }}
+<p>
+    {% if feed_icon %}
+    <img class="item-feed-icon" src="data:{{ feed_icon.data }}">
+    {% endif %}
+    {{ feed.title }}
+    <span class="highlight-text">{{ feed.group_title }}</span>
+</p>
 {% endblock %}
 
 {% block header_right_content %}
