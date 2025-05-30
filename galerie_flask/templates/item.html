@@ -47,12 +47,23 @@
     </a>
 
     {% if rt %}
-    <p>◁</p>
+    <p>&nbsp;◁&nbsp;</p>
+    {% if not rt_feed %}
     <a href="/add_feed?url=https://x.com/{{ rt }}&view_feed=1" style="font-size: 1em">
         <p class="animate-long item-feed-title">
             @{{ rt }}
         </p>
     </a>
+    {% else %}
+    <a href="/feed?fid={{ rt_feed.fid }}" style="font-size: 1em">
+        <p class="animate-long item-feed-title">
+            {% if rt_feed_icon %}
+            <img class="item-feed-icon" src="data:{{ rt_feed_icon.data }}">
+            {% endif %}
+            {{ rt_feed.title }}
+        </p>
+    </a>
+    {% endif %}
     {% endif %}
 </div>
 

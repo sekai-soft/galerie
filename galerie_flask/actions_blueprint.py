@@ -232,8 +232,8 @@ def add_feed():
     gid = request.form.get('group')
 
     url = request.form['url']
-    existing_fid = g.aggregator.find_feed_by_feed_url(url)
-    if existing_fid:
+    existing_feed = g.aggregator.find_feed_by_feed_url(url)
+    if existing_feed:
         return make_toast(200, _('This feed already exists'))
 
     twitter_handle = extract_twitter_handle_from_url(url)

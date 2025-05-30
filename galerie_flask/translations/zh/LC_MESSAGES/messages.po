@@ -7,7 +7,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: PROJECT VERSION\n"
 "Report-Msgid-Bugs-To: EMAIL@ADDRESS\n"
-"POT-Creation-Date: 2025-05-28 16:46+0000\n"
+"POT-Creation-Date: 2025-05-30 06:15+0000\n"
 "PO-Revision-Date: 2024-06-27 08:04+0000\n"
 "Last-Translator: FULL NAME <EMAIL@ADDRESS>\n"
 "Language: zh\n"
@@ -212,8 +212,8 @@ msgid "by groups"
 msgstr "依据分组"
 
 #: galerie_flask/templates/index.html:24
-msgid "go to feed"
-msgstr "前往分组"
+msgid "by feed"
+msgstr "依据订阅源"
 
 #: galerie_flask/templates/index.html:33
 msgid "unread only"
@@ -247,15 +247,15 @@ msgstr "有"
 msgid "unread items"
 msgstr "未读条目"
 
-#: galerie_flask/templates/item.html:67
+#: galerie_flask/templates/item.html:78
 msgid "Open link"
 msgstr "打开链接"
 
-#: galerie_flask/templates/item.html:79
+#: galerie_flask/templates/item.html:90
 msgid "Save to Instapaper"
 msgstr "保存至 Instapaper"
 
-#: galerie_flask/templates/item.html:89
+#: galerie_flask/templates/item.html:100
 msgid "Share"
 msgstr "分享至"
 

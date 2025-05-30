@@ -109,7 +109,7 @@ class RssAggregator(ABC):
                 return group
         return None
 
-    def find_feed_by_feed_url(self, finding_feed_url: str) -> Optional[str]:
+    def find_feed_by_feed_url(self, finding_feed_url: str) -> Optional[Feed]:
         twitter_handle = extract_twitter_handle_from_url(finding_feed_url)
         if twitter_handle:
             twitter_handle = twitter_handle.lower()
@@ -122,6 +122,6 @@ class RssAggregator(ABC):
                 feed_twitter_handle = feed_twitter_handle.lower()
 
             if (feed_url == finding_feed_url) or (twitter_handle and twitter_handle == feed_twitter_handle):
-                return feed.fid
+                return feed
 
         return None

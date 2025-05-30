@@ -5,7 +5,7 @@ from sentry_sdk import capture_exception
 from flask import Blueprint, redirect, render_template, g, request, jsonify, make_response
 from flask_babel import _
 from galerie.rendered_item import convert_rendered_items, convert_rendered_item
-from galerie.twitter import extract_twitter_handle_from_feed_url, extract_twitter_handle_from_url
+from galerie.twitter import extract_twitter_handle_from_feed_url, extract_twitter_handle_from_url, create_nitter_feed_url
 from .utils import requires_auth, max_items, load_more_button_args,\
     mark_as_read_button_args, items_args
 from .get_aggregator import get_aggregator
@@ -303,6 +303,9 @@ def item_page():
     feed_icon = g.aggregator.get_feed_icon(item.fid)
 
     rt = None
+    rt_feed = None
+    rt_feed_icon = None
+
     item_url = item.url
     item_url_twitter_handle = extract_twitter_handle_from_url(item_url)
     if item_url_twitter_handle:
@@ -311,11 +314,16 @@ def item_page():
         feed_url_twitter_handle = extract_twitter_handle_from_feed_url(feed_url)
         if feed_url_twitter_handle and feed_url_twitter_handle != item_url_twitter_handle:
             rt = item_url_twitter_handle
+            rt_feed = g.aggregator.find_feed_by_feed_url(create_nitter_feed_url(item_url_twitter_handle))
+            if rt_feed:
+                rt_feed_icon = g.aggregator.get_feed_icon(rt_feed.fid)
 
     return render_template(
         'item.html',
         feed_icon=feed_icon,
         rt=rt,
+        rt_feed=rt_feed,
+        rt_feed_icon=rt_feed_icon,
         item=rendered_items[0],
         items=rendered_items,
         u_index=u_index,
