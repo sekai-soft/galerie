@@ -287,12 +287,15 @@ def add_feed_page():
     if args.get('go_home', '0')== '1':
         add_feed_behavior += '?go_home=1'
 
+    default_group = args.get('group')
+
     return render_template(
         'add_feed.html',
         url=url,
         bookmarklet=bookmarklet,
         groups=g.aggregator.get_groups(),
-        add_feed_behavior=add_feed_behavior
+        add_feed_behavior=add_feed_behavior,
+        default_group=default_group
     )
 
 

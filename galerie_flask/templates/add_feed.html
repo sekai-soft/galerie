@@ -30,7 +30,7 @@
         {{ _('Group') }}
         <select name="group">
             {% for group in groups %}
-                <option value="{{ group.gid }}">
+                <option {{ 'selected=selected' if group.gid == default_group else '' }} value="{{ group.gid }}">
                     {{ group.title }}
                 </option>
             {% endfor %}
