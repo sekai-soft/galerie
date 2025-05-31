@@ -1,6 +1,6 @@
 {% for item in items %}
 <div id="{{ item.uid }}" class="grid-item" style="{{ 'filter: grayscale(100%);' if not (item.unread_or_not or context_feed_page) else '' }}">
-    <a href="/item?uid={{ item.uid }}">
+    <a href="/item?uid={{ item.uid }}" target="_blank">
         <div class="animate-long item-image-container">
             {% if item.image_url %}
             <img
