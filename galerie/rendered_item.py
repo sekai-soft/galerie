@@ -55,8 +55,8 @@ def fix_proxied_media_url(url: str) -> str:
             twitter_media_path = unquote(urlparse(decoded_url).path.split('/')[-1])
             return 'https://pbs.twimg.com/' + twitter_media_path
         
-        if url.startswith(REDNOTE_CDN_URL_HTTP):
-            return url.replace(REDNOTE_CDN_URL_HTTP, REDNOTE_CDN_URL_HTTPS)
+        if decoded_url.startswith(REDNOTE_CDN_URL_HTTP):
+            return decoded_url.replace(REDNOTE_CDN_URL_HTTP, REDNOTE_CDN_URL_HTTPS)
 
         return decoded_url
 
