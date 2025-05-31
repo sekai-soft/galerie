@@ -357,31 +357,6 @@ def delete_feeds():
     return resp
 
 
-@actions_blueprint.route('/clean_up_duplicated_twitter_feeds', methods=['POST'])
-@requires_auth
-@catches_exceptions
-def clean_up_duplicated_twitter_feeds():
-    feeds = g.aggregator.get_feeds()
-
-    maybe_duplicated_twitter_feeds = {}
-    for feed in feeds:
-        if feed.features.get('twitter_handle'):
-            twitter_handle = feed.features['twitter_handle'].lower()
-            if twitter_handle not in maybe_duplicated_twitter_feeds:
-                maybe_duplicated_twitter_feeds[twitter_handle] = []
-            maybe_duplicated_twitter_feeds[twitter_handle].append(feed.fid)
-
-    for twitter_handle, feed_fids in maybe_duplicated_twitter_feeds.items():
-        if len(feed_fids) > 1:
-            feed_fids = sorted(feed_fids, key=lambda fid: int(fid), reverse=True) # todo: miniflux hack that ensures we only keep the newest feed
-            for fid in feed_fids[1:]:
-                g.aggregator.delete_feed(fid)
-
-    resp = make_response()
-    resp.headers['HX-Refresh'] = "true"
-    return resp
-
-
 @actions_blueprint.route('/create_group', methods=['POST'])
 @requires_auth
 @catches_exceptions

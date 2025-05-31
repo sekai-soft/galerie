@@ -7,7 +7,6 @@ from .item import Item
 from .group import Group
 from .rss_aggregator import RssAggregator, ConnectionInfo
 from .feed import Feed
-from .parse_feed_features import parse_feed_features
 from .twitter import fix_nitter_url, fix_nitter_rt_title, fix_nitter_urls_in_text, fix_nitter_rt_in_text, is_nitter_url, fix_nitter_feed_title
 from .feed_icon import FeedIcon
 
@@ -82,7 +81,7 @@ def _feed_dict_to_feed(feed_dict: dict) -> Feed:
     return Feed(
         fid=str(feed_dict['id']),
         gid=str(feed_dict['category']['id']),
-        features=parse_feed_features(feed_dict['feed_url']),
+        url=feed_dict['feed_url'],
         title=title,
         group_title=feed_dict['category']['title'],
         error=feed_dict.get('parsing_error_count', 0) > 0,

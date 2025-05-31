@@ -305,24 +305,9 @@ def feed_maintenance_page():
     feeds = g.aggregator.get_feeds()
     dead_feeds = list(filter(lambda f: f.error, feeds))
 
-    maybe_duplicated_twitter_feeds = {}
-    for feed in feeds:
-        if feed.features.get('twitter_handle'):
-            twitter_handle = feed.features['twitter_handle'].lower()
-            if twitter_handle not in maybe_duplicated_twitter_feeds:
-                maybe_duplicated_twitter_feeds[twitter_handle] = []
-            maybe_duplicated_twitter_feeds[twitter_handle].append(feed.fid)
-
-    duplicated_twitter_feeds = []
-    for twitter_handle, feed_fids in maybe_duplicated_twitter_feeds.items():
-        if len(feed_fids) > 1:
-            duplicated_twitter_feeds.append((twitter_handle, feed_fids))
-    duplicated_twitter_feeds = sorted(duplicated_twitter_feeds, key=lambda feed: feed[0])
-
     return render_template(
         'feed_maintenance.html',
         dead_feeds=dead_feeds,
-        duplicated_twitter_feeds=duplicated_twitter_feeds
     )
 
 

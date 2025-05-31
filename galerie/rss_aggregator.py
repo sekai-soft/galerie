@@ -113,7 +113,7 @@ class RssAggregator(ABC):
         finding_twitter_handle = extract_twitter_handle_from_url(finding_url)
 
         for feed in self.get_feeds():
-            feed_url = feed.features["feed_url"]
+            feed_url = feed.url
             feed_twitter_handle = extract_twitter_handle_from_url(feed_url)
             if (feed_url == finding_url) or (finding_twitter_handle and finding_twitter_handle == feed_twitter_handle):
                 return feed

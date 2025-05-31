@@ -29,7 +29,7 @@ def item():
     item_twitter_handle = extract_twitter_handle_from_url(item_url)
     if item_twitter_handle:
         feed = g.aggregator.get_feed(item.fid)
-        feed_url = feed.features["feed_url"]
+        feed_url = feed.url
         feed_twitter_handle = extract_twitter_handle_from_url(feed_url)
         if feed_twitter_handle and feed_twitter_handle != item_twitter_handle:
             rt = item_twitter_handle

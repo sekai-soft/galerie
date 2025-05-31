@@ -6,7 +6,7 @@ from dataclasses import dataclass
 class Feed:
     fid: str
     gid: str
-    features: Dict
+    url: Dict
     title: str
     group_title: str
     error: bool
