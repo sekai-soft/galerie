@@ -1,10 +1,10 @@
 from typing import Dict
 from urllib.parse import unquote_plus, urlparse, parse_qs
-from .twitter import extract_twitter_handle_from_feed_url
+from .twitter import extract_twitter_handle_from_url
 
 
 def parse_feature_twitter(features: Dict):
-    twitter_handle = extract_twitter_handle_from_feed_url(features["feed_url"])
+    twitter_handle = extract_twitter_handle_from_url(features["feed_url"])
     if twitter_handle:
         features["twitter_handle"] = twitter_handle
 

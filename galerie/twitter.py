@@ -60,13 +60,6 @@ def create_nitter_feed_url(twitter_handle: str) -> str:
     return f"{get_nitter_base_url()}/{twitter_handle}/rss?key={rss_password}"
 
 
-def extract_twitter_handle_from_feed_url(url: str) -> Optional[str]:
-    nitter_base_url = get_nitter_base_url()
-    if not url.startswith(nitter_base_url):
-        return None
-    return url[len(nitter_base_url):].split('/')[1]
-
-
 twitter_domains = {
     "twitter.com",
     "mobile.twitter.com",
@@ -78,6 +71,10 @@ twitter_domains = {
 
 
 def extract_twitter_handle_from_url(url: str) -> Optional[str]:
+    nitter_base_url = get_nitter_base_url()
+    if url.startswith(nitter_base_url):
+        return url[len(nitter_base_url):].split('/')[1].lower()
+
     if urlparse(url).netloc not in twitter_domains:
         return None
     
@@ -87,7 +84,7 @@ def extract_twitter_handle_from_url(url: str) -> Optional[str]:
     
     handle = path.split('/')[0]
     if handle:
-        return handle
+        return handle.lower()
     return None
 
 

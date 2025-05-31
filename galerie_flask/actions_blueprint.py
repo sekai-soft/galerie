@@ -229,7 +229,7 @@ def add_feed():
     gid = request.form.get('group')
 
     url = request.form['url']
-    existing_feed = g.aggregator.find_feed_by_feed_url(url)
+    existing_feed = g.aggregator.find_feed_by_url(url)
     if existing_feed:
         return make_toast(200, _('This feed already exists'))
 

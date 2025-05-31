@@ -5,7 +5,7 @@ from .item import Item
 from .group import Group
 from .feed import Feed
 from .feed_icon import FeedIcon
-from .twitter import extract_twitter_handle_from_url
+from .twitter import extract_twitter_handle_from_url, extract_twitter_handle_from_url
 
 
 @dataclass
@@ -109,19 +109,13 @@ class RssAggregator(ABC):
                 return group
         return None
 
-    def find_feed_by_feed_url(self, finding_feed_url: str) -> Optional[Feed]:
-        twitter_handle = extract_twitter_handle_from_url(finding_feed_url)
-        if twitter_handle:
-            twitter_handle = twitter_handle.lower()
+    def find_feed_by_url(self, finding_url: str) -> Optional[Feed]:
+        finding_twitter_handle = extract_twitter_handle_from_url(finding_url)
 
         for feed in self.get_feeds():
             feed_url = feed.features["feed_url"]
-
-            feed_twitter_handle = feed.features.get("twitter_handle")
-            if feed_twitter_handle:
-                feed_twitter_handle = feed_twitter_handle.lower()
-
-            if (feed_url == finding_feed_url) or (twitter_handle and twitter_handle == feed_twitter_handle):
+            feed_twitter_handle = extract_twitter_handle_from_url(feed_url)
+            if (feed_url == finding_url) or (finding_twitter_handle and finding_twitter_handle == feed_twitter_handle):
                 return feed
 
         return None

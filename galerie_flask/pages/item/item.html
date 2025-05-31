@@ -36,20 +36,14 @@
 </div>
 {% endfor %}
 
-<div style="display: flex; gap: 0.5em">
-    <a href="/feed?fid={{ item.fid }}" style="font-size: 1em">
-        <p class="animate-long item-feed-title">
-            {% if feed_icon %}
-            <img class="item-feed-icon" src="data:{{ feed_icon.data }}">
-            {% endif %}
-            {{ item.feed_title }}
-        </p>
-    </a>
-
+<div style="display: flex; align-items: center; gap: 0.5em">
     {% if rt %}
-    <p>&nbsp;▶&nbsp;</p>
     {% if not rt_feed %}
-    <a href="/add_feed?url=https://x.com/{{ rt }}&view_feed=1&group={{ item.groups[0].gid }}" style="font-size: 1em">
+    <a
+        href="/add_feed?url=https://x.com/{{ rt }}&view_feed=1&group={{ item.groups[0].gid }}"
+        class="link-button"
+    >🆕</a>
+    <a href="https://x.com/{{ rt }}" target="_blank" style="font-size: 1em">
         <p class="animate-long item-feed-title">
             @{{ rt }}
         </p>
@@ -64,7 +58,17 @@
         </p>
     </a>
     {% endif %}
+    <p>&nbsp;{{ _('via') }}&nbsp;</p>
     {% endif %}
+
+    <a href="/feed?fid={{ item.fid }}" style="font-size: 1em">
+        <p class="animate-long item-feed-title">
+            {% if feed_icon %}
+            <img class="item-feed-icon" src="data:{{ feed_icon.data }}">
+            {% endif %}
+            {{ item.feed_title }}
+        </p>
+    </a>
 </div>
 
 <p>{{ item.text }}</p>
