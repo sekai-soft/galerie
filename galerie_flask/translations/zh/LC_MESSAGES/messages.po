@@ -7,7 +7,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: PROJECT VERSION\n"
 "Report-Msgid-Bugs-To: EMAIL@ADDRESS\n"
-"POT-Creation-Date: 2025-05-30 06:15+0000\n"
+"POT-Creation-Date: 2025-05-31 05:00+0000\n"
 "PO-Revision-Date: 2024-06-27 08:04+0000\n"
 "Last-Translator: FULL NAME <EMAIL@ADDRESS>\n"
 "Language: zh\n"
@@ -18,56 +18,48 @@ msgstr ""
 "Content-Transfer-Encoding: 8bit\n"
 "Generated-By: Babel 2.17.0\n"
 
-#: galerie_flask/actions_blueprint.py:77 galerie_flask/actions_blueprint.py:103
+#: galerie_flask/actions_blueprint.py:74 galerie_flask/actions_blueprint.py:100
 msgid "Username is required"
 msgstr "用户名是必需的"
 
-#: galerie_flask/actions_blueprint.py:81 galerie_flask/actions_blueprint.py:85
-#: galerie_flask/actions_blueprint.py:107
+#: galerie_flask/actions_blueprint.py:78 galerie_flask/actions_blueprint.py:82
+#: galerie_flask/actions_blueprint.py:104
 msgid "Password is required"
 msgstr "密码是必需的"
 
-#: galerie_flask/actions_blueprint.py:88
+#: galerie_flask/actions_blueprint.py:85
 msgid "Passwords do not match"
 msgstr "密码不匹配"
 
-#: galerie_flask/actions_blueprint.py:200
+#: galerie_flask/actions_blueprint.py:197
 msgid "Setting updated"
 msgstr "设置已更新"
 
-#: galerie_flask/actions_blueprint.py:223
+#: galerie_flask/actions_blueprint.py:220
 msgid "Group updated"
 msgstr "分组已更新"
 
-#: galerie_flask/actions_blueprint.py:237
+#: galerie_flask/actions_blueprint.py:234
 msgid "This feed already exists"
 msgstr "此订阅源已存在"
 
-#: galerie_flask/actions_blueprint.py:249
+#: galerie_flask/actions_blueprint.py:246
 msgid "Unable to detect a valid feed"
 msgstr "无法检测到有效的订阅源"
 
-#: galerie_flask/actions_blueprint.py:280
+#: galerie_flask/actions_blueprint.py:277
 msgid "Instapaper username or email is required"
 msgstr "Instapaper 用户名或邮箱是必需的"
 
-#: galerie_flask/actions_blueprint.py:289
+#: galerie_flask/actions_blueprint.py:286
 msgid "Wrong Instapaper credentials"
 msgstr "Instapaper 用户名或密码错误"
 
-#: galerie_flask/actions_blueprint.py:337
-msgid "Failed to add to Instapaper"
-msgstr "无法添加到 Instapaper"
-
-#: galerie_flask/actions_blueprint.py:338
-msgid "Saved to Instapaper"
-msgstr "保存到了 Instapaper"
-
-#: galerie_flask/actions_blueprint.py:367
+#: galerie_flask/actions_blueprint.py:339
 msgid "You cannot delete the last group"
 msgstr "您不能删除最后一个分组"
 
-#: galerie_flask/actions_blueprint.py:419
+#: galerie_flask/actions_blueprint.py:366
 msgid "Name is required"
 msgstr "名字是必需的"
 
@@ -83,6 +75,48 @@ msgstr "用户名或密码错误"
 #: galerie_flask/miniflux_admin.py:84
 msgid "Your session has expired. Please log in again."
 msgstr "您的会话已过期。请重新登录。"
+
+#: galerie_flask/actions/instapaper/instapaper_action.py:40
+msgid "Failed to add to Instapaper"
+msgstr "无法添加到 Instapaper"
+
+#: galerie_flask/actions/instapaper/instapaper_action.py:42
+msgid "Saved to Instapaper"
+msgstr "保存到了 Instapaper"
+
+#: galerie_flask/pages/feed_maintenance/feed_maintenance.html:3
+#: galerie_flask/pages/feed_maintenance/feed_maintenance.html:5
+#: galerie_flask/templates/settings.html:20
+msgid "Feed maintenance"
+msgstr "订阅源维护"
+
+#: galerie_flask/pages/feed_maintenance/feed_maintenance.html:8
+msgid "Clean up dead feeds"
+msgstr "更新订阅源"
+
+#: galerie_flask/pages/feed_maintenance/feed_maintenance.html:33
+msgid "Delete 0 dead feeds"
+msgstr "删除订阅源"
+
+#: galerie_flask/pages/feed_maintenance/feed_maintenance.html:39
+msgid "There is no dead feed to clean up"
+msgstr "没有不活跃的订阅源可供清理"
+
+#: galerie_flask/pages/item/item.html:61
+msgid "via"
+msgstr "转发自"
+
+#: galerie_flask/pages/item/item.html:82
+msgid "Open link"
+msgstr "打开链接"
+
+#: galerie_flask/pages/item/item.html:94
+msgid "Save to Instapaper"
+msgstr "保存至 Instapaper"
+
+#: galerie_flask/pages/item/item.html:104
+msgid "Share"
+msgstr "分享"
 
 #: galerie_flask/templates/add_feed.html:3
 #: galerie_flask/templates/add_feed.html:5
@@ -164,40 +198,10 @@ msgstr "糟糕，出错了"
 msgid "Log out"
 msgstr "登出"
 
-#: galerie_flask/templates/feed.html:24
+#: galerie_flask/templates/feed.html:30
 #: galerie_flask/templates/update_feed.html:30
 msgid "Are you sure you want to delete this feed?"
 msgstr "确定要删除这个订阅源吗？"
-
-#: galerie_flask/templates/feed_maintenance.html:3
-#: galerie_flask/templates/feed_maintenance.html:5
-#: galerie_flask/templates/settings.html:20
-msgid "Feed maintenance"
-msgstr "订阅源维护"
-
-#: galerie_flask/templates/feed_maintenance.html:8
-msgid "Clean up dead feeds"
-msgstr "清理不活跃的订阅源"
-
-#: galerie_flask/templates/feed_maintenance.html:32
-msgid "Delete 0 dead feeds"
-msgstr "删除 0 个不活跃的订阅源"
-
-#: galerie_flask/templates/feed_maintenance.html:38
-msgid "There is no dead feed to clean up"
-msgstr "没有不活跃的订阅源可供清理"
-
-#: galerie_flask/templates/feed_maintenance.html:41
-msgid "Clean up duplicated Twitter feeds"
-msgstr "清理重复的 Twitter 订阅源"
-
-#: galerie_flask/templates/feed_maintenance.html:55
-msgid "Deduplicate"
-msgstr "去重"
-
-#: galerie_flask/templates/feed_maintenance.html:60
-msgid "There is no duplicated Twitter feed to clean up"
-msgstr "没有重复的 Twitter 订阅源可供清理"
 
 #: galerie_flask/templates/index.html:3
 msgid "Galerie"
@@ -246,18 +250,6 @@ msgstr "有"
 #: galerie_flask/templates/index.html:76
 msgid "unread items"
 msgstr "未读条目"
-
-#: galerie_flask/templates/item.html:78
-msgid "Open link"
-msgstr "打开链接"
-
-#: galerie_flask/templates/item.html:90
-msgid "Save to Instapaper"
-msgstr "保存至 Instapaper"
-
-#: galerie_flask/templates/item.html:100
-msgid "Share"
-msgstr "分享至"
 
 #: galerie_flask/templates/load_more_button.html:15
 #: galerie_flask/templates/load_more_button.html:17
