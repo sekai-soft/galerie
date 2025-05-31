@@ -298,19 +298,6 @@ def add_feed_page():
     )
 
 
-@pages_blueprint.route("/feed_maintenance")
-@catches_exceptions
-@requires_auth
-def feed_maintenance_page():   
-    feeds = g.aggregator.get_feeds()
-    dead_feeds = list(filter(lambda f: f.error, feeds))
-
-    return render_template(
-        'feed_maintenance.html',
-        dead_feeds=dead_feeds,
-    )
-
-
 @pages_blueprint.route("/update_group")
 @catches_exceptions
 @requires_auth

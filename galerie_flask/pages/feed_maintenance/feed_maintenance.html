@@ -25,6 +25,7 @@
         class="button"
         style="margin-top: 1em; display: none;"
         hx-post="/actions/delete_feeds"
+        hx-post="/actions/delete_feeds"
         hx-include="input[id^='dead-feed-']:checked"
         hx-swap="none"
         hx-disabled-elt="this"
@@ -36,28 +37,6 @@
 <br>
 {% else %}
 <p>{{ _('There is no dead feed to clean up') }}</p>
-{% endif %}
-<hr>
-<p>{{ _('Clean up duplicated Twitter feeds') }}</p>
-{% if duplicated_twitter_feeds %}
-{% for twitter_handle, feed_fids in duplicated_twitter_feeds %}
-    <p>
-        ({{ feed_fids|length }}) @{{ twitter_handle }}
-    </p>
-{% endfor %}
-<br>
-<button
-    class="button"
-    hx-post="/actions/clean_up_duplicated_twitter_feeds"
-    hx-swap="none"
-    hx-disabled-elt="this"
->
-    {{ _('Deduplicate') }} {{ duplicated_twitter_feeds|length }} {{ ('Twitter feeds') }} <span class="htmx-indicator">...</span>
-</button>
-<br>
-<br>
-{% else %}
-<p>{{ _('There is no duplicated Twitter feed to clean up') }}</p>
 {% endif %}
 <script src="{{ static_url_for('static', filename='feed_maintenance.js') }}"></script>
 {% endblock %}
