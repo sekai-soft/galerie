@@ -10,6 +10,9 @@ from flask_static_digest import FlaskStaticDigest
 from galerie_flask.db import db
 from galerie_flask.actions_blueprint import actions_blueprint
 from galerie_flask.pages_blueprint import pages_blueprint
+from galerie_flask.actions.actions_routes import actions_bp
+from galerie_flask.pages.routes import pages_bp
+
 
 load_dotenv()
 
@@ -39,6 +42,8 @@ flask_static_digest.init_app(app)
 
 app.register_blueprint(pages_blueprint, url_prefix='/')
 app.register_blueprint(actions_blueprint, url_prefix='/actions')
+app.register_blueprint(pages_bp, url_prefix='/')
+app.register_blueprint(actions_bp, url_prefix='/actions')
 
 
 if 'SQLALCHEMY_DATABASE_URI' in os.environ:

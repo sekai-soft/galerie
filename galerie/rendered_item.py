@@ -30,15 +30,9 @@ class RenderedItem:
     text: str = ''
     left_rendered_items: int = 0
 
-    quoted_url: str = field(init=False)
-    quoted_title: str = field(init=False)
-    quoted_text: str = field(init=False)
     shareable_url: str = field(init=False)
 
     def __post_init__(self):
-        self.quoted_url = quote(self.url)
-        self.quoted_title = quote(self.title)
-        self.quoted_text = quote(self.text)
         self.shareable_url = fix_shareable_twitter_url(self.url)
 
 

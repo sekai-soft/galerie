@@ -3,21 +3,18 @@ import json
 import requests
 from typing import Dict
 from functools import wraps
-from urllib.parse import unquote
 from flask import request, g, Blueprint, make_response, render_template, Response
-from flask_babel import _, lazy_gettext as _l
+from flask_babel import _
 from sentry_sdk import capture_exception
-from requests.auth import HTTPBasicAuth
 from galerie.rendered_item import convert_rendered_items
 from galerie.twitter import create_nitter_feed_url, extract_twitter_handle_from_url
 from .utils import requires_auth, max_items, load_more_button_args, mark_as_read_button_args, items_args, cookie_max_age
 from .get_aggregator import get_aggregator
 from .miniflux_admin import get_miniflux_admin, MinifluxAdminException
-from .instapaper import get_instapaper_auth, is_instapaper_available
 from .instapaper_manager import get_instapaper_manager
 
 
-actions_blueprint = Blueprint('actions', __name__)
+actions_blueprint = Blueprint('actions_legacy', __name__)
 
 
 def make_hx_trigger_header(resp: Response, trigger_message: Dict):
@@ -311,31 +308,6 @@ def log_out_of_instapaper():
     resp = make_response()
     resp.headers['HX-Refresh'] = "true"
     return resp
-
-
-@actions_blueprint.route('/instapaper', methods=['POST'])
-@catches_exceptions
-def instapaper():
-    if not is_instapaper_available():
-        return make_toast(400, "Instapaper was not configured")
-    username_or_email, password = get_instapaper_auth()
-
-    url = unquote(request.args.get('url'))
-    title = unquote(request.args.get('title', ''))
-    text = unquote(request.args.get('text', ''))
-
-    add_res = requests.post(
-        "https://www.instapaper.com/api/add",
-        auth=HTTPBasicAuth(username_or_email, password),
-        data={
-            "url": url,
-            "title": title,
-            "selection": text, # optional, plain text, no HTML, UTF-8. Will show up as the description under an item in the interface.
-        }
-    )
-    if add_res.status_code != 201:
-        return make_toast(400, _('Failed to add to Instapaper',))
-    return make_toast(200, _('Saved to Instapaper'))
 
 
 @actions_blueprint.route('/rename_group', methods=['POST'])
