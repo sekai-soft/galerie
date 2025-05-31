@@ -2,12 +2,13 @@ import os
 import base64
 import datetime
 from typing import List, Optional
-from urllib.parse import unquote, urlparse, quote
+from urllib.parse import unquote, urlparse
 from dataclasses import dataclass, field
 from bs4 import BeautifulSoup
 from .item import Item
 from .group import Group
 from .twitter import get_nitter_base_url, fix_shareable_twitter_url
+from .rednote import REDNOTE_CDN_URL_HTTP, REDNOTE_CDN_URL_HTTPS
 
 
 MAX_RENDERED_ITEMS_COUNT = 4
@@ -49,10 +50,16 @@ def fix_proxied_media_url(url: str) -> str:
     if url.startswith(media_proxy_custom_url):
         encoded_url = url[len(media_proxy_custom_url):]
         decoded_url = base64.urlsafe_b64decode(encoded_url).decode('utf-8')
+
         if decoded_url.startswith(get_nitter_base_url()):
             twitter_media_path = unquote(urlparse(decoded_url).path.split('/')[-1])
             return 'https://pbs.twimg.com/' + twitter_media_path
+        
+        if url.startswith(REDNOTE_CDN_URL_HTTP):
+            return url.replace(REDNOTE_CDN_URL_HTTP, REDNOTE_CDN_URL_HTTPS)
+
         return decoded_url
+
     return url
 
 
