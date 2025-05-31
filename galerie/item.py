@@ -10,7 +10,7 @@ class Item:
     html: str
     iid: str
     url: str
-    groups: List[Group]
+    group: Group
     title: str
     feed_title: str
     fid: str

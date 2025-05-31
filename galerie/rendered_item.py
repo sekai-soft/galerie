@@ -17,7 +17,7 @@ MAX_RENDERED_ITEMS_COUNT = 4
 class RenderedItem:
     uid: str
     url: str
-    groups: List[Group]
+    group: Group
     title: str
     feed_title: str
     fid: str
@@ -78,7 +78,7 @@ def convert_rendered_item(item: Item, ignore_rendered_items_cap: Optional[bool]=
         res.append(RenderedItem(
             uid=f'{item.iid}-{i}',
             url=item.url,
-            groups=item.groups,
+            group=item.group,
             title=item.title if item.title else "(No title)",
             feed_title=item.feed_title,
             fid=item.fid,

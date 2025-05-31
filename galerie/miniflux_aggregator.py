@@ -63,7 +63,7 @@ def _entry_dict_to_item(entry_dict: dict) -> Item:
         html=html,
         iid=str(entry_dict['id']),
         url=url,
-        groups=[_category_dict_to_group(entry_dict['feed']['category'])],
+        group=_category_dict_to_group(entry_dict['feed']['category']),
         title=title,
         feed_title=feed_title,
         fid=str(entry_dict['feed_id']),

@@ -40,7 +40,7 @@
     {% if rt %}
     {% if not rt_feed %}
     <a
-        href="/add_feed?url=https://x.com/{{ rt }}&view_feed=1&group={{ item.groups[0].gid }}"
+        href="/add_feed?url=https://x.com/{{ rt }}&view_feed=1&group={{ item.group.gid }}"
         class="link-button"
     >🆕</a>
     <a href="https://x.com/{{ rt }}" target="_blank" style="font-size: 1em">
