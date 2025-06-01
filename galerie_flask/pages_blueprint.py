@@ -5,20 +5,12 @@ from sentry_sdk import capture_exception
 from flask import Blueprint, redirect, render_template, g, request, jsonify, make_response
 from flask_babel import _
 from galerie.rendered_item import convert_rendered_items
+from galerie.utils import get_base_url
 from .utils import requires_auth, max_items, load_more_button_args,\
     mark_as_read_button_args, items_args
 from .get_aggregator import get_aggregator
 from .instapaper import get_instapaper_auth, is_instapaper_available
 from .miniflux_admin import MinifluxAdminException
-
-
-def get_base_url():
-    if 'BASE_URL' not in os.environ:
-        return ''
-    base_url = os.environ['BASE_URL']
-    if base_url.endswith('/'):
-        return base_url[:-1]
-    return base_url
 
 
 pages_blueprint = Blueprint('pages_legacy', __name__, static_folder='static', template_folder='templates')

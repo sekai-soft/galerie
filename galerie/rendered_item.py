@@ -8,7 +8,8 @@ from bs4 import BeautifulSoup
 from .item import Item
 from .group import Group
 from .twitter import get_nitter_base_url, fix_shareable_twitter_url
-from .rednote import REDNOTE_CDN_URL_HTTP, REDNOTE_CDN_URL_HTTPS
+from .rednote import REDNOTE_CDN_URL_HTTP
+from .utils import get_base_url
 
 
 MAX_RENDERED_ITEMS_COUNT = 4
@@ -56,7 +57,8 @@ def fix_proxied_media_url(url: str) -> str:
             return 'https://pbs.twimg.com/' + twitter_media_path
         
         if decoded_url.startswith(REDNOTE_CDN_URL_HTTP):
-            return decoded_url.replace(REDNOTE_CDN_URL_HTTP, REDNOTE_CDN_URL_HTTPS)
+            path = decoded_url.replace(REDNOTE_CDN_URL_HTTP, '')
+            return f"{get_base_url()}/m/rednote/{path}"
 
         return decoded_url
 
