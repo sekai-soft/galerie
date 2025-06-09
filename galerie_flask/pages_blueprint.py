@@ -6,8 +6,7 @@ from flask import Blueprint, redirect, render_template, g, request, jsonify, mak
 from flask_babel import _
 from galerie.rendered_item import convert_rendered_items
 from galerie.utils import get_base_url
-from .utils import requires_auth, max_items, load_more_button_args,\
-    mark_as_read_button_args, items_args
+from .utils import requires_auth, max_items, load_more_button_args, items_args
 from .get_aggregator import get_aggregator
 from .instapaper import get_instapaper_auth, is_instapaper_available
 from .miniflux_admin import MinifluxAdminException
@@ -153,7 +152,6 @@ def index_page():
         remaining_count=remaining_count,
         include_read=include_read
     )
-    mark_as_read_button_args(args, gid, sort_by_desc)
 
     return render_template('index.html', **args)
 
@@ -208,28 +206,6 @@ def manage_feeds_page():
         feeds=feeds,
         feed_counts=feed_counts,
     )
-
-
-@pages_blueprint.route("/feed")
-@catches_exceptions
-@requires_auth
-def feed_page():
-    fid = request.args.get('fid')
-    feed = g.aggregator.get_feed(fid)
-    feed_icon = None
-    if feed:
-        feed_icon = g.aggregator.get_feed_icon(fid)
-
-    items = g.aggregator.get_feed_items_by_iid_descending(fid)
-    rendered_items = convert_rendered_items(items)
-
-    args = {
-        "feed": feed,
-        "feed_icon": feed_icon,
-        "context_feed_page": True,
-    }
-    items_args(args, rendered_items, False, False)
-    return render_template('feed.html', **args)
 
 
 @pages_blueprint.route("/update_feed")

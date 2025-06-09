@@ -29,6 +29,7 @@ class RenderedItem:
 
     image_url: str = ''
     video_url: str = ''
+    video_thumbnail_url: str = ''
     text: str = ''
     left_rendered_items: int = 0
 
@@ -78,11 +79,13 @@ def convert_rendered_item(item: Item, ignore_rendered_items_cap: Optional[bool]=
         if target_element.name == 'img':
             image_url = target_element.get('src', '')
             video_url = ''
+            video_thumbnail_url = ''
 
         elif target_element.name == 'video':
-            image_url = target_element.get('poster', '')
+            image_url = ''
             source_element = target_element.find('source')
             video_url = source_element.get('src', '') if source_element else target_element.get('src', '')
+            video_thumbnail_url = target_element.get('poster', '')
 
         res.append(RenderedItem(
             uid=f'{item.iid}-{i}',
@@ -97,6 +100,7 @@ def convert_rendered_item(item: Item, ignore_rendered_items_cap: Optional[bool]=
 
             image_url=fix_proxied_media_url(image_url),
             video_url=fix_proxied_media_url(video_url),
+            video_thumbnail_url=fix_proxied_media_url(video_thumbnail_url),
             text=item.text if item.text else "(No text)",
             left_rendered_items=total_target_elements - MAX_RENDERED_ITEMS_COUNT,))
 

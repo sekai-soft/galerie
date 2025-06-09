@@ -40,13 +40,6 @@ def load_more_button_args(
     })
 
 
-def mark_as_read_button_args(args: dict, gid: Optional[str], sort_by_desc: bool):
-    args.update({
-        "gid": gid if gid is not None else "",
-        "sort": "desc" if sort_by_desc else "asc"
-    })
-
-
 def items_args(args: dict, rendered_items: List[RenderedItem], should_show_feed_title: bool, should_show_feed_group: bool):
     rendered_feed_icons = {}
     for ri in rendered_items:

@@ -1,12 +1,20 @@
 {% for item in items %}
-<div id="{{ item.uid }}" class="grid-item" style="{{ 'filter: grayscale(100%);' if not (item.unread_or_not or context_feed_page) else '' }}">
+{% if not (item.unread_or_not or context_feed_page) %}
+<div id="{{ item.uid }}" class="grid-item" style="filter: grayscale(100%);">
+{% else %}
+<div id="{{ item.uid }}" class="grid-item">
+{% endif %}
     <a href="/item?uid={{ item.uid }}" target="_blank">
         <div class="animate-long item-image-container">
-            {% if item.image_url %}
+            {% if item.video_thumbnail_url or item.image_url %}
             <img
                 id="img-{{ item.uid }}"
                 class="item-image"
+                {% if item.video_thumbnail_url %}
+                src="{{ item.video_thumbnail_url }}"
+                {% else %}
                 src="{{ item.image_url }}"
+                {% endif %}
                 style="display: none;"
                 onload="this.style.display='block'; document.getElementById('img-{{ item.uid }}-loading').style.display = 'none'; grid.layout()"
                 onerror="this.src='data:image/svg+xml;base64,{{ image_error_svg_base64 }}'"

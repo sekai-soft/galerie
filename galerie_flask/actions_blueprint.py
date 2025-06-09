@@ -3,12 +3,11 @@ import json
 import requests
 from typing import Dict
 from functools import wraps
-from flask import request, g, Blueprint, make_response, render_template, Response
+from flask import request, g, Blueprint, make_response, Response
 from flask_babel import _
 from sentry_sdk import capture_exception
-from galerie.rendered_item import convert_rendered_items
 from galerie.twitter import create_nitter_feed_url, extract_twitter_handle_from_url
-from .utils import requires_auth, max_items, load_more_button_args, mark_as_read_button_args, items_args, cookie_max_age
+from .utils import requires_auth, cookie_max_age
 from .get_aggregator import get_aggregator
 from .miniflux_admin import get_miniflux_admin, MinifluxAdminException
 from .instapaper_manager import get_instapaper_manager
@@ -121,56 +120,6 @@ def logout():
 
     resp = make_hx_redirect('/login')
     resp.delete_cookie('session_token')
-    return resp
-
-
-@actions_blueprint.route('/load_more')
-@catches_exceptions
-@requires_auth
-def load_more():
-    from_iid = request.args.get('from_iid')
-    gid = request.args.get('group') if request.args.get('group') else None
-    include_read = request.args.get('read', '0') == '1'
-    sort_by_desc = request.args.get('sort', 'desc') == 'desc'
-    remaining_count = int(request.args.get('remaining_count'))
-    infinite_scroll = request.cookies.get('infinite_scroll', '1') == '1'
-   
-    unread_items = g.aggregator.get_items(
-        count=max_items,
-        from_iid_exclusive=from_iid,
-        group_id=gid,
-        sort_by_id_descending=sort_by_desc,
-        include_read=include_read
-    )
-    
-    rendered_items = convert_rendered_items(unread_items)
-    last_iid = unread_items[-1].iid if unread_items else ''
-
-    if last_iid:
-        args = {}
-        items_args(args, rendered_items, True, gid is None)
-        remaining_count = remaining_count - max_items if remaining_count > max_items else 0
-        load_more_button_args(
-            args=args,
-            from_iid=last_iid,
-            gid=gid,
-            sort_by_desc=sort_by_desc,
-            infinite_scroll=infinite_scroll,
-            remaining_count=remaining_count,
-            include_read=include_read
-        )
-        rendered_string = \
-            render_template('items_stream.html', **args) + "\n" + \
-            render_template('load_more_button.html', **args)
-    else:
-        args = {}
-        mark_as_read_button_args(args, gid, sort_by_desc)
-        rendered_string = render_template('all_loaded_marker.html', **args)
-
-    resp = make_response(rendered_string)
-    resp.headers['HX-Trigger-After-Settle'] = json.dumps({
-        "append": list(map(lambda i: i.uid, rendered_items))
-    })
     return resp
 
 
