@@ -1,0 +1,48 @@
+{% extends 'base_child_page.html' %}
+
+{% block title %}{{ _('Settings') }}{% endblock %}
+
+{% block header_title %}{{ _('Settings') }}{% endblock %}
+
+{% block page_content %}
+<p>{{ _('Feed management') }}</p>
+<a href="/manage_feeds">
+    <button class="button" style="font-size: 1em">{{ _('Manage feeds')}}</button>
+</a>
+<br>
+<br>
+<a href="/manage_groups">
+    <button class="button" style="font-size: 1em">{{ _('Manage groups')}}</button>
+</a>
+<br>
+<br>
+<a href="/feed_maintenance">
+    <button class="button" style="font-size: 1em">{{ _('Feed maintenance')}}</button>
+</a>
+<br>
+<br>
+<hr>
+<p>{{ _('Infinite scroll')}}</p>
+<select
+    name="infinite_scroll"
+    hx-trigger="change"
+    hx-post="/actions/set_infinite_scroll"
+    hx-swap="none"
+>
+    <option value="1" {{ 'selected=selected' if infinite_scroll else '' }}>{{ _('Yes')}}</option>
+    <option value="0" {{ 'selected=selected' if not infinite_scroll else '' }}>{{ _('No')}}</option>
+</select>
+<br>
+<br>
+<hr>
+{% if connection_info.managed_or_self_hosted %}
+<p>{{ _('Logged in as: ') }} {{ username }}</p>
+<button
+    class="button"
+    hx-post="/actions/logout"
+    hx-swap="none"
+>{{ _('Log out')}}</button>
+{% else %}
+<p>{{ _('Connected to')}} {{ connection_info.host }}</p>
+{% endif %}
+{% endblock %}
