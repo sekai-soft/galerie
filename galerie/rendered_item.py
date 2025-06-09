@@ -55,6 +55,8 @@ def fix_proxied_media_url(url: str) -> str:
 
         if decoded_url.startswith(get_nitter_base_url()):
             twitter_media_path = unquote(urlparse(decoded_url).path.split('/')[-1])
+            if twitter_media_path.startswith('video.twimg.com'):
+                return 'https://' + twitter_media_path
             return 'https://pbs.twimg.com/' + twitter_media_path
         
         if decoded_url.startswith(REDNOTE_CDN_URL_HTTP):
