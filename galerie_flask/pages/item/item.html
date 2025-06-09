@@ -17,7 +17,7 @@
         loop
         controls
         {% if loop.index != u_index + 1 %} style="display: none;" {% endif %}
-        onclick="e => e.preventDefault(); nextMedia({{ items|length }});"
+        onclick="e => e.preventDefault(); nextMedia();"
     />
     {% elif item.image_url %}
     <img
@@ -109,11 +109,16 @@
         id="item-copy-link-button"
         class="button"
     >📋</button>
+
+    <!-- Download -->
+    <a href="/actions/download_media?iid={{ item.iid }}">
+        <button class="button" style="font-size: 1em">💾</button>
+    </a>
 </div>
 
 <script>
-    window.U_INDEX = {{ u_index }};
-    window.TOTAL_MEDIA_COUNT = {{ items|length }};
+    window.U_INDEX = "{{ u_index }}";
+    window.TOTAL_MEDIA_COUNT = "{{ items|length }}";
     window.SHAREABLE_URL = "{{ item.shareable_url }}";
 </script>
 <script src="{{ static_url_for('static', filename='item.js') }}"></script>

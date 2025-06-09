@@ -65,7 +65,7 @@ def fix_proxied_media_url(url: str) -> str:
     return url
 
 
-def convert_rendered_item(item: Item, ignore_rendered_items_cap: Optional[bool]=False) -> RenderedItem:
+def convert_rendered_item(item: Item, ignore_rendered_items_cap: Optional[bool]=False) -> List[RenderedItem]:
     res = []
 
     soup = BeautifulSoup(item.html, 'html.parser')

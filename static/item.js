@@ -1,3 +1,14 @@
+window.U_INDEX = parseInt(window.U_INDEX);
+window.TOTAL_MEDIA_COUNT = parseInt(window.TOTAL_MEDIA_COUNT);
+
+const toast = (message) => {
+    document.body.dispatchEvent(new CustomEvent('toast', {
+        detail: {
+            value: message,
+        }
+    }));
+}
+
 // web share
 if (!navigator.share) {
     document.getElementById('item-web-share-button').style.display = 'none';
@@ -29,16 +40,8 @@ const nextMedia = () => {
 // copy to clipboard
 document.getElementById('item-copy-link-button').addEventListener('click', () => {
     navigator.clipboard.writeText(window.SHAREABLE_URL).then(() => {
-        document.body.dispatchEvent(new CustomEvent('toast', {
-            detail: {
-                value: 'Copied to clipboard',
-            }
-        }));
+        toast('Copied to clipboard');
     }).catch(() => {
-        document.body.dispatchEvent(new CustomEvent('toast', {
-            detail: {
-                value: 'Failed to copy to clipboard',
-            }
-        }));
+        toast('Failed to copy to clipboard');
     });
 })
