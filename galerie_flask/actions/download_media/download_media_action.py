@@ -28,8 +28,6 @@ def download_media():
     for rendered_item in rendered_items:
         if rendered_item.image_url:
             urls.append(rendered_item.image_url)
-        if rendered_item.video_url:
-            urls.append(rendered_item.video_url)
 
     if not urls:
         return make_toast(400, "No media URLs found in the item")

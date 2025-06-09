@@ -111,9 +111,11 @@
     >📋</button>
 
     <!-- Download -->
+    {% if downloadable %}
     <a href="/actions/download_media?iid={{ item.iid }}">
         <button class="button" style="font-size: 1em">💾</button>
     </a>
+    {% endif %}
 </div>
 
 <script>
