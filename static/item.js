@@ -39,8 +39,7 @@ const nextMedia = () => {
 
 // copy to clipboard
 document.getElementById('item-copy-link-button').addEventListener('click', () => {
-    const decodedUrl = decodeURIComponent(window.SHAREABLE_URL);
-    navigator.clipboard.writeText(decodedUrl).then(() => {
+    navigator.clipboard.writeText(window.SHAREABLE_URL).then(() => {
         toast('Copied to clipboard');
     }).catch(() => {
         toast('Failed to copy to clipboard');

@@ -9,7 +9,7 @@ from .item import Item
 from .group import Group
 from .twitter import get_nitter_base_url, fix_shareable_twitter_url
 from .rednote import REDNOTE_CDN_URL_HTTP
-from .utils import get_base_url, get_media_proxy_base_url
+from .utils import get_media_proxy_base_url
 
 
 MAX_RENDERED_ITEMS_COUNT = 4
@@ -37,6 +37,7 @@ class RenderedItem:
 
     def __post_init__(self):
         self.shareable_url = fix_shareable_twitter_url(self.url)
+        self.shareable_url = unquote(self.shareable_url)
 
 
 def get_media_proxy_custom_url() -> str:
