@@ -6,7 +6,7 @@ import zipfile
 from flask import request, Blueprint, g, send_file, after_this_request
 from galerie.rendered_item import convert_rendered_item
 from galerie_flask.actions_blueprint import make_toast
-from galerie_flask.utils import requires_auth
+from galerie_flask.utils import requires_auth, DEFAULT_MAX_RENDERED_ITEMS
 
 
 download_media_bp = Blueprint('download_media', __name__)
@@ -23,7 +23,7 @@ def download_media():
     if not item:
         return make_toast(400, "Item not found")
 
-    rendered_items = convert_rendered_item(item, ignore_rendered_items_cap=True)
+    rendered_items = convert_rendered_item(item, DEFAULT_MAX_RENDERED_ITEMS, ignore_rendered_items_cap=True)
     urls = []
     for rendered_item in rendered_items:
         if rendered_item.image_url:

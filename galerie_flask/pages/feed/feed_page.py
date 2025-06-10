@@ -1,7 +1,7 @@
 from flask import Blueprint, render_template, g, request
 from flask_babel import _
 from galerie.rendered_item import convert_rendered_items
-from galerie_flask.utils import requires_auth, items_args
+from galerie_flask.utils import requires_auth, items_args, DEFAULT_MAX_RENDERED_ITEMS
 from galerie_flask.pages_blueprint import catches_exceptions, requires_auth
 
 
@@ -18,8 +18,10 @@ def feed_page():
     if feed:
         feed_icon = g.aggregator.get_feed_icon(fid)
 
+    max_rendered_items = int(request.cookies.get('max_rendered_items', DEFAULT_MAX_RENDERED_ITEMS))
+
     items = g.aggregator.get_feed_items_by_iid_descending(fid)
-    rendered_items = convert_rendered_items(items)
+    rendered_items = convert_rendered_items(items, max_rendered_items)
 
     args = {
         "feed": feed,

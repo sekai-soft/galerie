@@ -10,7 +10,6 @@ A Pinterest/Xiaohongshu photo wall style RSS reader
 ## Features
 * Supports self-hosted [Miniflux](https://miniflux.app)
 * View unread images from RSS feeds in a beautiful photo wall
-* Quickly add images to Instapaper
 
 ## Hosted instance
 Visit [galerie-reader.app](https://galerie-reader.app) and login with your Miniflux instance

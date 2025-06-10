@@ -12,9 +12,6 @@ from .rednote import REDNOTE_CDN_URL_HTTP
 from .utils import get_media_proxy_base_url
 
 
-MAX_RENDERED_ITEMS_COUNT = 4
-
-
 @dataclass
 class RenderedItem:
     uid: str
@@ -69,14 +66,14 @@ def fix_proxied_media_url(url: str) -> str:
     return url
 
 
-def convert_rendered_item(item: Item, ignore_rendered_items_cap: Optional[bool]=False) -> List[RenderedItem]:
+def convert_rendered_item(item: Item, max_rendered_items: int, ignore_rendered_items_cap: Optional[bool]=False) -> List[RenderedItem]:
     res = []
 
     soup = BeautifulSoup(item.html, 'html.parser')
     target_elements = soup.find_all(['img', 'video'])
     total_target_elements = len(target_elements)
     if not ignore_rendered_items_cap:
-        target_elements = target_elements[:MAX_RENDERED_ITEMS_COUNT]
+        target_elements = target_elements[:max_rendered_items]
 
     for i, target_element in enumerate(target_elements):
         if target_element.name == 'img':
@@ -105,13 +102,13 @@ def convert_rendered_item(item: Item, ignore_rendered_items_cap: Optional[bool]=
             video_url=fix_proxied_media_url(video_url),
             video_thumbnail_url=fix_proxied_media_url(video_thumbnail_url),
             text=item.text if item.text else "(No text)",
-            left_rendered_items=total_target_elements - MAX_RENDERED_ITEMS_COUNT,))
+            left_rendered_items=total_target_elements - max_rendered_items,))
 
     return res
 
 
-def convert_rendered_items(items: List[Item]) -> List[RenderedItem]:
+def convert_rendered_items(items: List[Item], max_rendered_items: int) -> List[RenderedItem]:
     res = []
     for item in items:
-        res.extend(convert_rendered_item(item))
+        res.extend(convert_rendered_item(item, max_rendered_items))
     return res

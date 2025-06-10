@@ -1,7 +1,7 @@
 from flask import Blueprint, render_template, g, request
 from flask_babel import _
 from galerie.rendered_item import convert_rendered_items
-from galerie_flask.utils import requires_auth, items_args, max_items, load_more_button_args
+from galerie_flask.utils import requires_auth, items_args, load_more_button_args, DEFAULT_MAX_ITEMS, DEFAULT_MAX_RENDERED_ITEMS
 from galerie_flask.pages_blueprint import catches_exceptions, requires_auth
 
 
@@ -16,6 +16,8 @@ def index_page():
     gid = request.args.get('group') if request.args.get('group') else None
     include_read = request.args.get('read', '0') == '1'
     infinite_scroll = request.cookies.get('infinite_scroll', '1') == '1'
+    max_items = int(request.cookies.get('max_items', DEFAULT_MAX_ITEMS))
+    max_rendered_items = int(request.cookies.get('max_rendered_items', DEFAULT_MAX_RENDERED_ITEMS))
 
     unread_items = g.aggregator.get_items(
         count=max_items,
@@ -25,7 +27,7 @@ def index_page():
         include_read=include_read
     )
 
-    rendered_items = convert_rendered_items(unread_items)
+    rendered_items = convert_rendered_items(unread_items, max_rendered_items)
     last_iid = unread_items[-1].iid if unread_items else ''
 
     groups = g.aggregator.get_groups()

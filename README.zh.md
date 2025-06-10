@@ -9,7 +9,6 @@
 ## 功能
 * 支持自托管的 [Miniflux](https://miniflux.app)
 * 以照片墙的形式从 RSS 源中浏览未读图片
-* 快速将图片添加至 Instapaper
 
 ## 托管实例
 访问 [galerie-reader.app](https://galerie-reader.app) 并登陆您的 Miniflux 实例

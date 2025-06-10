@@ -1,8 +1,8 @@
 import json
 from flask import request, g, Blueprint, make_response, render_template
 from galerie.rendered_item import convert_rendered_items
-from galerie_flask.utils import requires_auth, max_items, load_more_button_args, items_args
-from galerie_flask.pages_blueprint import catches_exceptions
+from galerie_flask.utils import requires_auth, load_more_button_args, items_args, DEFAULT_MAX_ITEMS, DEFAULT_MAX_RENDERED_ITEMS
+from galerie_flask.actions_blueprint import catches_exceptions
 
 
 load_more_bp = Blueprint('load_more', __name__, template_folder='../../shared_templates')
@@ -18,6 +18,8 @@ def load_more():
     sort_by_desc = request.args.get('sort', 'desc') == 'desc'
     remaining_count = int(request.args.get('remaining_count'))
     infinite_scroll = request.cookies.get('infinite_scroll', '1') == '1'
+    max_items = int(request.cookies.get('max_items', DEFAULT_MAX_ITEMS))
+    max_rendered_items = int(request.cookies.get('max_rendered_items', DEFAULT_MAX_RENDERED_ITEMS))
    
     unread_items = g.aggregator.get_items(
         count=max_items,
@@ -27,7 +29,7 @@ def load_more():
         include_read=include_read
     )
     
-    rendered_items = convert_rendered_items(unread_items)
+    rendered_items = convert_rendered_items(unread_items, max_rendered_items)
     last_iid = unread_items[-1].iid if unread_items else ''
 
     if last_iid:

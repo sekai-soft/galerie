@@ -35,6 +35,35 @@
 <br>
 <br>
 <hr>
+<p>{{ _('Maximum media to display per post')}}</p>
+<select
+    name="max_rendered_items"
+    hx-trigger="change"
+    hx-post="/actions/set_max_rendered_items"
+    hx-swap="none"
+>
+    <option value="1" {{ 'selected=selected' if max_rendered_items == 1 else '' }}>1</option>
+    <option value="2" {{ 'selected=selected' if max_rendered_items == 2 else '' }}>2</option>
+    <option value="3" {{ 'selected=selected' if max_rendered_items == 3 else '' }}>3</option>
+    <option value="4" {{ 'selected=selected' if max_rendered_items == 4 else '' }}>4</option>
+</select>
+<br>
+<br>
+<hr>
+<p>{{ _('Number of items to load at a time')}}</p>
+<select
+    name="max_items"
+    hx-trigger="change"
+    hx-post="/actions/set_max_items"
+    hx-swap="none"
+>
+    <option value="5" {{ 'selected=selected' if max_items == 5 else '' }}>5</option>
+    <option value="10" {{ 'selected=selected' if max_items == 10 else '' }}>10</option>
+    <option value="15" {{ 'selected=selected' if max_items == 15 else '' }}>15</option>
+</select>
+<br>
+<br>
+<hr>
 {% if connection_info.managed_or_self_hosted %}
 <p>{{ _('Logged in as: ') }} {{ username }}</p>
 <button

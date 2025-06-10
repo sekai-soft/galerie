@@ -4,6 +4,7 @@ from galerie.rendered_item import convert_rendered_item
 from galerie.twitter import extract_twitter_handle_from_url
 from galerie_flask.pages_blueprint import catches_exceptions, requires_auth
 from galerie_flask.instapaper import is_instapaper_available
+from galerie_flask.utils import DEFAULT_MAX_RENDERED_ITEMS
 
 
 item_bp = Blueprint('item', __name__, template_folder='.')
@@ -18,7 +19,7 @@ def item():
     u_index = int(uid.split('-')[1])
 
     item = g.aggregator.get_item(iid)
-    rendered_items = convert_rendered_item(item, ignore_rendered_items_cap=True)
+    rendered_items = convert_rendered_item(item, DEFAULT_MAX_RENDERED_ITEMS, ignore_rendered_items_cap=True)
     feed_icon = g.aggregator.get_feed_icon(item.fid)
 
     rt = None
