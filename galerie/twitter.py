@@ -4,6 +4,10 @@ from typing import Optional
 from urllib.parse import urlparse
 
 
+TWITTER_VIDEO_CDN_HOST = "video.twimg.com"
+TWITTER_MEDIA_CDN_URL = "https://pbs.twimg.com/"
+
+
 def get_nitter_base_url():
     if 'NITTER_BASE_URL' not in os.environ:
         raise ValueError("NITTER_BASE_URL environment variable is not set.")
