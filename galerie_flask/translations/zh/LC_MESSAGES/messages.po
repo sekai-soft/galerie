@@ -7,7 +7,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: PROJECT VERSION\n"
 "Report-Msgid-Bugs-To: EMAIL@ADDRESS\n"
-"POT-Creation-Date: 2025-06-10 22:52+0000\n"
+"POT-Creation-Date: 2025-06-12 03:20+0000\n"
 "PO-Revision-Date: 2024-06-27 08:04+0000\n"
 "Last-Translator: FULL NAME <EMAIL@ADDRESS>\n"
 "Language: zh\n"
@@ -227,6 +227,14 @@ msgstr "每个帖子显示的最大媒体数量"
 #: galerie_flask/pages/settings/settings.html:53
 msgid "Number of posts to load at a time"
 msgstr "每次加载的帖子数量"
+
+#: galerie_flask/pages/settings/settings.html:60
+msgid "5 (takes shorter to load new posts but fewer posts are loaded)"
+msgstr "5 (加载新帖子所需时间较短，但加载的帖子较少)"
+
+#: galerie_flask/pages/settings/settings.html:62
+msgid "15 (takes longer to load new posts but more posts are loaded)"
+msgstr "15 (加载新帖子所需时间较长，但加载的帖子较多)"
 
 #: galerie_flask/pages/settings/settings.html:68
 msgid "Logged in as: "

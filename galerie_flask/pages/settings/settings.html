@@ -57,9 +57,9 @@
     hx-post="/actions/set_max_items"
     hx-swap="none"
 >
-    <option value="5" {{ 'selected=selected' if max_items == 5 else '' }}>5</option>
+    <option value="5" {{ 'selected=selected' if max_items == 5 else '' }}>{{_('5 (takes shorter to load new posts but fewer posts are loaded)')}}</option>
     <option value="10" {{ 'selected=selected' if max_items == 10 else '' }}>10</option>
-    <option value="15" {{ 'selected=selected' if max_items == 15 else '' }}>15</option>
+    <option value="15" {{ 'selected=selected' if max_items == 15 else '' }}>{{_('15 (takes longer to load new posts but more posts are loaded)')}}</option>
 </select>
 <br>
 <br>
