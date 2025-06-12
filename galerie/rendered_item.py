@@ -7,7 +7,7 @@ from dataclasses import dataclass, field
 from bs4 import BeautifulSoup
 from .item import Item
 from .group import Group
-from .twitter import get_nitter_base_url, fix_shareable_twitter_url, TWITTER_VIDEO_CDN_HOST, TWITTER_MEDIA_CDN_URL
+from .twitter import get_nitter_base_url, fix_shareable_twitter_url, TWITTER_VIDEO_CDN_HOST, TWITTER_MEDIA_CDN_URL, TWITTER_VIDEO_CDN_URL
 from .instagram import INSTAGRAM_CDN_URL
 from .rednote import REDNOTE_CDN_URL_HTTP
 
@@ -65,6 +65,9 @@ def fix_proxied_media_url(url: str) -> str:
             return decoded_url.replace(INSTAGRAM_CDN_URL, '/m/ins')
 
         return decoded_url
+    
+    if url.startswith(TWITTER_VIDEO_CDN_URL):
+        return url.replace(TWITTER_VIDEO_CDN_URL, '/m/tv')
 
     if url.startswith(INSTAGRAM_CDN_URL):
         return url.replace(INSTAGRAM_CDN_URL, '/m/ins')
