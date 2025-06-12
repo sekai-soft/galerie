@@ -1,6 +1,5 @@
 import requests
 from flask import request, Blueprint, Response, stream_with_context
-from galerie.twitter import TWITTER_VIDEO_CDN_URL
 from galerie.instagram import INSTAGRAM_CDN_URL
 from galerie.rednote import REDNOTE_CDN_URL_HTTP
 from galerie_flask.pages_blueprint import catches_exceptions
@@ -19,12 +18,6 @@ def _proxy(original_url: str):
         content_type=req.headers.get('content-type'),
         status=req.status_code
     )
-
-
-@media_proxy_bp.route("/tv/<path:p>")
-@catches_exceptions
-def proxy_twitter_video(p):
-    return _proxy(TWITTER_VIDEO_CDN_URL + "/" + p)
 
 
 @media_proxy_bp.route("/xhs/<path:p>")
