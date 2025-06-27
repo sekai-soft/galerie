@@ -77,7 +77,16 @@ def convert_rendered_item(item: Item, max_rendered_items: int, ignore_rendered_i
 
     soup = BeautifulSoup(item.html, 'html.parser')
     target_elements = soup.find_all(['img', 'video'])
-    total_target_elements = len(target_elements)
+
+    filtered_target_elements = []
+    for target_element in target_elements:
+        if target_element.name == 'video':
+            source_element = target_element.find('source')
+            if not source_element or not source_element.get('src'):
+                continue
+        filtered_target_elements.append(target_element)
+
+    target_elements = filtered_target_elements
     if not ignore_rendered_items_cap:
         target_elements = target_elements[:max_rendered_items]
 
@@ -108,7 +117,7 @@ def convert_rendered_item(item: Item, max_rendered_items: int, ignore_rendered_i
             video_url=fix_proxied_media_url(video_url),
             video_thumbnail_url=fix_proxied_media_url(video_thumbnail_url),
             text=item.text if item.text else "(No text)",
-            left_rendered_items=total_target_elements - max_rendered_items,))
+            left_rendered_items=len(target_elements) - max_rendered_items,))
 
     return res
 
