@@ -77,11 +77,11 @@ services:
     depends_on:
       - nitter-redis
     restart: unless-stopped
-    healthcheck:
-      test: wget -nv --tries=1 --spider http://127.0.0.1:8080/Jack/status/20 || exit 1
-      interval: 30s
-      timeout: 5s
-      retries: 2
+    # healthcheck:
+    #   test: wget -nv --tries=1 --spider http://127.0.0.1:8080/Jack/status/20 || exit 1
+    #   interval: 30s
+    #   timeout: 5s
+    #   retries: 2
     user: "998:998"
     read_only: true
     security_opt:
