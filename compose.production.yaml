@@ -67,41 +67,6 @@ services:
 
   # nitter
   nitter:
-    image: ghcr.io/sekai-soft/nitter-self-contained
-    restart: unless-stopped
-    volumes:
-      - nitter-data:/nitter-data
-      - ./guest_accounts.json:/nitter-data/guest_accounts.json
-    depends_on:
-      nitter-redis:
-        condition: service_healthy
-    environment:
-      - NITTER_ACCOUNTS_FILE=/nitter-data/guest_accounts.json
-      - DISABLE_REDIS=1
-      - DISABLE_NGINX=1
-      - REDIS_HOST=nitter-redis
-      - INSTANCE_PORT=80
-      - INSTANCE_HOSTNAME=nitter
-      - INSTANCE_RSS_MINUTES=5
-    healthcheck:
-      test: wget -nv --tries=1 --spider http://127.0.0.1:80 || exit 1
-      interval: 5s
-      timeout: 5s
-      retries: 12
-
-  nitter-redis:
-    image: redis:6-alpine
-    restart: unless-stopped
-    command: redis-server --save 60 1 --loglevel warning
-    volumes:
-      - nitter-redis:/data
-    healthcheck:
-      test: redis-cli ping
-      interval: 5s
-      timeout: 5s
-      retries: 12
-  
-  nitter-pf:
     image: ghcr.io/sekai-soft/nitter-pitchforked:v20250626
     # container_name: nitter
     # ports:
@@ -110,7 +75,7 @@ services:
       - ./nitter.conf:/src/nitter.conf:Z,ro
       - ./sessions.jsonl:/src/sessions.jsonl:Z,ro # Run get_sessions.py to get the credentials
     depends_on:
-      - nitter-pf-redis
+      - nitter-redis
     restart: unless-stopped
     healthcheck:
       test: wget -nv --tries=1 --spider http://127.0.0.1:8080/Jack/status/20 || exit 1
@@ -124,7 +89,7 @@ services:
     cap_drop:
       - ALL
 
-  nitter-pf-redis:
+  nitter-redis:
     image: redis:6-alpine
     # container_name: nitter-redis
     command: redis-server --save 60 1 --loglevel warning
@@ -146,6 +111,4 @@ services:
 volumes:
   postgres:
   miniflux-postgres:
-  nitter-data:
-  nitter-redis:
   nitter-pf-redis:
