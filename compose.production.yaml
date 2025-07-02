@@ -30,6 +30,8 @@ services:
     command: tunnel run galerie
     env_file:
       - env
+    labels:
+      - com.centurylinklabs.watchtower.enable=true
 
   # miniflux
   miniflux:
