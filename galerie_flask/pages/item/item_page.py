@@ -38,12 +38,6 @@ def item():
             if rt_feed:
                 rt_feed_icon = g.aggregator.get_feed_icon(rt_feed.fid)
 
-    downloadable = False
-    for ri in rendered_items:
-        if ri.image_url:
-            downloadable = True
-            break
-
     return render_template(
         'item.html',
         feed_icon=feed_icon,
@@ -54,5 +48,4 @@ def item():
         items=rendered_items,
         u_index=u_index,
         is_instapaper_available=is_instapaper_available(),
-        downloadable=downloadable
     )

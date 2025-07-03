@@ -214,6 +214,10 @@ class MinifluxAggregator(RssAggregator):
             if e.status_code == 404:
                 return None
             raise e
+        except miniflux.ServerError as e:
+            if e.status_code >= 500:
+                return None
+            raise e
         return FeedIcon(
             data=fi['data'],
             mime_type=fi['mime_type']

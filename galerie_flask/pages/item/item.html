@@ -32,7 +32,7 @@
         id="media-overlay-{{ loop.index }}"
         class="item-image-overlay next-media"
         {% if loop.index != u_index + 1 %} style="display: none;" {% endif %}
-    >{{ loop.index }}/{{ items|length }}</div> 
+    >{{ loop.index }}/{{ items|length }}</div>
 </div>
 {% endfor %}
 
@@ -111,9 +111,20 @@
     >📋</button>
 
     <!-- Download -->
-    {% if downloadable %}
-    <a href="/actions/download_media?iid={{ item.iid }}">
+    {% for item in items %}
+    <a
+        id="media-download-{{ loop.index }}"
+        href="/actions/download_media?uid={{ item.uid }}"
+        {% if loop.index != u_index + 1 %} style="display: none;" {% endif %}
+    >
         <button class="button" style="font-size: 1em">💾</button>
+    </a>
+    {% endfor %}
+
+    <!-- Download all -->
+    {% if items|length > 1 %}
+    <a href="/actions/download_all_media?iid={{ item.iid }}">
+        <button class="button" style="font-size: 1em">{{ _('Download all') }}</button>
     </a>
     {% endif %}
 </div>

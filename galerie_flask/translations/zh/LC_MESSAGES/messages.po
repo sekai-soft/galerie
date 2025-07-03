@@ -7,7 +7,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: PROJECT VERSION\n"
 "Report-Msgid-Bugs-To: EMAIL@ADDRESS\n"
-"POT-Creation-Date: 2025-06-12 03:20+0000\n"
+"POT-Creation-Date: 2025-07-03 02:09+0000\n"
 "PO-Revision-Date: 2024-06-27 08:04+0000\n"
 "Last-Translator: FULL NAME <EMAIL@ADDRESS>\n"
 "Language: zh\n"
@@ -186,6 +186,14 @@ msgstr "保存至 Instapaper"
 #: galerie_flask/pages/item/item.html:104
 msgid "Share"
 msgstr "分享"
+
+#: galerie_flask/pages/item/item.html:118
+msgid "Download"
+msgstr "下载"
+
+#: galerie_flask/pages/item/item.html:125
+msgid "Download all"
+msgstr "下载全部"
 
 #: galerie_flask/pages/settings/settings.html:3
 #: galerie_flask/pages/settings/settings.html:5

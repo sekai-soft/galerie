@@ -23,8 +23,10 @@ if (mediaIndex > window.TOTAL_MEDIA_COUNT) {
 const nextMedia = () => {
     const currentMedia = document.getElementById(`media-${mediaIndex}`);
     const currentMediaOverlay = document.getElementById(`media-overlay-${mediaIndex}`);
+    const currentMediaDownload = document.getElementById(`media-download-${mediaIndex}`);
     currentMedia.style.display = 'none';
     currentMediaOverlay.style.display = 'none';
+    currentMediaDownload.style.display = 'none';
 
     mediaIndex += 1;
     if (mediaIndex > window.TOTAL_MEDIA_COUNT) {
@@ -33,8 +35,10 @@ const nextMedia = () => {
 
     const nextMedia = document.getElementById(`media-${mediaIndex}`);
     const nextMediaOverlay = document.getElementById(`media-overlay-${mediaIndex}`);
+    const nextMediaDownload = document.getElementById(`media-download-${mediaIndex}`);
     nextMedia.style.display = 'block';
     nextMediaOverlay.style.display = 'block';
+    nextMediaDownload.style.display = 'block';
 }
 
 // copy to clipboard
