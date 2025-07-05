@@ -7,10 +7,10 @@
         <title>{% block title %}{% endblock %}</title>
         <meta name="description" content="{{ _('A Pinterest/Xiaohongshu photo wall style RSS reader') }}">
         <link rel="icon" type="image/png" href="{{ static_url_for('static', filename='favicon.png') }}">
+        <link rel="stylesheet" type="text/css" href="https://cdn.jsdelivr.net/npm/flickity@3.0.0/css/flickity.min.css" media="screen">
         <link rel="stylesheet" type="text/css" href="{{ static_url_for('static', filename='base.css') }}">
         <link rel="stylesheet" type="text/css" href="{{ static_url_for('static', filename='elements.css') }}">
         <link rel="stylesheet" type="text/css" href="{{ static_url_for('static', filename='styles.css') }}">
-        <link rel="stylesheet" type="text/css" href="https://cdn.jsdelivr.net/npm/flickity@3.0.0/css/flickity.min.css" media="screen">
         <link rel="manifest" href="/manifest.json">
         <link rel="apple-touch-icon" href="{{ static_url_for('static', filename='icon_apple.png') }}">
         <meta name="apple-mobile-web-app-capable" content="yes">

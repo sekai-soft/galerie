@@ -220,6 +220,11 @@ dialog {
     border-radius: 16px;
 }
 
+/* position dots in carousel */
+.flickity-page-dots {
+    bottom: 16px;
+}
+
 /** htmx-indicator **/
 .htmx-indicator {
     display: none;
