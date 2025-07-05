@@ -215,9 +215,7 @@ class MinifluxAggregator(RssAggregator):
                 return None
             raise e
         except miniflux.ServerError as e:
-            if e.status_code >= 500:
-                return None
-            raise e
+            return None
         return FeedIcon(
             data=fi['data'],
             mime_type=fi['mime_type']

@@ -25,11 +25,14 @@ document.getElementById('item-copy-link-button').addEventListener('click', () =>
 
 // carousel
 const flkty = new Flickity('.carousel', {
-    imageLoaded: true,
     percentagePosition: false,
     initialIndex: window.U_INDEX,
     prevNextButtons: window.TOTAL_MEDIA_COUNT > 1,
     pageDots: window.TOTAL_MEDIA_COUNT > 1,
+});
+document.querySelectorAll('.carousel img').forEach(img => {
+    img.addEventListener('load', () => flkty.resize());
+    img.addEventListener('error', () => flkty.resize());
 });
 document.querySelectorAll('.carousel video').forEach(video => {
     video.addEventListener('loadedmetadata', () => flkty.resize());
