@@ -35,11 +35,11 @@ document.addEventListener('DOMContentLoaded', () => {
         }
     });
 
-    document.getElementById('sort-button').addEventListener('click', (event) => {
-        const sort = event.target.textContent;
-        if (sort === '⬆️') {
+    document.getElementById('sort-select').addEventListener('change', (event) => {
+        const sort = event.target.value;
+        if (sort === '0') {
             updateQueryParameter('sort', null);
-        } else if (sort === '⬇️') {
+        } else if (sort === '1') {
             updateQueryParameter('sort', 'asc');
         }
     })

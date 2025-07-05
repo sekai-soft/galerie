@@ -49,14 +49,26 @@
             class="link-button"
         >✅</a>
         <a
-            id="sort-button"
-            href="javascript:void(0)"
-            class="link-button"
-        >{{ '⬇️' if sort_by_desc else '⬆️' }}</a>
-        <a
-            href="/settings"
+            href="javascript:document.getElementById('settings').showModal()"
             class="link-button"
         >⚙️</a>
+        <dialog id="settings">
+            <p>
+                {{ _('Sort') }} 
+                <select id="sort-select">
+                    <option value="0" {{ 'selected=selected' if sort_by_desc else '' }}>{{ _('descending') }}</option>
+                    <option value="1" {{ 'selected=selected' if not sort_by_desc else '' }}>{{ _('ascending') }}</option>
+                </select>
+            </p>
+            <a href="/settings">
+                <button class="button" style="font-size: 1em">{{ _('More settings') }}</button>
+            </a>
+            <br>
+            <br>
+            <button class="button" onclick="document.getElementById('settings').close()">
+                {{ _('Close') }}
+            </button>
+        </dialog>
     </div>
 </div>
 {% if not last_iid %}
