@@ -7,7 +7,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: PROJECT VERSION\n"
 "Report-Msgid-Bugs-To: EMAIL@ADDRESS\n"
-"POT-Creation-Date: 2025-07-03 02:09+0000\n"
+"POT-Creation-Date: 2025-07-05 00:47+0000\n"
 "PO-Revision-Date: 2024-06-27 08:04+0000\n"
 "Last-Translator: FULL NAME <EMAIL@ADDRESS>\n"
 "Language: zh\n"
@@ -141,23 +141,44 @@ msgstr "包含已读"
 msgid "Are you sure you want to mark this group as read?"
 msgstr "确定要标记这个分组为已读吗？"
 
-#: galerie_flask/pages/index/index.html:66
+#: galerie_flask/pages/index/index.html:57
+msgid "Sort"
+msgstr "排序"
+
+#: galerie_flask/pages/index/index.html:59
+msgid "descending"
+msgstr "降序"
+
+#: galerie_flask/pages/index/index.html:60
+msgid "ascending"
+msgstr "升序"
+
+#: galerie_flask/pages/index/index.html:64
+msgid "More settings"
+msgstr "更多设置"
+
+#: galerie_flask/pages/index/index.html:69
+#: galerie_flask/templates/add_feed.html:58
+msgid "Close"
+msgstr "关闭"
+
+#: galerie_flask/pages/index/index.html:78
 msgid "start adding some feeds ❤️"
 msgstr "开始添加一些订阅源 ❤️"
 
-#: galerie_flask/pages/index/index.html:69
+#: galerie_flask/pages/index/index.html:81
 msgid "all read ✨"
 msgstr "全部已读 ✨"
 
-#: galerie_flask/pages/index/index.html:70
+#: galerie_flask/pages/index/index.html:82
 msgid "go touch some grass 🌱"
 msgstr "去接触一下大自然吧 🌱"
 
-#: galerie_flask/pages/index/index.html:76
+#: galerie_flask/pages/index/index.html:88
 msgid "has"
 msgstr "有"
 
-#: galerie_flask/pages/index/index.html:76
+#: galerie_flask/pages/index/index.html:88
 msgid "unread items"
 msgstr "未读条目"
 
@@ -187,11 +208,16 @@ msgstr "保存至 Instapaper"
 msgid "Share"
 msgstr "分享"
 
-#: galerie_flask/pages/item/item.html:118
+#: galerie_flask/pages/item/item.html:112
+msgid "Copy link"
+msgstr "复制链接"
+
+#: galerie_flask/pages/item/item.html:123
+#: galerie_flask/pages/item/item.html:138
 msgid "Download"
 msgstr "下载"
 
-#: galerie_flask/pages/item/item.html:125
+#: galerie_flask/pages/item/item.html:144
 msgid "Download all"
 msgstr "下载全部"
 
@@ -295,10 +321,6 @@ msgstr "这个"
 #: galerie_flask/templates/add_feed.html:55
 msgid "iOS shortcut"
 msgstr "添加 iOS 快捷方式"
-
-#: galerie_flask/templates/add_feed.html:58
-msgid "Close"
-msgstr "关闭"
 
 #: galerie_flask/templates/add_feed.html:63
 msgid "Supported feed types: Twitter, RSS"
