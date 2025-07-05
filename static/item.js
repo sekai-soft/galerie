@@ -14,33 +14,6 @@ if (!navigator.share) {
     document.getElementById('item-web-share-button').style.display = 'none';
 }
 
-// carousel
-let mediaIndex = window.U_INDEX + 1;
-if (mediaIndex > window.TOTAL_MEDIA_COUNT) {
-    mediaIndex = 1;
-}
-
-const nextMedia = () => {
-    const currentMedia = document.getElementById(`media-${mediaIndex}`);
-    const currentMediaOverlay = document.getElementById(`media-overlay-${mediaIndex}`);
-    const currentMediaDownload = document.getElementById(`media-download-${mediaIndex}`);
-    currentMedia.style.display = 'none';
-    currentMediaOverlay.style.display = 'none';
-    currentMediaDownload.style.display = 'none';
-
-    mediaIndex += 1;
-    if (mediaIndex > window.TOTAL_MEDIA_COUNT) {
-        mediaIndex = 1;
-    }
-
-    const nextMedia = document.getElementById(`media-${mediaIndex}`);
-    const nextMediaOverlay = document.getElementById(`media-overlay-${mediaIndex}`);
-    const nextMediaDownload = document.getElementById(`media-download-${mediaIndex}`);
-    nextMedia.style.display = 'block';
-    nextMediaOverlay.style.display = 'block';
-    nextMediaDownload.style.display = 'block';
-}
-
 // copy to clipboard
 document.getElementById('item-copy-link-button').addEventListener('click', () => {
     navigator.clipboard.writeText(window.SHAREABLE_URL).then(() => {
@@ -49,3 +22,26 @@ document.getElementById('item-copy-link-button').addEventListener('click', () =>
         toast('Failed to copy to clipboard');
     });
 })
+
+// carousel
+const flkty = new Flickity('.carousel', {
+    imageLoaded: true,
+    percentagePosition: false,
+    initialIndex: window.U_INDEX,
+    prevNextButtons: window.TOTAL_MEDIA_COUNT > 1,
+    pageDots: window.TOTAL_MEDIA_COUNT > 1,
+});
+document.querySelectorAll('.carousel video').forEach(video => {
+    video.addEventListener('loadedmetadata', () => flkty.resize());
+    video.addEventListener('canplay', () => flkty.resize());
+});
+flkty.on('change', (index) => {
+    for (let i = 1; i <= window.TOTAL_MEDIA_COUNT; i++) {
+        const mediaDownload = document.getElementById(`media-download-${i}`);
+        if (index + 1 === i) {
+            mediaDownload.style.display = 'block';
+        } else {
+            mediaDownload.style.display = 'none';
+        }
+    }
+});

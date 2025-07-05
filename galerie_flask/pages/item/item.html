@@ -5,36 +5,23 @@
 {% block header_title %}{{ item.title if not no_text_mode else '(No text mode is on)' }}{% endblock %}
 
 {% block page_content %}
-{% for item in items %}
-<div class="item-image-container animate-long">
+
+<div class="carousel">
+    {% for item in items %}
     {% if item.video_url %}
     <video
-        id="media-{{ loop.index }}"
-        class="item-image item-image-contained"
+        class="carousel-cell"
         src="{{ item.video_url }}"
-        muted
-        autoplay
-        loop
         controls
-        {% if loop.index != u_index + 1 %} style="display: none;" {% endif %}
-        onclick="e => e.preventDefault(); nextMedia();"
-    />
+    ></video>
     {% elif item.image_url %}
     <img
-        id="media-{{ loop.index }}"
-        class="item-image item-image-contained"
+        class="carousel-cell"
         src="{{ item.image_url }}"
-        {% if loop.index != u_index + 1 %} style="display: none;" {% endif %}
-        onclick="e => e.preventDefault(); nextMedia();"
     />
     {% endif %}
-    <div
-        id="media-overlay-{{ loop.index }}"
-        class="item-image-overlay next-media"
-        {% if loop.index != u_index + 1 %} style="display: none;" {% endif %}
-    >{{ loop.index }}/{{ items|length }}</div>
+    {% endfor %}
 </div>
-{% endfor %}
 
 {% if not no_text_mode %}
 <div style="display: flex; align-items: center; gap: 0.5em">

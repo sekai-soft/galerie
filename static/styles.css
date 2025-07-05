@@ -37,6 +37,10 @@ input {
     gap: 1em;
 }
 
+.carousel-cell {
+    width: calc(100% - 64px);
+}
+
 /** sizes for > iPhone 12 Pro Max <= iPad Pro **/
 @media screen and (max-width: 1024px) {
     .app {
@@ -68,6 +72,10 @@ input {
 
     .item-buttons {
         gap: 1em;
+    }
+
+    .carousel-cell {
+        width: calc(100% - 64px);
     }
 }
 
@@ -103,6 +111,10 @@ input {
     .item-buttons {
         gap: 0.5em;
     }
+
+    .carousel-cell {
+        width: calc(100% - 48px);
+    }
 }
 
 /* non-sizes */
@@ -130,12 +142,6 @@ input {
     border-radius: 16px;
     cursor: pointer;
     object-fit: cover;
-}
-
-.item-image-contained {
-    height: 75vh;
-    object-fit: contain;
-    background-color: #F5F5F5;
 }
 
 .grid-item a {
@@ -207,6 +213,11 @@ dialog {
     margin-right: 0.5em;
     border-radius: 50%;
     width: 1em;
+}
+
+.carousel-cell {
+    margin-right: 16px;
+    border-radius: 16px;
 }
 
 /** htmx-indicator **/
