@@ -1,7 +1,7 @@
 import json
 from flask import request, g, Blueprint, make_response, render_template
 from galerie.rendered_item import convert_rendered_items
-from galerie_flask.utils import requires_auth, load_more_button_args, items_args, DEFAULT_MAX_ITEMS, DEFAULT_MAX_RENDERED_ITEMS
+from galerie_flask.utils import requires_auth, load_more_button_args, items_args, DEFAULT_MAX_ITEMS, DEFAULT_MAX_RENDERED_ITEMS, compute_read_percentage
 from galerie_flask.actions_blueprint import catches_exceptions
 
 
@@ -22,6 +22,8 @@ def load_more():
 
     from_iid = request.args.get('from_iid')
     remaining_count = int(request.args.get('remaining_count'))
+    total_count = int(request.args.get('total_count'))
+    read_percentage = compute_read_percentage(remaining_count, total_count)
 
     unread_items = g.aggregator.get_items(
         count=max_items,
@@ -45,7 +47,8 @@ def load_more():
             sort_by_desc=sort_by_desc,
             infinite_scroll=infinite_scroll,
             remaining_count=remaining_count,
-            include_read=include_read
+            include_read=include_read,
+            total_count=total_count
         )
         rendered_string = \
             render_template('items_stream.html', **args) + "\n" + \
@@ -56,6 +59,7 @@ def load_more():
 
     resp = make_response(rendered_string)
     resp.headers['HX-Trigger-After-Settle'] = json.dumps({
-        "append": list(map(lambda i: i.uid, rendered_items))
+        "append": list(map(lambda i: i.uid, rendered_items)),
+        "update_read_percentage": read_percentage
     })
     return resp

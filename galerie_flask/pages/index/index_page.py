@@ -1,7 +1,7 @@
 from flask import Blueprint, render_template, g, request
 from flask_babel import _
 from galerie.rendered_item import convert_rendered_items
-from galerie_flask.utils import requires_auth, items_args, load_more_button_args, DEFAULT_MAX_ITEMS, DEFAULT_MAX_RENDERED_ITEMS
+from galerie_flask.utils import requires_auth, items_args, load_more_button_args, DEFAULT_MAX_ITEMS, DEFAULT_MAX_RENDERED_ITEMS, compute_read_percentage
 from galerie_flask.pages_blueprint import catches_exceptions, requires_auth
 
 
@@ -37,11 +37,13 @@ def index_page():
     all_unread_count = sum(all_group_counts.values())
     groups = sorted(groups, key=lambda group: all_group_counts[group.gid], reverse=True)   
     selected_group = next((group for group in groups if group.gid == gid), None)
-    remaining_count = (all_group_counts[gid] if gid is not None else all_unread_count)
-    remaining_count = remaining_count - max_items if remaining_count > max_items else 0
+
+    total_count = all_group_counts[gid] if gid is not None else all_unread_count
+    remaining_count = total_count - max_items if total_count > max_items else 0
+    read_percentage = compute_read_percentage(remaining_count, total_count)
+    
     all_feed_count = sum(group.feed_count for group in groups)
     feeds = g.aggregator.get_feeds()
-
     args = {
         "groups": groups,
         "all_group_counts": all_group_counts,
@@ -52,6 +54,7 @@ def index_page():
         "all_feed_count": all_feed_count,
         "feeds": feeds,
         "no_text_mode": no_text_mode,
+        "read_percentage": read_percentage
     }
     items_args(args, rendered_items, True, gid is None, no_text_mode)
     load_more_button_args(
@@ -61,7 +64,8 @@ def index_page():
         sort_by_desc=sort_by_desc,
         infinite_scroll=infinite_scroll,
         remaining_count=remaining_count,
-        include_read=include_read
+        include_read=include_read,
+        total_count=total_count
     )
 
     return render_template('index.html', **args)

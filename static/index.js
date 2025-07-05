@@ -16,6 +16,11 @@ const updateQueryParameter = (key, value) => {
     window.location.href = url.toString();
 }
 
+document.body.addEventListener("update_read_percentage", (event) => {
+    const percentage = event.detail.value;
+    document.getElementById('read-percentage').innerText = percentage + '%';
+});
+
 document.addEventListener('DOMContentLoaded', () => {
     document.getElementById('group-select').addEventListener('change', (event) => {
         const id = event.target.value;

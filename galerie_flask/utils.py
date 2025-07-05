@@ -30,7 +30,8 @@ def load_more_button_args(
         sort_by_desc: bool,
         infinite_scroll: bool,
         remaining_count: int,
-        include_read: bool
+        include_read: bool,
+        total_count: int
     ):
     args.update({
         "from_iid": from_iid,
@@ -38,7 +39,8 @@ def load_more_button_args(
         "sort": "desc" if sort_by_desc else "asc",
         "infinite_scroll": infinite_scroll,
         "remaining_count": remaining_count,
-        "include_read": "1" if include_read else "0"
+        "include_read": "1" if include_read else "0",
+        "total_count": total_count
     })
 
 
@@ -57,3 +59,10 @@ def items_args(args: dict, rendered_items: List[RenderedItem], should_show_feed_
         "rendered_feed_icons": rendered_feed_icons,
         "no_text_mode": no_text_mode
     })
+
+
+def compute_read_percentage(remaining_count: int, total_count: int) -> int:
+    if total_count == 0 or remaining_count == 0:
+        return 100
+    read_count = total_count - remaining_count
+    return int((read_count / total_count) * 100)

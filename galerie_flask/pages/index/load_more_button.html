@@ -5,7 +5,7 @@
 >
     <button
         class="button"
-        hx-get="/actions/load_more?from_iid={{ from_iid }}&group={{ gid }}&sort={{ sort }}&remaining_count={{ remaining_count }}&read={{ include_read }}"
+        hx-get="/actions/load_more?from_iid={{ from_iid }}&group={{ gid }}&sort={{ sort }}&remaining_count={{ remaining_count }}&read={{ include_read }}&total_count={{ total_count }}"
         hx-trigger="{{ 'revealed' if infinite_scroll else 'click' }}"
         hx-target="#grid"
         hx-swap="beforeend"
