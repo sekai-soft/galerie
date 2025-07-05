@@ -108,8 +108,26 @@
     <button
         id="item-copy-link-button"
         class="button"
-    >📋</button>
+    >
+        {{ _('Copy link') }}
+    </button>
 
+    <!-- Download -->
+    {% if items|length == 1 %}
+    {% for item in items %}
+    <a
+        id="media-download-{{ loop.index }}"
+        href="/actions/download_media?uid={{ item.uid }}"
+        {% if loop.index != u_index + 1 %} style="display: none;" {% endif %}
+    >
+        <button class="button" style="font-size: 1em">{{ _('Download') }}</button>
+    </a>
+    {% endfor %}
+    {% endif %}
+</div>
+
+{% if items|length > 1 %}
+<div class="item-buttons">
     <!-- Download -->
     {% for item in items %}
     <a
@@ -117,17 +135,16 @@
         href="/actions/download_media?uid={{ item.uid }}"
         {% if loop.index != u_index + 1 %} style="display: none;" {% endif %}
     >
-        <button class="button" style="font-size: 1em">💾</button>
+        <button class="button" style="font-size: 1em">{{ _('Download') }}</button>
     </a>
     {% endfor %}
 
     <!-- Download all -->
-    {% if items|length > 1 %}
     <a href="/actions/download_all_media?iid={{ item.iid }}">
         <button class="button" style="font-size: 1em">{{ _('Download all') }}</button>
     </a>
-    {% endif %}
 </div>
+{% endif %}
 
 <script>
     window.U_INDEX = "{{ u_index }}";
