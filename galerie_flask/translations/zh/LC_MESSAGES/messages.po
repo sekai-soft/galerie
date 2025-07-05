@@ -7,7 +7,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: PROJECT VERSION\n"
 "Report-Msgid-Bugs-To: EMAIL@ADDRESS\n"
-"POT-Creation-Date: 2025-07-05 01:06+0000\n"
+"POT-Creation-Date: 2025-07-05 05:44+0000\n"
 "PO-Revision-Date: 2024-06-27 08:04+0000\n"
 "Last-Translator: FULL NAME <EMAIL@ADDRESS>\n"
 "Language: zh\n"
@@ -129,68 +129,72 @@ msgstr "依据分组"
 msgid "by feed"
 msgstr "依据订阅源"
 
-#: galerie_flask/pages/index/index.html:33
-msgid "unread only"
-msgstr "仅未读"
-
-#: galerie_flask/pages/index/index.html:34
-msgid "include read"
-msgstr "包含已读"
-
-#: galerie_flask/pages/index/index.html:46
+#: galerie_flask/pages/index/index.html:42
 msgid "Are you sure you want to mark this group as read?"
 msgstr "确定要标记这个分组为已读吗？"
 
-#: galerie_flask/pages/index/index.html:57
+#: galerie_flask/pages/index/index.html:53
+msgid "Status"
+msgstr "状态"
+
+#: galerie_flask/pages/index/index.html:55
+msgid "unread only"
+msgstr "仅未读"
+
+#: galerie_flask/pages/index/index.html:56
+msgid "include read"
+msgstr "包含已读"
+
+#: galerie_flask/pages/index/index.html:60
 msgid "Sort"
 msgstr "排序"
 
-#: galerie_flask/pages/index/index.html:59
+#: galerie_flask/pages/index/index.html:62
 msgid "descending"
 msgstr "降序"
 
-#: galerie_flask/pages/index/index.html:60
+#: galerie_flask/pages/index/index.html:63
 msgid "ascending"
 msgstr "升序"
 
-#: galerie_flask/pages/index/index.html:64
+#: galerie_flask/pages/index/index.html:67
 msgid "No text mode"
 msgstr "无言模式"
 
-#: galerie_flask/pages/index/index.html:71
+#: galerie_flask/pages/index/index.html:74
 msgid "no"
 msgstr "否"
 
-#: galerie_flask/pages/index/index.html:72
+#: galerie_flask/pages/index/index.html:75
 msgid "yes"
 msgstr "是"
 
-#: galerie_flask/pages/index/index.html:76
+#: galerie_flask/pages/index/index.html:79
 msgid "More settings"
 msgstr "更多设置"
 
-#: galerie_flask/pages/index/index.html:81
+#: galerie_flask/pages/index/index.html:84
 #: galerie_flask/templates/add_feed.html:58
 msgid "Close"
 msgstr "关闭"
 
-#: galerie_flask/pages/index/index.html:90
+#: galerie_flask/pages/index/index.html:93
 msgid "start adding some feeds ❤️"
 msgstr "开始添加一些订阅源 ❤️"
 
-#: galerie_flask/pages/index/index.html:93
+#: galerie_flask/pages/index/index.html:96
 msgid "all read ✨"
 msgstr "全部已读 ✨"
 
-#: galerie_flask/pages/index/index.html:94
+#: galerie_flask/pages/index/index.html:97
 msgid "go touch some grass 🌱"
 msgstr "去接触一下大自然吧 🌱"
 
-#: galerie_flask/pages/index/index.html:100
+#: galerie_flask/pages/index/index.html:103
 msgid "has"
 msgstr "有"
 
-#: galerie_flask/pages/index/index.html:100
+#: galerie_flask/pages/index/index.html:103
 msgid "unread items"
 msgstr "未读条目"
 
@@ -204,32 +208,32 @@ msgstr "加载"
 msgid "more"
 msgstr "更多"
 
-#: galerie_flask/pages/item/item.html:62
+#: galerie_flask/pages/item/item.html:49
 msgid "via"
 msgstr "转发自"
 
-#: galerie_flask/pages/item/item.html:84
+#: galerie_flask/pages/item/item.html:71
 msgid "Open link"
 msgstr "打开链接"
 
-#: galerie_flask/pages/item/item.html:96
+#: galerie_flask/pages/item/item.html:83
 msgid "Save to Instapaper"
 msgstr "保存至 Instapaper"
 
-#: galerie_flask/pages/item/item.html:106
+#: galerie_flask/pages/item/item.html:93
 msgid "Share"
 msgstr "分享"
 
-#: galerie_flask/pages/item/item.html:114
+#: galerie_flask/pages/item/item.html:101
 msgid "Copy link"
 msgstr "复制链接"
 
-#: galerie_flask/pages/item/item.html:125
-#: galerie_flask/pages/item/item.html:140
+#: galerie_flask/pages/item/item.html:112
+#: galerie_flask/pages/item/item.html:127
 msgid "Download"
 msgstr "下载"
 
-#: galerie_flask/pages/item/item.html:146
+#: galerie_flask/pages/item/item.html:133
 msgid "Download all"
 msgstr "下载全部"
 

@@ -210,16 +210,12 @@ class MinifluxAggregator(RssAggregator):
     def get_feed_icon(self, fid: str) -> Optional[FeedIcon]:
         try:
             fi = self.client.get_feed_icon(int(fid))
-        except miniflux.ClientError as e:
-            if e.status_code == 404:
-                return None
-            raise e
-        except miniflux.ServerError as e:
+            return FeedIcon(
+                data=fi['data'],
+                mime_type=fi['mime_type']
+            )
+        except Exception:
             return None
-        return FeedIcon(
-            data=fi['data'],
-            mime_type=fi['mime_type']
-        )
 
     def create_group(self, title: str) -> str:
         return str(self.client.create_category(title)["id"])

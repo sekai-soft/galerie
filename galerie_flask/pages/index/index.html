@@ -29,10 +29,6 @@
             {% endfor %}
         </optgroup>
     </select>
-    <select id="read-select" class="grid-sizer">
-        <option value="0" {{ 'selected=selected' if include_read == '0' else '' }}>{{ _('unread only') }}</option>
-        <option value="1" {{ 'selected=selected' if include_read == '1' else '' }}>{{ _('include read') }}</option>
-    </select>
     <!-- hack to ensure height is consistent... -->
     <p style="visibility: hidden;">.</p>
     <div class="header-right grid-sizer">
@@ -53,6 +49,13 @@
             class="link-button"
         >⚙️</a>
         <dialog id="settings">
+            <p>
+                {{ _('Status') }} 
+                <select id="read-select">
+                    <option value="0" {{ 'selected=selected' if include_read == '0' else '' }}>{{ _('unread only') }}</option>
+                    <option value="1" {{ 'selected=selected' if include_read == '1' else '' }}>{{ _('include read') }}</option>
+                </select>
+            </p>
             <p>
                 {{ _('Sort') }} 
                 <select id="sort-select">
