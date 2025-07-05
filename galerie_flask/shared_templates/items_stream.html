@@ -34,14 +34,9 @@
                 loop
             />
             {% endif %}
-            {% if item.video_url or item.left_rendered_items > 0 %}
+            {% if item.overlay_text != '' %}
             <div class="item-image-overlay">
-                {% if item.video_url %}
-                🎥
-                {% endif %}
-                {% if item.left_rendered_items > 0 %}
-                {{ item.left_rendered_items }}+
-                {% endif %}
+                {{ item.overlay_text }}
             </div>
             {% endif %}
             {% if not no_text_mode %}

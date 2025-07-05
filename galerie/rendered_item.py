@@ -28,7 +28,7 @@ class RenderedItem:
     video_url: str = ''
     video_thumbnail_url: str = ''
     text: str = ''
-    left_rendered_items: int = 0
+    overlay_text: str = ''
 
     shareable_url: str = field(init=False)
 
@@ -73,23 +73,32 @@ def fix_proxied_media_url(url: str) -> str:
 
 
 def convert_rendered_item(item: Item, max_rendered_items: int, ignore_rendered_items_cap: Optional[bool]=False) -> List[RenderedItem]:
-    res = []
-
     soup = BeautifulSoup(item.html, 'html.parser')
-    target_elements = soup.find_all(['img', 'video'])
-
-    filtered_target_elements = []
-    for target_element in target_elements:
-        if target_element.name == 'video':
+    
+    target_elements = []
+    image_count, video_count = 0, 0
+    for target_element in soup.find_all(['img', 'video']):
+        if target_element.name == 'img':
+            image_count += 1
+        elif target_element.name == 'video':
             source_element = target_element.find('source')
             if not source_element or not source_element.get('src'):
                 continue
-        filtered_target_elements.append(target_element)
+            video_count += 1
+        target_elements.append(target_element)
 
-    target_elements = filtered_target_elements
     if not ignore_rendered_items_cap:
         target_elements = target_elements[:max_rendered_items]
+    overlay_text = ''
+    if image_count + video_count > 1:
+        if video_count > 1:
+            overlay_text += f'{video_count}🎥'
+        if image_count > 1:
+            overlay_text += f'{image_count}🖼️'
+    elif video_count == 1:
+        overlay_text = '🎥'
 
+    res = []
     for i, target_element in enumerate(target_elements):
         if target_element.name == 'img':
             image_url = target_element.get('src', '')
@@ -117,7 +126,7 @@ def convert_rendered_item(item: Item, max_rendered_items: int, ignore_rendered_i
             video_url=fix_proxied_media_url(video_url),
             video_thumbnail_url=fix_proxied_media_url(video_thumbnail_url),
             text=item.text if item.text else "(No text)",
-            left_rendered_items=len(target_elements) - max_rendered_items,))
+            overlay_text=overlay_text,))
 
     return res
 
