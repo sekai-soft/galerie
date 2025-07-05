@@ -24,6 +24,15 @@
                 class="item-image"
                 src="data:image/svg+xml;base64,{{ image_loading_svg_base64 }}"
             />
+            {% elif item.video_url %}
+            <video
+                id="img-{{ item.uid }}"
+                class="item-image"
+                src="{{ item.video_url }}"
+                muted
+                autoplay
+                loop
+            />
             {% endif %}
             {% if item.video_url or item.left_rendered_items > 0 %}
             <div class="item-image-overlay">
