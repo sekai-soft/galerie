@@ -14,6 +14,8 @@ item_bp = Blueprint('item', __name__, template_folder='.')
 @catches_exceptions
 @requires_auth
 def item():
+    no_text_mode = request.cookies.get('no_text_mode', '0') == '1'
+
     uid = request.args.get('uid')
     iid = uid.split('-')[0]
     u_index = int(uid.split('-')[1])
@@ -48,4 +50,5 @@ def item():
         items=rendered_items,
         u_index=u_index,
         is_instapaper_available=is_instapaper_available(),
+        no_text_mode=no_text_mode
     )

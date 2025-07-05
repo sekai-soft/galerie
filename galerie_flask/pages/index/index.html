@@ -60,6 +60,18 @@
                     <option value="1" {{ 'selected=selected' if not sort_by_desc else '' }}>{{ _('ascending') }}</option>
                 </select>
             </p>
+            <p>
+                {{ _('No text mode') }} 
+                <select
+                    name="no_text_mode"
+                    hx-trigger="change"
+                    hx-post="/actions/set_no_text_mode"
+                    hx-swap="none"
+                >
+                    <option value="0" {{ 'selected=selected' if not no_text_mode else '' }}>{{ _('no') }}</option>
+                    <option value="1" {{ 'selected=selected' if no_text_mode else '' }}>{{ _('yes') }}</option>
+                </select>
+            </p>
             <a href="/settings">
                 <button class="button" style="font-size: 1em">{{ _('More settings') }}</button>
             </a>

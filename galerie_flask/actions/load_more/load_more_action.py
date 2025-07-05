@@ -12,15 +12,17 @@ load_more_bp = Blueprint('load_more', __name__, template_folder='../../shared_te
 @catches_exceptions
 @requires_auth
 def load_more():
-    from_iid = request.args.get('from_iid')
+    sort_by_desc = request.args.get('sort', 'desc') == 'desc'
     gid = request.args.get('group') if request.args.get('group') else None
     include_read = request.args.get('read', '0') == '1'
-    sort_by_desc = request.args.get('sort', 'desc') == 'desc'
-    remaining_count = int(request.args.get('remaining_count'))
     infinite_scroll = request.cookies.get('infinite_scroll', '1') == '1'
     max_items = int(request.cookies.get('max_items', DEFAULT_MAX_ITEMS))
     max_rendered_items = int(request.cookies.get('max_rendered_items', DEFAULT_MAX_RENDERED_ITEMS))
-   
+    no_text_mode = request.cookies.get('no_text_mode', '0') == '1'
+
+    from_iid = request.args.get('from_iid')
+    remaining_count = int(request.args.get('remaining_count'))
+
     unread_items = g.aggregator.get_items(
         count=max_items,
         from_iid_exclusive=from_iid,
@@ -34,7 +36,7 @@ def load_more():
 
     if last_iid:
         args = {}
-        items_args(args, rendered_items, True, gid is None)
+        items_args(args, rendered_items, True, gid is None, no_text_mode)
         remaining_count = remaining_count - max_items if remaining_count > max_items else 0
         load_more_button_args(
             args=args,

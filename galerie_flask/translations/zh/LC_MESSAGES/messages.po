@@ -7,7 +7,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: PROJECT VERSION\n"
 "Report-Msgid-Bugs-To: EMAIL@ADDRESS\n"
-"POT-Creation-Date: 2025-07-05 00:47+0000\n"
+"POT-Creation-Date: 2025-07-05 01:06+0000\n"
 "PO-Revision-Date: 2024-06-27 08:04+0000\n"
 "Last-Translator: FULL NAME <EMAIL@ADDRESS>\n"
 "Language: zh\n"
@@ -154,31 +154,43 @@ msgid "ascending"
 msgstr "升序"
 
 #: galerie_flask/pages/index/index.html:64
+msgid "No text mode"
+msgstr "无言模式"
+
+#: galerie_flask/pages/index/index.html:71
+msgid "no"
+msgstr "否"
+
+#: galerie_flask/pages/index/index.html:72
+msgid "yes"
+msgstr "是"
+
+#: galerie_flask/pages/index/index.html:76
 msgid "More settings"
 msgstr "更多设置"
 
-#: galerie_flask/pages/index/index.html:69
+#: galerie_flask/pages/index/index.html:81
 #: galerie_flask/templates/add_feed.html:58
 msgid "Close"
 msgstr "关闭"
 
-#: galerie_flask/pages/index/index.html:78
+#: galerie_flask/pages/index/index.html:90
 msgid "start adding some feeds ❤️"
 msgstr "开始添加一些订阅源 ❤️"
 
-#: galerie_flask/pages/index/index.html:81
+#: galerie_flask/pages/index/index.html:93
 msgid "all read ✨"
 msgstr "全部已读 ✨"
 
-#: galerie_flask/pages/index/index.html:82
+#: galerie_flask/pages/index/index.html:94
 msgid "go touch some grass 🌱"
 msgstr "去接触一下大自然吧 🌱"
 
-#: galerie_flask/pages/index/index.html:88
+#: galerie_flask/pages/index/index.html:100
 msgid "has"
 msgstr "有"
 
-#: galerie_flask/pages/index/index.html:88
+#: galerie_flask/pages/index/index.html:100
 msgid "unread items"
 msgstr "未读条目"
 
@@ -192,32 +204,32 @@ msgstr "加载"
 msgid "more"
 msgstr "更多"
 
-#: galerie_flask/pages/item/item.html:61
+#: galerie_flask/pages/item/item.html:62
 msgid "via"
 msgstr "转发自"
 
-#: galerie_flask/pages/item/item.html:82
+#: galerie_flask/pages/item/item.html:84
 msgid "Open link"
 msgstr "打开链接"
 
-#: galerie_flask/pages/item/item.html:94
+#: galerie_flask/pages/item/item.html:96
 msgid "Save to Instapaper"
 msgstr "保存至 Instapaper"
 
-#: galerie_flask/pages/item/item.html:104
+#: galerie_flask/pages/item/item.html:106
 msgid "Share"
 msgstr "分享"
 
-#: galerie_flask/pages/item/item.html:112
+#: galerie_flask/pages/item/item.html:114
 msgid "Copy link"
 msgstr "复制链接"
 
-#: galerie_flask/pages/item/item.html:123
-#: galerie_flask/pages/item/item.html:138
+#: galerie_flask/pages/item/item.html:125
+#: galerie_flask/pages/item/item.html:140
 msgid "Download"
 msgstr "下载"
 
-#: galerie_flask/pages/item/item.html:144
+#: galerie_flask/pages/item/item.html:146
 msgid "Download all"
 msgstr "下载全部"
 

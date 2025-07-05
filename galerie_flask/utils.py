@@ -42,7 +42,7 @@ def load_more_button_args(
     })
 
 
-def items_args(args: dict, rendered_items: List[RenderedItem], should_show_feed_title: bool, should_show_feed_group: bool):
+def items_args(args: dict, rendered_items: List[RenderedItem], should_show_feed_title: bool, should_show_feed_group: bool, no_text_mode: bool):
     rendered_feed_icons = {}
     for ri in rendered_items:
         fid = ri.fid
@@ -54,5 +54,6 @@ def items_args(args: dict, rendered_items: List[RenderedItem], should_show_feed_
         "items": rendered_items,
         "should_show_feed_title": should_show_feed_title,
         "should_show_feed_group": should_show_feed_group,
-        "rendered_feed_icons": rendered_feed_icons
+        "rendered_feed_icons": rendered_feed_icons,
+        "no_text_mode": no_text_mode
     })

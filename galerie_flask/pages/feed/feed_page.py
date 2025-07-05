@@ -19,6 +19,7 @@ def feed_page():
         feed_icon = g.aggregator.get_feed_icon(fid)
 
     max_rendered_items = int(request.cookies.get('max_rendered_items', DEFAULT_MAX_RENDERED_ITEMS))
+    no_text_mode = request.cookies.get('no_text_mode', '0') == '1'
 
     items = g.aggregator.get_feed_items_by_iid_descending(fid)
     rendered_items = convert_rendered_items(items, max_rendered_items)
@@ -28,5 +29,5 @@ def feed_page():
         "feed_icon": feed_icon,
         "context_feed_page": True,
     }
-    items_args(args, rendered_items, False, False)
+    items_args(args, rendered_items, False, False, no_text_mode)
     return render_template('feed.html', **args)

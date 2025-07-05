@@ -18,6 +18,7 @@ def index_page():
     infinite_scroll = request.cookies.get('infinite_scroll', '1') == '1'
     max_items = int(request.cookies.get('max_items', DEFAULT_MAX_ITEMS))
     max_rendered_items = int(request.cookies.get('max_rendered_items', DEFAULT_MAX_RENDERED_ITEMS))
+    no_text_mode = request.cookies.get('no_text_mode', '0') == '1'
 
     unread_items = g.aggregator.get_items(
         count=max_items,
@@ -50,8 +51,9 @@ def index_page():
         "last_iid": last_iid,
         "all_feed_count": all_feed_count,
         "feeds": feeds,
+        "no_text_mode": no_text_mode,
     }
-    items_args(args, rendered_items, True, gid is None)
+    items_args(args, rendered_items, True, gid is None, no_text_mode)
     load_more_button_args(
         args=args,
         from_iid=last_iid,

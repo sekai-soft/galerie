@@ -1,8 +1,8 @@
 {% extends 'base_child_page.html' %}
 
-{% block title %}{{ item.title }}{% endblock %}
+{% block title %}{{ item.title if not no_text_mode else '(No text mode is on)' }}{% endblock %}
 
-{% block header_title %}{{ item.title }}{% endblock %}
+{% block header_title %}{{ item.title if not no_text_mode else '(No text mode is on)' }}{% endblock %}
 
 {% block page_content %}
 {% for item in items %}
@@ -36,6 +36,7 @@
 </div>
 {% endfor %}
 
+{% if not no_text_mode %}
 <div style="display: flex; align-items: center; gap: 0.5em">
     {% if rt %}
     {% if not rt_feed %}
@@ -74,6 +75,7 @@
 <p>{{ item.text }}</p>
 
 <p>{{ item.published_at|time_ago }}</p>
+{% endif %}
 
 <div class="item-buttons">
     <!-- Open link -->
