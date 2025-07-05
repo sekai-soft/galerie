@@ -70,7 +70,7 @@ def pwa_manifest():
         "short_name": "Galerie",
         "start_url": get_base_url(),
         "share_target": {
-            "action": "add_feed",
+            "action": "add_feed?view_feed=1",
             "method": "GET",
             "params": {
                 "title": "title",
