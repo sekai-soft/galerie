@@ -62,7 +62,7 @@ def pwa_manifest():
                 "type": "image/png"
             }
         ],
-        "orientation": "any",
+        "orientation": "natural",
         "display": "standalone",
         "dir": "auto",
         "lang": "en-US",
