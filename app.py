@@ -1,4 +1,5 @@
 import os
+import io
 import base64
 import sentry_sdk
 import click
@@ -14,7 +15,15 @@ from galerie_flask.actions.actions_routes import actions_bp
 from galerie_flask.pages.routes import pages_bp
 
 
-load_dotenv()
+# Read .env file content as string for 1Password local env file
+# https://developer.1password.com/docs/environments/local-env-file/
+env_file_content = ""
+env_file_path = os.path.join(os.path.dirname(__file__), '.env')
+if os.path.exists(env_file_path):
+    with open(env_file_path, 'r') as env_file:
+        env_file_content = env_file.read()
+
+load_dotenv(stream=io.StringIO(env_file_content))
 
 if 'SENTRY_DSN' in os.environ:
     sentry_sdk.init(dsn=os.environ['SENTRY_DSN'])
