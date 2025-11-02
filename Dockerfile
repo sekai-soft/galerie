@@ -30,7 +30,7 @@ ENV PATH="/app/.venv/bin:$PATH"
 
 # Install uwsgi with build dependencies, then clean up
 RUN apt-get update && apt-get install -y --no-install-recommends \
-    build-essential python3-dev \
+    build-essential python3-dev libexpat1 libxml2 \
     && pip install uwsgi==2.0.23 \
     && apt-get remove -y build-essential python3-dev \
     && apt-get autoremove -y \
