@@ -19,9 +19,11 @@ ADD . /app
 RUN --mount=type=cache,target=/root/.cache/uv \
     uv sync --frozen --no-dev
 
-# Install uwsgi in the virtualenv
-RUN --mount=type=cache,target=/root/.cache/uv \
-    uv pip install uwsgi==2.0.23
+# Install uwsgi in the virtualenv (requires build tools)
+RUN apt-get update && apt-get install -y --no-install-recommends \
+    build-essential python3-dev \
+    && uv pip install uwsgi==2.0.23 \
+    && apt-get clean && rm -rf /var/lib/apt/lists/*
 
 # Then, use a final image without uv
 FROM python:3.12-slim-bookworm
