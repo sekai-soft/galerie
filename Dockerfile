@@ -1,40 +1,45 @@
-# Builder stage - install dependencies with uv
+# https://github.com/astral-sh/uv-docker-example/blob/main/multistage.Dockerfile
+
+# An example using multi-stage image builds to create a final image without uv.
+
+# First, build the application in the `/app` directory.
 FROM ghcr.io/astral-sh/uv:python3.12-bookworm-slim AS builder
 
 ENV UV_COMPILE_BYTECODE=1 UV_LINK_MODE=copy
 
 WORKDIR /app
 
-# Install dependencies from lockfile (without the project itself)
 RUN --mount=type=cache,target=/root/.cache/uv \
     --mount=type=bind,source=uv.lock,target=uv.lock \
     --mount=type=bind,source=pyproject.toml,target=pyproject.toml \
-    --mount=type=bind,source=README.md,target=README.md \
     uv sync --frozen --no-install-project --no-dev
 
-# Copy application code
 ADD . /app
 
-# Install project
 RUN --mount=type=cache,target=/root/.cache/uv \
     uv sync --frozen --no-dev
 
-# Final stage - runtime image
+# Install uwsgi in the virtualenv
+RUN --mount=type=cache,target=/root/.cache/uv \
+    uv pip install uwsgi==2.0.23
+
+# Then, use a final image without uv
 FROM python:3.12-slim-bookworm
+# It is important to use the image that matches the builder, as the path to the
+# Python executable must be the same, e.g., using `python:3.11-slim-bookworm`
+# will fail.
 
-# Copy the application from builder
-COPY --from=builder /app /app
-
-# Set PATH to use the virtual environment
-ENV PATH="/app/.venv/bin:$PATH"
-
-# Install uwsgi with build dependencies, then clean up
+# Install runtime dependencies for uwsgi
 RUN apt-get update && apt-get install -y --no-install-recommends \
-    build-essential python3-dev libexpat1 libxml2 \
-    && pip install uwsgi==2.0.23 \
-    && apt-get remove -y build-essential python3-dev \
-    && apt-get autoremove -y \
+    libexpat1 \
+    libxml2 \
     && rm -rf /var/lib/apt/lists/*
+
+# Copy the application from the builder
+COPY --from=builder --chown=app:app /app /app
+
+# Place executables in the environment at the front of the path
+ENV PATH="/app/.venv/bin:$PATH"
 
 WORKDIR /app
 
