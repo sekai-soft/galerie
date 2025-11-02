@@ -15,11 +15,9 @@ RUN --mount=type=cache,target=/root/.cache/uv \
 # Copy application code
 ADD . /app
 
-# Install project and uwsgi
+# Install project
 RUN --mount=type=cache,target=/root/.cache/uv \
-    uv sync --frozen --no-dev && \
-    apt-get update && apt-get -y install build-essential python3-dev && \
-    uv pip install uwsgi==2.0.23
+    uv sync --frozen --no-dev
 
 # Final stage - runtime image
 FROM python:3.12-slim-bookworm
@@ -29,6 +27,14 @@ COPY --from=builder /app /app
 
 # Set PATH to use the virtual environment
 ENV PATH="/app/.venv/bin:$PATH"
+
+# Install uwsgi with build dependencies, then clean up
+RUN apt-get update && apt-get install -y --no-install-recommends \
+    build-essential python3-dev \
+    && pip install uwsgi==2.0.23 \
+    && apt-get remove -y build-essential python3-dev \
+    && apt-get autoremove -y \
+    && rm -rf /var/lib/apt/lists/*
 
 WORKDIR /app
 
