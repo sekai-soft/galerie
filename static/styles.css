@@ -115,6 +115,10 @@ input {
     .carousel-cell {
         width: calc(100% - 48px);
     }
+
+    .flickity-page-dots {
+        display: none;
+    }
 }
 
 /* non-sizes */
