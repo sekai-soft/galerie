@@ -220,9 +220,21 @@ dialog {
     border-radius: 16px;
 }
 
-/* position dots in carousel */
+/* position dots below carousel */
+.carousel {
+    margin-bottom: 48px;
+}
+
 .flickity-page-dots {
-    bottom: 16px;
+    bottom: -32px;
+}
+
+.flickity-page-dots .flickity-page-dot {
+    background: #CCCCCC;
+}
+
+.flickity-page-dots .flickity-page-dot.is-selected {
+    background: #F5F5F5;
 }
 
 /** htmx-indicator **/
