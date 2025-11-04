@@ -90,7 +90,6 @@ services:
       - no-new-privileges:true
     cap_drop:
       - ALL
-
   nitter-redis:
     image: redis:6-alpine
     # container_name: nitter-redis
@@ -109,6 +108,17 @@ services:
       - no-new-privileges:true
     cap_drop:
       - ALL
+
+  # z2k2
+  z2k2:
+    image: ghcr.io/sekai-soft/z2k2:latest
+    environment:
+      - CACHE_SQLITE_PATH=/app/data/cache.db
+      - CACHE_SQLITE_TTL_SECONDS=3600
+    volumes:
+      - ./data:/app/data
+      - ./sessions.jsonl:/app/sessions.jsonl
+    restart: unless-stopped
 
 volumes:
   postgres:

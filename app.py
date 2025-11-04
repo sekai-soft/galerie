@@ -22,7 +22,6 @@ env_file_path = os.path.join(os.path.dirname(__file__), '.env')
 if os.path.exists(env_file_path):
     with open(env_file_path, 'r') as env_file:
         env_file_content = env_file.read()
-
 load_dotenv(stream=io.StringIO(env_file_content))
 
 if 'SENTRY_DSN' in os.environ:
