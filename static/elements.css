@@ -6,6 +6,12 @@ input {
     background-color: #1A1A1A;
 }
 
+input[type="checkbox"].feed-checkbox {
+    width: 16px;
+    height: 16px;
+    cursor: pointer;
+}
+
 a {
     color: #F5F5F5;
 }

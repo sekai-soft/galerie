@@ -7,11 +7,21 @@
 {% block page_content %}
 {% if dead_feeds %}
 <p>{{ _('Dead feeds') }}</p>
+<button
+    id="refresh-all-dead-feeds-button"
+    class="button"
+    style="margin-bottom: 1em;"
+    hx-post="/actions/refresh_all_dead_feeds"
+    hx-swap="none"
+    hx-disabled-elt="this"
+>
+    {{ _('Refresh all dead feeds') }} <span class="htmx-indicator">...</span>
+</button>
 <form>
     {% for feed in dead_feeds %}
     <div style="display: flex; align-items: center; gap: 1em;">
         <div>
-            <input type="checkbox" id="dead-feed-{{ feed.fid }}" name="dead-feed-{{ feed.fid }}">
+            <input type="checkbox" class="feed-checkbox" id="dead-feed-{{ feed.fid }}" name="dead-feed-{{ feed.fid }}">
         </div>
         <a href="{{ feed.site_url }}" target="_blank" style="font-size: 1em;">
             <p class="animate-long" style="margin-top: 8px; margin-bottom: 8px;">
@@ -32,18 +42,6 @@
         {{ _('Delete 0 dead feeds') }} <span class="htmx-indicator">...</span>
     </button>
 </form>
-<br>
-<br>
-<button
-    id="refresh-all-dead-feeds-button"
-    class="button"
-    style="margin-bottom: 1em;"
-    hx-post="/actions/refresh_all_dead_feeds"
-    hx-swap="none"
-    hx-disabled-elt="this"
->
-    {{ _('Refresh all dead feeds') }} <span class="htmx-indicator">...</span>
-</button>
 {% else %}
 <p>{{ _('There is no dead feed to clean up') }}</p>
 {% endif %}
