@@ -114,10 +114,11 @@ jobs:
           tags: tag:ops
       - name: Pull and restart container
         run: |
-          ssh -o StrictHostKeyChecking=no -o UserKnownHostsFile=/dev/null "nixos@gibraltar" \            
-            "Z2K2_TAG=\$(grep 'image: ghcr.io/sekai-soft/z2k2:' /home/nixos/galerie/compose.yaml 2>/dev/null | sed 's|.*ghcr.io/sekai-soft/z2k2:||' || echo 'latest') && \
+          ssh -o StrictHostKeyChecking=no -o UserKnownHostsFile=/dev/null nixos@gibraltar \
+            'mkdir -p /home/nixos/galerie && \
+             Z2K2_TAG=$(grep "image: ghcr.io/sekai-soft/z2k2:" /home/nixos/galerie/compose.yaml 2>/dev/null | sed "s|.*ghcr.io/sekai-soft/z2k2:||" || echo "latest") && \
              wget -O /home/nixos/galerie/compose.yaml https://raw.githubusercontent.com/sekai-soft/galerie/${{ github.sha }}/compose.production.yaml && \
-             sed -i 's|ghcr.io/sekai-soft/galerie:latest|ghcr.io/sekai-soft/galerie:${{ github.sha }}|g' /home/nixos/galerie/compose.yaml && \
-             sed -i \"s|ghcr.io/sekai-soft/z2k2:latest|ghcr.io/sekai-soft/z2k2:\$Z2K2_TAG|g\" /home/nixos/galerie/compose.yaml && \
+             sed -i "s|ghcr.io/sekai-soft/galerie:latest|ghcr.io/sekai-soft/galerie:${{ github.sha }}|g" /home/nixos/galerie/compose.yaml && \
+             sed -i "s|ghcr.io/sekai-soft/z2k2:latest|ghcr.io/sekai-soft/z2k2:$Z2K2_TAG|g" /home/nixos/galerie/compose.yaml && \
              docker compose -f /home/nixos/galerie/compose.yaml pull galerie && \
-             docker compose -f /home/nixos/galerie/compose.yaml up -d"
+             docker compose -f /home/nixos/galerie/compose.yaml up -d'
