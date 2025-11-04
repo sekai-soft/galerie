@@ -292,6 +292,29 @@ def delete_group():
     return make_back()
 
 
+@actions_blueprint.route('/refresh_all_dead_feeds', methods=['POST'])
+@requires_auth
+@catches_exceptions
+def refresh_all_dead_feeds():
+    total_count = 0
+    success_count = 0
+
+    for feed in g.aggregator.client.get_feeds():
+        if feed.get("parsing_error_count", 0) == 0:
+            continue
+
+        try:
+            g.aggregator.client.refresh_feed(feed["id"])
+            success_count += 1
+        except Exception as e:
+            pass
+        total_count += 1
+
+    resp = make_response()
+    resp.headers['HX-Refresh'] = "true"
+    return resp
+
+
 @actions_blueprint.route('/delete_feeds', methods=['POST'])
 @requires_auth
 @catches_exceptions

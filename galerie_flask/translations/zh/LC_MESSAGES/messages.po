@@ -7,7 +7,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: PROJECT VERSION\n"
 "Report-Msgid-Bugs-To: EMAIL@ADDRESS\n"
-"POT-Creation-Date: 2025-11-02 14:21-0800\n"
+"POT-Creation-Date: 2025-11-03 15:59-0800\n"
 "PO-Revision-Date: 2024-06-27 08:04+0000\n"
 "Last-Translator: FULL NAME <EMAIL@ADDRESS>\n"
 "Language: zh\n"
@@ -61,7 +61,7 @@ msgstr "Instapaper 用户名或密码错误"
 msgid "You cannot delete the last group"
 msgstr "您不能删除最后一个分组"
 
-#: galerie_flask/actions_blueprint.py:315
+#: galerie_flask/actions_blueprint.py:338
 msgid "Name is required"
 msgstr "名字是必需的"
 
@@ -97,15 +97,19 @@ msgstr "确定要删除这个订阅源吗？"
 msgid "Feed maintenance"
 msgstr "订阅源维护"
 
-#: galerie_flask/pages/feed_maintenance/feed_maintenance.html:8
-msgid "Clean up dead feeds"
-msgstr "更新订阅源"
+#: galerie_flask/pages/feed_maintenance/feed_maintenance.html:9
+msgid "Dead feeds"
+msgstr "不活跃的订阅源"
 
-#: galerie_flask/pages/feed_maintenance/feed_maintenance.html:33
+#: galerie_flask/pages/feed_maintenance/feed_maintenance.html:32
 msgid "Delete 0 dead feeds"
 msgstr "删除订阅源"
 
-#: galerie_flask/pages/feed_maintenance/feed_maintenance.html:39
+#: galerie_flask/pages/feed_maintenance/feed_maintenance.html:45
+msgid "Refresh all dead feeds"
+msgstr "刷新所有不活跃的订阅源"
+
+#: galerie_flask/pages/feed_maintenance/feed_maintenance.html:48
 msgid "There is no dead feed to clean up"
 msgstr "没有不活跃的订阅源可供清理"
 
