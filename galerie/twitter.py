@@ -64,6 +64,14 @@ def create_nitter_feed_url(twitter_handle: str) -> str:
     return f"{get_nitter_base_url()}/{twitter_handle}/rss?key={rss_password}"
 
 
+def extract_twitter_handle_from_nitter_feed_url(feed_url: str) -> Optional[str]:
+    nitter_base_url = get_nitter_base_url()
+    if not feed_url.startswith(nitter_base_url):
+        return None
+    path = feed_url[len(nitter_base_url):].lstrip('/')
+    return path.split('/rss')[0]
+
+
 twitter_domains = {
     "twitter.com",
     "mobile.twitter.com",
