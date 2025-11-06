@@ -5,6 +5,7 @@ from .load_more.load_more_action import load_more_bp
 from .set_max_items.set_max_items_action import set_max_items_bp
 from .set_max_rendered_items.set_max_rendered_items_action import set_max_rendered_items_bp
 from .set_no_text_mode.set_no_text_mode_action import set_no_text_mode_bp
+from .session_management.session_management_action import session_management_bp
 
 
 actions_bp = Blueprint('actions', __name__, url_prefix='/actions')
@@ -14,3 +15,4 @@ actions_bp.register_blueprint(load_more_bp)
 actions_bp.register_blueprint(set_max_items_bp)
 actions_bp.register_blueprint(set_max_rendered_items_bp)
 actions_bp.register_blueprint(set_no_text_mode_bp)
+actions_bp.register_blueprint(session_management_bp)

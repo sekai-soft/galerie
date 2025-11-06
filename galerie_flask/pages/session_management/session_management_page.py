@@ -23,11 +23,14 @@ def session_management_page():
     if not current_session:
         raise ValueError("Current session not found")
 
-    # Get all sessions for the current user, ordered by accessed_at (most recent first)
-    all_sessions = db.session.query(Session).filter_by(user_uuid=current_session.user_uuid).order_by(Session.accessed_at.desc()).all()
+    # Get all other sessions for the current user (excluding current), ordered by accessed_at (most recent first)
+    other_sessions = db.session.query(Session).filter(
+        Session.user_uuid == current_session.user_uuid,
+        Session.uuid != session_token
+    ).order_by(Session.accessed_at.desc()).all()
 
     return render_template(
         'session_management.html',
         current_session=current_session,
-        all_sessions=all_sessions,
+        other_sessions=other_sessions,
     )

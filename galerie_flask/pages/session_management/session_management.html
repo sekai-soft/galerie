@@ -7,19 +7,57 @@
 {% block page_content %}
 {% if current_session %}
 <p>{{ _('Current session') }}</p>
+<button
+    class="button"
+    onclick="document.getElementById('rename-session-dialog').showModal()"
+>
+    {{ _('Rename current session') }}
+</button>
 <p>
     <strong>{{ current_session.name if current_session.name else 'Unnamed' }}</strong><br>
     {{ _('Created') }} {{ current_session.created_at|time_ago }}<br>
     {{ _('Last accessed') }} {{ current_session.accessed_at|time_ago }}
 </p>
-<br>
 <hr>
-<br>
+<dialog id="rename-session-dialog">
+    <form>
+        <p>
+            {{ _('New session name') }}
+            <input
+                type="text"
+                name="name"
+                required
+                autocomplete="off"
+            >
+        </p>
+        <button
+            class="button"
+            hx-post="/actions/rename_current_session"
+            hx-swap="none"
+            hx-disabled-elt="this"
+        >
+            {{ _('Rename') }} <span class="htmx-indicator">...</span>
+        </button>
+    </form>
+    <br>
+    <button class="button" onclick="document.getElementById('rename-session-dialog').close()">
+        {{ _('Close') }}
+    </button>
+</dialog>
 {% endif %}
 
-<p>{{ _('All sessions') }}</p>
-{% if all_sessions %}
-{% for session in all_sessions %}
+<p>{{ _('All other sessions') }}</p>
+{% if other_sessions %}
+<button
+    class="button"
+    hx-post="/actions/terminate_all_other_sessions"
+    hx-swap="none"
+    hx-disabled-elt="this"
+    hx-confirm="{{ _('Are you sure you want to terminate all other sessions?') }}"
+>
+    {{ _('Terminate all other sessions') }} <span class="htmx-indicator">...</span>
+</button>
+{% for session in other_sessions %}
 <p>
     <strong>{{ session.name if session.name else 'Unnamed' }}</strong><br>
     {{ _('Created') }} {{ session.created_at|time_ago }}<br>
@@ -27,6 +65,6 @@
 </p>
 {% endfor %}
 {% else %}
-<p>{{ _('No sessions') }}</p>
+<p>{{ _('No other sessions') }}</p>
 {% endif %}
 {% endblock %}
