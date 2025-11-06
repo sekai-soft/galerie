@@ -1,0 +1,32 @@
+{% extends 'base_child_page.html' %}
+
+{% block title %}{{ _('Session management') }}{% endblock %}
+
+{% block header_title %}{{ _('Session management') }}{% endblock %}
+
+{% block page_content %}
+{% if current_session %}
+<p>{{ _('Current session') }}</p>
+<p>
+    <strong>{{ current_session.name if current_session.name else 'Unnamed' }}</strong><br>
+    {{ _('Created') }} {{ current_session.created_at|time_ago }}<br>
+    {{ _('Last accessed') }} {{ current_session.accessed_at|time_ago }}
+</p>
+<br>
+<hr>
+<br>
+{% endif %}
+
+<p>{{ _('All sessions') }}</p>
+{% if all_sessions %}
+{% for session in all_sessions %}
+<p>
+    <strong>{{ session.name if session.name else 'Unnamed' }}</strong><br>
+    {{ _('Created') }} {{ session.created_at|time_ago }}<br>
+    {{ _('Last accessed') }} {{ session.accessed_at|time_ago }}
+</p>
+{% endfor %}
+{% else %}
+<p>{{ _('No sessions') }}</p>
+{% endif %}
+{% endblock %}

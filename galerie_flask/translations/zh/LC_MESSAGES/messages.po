@@ -7,7 +7,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: PROJECT VERSION\n"
 "Report-Msgid-Bugs-To: EMAIL@ADDRESS\n"
-"POT-Creation-Date: 2025-11-03 15:59-0800\n"
+"POT-Creation-Date: 2025-11-05 21:03-0800\n"
 "PO-Revision-Date: 2024-06-27 08:04+0000\n"
 "Last-Translator: FULL NAME <EMAIL@ADDRESS>\n"
 "Language: zh\n"
@@ -101,15 +101,15 @@ msgstr "订阅源维护"
 msgid "Dead feeds"
 msgstr "不活跃的订阅源"
 
-#: galerie_flask/pages/feed_maintenance/feed_maintenance.html:32
-msgid "Delete 0 dead feeds"
-msgstr "删除订阅源"
-
-#: galerie_flask/pages/feed_maintenance/feed_maintenance.html:45
+#: galerie_flask/pages/feed_maintenance/feed_maintenance.html:18
 msgid "Refresh all dead feeds"
 msgstr "刷新所有不活跃的订阅源"
 
-#: galerie_flask/pages/feed_maintenance/feed_maintenance.html:48
+#: galerie_flask/pages/feed_maintenance/feed_maintenance.html:42
+msgid "Delete 0 dead feeds"
+msgstr "删除订阅源"
+
+#: galerie_flask/pages/feed_maintenance/feed_maintenance.html:46
 msgid "There is no dead feed to clean up"
 msgstr "没有不活跃的订阅源可供清理"
 
@@ -241,6 +241,34 @@ msgstr "下载"
 msgid "Download all"
 msgstr "下载全部"
 
+#: galerie_flask/pages/session_management/session_management.html:3
+#: galerie_flask/pages/session_management/session_management.html:5
+#: galerie_flask/pages/settings/settings.html:70
+msgid "Session management"
+msgstr "会话管理"
+
+#: galerie_flask/pages/session_management/session_management.html:9
+msgid "Current session"
+msgstr "当前会话"
+
+#: galerie_flask/pages/session_management/session_management.html:12
+#: galerie_flask/pages/session_management/session_management.html:25
+msgid "Created"
+msgstr "创建于"
+
+#: galerie_flask/pages/session_management/session_management.html:13
+#: galerie_flask/pages/session_management/session_management.html:26
+msgid "Last accessed"
+msgstr "最后访问于"
+
+#: galerie_flask/pages/session_management/session_management.html:20
+msgid "All sessions"
+msgstr "所有会话"
+
+#: galerie_flask/pages/session_management/session_management.html:30
+msgid "No sessions"
+msgstr "没有会话"
+
 #: galerie_flask/pages/settings/settings.html:3
 #: galerie_flask/pages/settings/settings.html:5
 msgid "Settings"
@@ -294,12 +322,12 @@ msgstr "15 (加载新帖子所需时间较长，但加载的帖子较多)"
 msgid "Logged in as: "
 msgstr "已用此身份登陆: "
 
-#: galerie_flask/pages/settings/settings.html:73
+#: galerie_flask/pages/settings/settings.html:78
 #: galerie_flask/templates/error.html:14
 msgid "Log out"
 msgstr "登出"
 
-#: galerie_flask/pages/settings/settings.html:75
+#: galerie_flask/pages/settings/settings.html:80
 msgid "Connected to"
 msgstr "连接至"
 

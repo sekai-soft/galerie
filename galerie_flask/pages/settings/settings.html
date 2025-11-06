@@ -66,6 +66,11 @@
 <hr>
 {% if connection_info.managed_or_self_hosted %}
 <p>{{ _('Logged in as: ') }} {{ username }}</p>
+<a href="/sessions">
+    <button class="button" style="font-size: 1em">{{ _('Session management')}}</button>
+</a>
+<br>
+<br>
 <button
     class="button"
     hx-post="/actions/logout"
