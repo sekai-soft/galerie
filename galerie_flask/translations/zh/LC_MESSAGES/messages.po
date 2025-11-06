@@ -7,7 +7,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: PROJECT VERSION\n"
 "Report-Msgid-Bugs-To: EMAIL@ADDRESS\n"
-"POT-Creation-Date: 2025-11-05 21:03-0800\n"
+"POT-Creation-Date: 2025-11-06 08:02-0800\n"
 "PO-Revision-Date: 2024-06-27 08:04+0000\n"
 "Last-Translator: FULL NAME <EMAIL@ADDRESS>\n"
 "Language: zh\n"
@@ -61,6 +61,7 @@ msgstr "Instapaper 用户名或密码错误"
 msgid "You cannot delete the last group"
 msgstr "您不能删除最后一个分组"
 
+#: galerie_flask/actions/session_management/session_management_action.py:20
 #: galerie_flask/actions_blueprint.py:338
 msgid "Name is required"
 msgstr "名字是必需的"
@@ -85,6 +86,28 @@ msgstr "无法添加到 Instapaper"
 #: galerie_flask/actions/instapaper/instapaper_action.py:42
 msgid "Saved to Instapaper"
 msgstr "保存到了 Instapaper"
+
+#: galerie_flask/actions/session_management/session_management_action.py:16
+#: galerie_flask/actions/session_management/session_management_action.py:37
+msgid "No session token found"
+msgstr "没有会话令牌"
+
+#: galerie_flask/actions/session_management/session_management_action.py:24
+msgid "Session not found"
+msgstr "会话未找到"
+
+#: galerie_flask/actions/session_management/session_management_action.py:29
+msgid "Session renamed"
+msgstr "会话已重命名"
+
+#: galerie_flask/actions/session_management/session_management_action.py:41
+msgid "Current session not found"
+msgstr "当前会话未找到"
+
+#: galerie_flask/actions/session_management/session_management_action.py:50
+#, python-brace-format
+msgid "Terminated {} other session(s)"
+msgstr "已终止其他 {} 个会话"
 
 #: galerie_flask/pages/feed/feed.html:30
 #: galerie_flask/templates/update_feed.html:30
@@ -178,6 +201,7 @@ msgid "More settings"
 msgstr "更多设置"
 
 #: galerie_flask/pages/index/index.html:85
+#: galerie_flask/pages/session_management/session_management.html:44
 #: galerie_flask/templates/add_feed.html:58
 msgid "Close"
 msgstr "关闭"
@@ -251,23 +275,43 @@ msgstr "会话管理"
 msgid "Current session"
 msgstr "当前会话"
 
-#: galerie_flask/pages/session_management/session_management.html:12
-#: galerie_flask/pages/session_management/session_management.html:25
+#: galerie_flask/pages/session_management/session_management.html:14
+msgid "Rename current session"
+msgstr "重命名当前会话"
+
+#: galerie_flask/pages/session_management/session_management.html:18
+#: galerie_flask/pages/session_management/session_management.html:63
 msgid "Created"
 msgstr "创建于"
 
-#: galerie_flask/pages/session_management/session_management.html:13
-#: galerie_flask/pages/session_management/session_management.html:26
+#: galerie_flask/pages/session_management/session_management.html:19
+#: galerie_flask/pages/session_management/session_management.html:64
 msgid "Last accessed"
 msgstr "最后访问于"
 
-#: galerie_flask/pages/session_management/session_management.html:20
-msgid "All sessions"
-msgstr "所有会话"
+#: galerie_flask/pages/session_management/session_management.html:25
+msgid "New session name"
+msgstr "新会话名称"
 
-#: galerie_flask/pages/session_management/session_management.html:30
-msgid "No sessions"
-msgstr "没有会话"
+#: galerie_flask/pages/session_management/session_management.html:39
+msgid "Rename"
+msgstr "重命名"
+
+#: galerie_flask/pages/session_management/session_management.html:49
+msgid "All other sessions"
+msgstr "所有其他会话"
+
+#: galerie_flask/pages/session_management/session_management.html:56
+msgid "Are you sure you want to terminate all other sessions?"
+msgstr "确定要删除所有其他会话吗？"
+
+#: galerie_flask/pages/session_management/session_management.html:58
+msgid "Terminate all other sessions"
+msgstr "终止所有其他会话"
+
+#: galerie_flask/pages/session_management/session_management.html:68
+msgid "No other sessions"
+msgstr "没有其他会话"
 
 #: galerie_flask/pages/settings/settings.html:3
 #: galerie_flask/pages/settings/settings.html:5
