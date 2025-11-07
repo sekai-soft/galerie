@@ -127,10 +127,22 @@ services:
   eyeris:
     image: ghcr.io/sekai-soft/eyeris:latest-arm64
     restart: unless-stopped
+    environment:
+      - DATABASE_URL=postgresql+psycopg2://eyeris:secret@eyeris-postgres:5432/eyeris
     ports:
       - "8082:8000"
+  eyeris-postgres:
+    image: pgvector/pgvector:pg16
+    restart: unless-stopped
+    environment:
+      - POSTGRES_USER=eyeris
+      - POSTGRES_PASSWORD=secret
+      - POSTGRES_DB=eyeris
+    volumes:
+      - eyeris-postgres:/var/lib/postgresql/data
 
 volumes:
   postgres:
   miniflux-postgres:
   nitter-pf-redis:
+  eyeris-postgres:
