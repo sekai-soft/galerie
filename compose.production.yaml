@@ -113,6 +113,7 @@ services:
   # z2k2
   z2k2:
     image: ghcr.io/sekai-soft/z2k2:latest
+    restart: unless-stopped
     environment:
       - CACHE_SQLITE_PATH=/app/data/cache.db
       - CACHE_SQLITE_TTL_SECONDS=3600
@@ -121,7 +122,13 @@ services:
     volumes:
       - ./data:/app/data
       - ./sessions.jsonl:/app/sessions.jsonl
+
+  # eyeris
+  eyeris:
+    image: ghcr.io/sekai-soft/eyeris:latest-arm64
     restart: unless-stopped
+    ports:
+      - "8082:8000"
 
 volumes:
   postgres:
