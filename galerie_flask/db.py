@@ -36,3 +36,11 @@ class InstapaperConnection(db.Model):
     instapaper_username: Mapped[str]
     instapaper_password: Mapped[str]
     created_at: Mapped[str] = mapped_column(db.DateTime, server_default=db.func.now())
+
+
+class ItemViewHistory(db.Model):
+    __tablename__ = 'item_view_history'
+    uuid: Mapped[str] = mapped_column(primary_key=True)
+    user_uuid: Mapped[str] = mapped_column(db.ForeignKey('users.uuid'))
+    item_uid: Mapped[str]
+    created_at: Mapped[str] = mapped_column(db.DateTime, server_default=db.func.now())

@@ -12,6 +12,7 @@ services:
       NITTER_BASE_URL: 'http://nitter'
       MEDIA_PROXY_CUSTOM_URL: 'http://galerie-reader-media'
       Z2K2_BASE_URL: 'http://z2k2:8000'
+      EYERIS_BASE_URL: 'http://eyeris:8000'
     env_file:
       - env
   postgres:
