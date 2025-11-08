@@ -1,0 +1,48 @@
+from flask import Blueprint, render_template, g, request
+from flask_babel import _
+from galerie.rendered_item import convert_rendered_items
+from galerie_flask.utils import requires_auth, items_args, DEFAULT_MAX_RENDERED_ITEMS
+from galerie_flask.pages_blueprint import catches_exceptions, requires_auth
+from galerie_flask.db import ItemViewHistory, Session, db
+
+
+item_history_bp = Blueprint('item_history', __name__, template_folder='.')
+
+
+@item_history_bp.route("/history")
+@catches_exceptions
+@requires_auth
+def item_history_page():
+    max_rendered_items = int(request.cookies.get('max_rendered_items', DEFAULT_MAX_RENDERED_ITEMS))
+    no_text_mode = request.cookies.get('no_text_mode', '0') == '1'
+
+    # Get user_uuid from session
+    session_token = request.cookies.get('session_token')
+    session = db.session.query(Session).filter_by(uuid=session_token).first()
+    user_uuid = session.user_uuid
+
+    # Query item view history for the current user, ordered by most recent first
+    view_history = db.session.query(ItemViewHistory).filter_by(
+        user_uuid=user_uuid
+    ).order_by(ItemViewHistory.created_at.desc()).all()
+
+    # Fetch the actual items from the aggregator
+    items = []
+    for history_entry in view_history:
+        try:
+            # Extract iid from uid (e.g., "12345-0" -> "12345")
+            iid = history_entry.item_uid.split('-')[0]
+            item = g.aggregator.get_item(iid)
+            if item:
+                items.append(item)
+        except Exception:
+            # Skip items that couldn't be fetched (e.g., deleted items)
+            pass
+
+    rendered_items = convert_rendered_items(items, max_rendered_items)
+
+    args = {
+        "context_feed_page": True,
+    }
+    items_args(args, rendered_items, False, False, no_text_mode)
+    return render_template('item_history.html', **args)
