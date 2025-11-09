@@ -1,10 +1,10 @@
 {% for item in items %}
-{% if not (item.unread_or_not or context_feed_page) %}
+{% if not (item.unread_or_not or context_feed_page or context_history_page) %}
 <div id="{{ item.uid }}" class="grid-item" style="filter: grayscale(100%);">
 {% else %}
 <div id="{{ item.uid }}" class="grid-item">
 {% endif %}
-    <a href="/item?uid={{ item.uid }}" target="_blank">
+    <a href="/item?uid={{ item.uid }}{% if context_history_page %}&from_history=1{% endif %}" target="_blank">
         <div class="animate-long item-image-container">
             {% if item.video_thumbnail_url or item.image_url %}
             <img

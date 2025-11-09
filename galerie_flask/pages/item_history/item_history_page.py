@@ -42,7 +42,7 @@ def item_history_page():
     rendered_items = convert_rendered_items(items, max_rendered_items)
 
     args = {
-        "context_feed_page": True,
+        "context_history_page": True,
     }
     items_args(args, rendered_items, False, False, no_text_mode)
     return render_template('item_history.html', **args)

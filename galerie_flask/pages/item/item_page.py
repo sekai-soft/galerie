@@ -28,33 +28,38 @@ def ingest_eyeris(user_uuid: str, gid: str, image_url: str):
 @requires_auth
 def item():
     no_text_mode = request.cookies.get('no_text_mode', '0') == '1'
+    from_history = request.args.get('from_history', '0') == '1'
 
     uid = request.args.get('uid')
     iid = uid.split('-')[0]
-    u_index = int(uid.split('-')[1])
-
-    # Record item view history
-    session_token = request.cookies.get('session_token')
-    session = db.session.query(Session).filter_by(uuid=session_token).first()
-    user_uuid = session.user_uuid
-    view_history = ItemViewHistory(
-        uuid=str(uuid4()),
-        user_uuid=user_uuid,
-        item_uid=uid
-    )
-    db.session.add(view_history)
-    db.session.commit()
+    u_index = int(uid.split('-')[1])        
 
     item = g.aggregator.get_item(iid)
     rendered_items = convert_rendered_item(item, DEFAULT_MAX_RENDERED_ITEMS, ignore_rendered_items_cap=True)
 
-    gid = item.group.gid
-    matching_item = next((ri for ri in rendered_items if ri.uid == uid), None)
-    image_url = matching_item.image_url
-    if image_url:
-        # Ingest image into Eyeris asynchronously
-        process = Process(target=ingest_eyeris, args=(user_uuid, gid, image_url))
-        process.start()
+    if not from_history:
+        # Record item view history and ingest to Eyeris (skip if from_history=1)
+        session_token = request.cookies.get('session_token')
+        session = db.session.query(Session).filter_by(uuid=session_token).first()
+        user_uuid = session.user_uuid
+        view_history = ItemViewHistory(
+            uuid=str(uuid4()),
+            user_uuid=user_uuid,
+            item_uid=uid
+        )
+        db.session.add(view_history)
+        db.session.commit()
+
+        gid = item.group.gid
+        matching_item = next((ri for ri in rendered_items if ri.uid == uid), None)
+        image_url = matching_item.image_url
+        if image_url:
+            # Ingest image into Eyeris asynchronously
+            session_token = request.cookies.get('session_token')
+            session = db.session.query(Session).filter_by(uuid=session_token).first()
+            user_uuid = session.user_uuid
+            process = Process(target=ingest_eyeris, args=(user_uuid, gid, image_url))
+            process.start()
 
     feed_icon = g.aggregator.get_feed_icon(item.fid)
 
