@@ -10,6 +10,11 @@
 {% endblock %}
 
 {% block page_content %}
+{% if not has_history %}
+<div class="all-read">
+    <p>{{ _('No history') }}</p>
+</div>
+{% endif %}
 <div class="grid" id="grid">
     <div class="grid-sizer"></div>
     {% include 'items_stream.html' %}

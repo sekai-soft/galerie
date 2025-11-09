@@ -43,4 +43,5 @@ class ItemViewHistory(db.Model):
     uuid: Mapped[str] = mapped_column(primary_key=True)
     user_uuid: Mapped[str] = mapped_column(db.ForeignKey('users.uuid'))
     item_uid: Mapped[str]
+    miniflux_entry: Mapped[dict] = mapped_column(db.JSON)
     created_at: Mapped[str] = mapped_column(db.DateTime, server_default=db.func.now())

@@ -37,7 +37,7 @@ def parse_published_at(date_string: str) -> datetime:
     raise ValueError(f"time data '{date_string}' doesn't match known formats")
 
 
-def _entry_dict_to_item(entry_dict: dict) -> Item:
+def entry_dict_to_item(entry_dict: dict) -> Item:
     url = entry_dict['url']
 
     html = entry_dict['content']
@@ -127,7 +127,7 @@ class MinifluxAggregator(RssAggregator):
 
         entries = self.client.get_entries(**kwargs)
 
-        return list(map(_entry_dict_to_item, entries['entries']))
+        return list(map(entry_dict_to_item, entries['entries']))
    
     def get_unread_items_count_by_group_ids(self, gids: List[str], include_read: bool) -> Dict[str, int]:
         res = {}
@@ -169,7 +169,7 @@ class MinifluxAggregator(RssAggregator):
             order='id',
             direction='desc'
         )
-        return list(map(_entry_dict_to_item, entries['entries']))
+        return list(map(entry_dict_to_item, entries['entries']))
 
     def get_feed(self, fid: str) -> Feed:
         return _feed_dict_to_feed(self.client.get_feed(int(fid)))
@@ -205,7 +205,12 @@ class MinifluxAggregator(RssAggregator):
         self.client.update_entries(entry_ids, 'unread')
 
     def get_item(self, iid: str) -> Item:
-        return _entry_dict_to_item(self.client.get_entry(int(iid)))
+        return entry_dict_to_item(self.client.get_entry(int(iid)))
+
+    def get_item_and_entry_dict(self, iid: str) -> tuple[Item, dict]:
+        entry_dict = self.client.get_entry(int(iid))
+        item = entry_dict_to_item(entry_dict)
+        return item, entry_dict
 
     def get_feed_icon(self, fid: str) -> Optional[FeedIcon]:
         try:

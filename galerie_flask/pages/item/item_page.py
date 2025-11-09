@@ -32,9 +32,9 @@ def item():
 
     uid = request.args.get('uid')
     iid = uid.split('-')[0]
-    u_index = int(uid.split('-')[1])        
+    u_index = int(uid.split('-')[1])
 
-    item = g.aggregator.get_item(iid)
+    item, miniflux_entry = g.aggregator.get_item_and_entry_dict(iid)
     rendered_items = convert_rendered_item(item, DEFAULT_MAX_RENDERED_ITEMS, ignore_rendered_items_cap=True)
 
     if not from_history:
@@ -45,7 +45,8 @@ def item():
         view_history = ItemViewHistory(
             uuid=str(uuid4()),
             user_uuid=user_uuid,
-            item_uid=uid
+            item_uid=uid,
+            miniflux_entry=miniflux_entry
         )
         db.session.add(view_history)
         db.session.commit()
