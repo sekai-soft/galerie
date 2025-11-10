@@ -10,6 +10,7 @@ from .db import db, User, Session
 
 
 STARTING_FEED_LIMIT = 50
+STARTING_HISTORY_LIMIT = 500
 SESSION_EXPIRY_DAYS = 14
 admin_username = os.getenv('ADMIN_USERNAME')
 
@@ -41,7 +42,8 @@ class MinifluxAdmin(object):
             username=username,
             user_password_hashed=generate_password_hash(user_password),
             miniflux_password=miniflux_password,
-            feed_limit=STARTING_FEED_LIMIT
+            feed_limit=STARTING_FEED_LIMIT,
+            history_limit=STARTING_HISTORY_LIMIT
         )
         db.session.add(new_user)
         db.session.commit()

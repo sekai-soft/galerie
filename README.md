@@ -26,3 +26,6 @@ uv run pytest -vv
     * See `babel.cfg` for what files are scanned
 3. Edit updated `po` files
 4. Run `uv run flask translate compile` and restart server
+
+### Migrate database schemas
+`uv run flask migrate-database`

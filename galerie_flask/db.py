@@ -16,6 +16,7 @@ class User(db.Model):
     user_password_hashed: Mapped[str]
     miniflux_password: Mapped[str]
     feed_limit: Mapped[int]
+    history_limit: Mapped[int]
     created_at: Mapped[str] = mapped_column(db.DateTime, server_default=db.func.now())
 
 

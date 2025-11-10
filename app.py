@@ -135,6 +135,13 @@ def compile():
         raise RuntimeError('compile command failed')
 
 
+@app.cli.command()
+def migrate_database():
+    """Run database migrations."""
+    from galerie_flask.db_migration import run_migrations
+    run_migrations()
+
+
 def read_svg_as_base64(filepath):
     with open(filepath, 'r') as file:
         svg_content = file.read()
