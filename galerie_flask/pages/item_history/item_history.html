@@ -19,5 +19,8 @@
     <div class="grid-sizer"></div>
     {% include 'items_stream.html' %}
 </div>
+{% if show_load_more %}
+    {% include 'load_more_button_history.html' %}
+{% endif %}
 <script src="{{ static_url_for('static', filename='grid.js') }}"></script>
 {% endblock %}
