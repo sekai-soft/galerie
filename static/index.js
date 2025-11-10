@@ -28,6 +28,10 @@ document.addEventListener('DOMContentLoaded', () => {
             updateQueryParameter('group', null);
             return;
         }
+        if (id === '_history') {
+            window.location.href = '/history';
+            return;
+        }
         if (id.startsWith('group-')) {
             const groupId = id.split('group-')[1];
             updateQueryParameter('group', groupId);

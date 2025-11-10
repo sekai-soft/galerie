@@ -7,7 +7,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: PROJECT VERSION\n"
 "Report-Msgid-Bugs-To: EMAIL@ADDRESS\n"
-"POT-Creation-Date: 2025-11-06 08:02-0800\n"
+"POT-Creation-Date: 2025-11-10 14:35-0800\n"
 "PO-Revision-Date: 2024-06-27 08:04+0000\n"
 "Last-Translator: FULL NAME <EMAIL@ADDRESS>\n"
 "Language: zh\n"
@@ -66,16 +66,16 @@ msgstr "您不能删除最后一个分组"
 msgid "Name is required"
 msgstr "名字是必需的"
 
-#: galerie_flask/miniflux_admin.py:32 galerie_flask/miniflux_admin.py:36
-#: galerie_flask/miniflux_admin.py:54
+#: galerie_flask/miniflux_admin.py:33 galerie_flask/miniflux_admin.py:37
+#: galerie_flask/miniflux_admin.py:56
 msgid "Username already exists"
 msgstr "用户名已存在"
 
-#: galerie_flask/miniflux_admin.py:58 galerie_flask/miniflux_admin.py:60
+#: galerie_flask/miniflux_admin.py:60 galerie_flask/miniflux_admin.py:62
 msgid "Wrong credentials"
 msgstr "用户名或密码错误"
 
-#: galerie_flask/miniflux_admin.py:84
+#: galerie_flask/miniflux_admin.py:86
 msgid "Your session has expired. Please log in again."
 msgstr "您的会话已过期。请重新登录。"
 
@@ -153,86 +153,94 @@ msgid "by groups"
 msgstr "依据分组"
 
 #: galerie_flask/pages/index/index.html:24
+msgid "history"
+msgstr "历史记录"
+
+#: galerie_flask/pages/index/index.html:25
 msgid "by feed"
 msgstr "依据订阅源"
 
-#: galerie_flask/pages/index/index.html:43
+#: galerie_flask/pages/index/index.html:44
 msgid "Are you sure you want to mark this group as read?"
 msgstr "确定要标记这个分组为已读吗？"
 
-#: galerie_flask/pages/index/index.html:54
+#: galerie_flask/pages/index/index.html:55
 msgid "Status"
 msgstr "状态"
 
-#: galerie_flask/pages/index/index.html:56
+#: galerie_flask/pages/index/index.html:57
 msgid "unread only"
 msgstr "仅未读"
 
-#: galerie_flask/pages/index/index.html:57
+#: galerie_flask/pages/index/index.html:58
 msgid "include read"
 msgstr "包含已读"
 
-#: galerie_flask/pages/index/index.html:61
+#: galerie_flask/pages/index/index.html:62
 msgid "Sort"
 msgstr "排序"
 
-#: galerie_flask/pages/index/index.html:63
+#: galerie_flask/pages/index/index.html:64
 msgid "descending"
 msgstr "降序"
 
-#: galerie_flask/pages/index/index.html:64
+#: galerie_flask/pages/index/index.html:65
 msgid "ascending"
 msgstr "升序"
 
-#: galerie_flask/pages/index/index.html:68
+#: galerie_flask/pages/index/index.html:69
 msgid "No text mode"
 msgstr "无言模式"
 
-#: galerie_flask/pages/index/index.html:75
+#: galerie_flask/pages/index/index.html:76
 msgid "no"
 msgstr "否"
 
-#: galerie_flask/pages/index/index.html:76
+#: galerie_flask/pages/index/index.html:77
 msgid "yes"
 msgstr "是"
 
-#: galerie_flask/pages/index/index.html:80
+#: galerie_flask/pages/index/index.html:81
 msgid "More settings"
 msgstr "更多设置"
 
-#: galerie_flask/pages/index/index.html:85
+#: galerie_flask/pages/index/index.html:86
 #: galerie_flask/pages/session_management/session_management.html:44
 #: galerie_flask/templates/add_feed.html:58
 msgid "Close"
 msgstr "关闭"
 
-#: galerie_flask/pages/index/index.html:94
+#: galerie_flask/pages/index/index.html:95
 msgid "start adding some feeds ❤️"
 msgstr "开始添加一些订阅源 ❤️"
 
-#: galerie_flask/pages/index/index.html:97
+#: galerie_flask/pages/index/index.html:98
 msgid "all read ✨"
 msgstr "全部已读 ✨"
 
-#: galerie_flask/pages/index/index.html:98
+#: galerie_flask/pages/index/index.html:99
 msgid "go touch some grass 🌱"
 msgstr "去接触一下大自然吧 🌱"
 
-#: galerie_flask/pages/index/index.html:104
+#: galerie_flask/pages/index/index.html:105
 msgid "has"
 msgstr "有"
 
-#: galerie_flask/pages/index/index.html:104
+#: galerie_flask/pages/index/index.html:105
 msgid "unread items"
 msgstr "未读条目"
 
 #: galerie_flask/pages/index/load_more_button.html:15
 #: galerie_flask/pages/index/load_more_button.html:17
+#: galerie_flask/pages/item_history/load_more_button_history.html:15
+#: galerie_flask/pages/item_history/load_more_button_history.html:17
 msgid "Load"
 msgstr "加载"
 
 #: galerie_flask/pages/index/load_more_button.html:15
 #: galerie_flask/pages/index/load_more_button.html:17
+#: galerie_flask/pages/item_history/load_more_button_history.html:15
+#: galerie_flask/pages/item_history/load_more_button_history.html:17
 msgid "more"
 msgstr "更多"
 
@@ -264,6 +272,15 @@ msgstr "下载"
 #: galerie_flask/pages/item/item.html:133
 msgid "Download all"
 msgstr "下载全部"
+
+#: galerie_flask/pages/item_history/item_history.html:3
+#: galerie_flask/pages/item_history/item_history.html:6
+msgid "History"
+msgstr "历史记录"
+
+#: galerie_flask/pages/item_history/item_history.html:15
+msgid "No history"
+msgstr "没有历史记录"
 
 #: galerie_flask/pages/session_management/session_management.html:3
 #: galerie_flask/pages/session_management/session_management.html:5
