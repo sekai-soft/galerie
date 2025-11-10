@@ -1,6 +1,6 @@
 from flask import Blueprint, render_template, request
 from flask_babel import _
-from galerie.rendered_item import convert_rendered_items
+from galerie.rendered_item import convert_rendered_item
 from galerie.miniflux_aggregator import entry_dict_to_item
 from galerie_flask.utils import requires_auth, items_args, load_more_button_args, DEFAULT_MAX_ITEMS, DEFAULT_MAX_RENDERED_ITEMS, compute_read_percentage
 from galerie_flask.pages_blueprint import catches_exceptions, requires_auth
@@ -35,15 +35,24 @@ def item_history_page():
     ).order_by(ItemViewHistory.created_at.desc()).limit(max_items).all()
 
     items = []
+    item_indices = []  # Store the index for each item
     for history_entry in view_history:
         try:
             if history_entry.miniflux_entry:
                 item = entry_dict_to_item(history_entry.miniflux_entry)
+                # Extract the index from item_uid (format: "iid-index")
+                index = int(history_entry.item_uid.split('-')[1])
                 items.append(item)
+                item_indices.append(index)
         except Exception:
             pass
 
-    rendered_items = convert_rendered_items(items, max_rendered_items)
+    # Render only the specific image at the index for each item
+    rendered_items = []
+    for item, index in zip(items, item_indices):
+        all_rendered = convert_rendered_item(item, max_rendered_items, ignore_rendered_items_cap=True)
+        if index < len(all_rendered):
+            rendered_items.append(all_rendered[index])
 
     args = {
         "context_history_page": True,
