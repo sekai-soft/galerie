@@ -15,7 +15,8 @@ from galerie_flask.actions.actions_routes import actions_bp
 from galerie_flask.pages.routes import pages_bp
 
 
-load_dotenv('.nonsecret.env')
+if os.path.exists('.dev.env'):
+    load_dotenv('.dev.env')
 
 
 # Read .env file content as string for 1Password local env file
