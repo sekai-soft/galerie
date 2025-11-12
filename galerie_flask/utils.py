@@ -31,7 +31,8 @@ def load_more_button_args(
         infinite_scroll: bool,
         remaining_count: int,
         include_read: bool,
-        total_count: int
+        total_count: int,
+        after: Optional[int] = None
     ):
     args.update({
         "from_iid": from_iid,
@@ -40,7 +41,8 @@ def load_more_button_args(
         "infinite_scroll": infinite_scroll,
         "remaining_count": remaining_count,
         "include_read": "1" if include_read else "0",
-        "total_count": total_count
+        "total_count": total_count,
+        "after": after if after is not None else ""
     })
 
 

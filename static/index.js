@@ -61,4 +61,13 @@ document.addEventListener('DOMContentLoaded', () => {
             updateQueryParameter('read', '1');
         }
     })
+
+    document.getElementById('date-filter-select').addEventListener('change', (event) => {
+        const dateFilter = event.target.value;
+        if (dateFilter === 'all') {
+            updateQueryParameter('date', null);
+        } else {
+            updateQueryParameter('date', dateFilter);
+        }
+    });
 })

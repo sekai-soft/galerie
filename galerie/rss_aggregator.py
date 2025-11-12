@@ -20,7 +20,7 @@ class RssAggregator(ABC):
         pass
 
     @abstractmethod
-    def get_items(self, count: int, from_iid_exclusive: Optional[str], group_id: Optional[str], sort_by_id_descending: bool, include_read: bool) -> List[Item]:
+    def get_items(self, count: int, from_iid_exclusive: Optional[str], group_id: Optional[str], sort_by_id_descending: bool, include_read: bool, after: Optional[int] = None) -> List[Item]:
         pass
     
     @abstractmethod
