@@ -118,6 +118,7 @@ services:
     environment:
       - CACHE_SQLITE_PATH=/app/data/cache.db
       - CACHE_SQLITE_TTL_SECONDS=3600
+      - CACHE_SQLITE_TTL_JITTER_SECONDS=300
     ports:
       - "8081:8000"
     volumes:
