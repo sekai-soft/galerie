@@ -29,6 +29,7 @@ const flkty = new Flickity('.carousel', {
     initialIndex: window.U_INDEX,
     prevNextButtons: window.TOTAL_MEDIA_COUNT > 1,
     pageDots: window.TOTAL_MEDIA_COUNT > 1,
+    keyboard: true,
 });
 document.querySelectorAll('.carousel img').forEach(img => {
     img.addEventListener('load', () => flkty.resize());
