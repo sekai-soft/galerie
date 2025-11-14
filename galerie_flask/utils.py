@@ -32,7 +32,8 @@ def load_more_button_args(
         remaining_count: int,
         include_read: bool,
         total_count: int,
-        after: Optional[int] = None
+        after: Optional[int] = None,
+        before: Optional[int] = None
     ):
     args.update({
         "from_iid": from_iid,
@@ -42,7 +43,8 @@ def load_more_button_args(
         "remaining_count": remaining_count,
         "include_read": "1" if include_read else "0",
         "total_count": total_count,
-        "after": after if after is not None else ""
+        "after": after if after is not None else "",
+        "before": before if before is not None else ""
     })
 
 

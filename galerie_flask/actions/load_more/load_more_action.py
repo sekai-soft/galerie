@@ -25,9 +25,12 @@ def load_more():
     total_count = int(request.args.get('total_count'))
     read_percentage = compute_read_percentage(remaining_count, total_count)
 
-    # Get after from query parameter
+    # Get after, before, and section_id from query parameters
     after_str = request.args.get('after', '')
     after = int(after_str) if after_str else None
+    before_str = request.args.get('before', '')
+    before = int(before_str) if before_str else None
+    section_id = request.args.get('section_id', '')
 
     unread_items = g.aggregator.get_items(
         count=max_items,
@@ -35,7 +38,8 @@ def load_more():
         group_id=gid,
         sort_by_id_descending=sort_by_desc,
         include_read=include_read,
-        after=after
+        after=after,
+        before=before
     )
 
     rendered_items = convert_rendered_items(unread_items, max_rendered_items)
@@ -54,8 +58,10 @@ def load_more():
             remaining_count=remaining_count,
             include_read=include_read,
             total_count=total_count,
-            after=after
+            after=after,
+            before=before
         )
+        args['section_id'] = section_id
         rendered_string = \
             render_template('items_stream.html', **args) + "\n" + \
             render_template('load_more_button.html', **args)

@@ -66,14 +66,6 @@
                 </select>
             </p>
             <p>
-                {{ _('Date range') }}
-                <select id="date-filter-select">
-                    <option value="all" {{ 'selected=selected' if date_filter == 'all' else '' }}>{{ _('all') }}</option>
-                    <option value="24h" {{ 'selected=selected' if date_filter == '24h' else '' }}>{{ _('last 24 hours') }}</option>
-                    <option value="48h" {{ 'selected=selected' if date_filter == '48h' else '' }}>{{ _('last 48 hours') }}</option>
-                </select>
-            </p>
-            <p>
                 {{ _('No text mode') }} 
                 <select
                     name="no_text_mode"
@@ -96,7 +88,7 @@
         </dialog>
     </div>
 </div>
-{% if not last_iid %}
+{% if not has_24h_items and not has_24_48h_items and not has_beyond_48h_items %}
 <div class="all-read">
     {% if all_feed_count == 0%}
     <a href="/add_feed?go_home=1" style="font-size: 1em;">
@@ -120,15 +112,53 @@
     {% endif %}
 </div>
 {% endif %}
-<div class="grid" id="grid">
+
+{# Section 1: Past 24 hours #}
+{% if has_24h_items %}
+<h2 style="margin: 1em 0 0.5em 0; padding: 0;">{{ _('Past 24 hours') }}</h2>
+<div class="grid" id="grid-24h">
     <div class="grid-sizer"></div>
+    {% with items=section_24h.items, should_show_feed_title=section_24h.should_show_feed_title, should_show_feed_group=section_24h.should_show_feed_group, rendered_feed_icons=section_24h.rendered_feed_icons, no_text_mode=section_24h.no_text_mode %}
     {% include 'items_stream.html' %}
+    {% endwith %}
 </div>
-{% if last_iid %}
+{% if last_iid_24h %}
+{% with from_iid=section_24h.from_iid, gid=section_24h.gid, sort=section_24h.sort, remaining_count=section_24h.remaining_count, include_read=section_24h.include_read, total_count=section_24h.total_count, after=section_24h.after, before=section_24h.before, infinite_scroll=section_24h.infinite_scroll, section_id='24h' %}
 {% include 'load_more_button.html' %}
+{% endwith %}
 {% endif %}
-{% if not last_iid and items %}
-{% include 'all_loaded_marker.html' %}
+{% endif %}
+
+{# Section 2: 24-48 hours #}
+{% if has_24_48h_items %}
+<h2 style="margin: 1em 0 0.5em 0; padding: 0;">{{ _('24-48 hours ago') }}</h2>
+<div class="grid" id="grid-24-48h">
+    <div class="grid-sizer"></div>
+    {% with items=section_24_48h.items, should_show_feed_title=section_24_48h.should_show_feed_title, should_show_feed_group=section_24_48h.should_show_feed_group, rendered_feed_icons=section_24_48h.rendered_feed_icons, no_text_mode=section_24_48h.no_text_mode %}
+    {% include 'items_stream.html' %}
+    {% endwith %}
+</div>
+{% if last_iid_24_48h %}
+{% with from_iid=section_24_48h.from_iid, gid=section_24_48h.gid, sort=section_24_48h.sort, remaining_count=section_24_48h.remaining_count, include_read=section_24_48h.include_read, total_count=section_24_48h.total_count, after=section_24_48h.after, before=section_24_48h.before, infinite_scroll=section_24_48h.infinite_scroll, section_id='24-48h' %}
+{% include 'load_more_button.html' %}
+{% endwith %}
+{% endif %}
+{% endif %}
+
+{# Section 3: Beyond 48 hours #}
+{% if has_beyond_48h_items %}
+<h2 style="margin: 1em 0 0.5em 0; padding: 0;">{{ _('Beyond 48 hours') }}</h2>
+<div class="grid" id="grid-beyond-48h">
+    <div class="grid-sizer"></div>
+    {% with items=section_beyond_48h.items, should_show_feed_title=section_beyond_48h.should_show_feed_title, should_show_feed_group=section_beyond_48h.should_show_feed_group, rendered_feed_icons=section_beyond_48h.rendered_feed_icons, no_text_mode=section_beyond_48h.no_text_mode %}
+    {% include 'items_stream.html' %}
+    {% endwith %}
+</div>
+{% if last_iid_beyond_48h %}
+{% with from_iid=section_beyond_48h.from_iid, gid=section_beyond_48h.gid, sort=section_beyond_48h.sort, remaining_count=section_beyond_48h.remaining_count, include_read=section_beyond_48h.include_read, total_count=section_beyond_48h.total_count, after=section_beyond_48h.after, before=section_beyond_48h.before, infinite_scroll=section_beyond_48h.infinite_scroll, section_id='beyond-48h' %}
+{% include 'load_more_button.html' %}
+{% endwith %}
+{% endif %}
 {% endif %}
 <script src="{{ static_url_for('static', filename='grid.js') }}"></script>
 <script src="{{ static_url_for('static', filename='index.js') }}"></script>
