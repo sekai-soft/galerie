@@ -117,8 +117,8 @@ services:
     restart: unless-stopped
     environment:
       - DATABASE_URL=postgresql+psycopg2://z2k2:secret@z2k2-postgres:5432/z2k2
-      - CACHE_SQLITE_TTL_SECONDS=3600
-      - CACHE_SQLITE_TTL_JITTER_SECONDS=300
+      - CACHE_TTL_SECONDS=3600
+      - CACHE_TTL_JITTER_SECONDS=300
     ports:
       - "8081:8000"
     volumes:
