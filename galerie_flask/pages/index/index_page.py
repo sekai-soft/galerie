@@ -1,6 +1,5 @@
 from flask import Blueprint, render_template, g, request
 from flask_babel import _
-from datetime import datetime, timedelta
 from galerie.rendered_item import convert_rendered_items
 from galerie_flask.utils import requires_auth, items_args, load_more_button_args, DEFAULT_MAX_ITEMS, DEFAULT_MAX_RENDERED_ITEMS, compute_read_percentage
 from galerie_flask.pages_blueprint import catches_exceptions, requires_auth
@@ -16,28 +15,17 @@ def index_page():
     sort_by_desc = request.args.get('sort', 'desc') == 'desc'
     gid = request.args.get('group') if request.args.get('group') else None
     include_read = request.args.get('read', '0') == '1'
-    date_filter = request.args.get('date', 'all')
     infinite_scroll = request.cookies.get('infinite_scroll', '1') == '1'
     max_items = int(request.cookies.get('max_items', DEFAULT_MAX_ITEMS))
     max_rendered_items = int(request.cookies.get('max_rendered_items', DEFAULT_MAX_RENDERED_ITEMS))
     no_text_mode = request.cookies.get('no_text_mode', '0') == '1'
-
-    # Calculate after timestamp based on time range
-    after = None
-    if date_filter == '24h':
-        cutoff_time = datetime.now() - timedelta(hours=24)
-        after = int(cutoff_time.timestamp())
-    elif date_filter == '48h':
-        cutoff_time = datetime.now() - timedelta(hours=48)
-        after = int(cutoff_time.timestamp())
 
     unread_items = g.aggregator.get_items(
         count=max_items,
         from_iid_exclusive=None,
         group_id=gid,
         sort_by_id_descending=sort_by_desc,
-        include_read=include_read,
-        after=after
+        include_read=include_read
     )
 
     rendered_items = convert_rendered_items(unread_items, max_rendered_items)
@@ -66,8 +54,7 @@ def index_page():
         "all_feed_count": all_feed_count,
         "feeds": feeds,
         "no_text_mode": no_text_mode,
-        "read_percentage": read_percentage,
-        "date_filter": date_filter
+        "read_percentage": read_percentage
     }
     items_args(args, rendered_items, True, gid is None, no_text_mode)
     load_more_button_args(
@@ -78,8 +65,7 @@ def index_page():
         infinite_scroll=infinite_scroll,
         remaining_count=remaining_count,
         include_read=include_read,
-        total_count=total_count,
-        after=after
+        total_count=total_count
     )
 
     return render_template('index.html', **args)
