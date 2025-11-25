@@ -7,7 +7,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: PROJECT VERSION\n"
 "Report-Msgid-Bugs-To: EMAIL@ADDRESS\n"
-"POT-Creation-Date: 2025-11-10 14:35-0800\n"
+"POT-Creation-Date: 2025-11-24 23:27-0800\n"
 "PO-Revision-Date: 2024-06-27 08:04+0000\n"
 "Last-Translator: FULL NAME <EMAIL@ADDRESS>\n"
 "Language: zh\n"
@@ -89,6 +89,7 @@ msgstr "保存到了 Instapaper"
 
 #: galerie_flask/actions/session_management/session_management_action.py:16
 #: galerie_flask/actions/session_management/session_management_action.py:37
+#: galerie_flask/actions/session_management/session_management_action.py:58
 msgid "No session token found"
 msgstr "没有会话令牌"
 
@@ -101,6 +102,7 @@ msgid "Session renamed"
 msgstr "会话已重命名"
 
 #: galerie_flask/actions/session_management/session_management_action.py:41
+#: galerie_flask/actions/session_management/session_management_action.py:62
 msgid "Current session not found"
 msgstr "当前会话未找到"
 
@@ -108,6 +110,11 @@ msgstr "当前会话未找到"
 #, python-brace-format
 msgid "Terminated {} other session(s)"
 msgstr "已终止其他 {} 个会话"
+
+#: galerie_flask/actions/session_management/session_management_action.py:72
+#, python-brace-format
+msgid "Terminated {} unnamed session(s)"
+msgstr "已终止其他 {} 个未命名的会话"
 
 #: galerie_flask/pages/feed/feed.html:30
 #: galerie_flask/templates/update_feed.html:30
@@ -145,6 +152,7 @@ msgid "Galerie"
 msgstr "Galerie"
 
 #: galerie_flask/pages/index/index.html:12
+#: galerie_flask/pages/index/index.html:71
 msgid "all"
 msgstr "全部"
 
@@ -189,44 +197,56 @@ msgid "ascending"
 msgstr "升序"
 
 #: galerie_flask/pages/index/index.html:69
+msgid "Date range"
+msgstr ""
+
+#: galerie_flask/pages/index/index.html:72
+msgid "last 24 hours"
+msgstr ""
+
+#: galerie_flask/pages/index/index.html:73
+msgid "last 48 hours"
+msgstr ""
+
+#: galerie_flask/pages/index/index.html:77
 msgid "No text mode"
 msgstr "无言模式"
 
-#: galerie_flask/pages/index/index.html:76
+#: galerie_flask/pages/index/index.html:84
 msgid "no"
 msgstr "否"
 
-#: galerie_flask/pages/index/index.html:77
+#: galerie_flask/pages/index/index.html:85
 msgid "yes"
 msgstr "是"
 
-#: galerie_flask/pages/index/index.html:81
+#: galerie_flask/pages/index/index.html:89
 msgid "More settings"
 msgstr "更多设置"
 
-#: galerie_flask/pages/index/index.html:86
+#: galerie_flask/pages/index/index.html:94
 #: galerie_flask/pages/session_management/session_management.html:44
 #: galerie_flask/templates/add_feed.html:58
 msgid "Close"
 msgstr "关闭"
 
-#: galerie_flask/pages/index/index.html:95
+#: galerie_flask/pages/index/index.html:103
 msgid "start adding some feeds ❤️"
 msgstr "开始添加一些订阅源 ❤️"
 
-#: galerie_flask/pages/index/index.html:98
+#: galerie_flask/pages/index/index.html:106
 msgid "all read ✨"
 msgstr "全部已读 ✨"
 
-#: galerie_flask/pages/index/index.html:99
+#: galerie_flask/pages/index/index.html:107
 msgid "go touch some grass 🌱"
 msgstr "去接触一下大自然吧 🌱"
 
-#: galerie_flask/pages/index/index.html:105
+#: galerie_flask/pages/index/index.html:113
 msgid "has"
 msgstr "有"
 
-#: galerie_flask/pages/index/index.html:105
+#: galerie_flask/pages/index/index.html:113
 msgid "unread items"
 msgstr "未读条目"
 
@@ -297,12 +317,12 @@ msgid "Rename current session"
 msgstr "重命名当前会话"
 
 #: galerie_flask/pages/session_management/session_management.html:18
-#: galerie_flask/pages/session_management/session_management.html:63
+#: galerie_flask/pages/session_management/session_management.html:54
 msgid "Created"
 msgstr "创建于"
 
 #: galerie_flask/pages/session_management/session_management.html:19
-#: galerie_flask/pages/session_management/session_management.html:64
+#: galerie_flask/pages/session_management/session_management.html:55
 msgid "Last accessed"
 msgstr "最后访问于"
 
@@ -318,15 +338,23 @@ msgstr "重命名"
 msgid "All other sessions"
 msgstr "所有其他会话"
 
-#: galerie_flask/pages/session_management/session_management.html:56
+#: galerie_flask/pages/session_management/session_management.html:63
+msgid "Are you sure you want to terminate all other unnamed sessions?"
+msgstr "确定要删除所有其他未命名的会话吗？"
+
+#: galerie_flask/pages/session_management/session_management.html:65
+msgid "Terminate all other unnamed sessions"
+msgstr "终止所有其他未命名的会话"
+
+#: galerie_flask/pages/session_management/session_management.html:74
 msgid "Are you sure you want to terminate all other sessions?"
 msgstr "确定要删除所有其他会话吗？"
 
-#: galerie_flask/pages/session_management/session_management.html:58
+#: galerie_flask/pages/session_management/session_management.html:76
 msgid "Terminate all other sessions"
 msgstr "终止所有其他会话"
 
-#: galerie_flask/pages/session_management/session_management.html:68
+#: galerie_flask/pages/session_management/session_management.html:79
 msgid "No other sessions"
 msgstr "没有其他会话"
 
