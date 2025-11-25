@@ -124,6 +124,17 @@ services:
     volumes:
       - ./data:/app/data
       - ./sessions.jsonl:/app/sessions.jsonl
+  z2k2-postgres:
+    image: postgres:15
+    restart: unless-stopped
+    environment:
+      - POSTGRES_USER=z2k2
+      - POSTGRES_PASSWORD=secret
+      - POSTGRES_DB=z2k2
+    volumes:
+      - z2k2-postgres:/var/lib/postgresql/data
+    ports:
+      - "5434:5432"
 
   # eyeris
   eyeris:
@@ -150,3 +161,4 @@ volumes:
   miniflux-postgres:
   nitter-pf-redis:
   eyeris-postgres:
+  z2k2-postgres:
