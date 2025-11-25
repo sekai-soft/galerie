@@ -30,6 +30,15 @@ const flkty = new Flickity('.carousel', {
     prevNextButtons: window.TOTAL_MEDIA_COUNT > 1,
     pageDots: window.TOTAL_MEDIA_COUNT > 1,
 });
+
+// Keyboard navigation with arrow keys
+document.addEventListener('keydown', (event) => {
+    if (event.key === 'ArrowLeft') {
+        flkty.previous();
+    } else if (event.key === 'ArrowRight') {
+        flkty.next();
+    }
+});
 document.querySelectorAll('.carousel img').forEach(img => {
     img.addEventListener('load', () => flkty.resize());
     img.addEventListener('error', () => flkty.resize());
