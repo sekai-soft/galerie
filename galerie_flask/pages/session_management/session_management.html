@@ -7,17 +7,19 @@
 {% block page_content %}
 {% if current_session %}
 <p>{{ _('Current session') }}</p>
+<p>
+    <strong>{{ current_session.name if current_session.name else 'Unnamed' }}</strong><br>
+    {{ _('Created') }} {{ current_session.created_at|time_ago }}<br>
+    {{ _('Last accessed') }} {{ current_session.accessed_at|time_ago }}
+</p>
 <button
     class="button"
     onclick="document.getElementById('rename-session-dialog').showModal()"
 >
     {{ _('Rename current session') }}
 </button>
-<p>
-    <strong>{{ current_session.name if current_session.name else 'Unnamed' }}</strong><br>
-    {{ _('Created') }} {{ current_session.created_at|time_ago }}<br>
-    {{ _('Last accessed') }} {{ current_session.accessed_at|time_ago }}
-</p>
+<br>
+<br>
 <hr>
 <dialog id="rename-session-dialog">
     <form>
