@@ -110,7 +110,7 @@ class MinifluxAggregator(RssAggregator):
         res = _response.json()
         return list(map(_category_dict_to_group, res))
 
-    def get_items(self, count: int, from_iid_exclusive: Optional[str], group_id: Optional[str], sort_by_id_descending: bool, include_read: bool, after: Optional[int] = None) -> List[Item]:
+    def get_items(self, count: int, from_iid_exclusive: Optional[str], group_id: Optional[str], sort_by_id_descending: bool, include_read: bool) -> List[Item]:
         kwargs = {
             "status": ['unread', 'read'] if include_read else 'unread',
             "order": 'id',
@@ -118,9 +118,6 @@ class MinifluxAggregator(RssAggregator):
             "limit": count,
             "category_id": None if group_id is None else int(group_id)
         }
-
-        if after is not None:
-            kwargs["after"] = after
 
         before_or_after_entry_id = None if from_iid_exclusive is None else int(from_iid_exclusive)
         if sort_by_id_descending:

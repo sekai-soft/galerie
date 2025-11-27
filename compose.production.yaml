@@ -116,14 +116,24 @@ services:
     image: ghcr.io/sekai-soft/z2k2:latest
     restart: unless-stopped
     environment:
-      - CACHE_SQLITE_PATH=/app/data/cache.db
-      - CACHE_SQLITE_TTL_SECONDS=3600
-      - CACHE_SQLITE_TTL_JITTER_SECONDS=300
+      - DATABASE_URL=postgresql+psycopg2://z2k2:secret@z2k2-postgres:5432/z2k2
+      - CACHE_TTL_SECONDS=3600
+      - CACHE_TTL_JITTER_SECONDS=300
     ports:
       - "8081:8000"
     volumes:
-      - ./data:/app/data
       - ./sessions.jsonl:/app/sessions.jsonl
+  z2k2-postgres:
+    image: postgres:15
+    restart: unless-stopped
+    environment:
+      - POSTGRES_USER=z2k2
+      - POSTGRES_PASSWORD=secret
+      - POSTGRES_DB=z2k2
+    volumes:
+      - z2k2-postgres:/var/lib/postgresql/data
+    ports:
+      - "5434:5432"
 
   # eyeris
   eyeris:
@@ -150,3 +160,4 @@ volumes:
   miniflux-postgres:
   nitter-pf-redis:
   eyeris-postgres:
+  z2k2-postgres:

@@ -25,19 +25,14 @@ def load_more():
     total_count = int(request.args.get('total_count'))
     read_percentage = compute_read_percentage(remaining_count, total_count)
 
-    # Get after from query parameter
-    after_str = request.args.get('after', '')
-    after = int(after_str) if after_str else None
-
     unread_items = g.aggregator.get_items(
         count=max_items,
         from_iid_exclusive=from_iid,
         group_id=gid,
         sort_by_id_descending=sort_by_desc,
-        include_read=include_read,
-        after=after
+        include_read=include_read
     )
-
+    
     rendered_items = convert_rendered_items(unread_items, max_rendered_items)
     last_iid = unread_items[-1].iid if unread_items else ''
 
@@ -53,8 +48,7 @@ def load_more():
             infinite_scroll=infinite_scroll,
             remaining_count=remaining_count,
             include_read=include_read,
-            total_count=total_count,
-            after=after
+            total_count=total_count
         )
         rendered_string = \
             render_template('items_stream.html', **args) + "\n" + \
