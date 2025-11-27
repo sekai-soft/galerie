@@ -29,16 +29,20 @@ const flkty = new Flickity('.carousel', {
     initialIndex: window.U_INDEX,
     prevNextButtons: window.TOTAL_MEDIA_COUNT > 1,
     pageDots: window.TOTAL_MEDIA_COUNT > 1,
+    accessibility: false,
 });
 
-// Keyboard navigation with arrow keys
+// Keyboard navigation with arrow keys (global, without needing focus)
 document.addEventListener('keydown', (event) => {
     if (event.key === 'ArrowLeft') {
+        event.preventDefault();
         flkty.previous();
     } else if (event.key === 'ArrowRight') {
+        event.preventDefault();
         flkty.next();
     }
 });
+
 document.querySelectorAll('.carousel img').forEach(img => {
     img.addEventListener('load', () => flkty.resize());
     img.addEventListener('error', () => flkty.resize());
