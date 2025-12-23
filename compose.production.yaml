@@ -24,6 +24,20 @@ services:
       - postgres:/var/lib/postgresql/data
     ports:
       - "5432:5432"
+  postgres-backup:
+    image: ghcr.io/sekai-soft/postgres-backup-s3:15
+    restart: unless-stopped
+    env_file:
+      - env-backup
+      - /home/nixos/env-backup
+    environment:
+      S3_PREFIX: 'galerie'
+      SCHEDULE: '@daily'
+      BACKUP_KEEP_DAYS: 7
+      POSTGRES_HOST: postgres
+      POSTGRES_DATABASE: galerie
+      POSTGRES_USER: galerie
+      POSTGRES_PASSWORD: secret
   cloudflared:
     image: cloudflare/cloudflared
     restart: unless-stopped
@@ -66,6 +80,20 @@ services:
       test: ["CMD", "pg_isready", "-U", "miniflux"]
       interval: 10s
       start_period: 30s
+  miniflux-postgres-backup:
+    image: ghcr.io/sekai-soft/postgres-backup-s3:15
+    restart: unless-stopped
+    env_file:
+      - env-backup-miniflux
+      - /home/nixos/env-backup
+    environment:
+      S3_PREFIX: 'galerie-miniflux'
+      SCHEDULE: '@daily'
+      BACKUP_KEEP_DAYS: 7
+      POSTGRES_HOST: miniflux-postgres
+      POSTGRES_DATABASE: miniflux
+      POSTGRES_USER: miniflux
+      POSTGRES_PASSWORD: secret
 
   # nitter
   nitter:
