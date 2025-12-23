@@ -1,10 +1,8 @@
 from uuid import uuid4
-from multiprocessing import Process
 from flask import Blueprint, render_template, g, request
 from flask_babel import _
 from galerie.rendered_item import convert_rendered_item
 from galerie.twitter import extract_twitter_handle_from_url
-from galerie.eyeris import ingest_profile_images
 from galerie_flask.pages_blueprint import catches_exceptions, requires_auth
 from galerie_flask.instapaper import is_instapaper_available
 from galerie_flask.utils import DEFAULT_MAX_RENDERED_ITEMS
@@ -12,15 +10,6 @@ from galerie_flask.db import db, Session, ItemViewHistory
 
 
 item_bp = Blueprint('item', __name__, template_folder='.')
-
-
-def ingest_eyeris(user_uuid: str, gid: str, image_url: str):
-    try:
-        profile_id = f"{user_uuid}.{gid}"
-        response = ingest_profile_images(profile_id, [image_url])
-        print(f"Eyeris API response: {response}")
-    except Exception as e:
-        print(f"Error calling Eyeris API: {e}")
 
 
 @item_bp.route("/item")
@@ -38,7 +27,7 @@ def item():
     rendered_items = convert_rendered_item(item, DEFAULT_MAX_RENDERED_ITEMS, ignore_rendered_items_cap=True)
 
     if not from_history:
-        # Record item view history and ingest to Eyeris (skip if from_history=1)
+        # Record item view history (skip if from_history=1)
         session_token = request.cookies.get('session_token')
         session = db.session.query(Session).filter_by(uuid=session_token).first()
         user_uuid = session.user_uuid
@@ -50,17 +39,6 @@ def item():
         )
         db.session.add(view_history)
         db.session.commit()
-
-        gid = item.group.gid
-        matching_item = next((ri for ri in rendered_items if ri.uid == uid), None)
-        image_url = matching_item.image_url
-        if image_url:
-            # Ingest image into Eyeris asynchronously
-            session_token = request.cookies.get('session_token')
-            session = db.session.query(Session).filter_by(uuid=session_token).first()
-            user_uuid = session.user_uuid
-            process = Process(target=ingest_eyeris, args=(user_uuid, gid, image_url))
-            process.start()
 
     feed_icon = g.aggregator.get_feed_icon(item.fid)
 

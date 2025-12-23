@@ -116,11 +116,7 @@ jobs:
         run: |
           ssh -o StrictHostKeyChecking=no -o UserKnownHostsFile=/dev/null nixos@gibraltar \
             'mkdir -p /home/nixos/galerie && \
-             Z2K2_TAG=$(grep "image: ghcr.io/sekai-soft/z2k2:" /home/nixos/galerie/compose.yaml 2>/dev/null | sed "s|.*ghcr.io/sekai-soft/z2k2:||" || echo "latest") && \
-             EYERIS_TAG=$(grep "image: ghcr.io/sekai-soft/eyeris:" /home/nixos/galerie/compose.yaml 2>/dev/null | sed "s|.*ghcr.io/sekai-soft/eyeris:||" || echo "latest-arm64") && \
              wget -O /home/nixos/galerie/compose.yaml https://raw.githubusercontent.com/sekai-soft/galerie/${{ github.sha }}/compose.production.yaml && \
              sed -i "s|ghcr.io/sekai-soft/galerie:latest|ghcr.io/sekai-soft/galerie:${{ github.sha }}|g" /home/nixos/galerie/compose.yaml && \
-             sed -i "s|ghcr.io/sekai-soft/z2k2:latest|ghcr.io/sekai-soft/z2k2:$Z2K2_TAG|g" /home/nixos/galerie/compose.yaml && \
-             sed -i "s|ghcr.io/sekai-soft/eyeris:latest-arm64|ghcr.io/sekai-soft/eyeris:$EYERIS_TAG|g" /home/nixos/galerie/compose.yaml && \
              docker compose -f /home/nixos/galerie/compose.yaml pull galerie && \
              docker compose -f /home/nixos/galerie/compose.yaml up -d'

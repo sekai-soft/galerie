@@ -11,7 +11,6 @@ services:
       MINIFLUX_BASE_URL: 'http://miniflux'
       NITTER_BASE_URL: 'http://nitter'
       MEDIA_PROXY_CUSTOM_URL: 'http://galerie-reader-media'
-      EYERIS_BASE_URL: 'http://eyeris:8000'
     env_file:
       - env
   postgres:
@@ -110,28 +109,7 @@ services:
     cap_drop:
       - ALL
 
-  # eyeris
-  eyeris:
-    image: ghcr.io/sekai-soft/eyeris:latest-arm64
-    restart: unless-stopped
-    environment:
-      - DATABASE_URL=postgresql+psycopg2://eyeris:secret@eyeris-postgres:5432/eyeris
-    ports:
-      - "8082:8000"
-  eyeris-postgres:
-    image: pgvector/pgvector:pg16
-    restart: unless-stopped
-    environment:
-      - POSTGRES_USER=eyeris
-      - POSTGRES_PASSWORD=secret
-      - POSTGRES_DB=eyeris
-    volumes:
-      - eyeris-postgres:/var/lib/postgresql/data
-    ports:
-      - "5433:5432"
-
 volumes:
   postgres:
   miniflux-postgres:
   nitter-pf-redis:
-  eyeris-postgres:
