@@ -5,9 +5,9 @@
 >
     <button
         class="button"
-        hx-get="/actions/load_more?from_iid={{ from_iid }}&group={{ gid }}&sort={{ sort }}&remaining_count={{ remaining_count }}&read={{ include_read }}&total_count={{ total_count }}"
+        hx-get="/actions/load_more?from_iid={{ from_iid }}&group={{ gid }}&sort={{ sort }}&remaining_count={{ remaining_count }}&read={{ include_read }}&total_count={{ total_count }}&segment={{ segment_id }}"
         hx-trigger="{{ 'revealed' if infinite_scroll else 'click' }}"
-        hx-target="#grid"
+        hx-target="#grid-{{ segment_id }}"
         hx-swap="beforeend"
         hx-disabled-elt="this"
     >

@@ -1,0 +1,6 @@
+{% for segment in segments %}
+    {# Avoid OOB swaps on initial render; OOB is used only for load_more inserts. #}
+    {% with segment=segment, swap_oob=False %}
+        {% include 'segment.html' %}
+    {% endwith %}
+{% endfor %}

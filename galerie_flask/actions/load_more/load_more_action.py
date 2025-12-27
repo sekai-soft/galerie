@@ -1,7 +1,16 @@
 import json
+from datetime import datetime, timezone
 from flask import request, g, Blueprint, make_response, render_template
 from galerie.rendered_item import convert_rendered_items
-from galerie_flask.utils import requires_auth, load_more_button_args, items_args, DEFAULT_MAX_ITEMS, DEFAULT_MAX_RENDERED_ITEMS, compute_read_percentage
+from galerie_flask.utils import (
+    requires_auth,
+    load_more_button_args,
+    items_args,
+    DEFAULT_MAX_ITEMS,
+    DEFAULT_MAX_RENDERED_ITEMS,
+    compute_read_percentage,
+    build_segments,
+)
 from galerie_flask.actions_blueprint import catches_exceptions
 
 
@@ -21,6 +30,7 @@ def load_more():
     no_text_mode = request.cookies.get('no_text_mode', '0') == '1'
 
     from_iid = request.args.get('from_iid')
+    current_segment_id = request.args.get('segment')
     remaining_count = int(request.args.get('remaining_count'))
     total_count = int(request.args.get('total_count'))
     read_percentage = compute_read_percentage(remaining_count, total_count)
@@ -35,6 +45,9 @@ def load_more():
     
     rendered_items = convert_rendered_items(unread_items, max_rendered_items)
     last_iid = unread_items[-1].iid if unread_items else ''
+    now = datetime.now(timezone.utc)
+    segments = build_segments(rendered_items, now)
+    last_segment_id = segments[-1]["id"] if segments else ''
 
     if last_iid:
         args = {}
@@ -48,11 +61,27 @@ def load_more():
             infinite_scroll=infinite_scroll,
             remaining_count=remaining_count,
             include_read=include_read,
-            total_count=total_count
+            total_count=total_count,
+            segment_id=last_segment_id
         )
-        rendered_string = \
-            render_template('items_stream.html', **args) + "\n" + \
-            render_template('load_more_button.html', **args)
+        rendered_string = ""
+        if segments:
+            if segments[0]["id"] == current_segment_id:
+                # If the batch starts in the current segment, append its items first (no new segment block).
+                args["items"] = segments[0]["items"]
+                rendered_string += render_template('items_stream.html', **args)
+                remaining_segments = segments[1:]
+            else:
+                remaining_segments = segments
+            for segment in remaining_segments:
+                # Additional segments are rendered as full blocks (heading + items) via OOB into #segments.
+                rendered_string += "\n" + render_template(
+                    'segment.html',
+                    segment=segment,
+                    swap_oob=True,
+                    **args
+                )
+        rendered_string += "\n" + render_template('load_more_button.html', **args)
     else:
         args = {}
         rendered_string = render_template('all_loaded_marker.html', **args)

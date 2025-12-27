@@ -1,7 +1,16 @@
 from flask import Blueprint, render_template, g, request
 from flask_babel import _
 from galerie.rendered_item import convert_rendered_items
-from galerie_flask.utils import requires_auth, items_args, load_more_button_args, DEFAULT_MAX_ITEMS, DEFAULT_MAX_RENDERED_ITEMS, compute_read_percentage
+from datetime import datetime, timezone
+from galerie_flask.utils import (
+    requires_auth,
+    items_args,
+    load_more_button_args,
+    DEFAULT_MAX_ITEMS,
+    DEFAULT_MAX_RENDERED_ITEMS,
+    compute_read_percentage,
+    build_segments,
+)
 from galerie_flask.pages_blueprint import catches_exceptions, requires_auth
 
 
@@ -30,6 +39,9 @@ def index_page():
 
     rendered_items = convert_rendered_items(unread_items, max_rendered_items)
     last_iid = unread_items[-1].iid if unread_items else ''
+    now = datetime.now(timezone.utc)
+    segments = build_segments(rendered_items, now)
+    last_segment_id = segments[-1]["id"] if segments else ''
 
     groups = g.aggregator.get_groups()
     gids = [group.gid for group in groups]
@@ -54,7 +66,8 @@ def index_page():
         "all_feed_count": all_feed_count,
         "feeds": feeds,
         "no_text_mode": no_text_mode,
-        "read_percentage": read_percentage
+        "read_percentage": read_percentage,
+        "segments": segments
     }
     items_args(args, rendered_items, True, gid is None, no_text_mode)
     load_more_button_args(
@@ -65,7 +78,8 @@ def index_page():
         infinite_scroll=infinite_scroll,
         remaining_count=remaining_count,
         include_read=include_read,
-        total_count=total_count
+        total_count=total_count,
+        segment_id=last_segment_id
     )
 
     return render_template('index.html', **args)

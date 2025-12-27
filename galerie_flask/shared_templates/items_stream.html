@@ -16,7 +16,7 @@
                 src="{{ item.image_url }}"
                 {% endif %}
                 style="display: none;"
-                onload="this.style.display='block'; document.getElementById('img-{{ item.uid }}-loading').style.display = 'none'; grid.layout()"
+                onload="this.style.display='block'; document.getElementById('img-{{ item.uid }}-loading').style.display = 'none';"
                 onerror="this.src='data:image/svg+xml;base64,{{ image_error_svg_base64 }}'"
             />
             <img

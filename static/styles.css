@@ -22,6 +22,10 @@
     margin-bottom: 32px;
 }
 
+.segment {
+    margin-bottom: 16px;
+}
+
 .button-with-links {
     display: flex;
     flex-direction: row;

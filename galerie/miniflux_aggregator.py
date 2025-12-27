@@ -1,5 +1,5 @@
 import miniflux
-from datetime import datetime
+from datetime import datetime, timezone
 from urllib.parse import urlparse
 from typing import List, Optional, Dict
 from bs4 import BeautifulSoup
@@ -30,7 +30,7 @@ def parse_published_at(date_string: str) -> datetime:
     
     for fmt in formats:
         try:
-            return datetime.strptime(date_string, fmt)
+            return datetime.strptime(date_string, fmt).replace(tzinfo=timezone.utc)
         except ValueError:
             continue
     
