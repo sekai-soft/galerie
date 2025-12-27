@@ -7,7 +7,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: PROJECT VERSION\n"
 "Report-Msgid-Bugs-To: EMAIL@ADDRESS\n"
-"POT-Creation-Date: 2025-12-27 22:09+0800\n"
+"POT-Creation-Date: 2025-12-27 23:12+0800\n"
 "PO-Revision-Date: 2024-06-27 08:04+0000\n"
 "Last-Translator: FULL NAME <EMAIL@ADDRESS>\n"
 "Language: zh\n"
@@ -78,6 +78,18 @@ msgstr "用户名或密码错误"
 #: galerie_flask/miniflux_admin.py:86
 msgid "Your session has expired. Please log in again."
 msgstr "您的会话已过期。请重新登录。"
+
+#: galerie_flask/utils.py:16
+msgid "Latest 100"
+msgstr "最新 100"
+
+#: galerie_flask/utils.py:17
+msgid "Latest 200"
+msgstr "最新 200"
+
+#: galerie_flask/utils.py:18
+msgid "Older"
+msgstr "更早的"
 
 #: galerie_flask/actions/instapaper/instapaper_action.py:40
 msgid "Failed to add to Instapaper"

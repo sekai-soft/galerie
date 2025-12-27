@@ -1,7 +1,6 @@
 from flask import Blueprint, render_template, g, request
 from flask_babel import _
 from galerie.rendered_item import convert_rendered_items
-from datetime import datetime, timezone
 from galerie_flask.utils import (
     requires_auth,
     items_args,
@@ -39,8 +38,8 @@ def index_page():
 
     rendered_items = convert_rendered_items(unread_items, max_rendered_items)
     last_iid = unread_items[-1].iid if unread_items else ''
-    now = datetime.now(timezone.utc)
-    segments = build_segments(rendered_items, now)
+    rendered_count = len(rendered_items)
+    segments = build_segments(rendered_items)
     last_segment_id = segments[-1]["id"] if segments else ''
 
     groups = g.aggregator.get_groups()
@@ -79,7 +78,8 @@ def index_page():
         remaining_count=remaining_count,
         include_read=include_read,
         total_count=total_count,
-        segment_id=last_segment_id
+        segment_id=last_segment_id,
+        rendered_count=rendered_count
     )
 
     return render_template('index.html', **args)

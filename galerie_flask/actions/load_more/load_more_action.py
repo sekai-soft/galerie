@@ -1,5 +1,4 @@
 import json
-from datetime import datetime, timezone
 from flask import request, g, Blueprint, make_response, render_template
 from galerie.rendered_item import convert_rendered_items
 from galerie_flask.utils import (
@@ -45,8 +44,8 @@ def load_more():
     
     rendered_items = convert_rendered_items(unread_items, max_rendered_items)
     last_iid = unread_items[-1].iid if unread_items else ''
-    now = datetime.now(timezone.utc)
-    segments = build_segments(rendered_items, now)
+    rendered_count = int(request.args.get('rendered_count', 0))
+    segments = build_segments(rendered_items, rendered_count)
     last_segment_id = segments[-1]["id"] if segments else ''
 
     if last_iid:
@@ -62,7 +61,8 @@ def load_more():
             remaining_count=remaining_count,
             include_read=include_read,
             total_count=total_count,
-            segment_id=last_segment_id
+            segment_id=last_segment_id,
+            rendered_count=rendered_count + len(rendered_items)
         )
         rendered_string = ""
         if segments:
