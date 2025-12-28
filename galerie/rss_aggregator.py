@@ -26,13 +26,17 @@ class RssAggregator(ABC):
     @abstractmethod
     def get_unread_items_count_by_group_ids(self, gids: List[str]) -> Dict[str, int]:
         pass
-   
+
     @abstractmethod
     def mark_all_group_items_as_read(self, group_id: str):
         pass
 
     @abstractmethod
     def mark_all_items_as_read(self):
+        pass
+
+    @abstractmethod
+    def mark_entries_as_read(self, entry_ids: List[str]):
         pass
 
     @abstractmethod
@@ -61,10 +65,6 @@ class RssAggregator(ABC):
 
     @abstractmethod
     def delete_feed(self, fid: str):
-        pass
-
-    @abstractmethod
-    def mark_all_feed_items_as_read(self, fid: str):
         pass
 
     @abstractmethod

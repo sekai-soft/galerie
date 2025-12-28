@@ -7,7 +7,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: PROJECT VERSION\n"
 "Report-Msgid-Bugs-To: EMAIL@ADDRESS\n"
-"POT-Creation-Date: 2025-12-27 23:12+0800\n"
+"POT-Creation-Date: 2025-12-28 13:26+0800\n"
 "PO-Revision-Date: 2024-06-27 08:04+0000\n"
 "Last-Translator: FULL NAME <EMAIL@ADDRESS>\n"
 "Language: zh\n"
@@ -33,36 +33,36 @@ msgstr "密码不匹配"
 
 #: galerie_flask/actions/set_max_items/set_max_items_action.py:14
 #: galerie_flask/actions/set_max_rendered_items/set_max_rendered_items_action.py:14
-#: galerie_flask/actions_blueprint.py:146
+#: galerie_flask/actions_blueprint.py:131
 msgid "Setting updated"
 msgstr "设置已更新"
 
-#: galerie_flask/actions_blueprint.py:169
+#: galerie_flask/actions_blueprint.py:154
 msgid "Group updated"
 msgstr "分组已更新"
 
-#: galerie_flask/actions_blueprint.py:183
+#: galerie_flask/actions_blueprint.py:168
 msgid "This feed already exists"
 msgstr "此订阅源已存在"
 
-#: galerie_flask/actions_blueprint.py:195
+#: galerie_flask/actions_blueprint.py:180
 msgid "Unable to detect a valid feed"
 msgstr "无法检测到有效的订阅源"
 
-#: galerie_flask/actions_blueprint.py:226
+#: galerie_flask/actions_blueprint.py:211
 msgid "Instapaper username or email is required"
 msgstr "Instapaper 用户名或邮箱是必需的"
 
-#: galerie_flask/actions_blueprint.py:235
+#: galerie_flask/actions_blueprint.py:220
 msgid "Wrong Instapaper credentials"
 msgstr "Instapaper 用户名或密码错误"
 
-#: galerie_flask/actions_blueprint.py:288
+#: galerie_flask/actions_blueprint.py:273
 msgid "You cannot delete the last group"
 msgstr "您不能删除最后一个分组"
 
 #: galerie_flask/actions/session_management/session_management_action.py:20
-#: galerie_flask/actions_blueprint.py:338
+#: galerie_flask/actions_blueprint.py:323
 msgid "Name is required"
 msgstr "名字是必需的"
 
@@ -98,6 +98,14 @@ msgstr "无法添加到 Instapaper"
 #: galerie_flask/actions/instapaper/instapaper_action.py:42
 msgid "Saved to Instapaper"
 msgstr "保存到了 Instapaper"
+
+#: galerie_flask/actions/mark_group_as_read/mark_group_as_read_action.py:15
+msgid "Group is required"
+msgstr "分组是必需的"
+
+#: galerie_flask/actions/mark_rendered_as_read/mark_rendered_as_read_action.py:15
+msgid "No unread items on this page"
+msgstr "这个页面上没有未读条目"
 
 #: galerie_flask/actions/session_management/session_management_action.py:16
 #: galerie_flask/actions/session_management/session_management_action.py:37
@@ -179,73 +187,101 @@ msgstr "历史记录"
 msgid "by feed"
 msgstr "依据订阅源"
 
-#: galerie_flask/pages/index/index.html:44
-msgid "Are you sure you want to mark this group as read?"
-msgstr "确定要标记这个分组为已读吗？"
+#: galerie_flask/pages/index/index.html:48
+msgid "Mark these items as read"
+msgstr "确定要标记这些条目为已读吗？"
 
-#: galerie_flask/pages/index/index.html:55
+#: galerie_flask/pages/index/index.html:54
+msgid "Are you sure you want to mark these items as read?"
+msgstr "确定要标记这些条目为已读吗？"
+
+#: galerie_flask/pages/index/index.html:58
+msgid "Displayed items"
+msgstr "显示的条目"
+
+#: galerie_flask/pages/index/index.html:66
+msgid "Are you sure you want to mark this group as read?"
+msgstr "确定要标记这个分组的条目为已读吗？"
+
+#: galerie_flask/pages/index/index.html:70
+msgid "All items in group"
+msgstr "分组中的所有条目"
+
+#: galerie_flask/pages/index/index.html:78
+msgid "Are you sure you want to mark all items as read?"
+msgstr "确定要标记所有条目为已读吗？"
+
+#: galerie_flask/pages/index/index.html:82
+msgid "All items"
+msgstr "所有条目"
+
+#: galerie_flask/pages/index/index.html:87
+msgid "Cancel"
+msgstr "取消"
+
+#: galerie_flask/pages/index/index.html:96
 msgid "Status"
 msgstr "状态"
 
-#: galerie_flask/pages/index/index.html:57
+#: galerie_flask/pages/index/index.html:98
 msgid "unread only"
 msgstr "仅未读"
 
-#: galerie_flask/pages/index/index.html:58
+#: galerie_flask/pages/index/index.html:99
 msgid "include read"
 msgstr "包含已读"
 
-#: galerie_flask/pages/index/index.html:62
+#: galerie_flask/pages/index/index.html:103
 msgid "Sort"
 msgstr "排序"
 
-#: galerie_flask/pages/index/index.html:64
+#: galerie_flask/pages/index/index.html:105
 msgid "descending"
 msgstr "降序"
 
-#: galerie_flask/pages/index/index.html:65
+#: galerie_flask/pages/index/index.html:106
 msgid "ascending"
 msgstr "升序"
 
-#: galerie_flask/pages/index/index.html:69
+#: galerie_flask/pages/index/index.html:110
 msgid "No text mode"
 msgstr "无言模式"
 
-#: galerie_flask/pages/index/index.html:76
+#: galerie_flask/pages/index/index.html:117
 msgid "no"
 msgstr "否"
 
-#: galerie_flask/pages/index/index.html:77
+#: galerie_flask/pages/index/index.html:118
 msgid "yes"
 msgstr "是"
 
-#: galerie_flask/pages/index/index.html:81
+#: galerie_flask/pages/index/index.html:122
 msgid "More settings"
 msgstr "更多设置"
 
-#: galerie_flask/pages/index/index.html:86
+#: galerie_flask/pages/index/index.html:127
 #: galerie_flask/pages/session_management/session_management.html:46
 #: galerie_flask/templates/add_feed.html:58
 msgid "Close"
 msgstr "关闭"
 
-#: galerie_flask/pages/index/index.html:95
+#: galerie_flask/pages/index/index.html:136
 msgid "start adding some feeds ❤️"
 msgstr "开始添加一些订阅源 ❤️"
 
-#: galerie_flask/pages/index/index.html:98
+#: galerie_flask/pages/index/index.html:139
 msgid "all read ✨"
 msgstr "全部已读 ✨"
 
-#: galerie_flask/pages/index/index.html:99
+#: galerie_flask/pages/index/index.html:140
 msgid "go touch some grass 🌱"
 msgstr "去接触一下大自然吧 🌱"
 
-#: galerie_flask/pages/index/index.html:105
+#: galerie_flask/pages/index/index.html:146
 msgid "has"
 msgstr "有"
 
-#: galerie_flask/pages/index/index.html:105
+#: galerie_flask/pages/index/index.html:146
 msgid "unread items"
 msgstr "未读条目"
 

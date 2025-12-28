@@ -123,21 +123,6 @@ def logout():
     return resp
 
 
-@actions_blueprint.route('/mark_as_read', methods=['POST'])
-@catches_exceptions
-@requires_auth
-def mark_as_read():
-    group = request.args.get('group') if request.args.get('group') else None
-    if group:
-        g.aggregator.mark_all_group_items_as_read(group)
-    else:
-        g.aggregator.mark_all_items_as_read()
-
-    resp = make_response()
-    resp.headers['HX-Refresh'] = "true"
-    return resp
-
-
 @actions_blueprint.route('/set_infinite_scroll', methods=['POST'])
 @catches_exceptions
 def set_infinite_scroll():

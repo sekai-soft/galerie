@@ -40,12 +40,53 @@
             class="link-button"
         >🔄</a>
         <a
-            href="javascript:void(0)"
-            hx-confirm="{{ _('Are you sure you want to mark this group as read?') }}"
-            hx-post="/actions/mark_as_read?group={{ gid }}&sort={{ sort }}"
-            hx-disabled-elt="this"
+            type="button"
             class="link-button"
+            onclick="document.getElementById('mark-read-dialog').showModal()"
         >✅</a>
+        <dialog id="mark-read-dialog">
+            <p>{{ _('Mark these items as read') }}</p>
+            <button
+                type="button"
+                class="button"
+                hx-post="/actions/mark_rendered_as_read"
+                hx-include="#segments .rendered-entry-id"
+                hx-confirm="{{ _('Are you sure you want to mark these items as read?') }}"
+                hx-disabled-elt="this"
+                hx-swap="none"
+                onclick="document.getElementById('mark-read-dialog').close()"
+            >{{ _('Displayed items') }}</button>
+            <br>
+            <br>
+            {% if gid %}
+            <button
+                type="button"
+                class="button"
+                hx-post="/actions/mark_group_as_read?group={{ gid }}&sort={{ sort }}"
+                hx-confirm="{{ _('Are you sure you want to mark this group as read?') }}"
+                hx-disabled-elt="this"
+                hx-swap="none"
+                onclick="document.getElementById('mark-read-dialog').close()"
+            >{{ _('All items in group') }}</button>
+            <br>
+            <br>
+            {% else %}
+            <button
+                type="button"
+                class="button"
+                hx-post="/actions/mark_all_as_read"
+                hx-confirm="{{ _('Are you sure you want to mark all items as read?') }}"
+                hx-disabled-elt="this"
+                hx-swap="none"
+                onclick="document.getElementById('mark-read-dialog').close()"
+            >{{ _('All items') }}</button>
+            <br>
+            <br>
+            {% endif %}
+            <button class="button" onclick="document.getElementById('mark-read-dialog').close()">
+                {{ _('Cancel') }}
+            </button>
+        </dialog>
         <a
             href="javascript:document.getElementById('settings').showModal()"
             class="link-button"

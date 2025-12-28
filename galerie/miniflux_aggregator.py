@@ -154,6 +154,14 @@ class MinifluxAggregator(RssAggregator):
     def mark_all_items_as_read(self):
         self.client.mark_user_entries_as_read(self.client.me()['id'])
 
+    def mark_entries_as_read(self, entry_ids: List[str]):
+        if not entry_ids:
+            return
+        unique_ids = {int(entry_id) for entry_id in entry_ids if entry_id.isdigit()}
+        if not unique_ids:
+            return
+        self.client.update_entries(list(unique_ids), 'read')
+
     def connection_info(self) -> ConnectionInfo:
         return ConnectionInfo(
             managed_or_self_hosted=self.managed_or_self_hosted,
@@ -191,9 +199,6 @@ class MinifluxAggregator(RssAggregator):
 
     def delete_feed(self, fid: str):
         self.client.delete_feed(int(fid))
-
-    def mark_all_feed_items_as_read(self, fid: str):
-        self.client.mark_feed_entries_as_read(int(fid))
 
     def mark_last_unread(self, count: int):
         entries = self.client.get_entries(
