@@ -13,6 +13,7 @@ services:
       MEDIA_PROXY_CUSTOM_URL: 'http://galerie-reader-media'
     env_file:
       - env
+    network_mode: service:galerie-ts
   postgres:
     image: postgres:15
     restart: unless-stopped
@@ -38,12 +39,21 @@ services:
       POSTGRES_DATABASE: galerie
       POSTGRES_USER: galerie
       POSTGRES_PASSWORD: secret
-  cloudflared:
-    image: cloudflare/cloudflared
+  galerie-ts:
+    image: tailscale/tailscale:latest
     restart: unless-stopped
-    command: tunnel run galerie
+    hostname: galerie
+    environment:
+      - TS_EXTRA_ARGS=--advertise-tags=tag:server
+      - TS_STATE_DIR=/var/lib/tailscale
     env_file:
-      - env
+      - /home/nixos/env-tailscale
+    volumes:
+      - galerie-ts:/var/lib/tailscale
+      - /dev/net/tun:/dev/net/tun
+    cap_add:
+      - net_admin
+      - sys_module
     labels:
       - com.centurylinklabs.watchtower.enable=true
 
@@ -138,6 +148,7 @@ services:
       - ALL
 
 volumes:
+  galerie-ts:
   postgres:
   miniflux-postgres:
   nitter-pf-redis:
