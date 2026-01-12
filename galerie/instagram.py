@@ -1,1 +1,0 @@
-INSTAGRAM_CDN_URL = "https://scontent.cdninstagram.com"
