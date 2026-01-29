@@ -40,12 +40,12 @@ def load_more():
         include_read=include_read
     )
 
-    rendered_items = convert_rendered_items(unread_items, max_rendered_items)
+    rendered_items, iids_without_media = convert_rendered_items(unread_items, max_rendered_items)
     last_iid = unread_items[-1].iid if unread_items else ''
 
     if last_iid:
         args = {}
-        items_args(args, rendered_items, True, gid is None, no_text_mode)
+        items_args(args, rendered_items, True, gid is None, no_text_mode, iids_without_media)
         remaining_count = remaining_count - max_items if remaining_count > max_items else 0
         load_more_button_args(
             args=args,

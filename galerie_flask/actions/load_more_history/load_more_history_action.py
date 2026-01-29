@@ -71,7 +71,7 @@ def load_more_history():
 
     if last_uuid:
         args = {}
-        items_args(args, rendered_items, False, False, no_text_mode)
+        items_args(args, rendered_items, False, False, no_text_mode, [])
         remaining_count = remaining_count - max_items if remaining_count > max_items else 0
         load_more_button_args(
             args=args,

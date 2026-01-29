@@ -35,7 +35,7 @@ def index_page():
         include_read=include_read
     )
 
-    rendered_items = convert_rendered_items(unread_items, max_rendered_items)
+    rendered_items, iids_without_media = convert_rendered_items(unread_items, max_rendered_items)
     last_iid = unread_items[-1].iid if unread_items else ''
 
     groups = g.aggregator.get_groups()
@@ -63,7 +63,7 @@ def index_page():
         "no_text_mode": no_text_mode,
         "read_percentage": read_percentage,
     }
-    items_args(args, rendered_items, True, gid is None, no_text_mode)
+    items_args(args, rendered_items, True, gid is None, no_text_mode, iids_without_media)
     load_more_button_args(
         args=args,
         from_iid=last_iid,

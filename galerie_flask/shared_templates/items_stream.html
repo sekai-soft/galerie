@@ -1,3 +1,6 @@
+{% for iid in iids_without_media %}
+<input type="hidden" name="entry_id" class="entry-id" value="{{ iid }}">
+{% endfor %}
 {% for item in items %}
 {% if not (item.unread_or_not or context_feed_page or context_history_page) %}
 <div id="{{ item.uid }}" class="grid-item" style="filter: grayscale(100%);">
@@ -5,7 +8,7 @@
 <div id="{{ item.uid }}" class="grid-item">
 {% endif %}
     {% if item.unread_or_not and item.uid.endswith('-0') %}
-    <input type="hidden" name="entry_id" class="rendered-entry-id" value="{{ item.iid }}">
+    <input type="hidden" name="entry_id" class="entry-id" value="{{ item.iid }}">
     {% endif %}
     <a href="/item?uid={{ item.uid }}{% if context_history_page %}&from_history=1{% endif %}" target="_blank">
         <div class="animate-long item-image-container">

@@ -58,7 +58,7 @@ def item_history_page():
         "context_history_page": True,
         "has_history": total_count > 0,
     }
-    items_args(args, rendered_items, False, False, no_text_mode)
+    items_args(args, rendered_items, False, False, no_text_mode, [])
 
     # Add load more button if there are more items
     remaining_count = total_count - max_items

@@ -119,8 +119,13 @@ def convert_rendered_item(item: Item, max_rendered_items: int, ignore_rendered_i
     return res
 
 
-def convert_rendered_items(items: List[Item], max_rendered_items: int) -> List[RenderedItem]:
-    res = []
+def convert_rendered_items(items: List[Item], max_rendered_items: int) -> tuple[List[RenderedItem], List[str]]:
+    rendered_items = []
+    iids_without_media = []
     for item in items:
-        res.extend(convert_rendered_item(item, max_rendered_items))
-    return res
+        converted = convert_rendered_item(item, max_rendered_items)
+        if converted:
+            rendered_items.extend(converted)
+        elif item.unread_or_not:
+            iids_without_media.append(item.iid)
+    return rendered_items, iids_without_media

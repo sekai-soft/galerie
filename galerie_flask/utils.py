@@ -1,4 +1,4 @@
-from typing import Optional, List
+from typing import List, Optional
 from functools import wraps
 from flask import request, g, redirect
 from galerie.rendered_item import RenderedItem
@@ -44,7 +44,7 @@ def load_more_button_args(
     })
 
 
-def items_args(args: dict, rendered_items: List[RenderedItem], should_show_feed_title: bool, should_show_feed_group: bool, no_text_mode: bool):
+def items_args(args: dict, rendered_items: List[RenderedItem], should_show_feed_title: bool, should_show_feed_group: bool, no_text_mode: bool, iids_without_media: List[str]):
     rendered_feed_icons = {}
     for ri in rendered_items:
         fid = ri.fid
@@ -57,7 +57,8 @@ def items_args(args: dict, rendered_items: List[RenderedItem], should_show_feed_
         "should_show_feed_title": should_show_feed_title,
         "should_show_feed_group": should_show_feed_group,
         "rendered_feed_icons": rendered_feed_icons,
-        "no_text_mode": no_text_mode
+        "no_text_mode": no_text_mode,
+        "iids_without_media": iids_without_media
     })
 
 
