@@ -50,7 +50,7 @@
                 type="button"
                 class="button"
                 hx-post="/actions/mark_rendered_as_read"
-                hx-include="#segments .rendered-entry-id"
+                hx-include="#grid .rendered-entry-id"
                 hx-confirm="{{ _('Are you sure you want to mark these items as read?') }}"
                 hx-disabled-elt="this"
                 hx-swap="none"
@@ -153,10 +153,10 @@
     {% endif %}
 </div>
 {% endif %}
-<div id="segments">
-    {% include 'segments.html' %}
+<div class="grid" id="grid">
+    <div class="grid-sizer"></div>
+    {% include 'items_stream.html' %}
 </div>
-<div id="grid-none-segment" style="display: none;"></div>
 {% if last_iid %}
 {% include 'load_more_button.html' %}
 {% endif %}

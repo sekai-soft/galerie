@@ -5,15 +5,10 @@
 >
     <button
         class="button"
-        hx-get="/actions/load_more?from_iid={{ from_iid }}&group={{ gid }}&sort={{ sort }}&remaining_count={{ remaining_count }}&read={{ include_read }}&total_count={{ total_count }}&segment={{ segment_id }}&rendered_count={{ rendered_count }}"
+        hx-get="/actions/load_more?from_iid={{ from_iid }}&group={{ gid }}&sort={{ sort }}&remaining_count={{ remaining_count }}&read={{ include_read }}&total_count={{ total_count }}"
         hx-trigger="{{ 'revealed' if infinite_scroll else 'click' }}"
-        {% if segment_id %}
-        hx-target="#grid-{{ segment_id }}"
+        hx-target="#grid"
         hx-swap="beforeend"
-        {% else %}
-        hx-target="#grid-none-segment"
-        hx-swap="none"
-        {% endif %}
         hx-disabled-elt="this"
     >
     {% if remaining_count > 0 %}

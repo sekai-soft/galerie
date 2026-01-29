@@ -8,7 +8,6 @@ from galerie_flask.utils import (
     DEFAULT_MAX_ITEMS,
     DEFAULT_MAX_RENDERED_ITEMS,
     compute_read_percentage,
-    build_segments,
 )
 from galerie_flask.pages_blueprint import catches_exceptions, requires_auth
 
@@ -38,9 +37,6 @@ def index_page():
 
     rendered_items = convert_rendered_items(unread_items, max_rendered_items)
     last_iid = unread_items[-1].iid if unread_items else ''
-    rendered_count = len(rendered_items)
-    segments = build_segments(rendered_items)
-    last_segment_id = segments[-1]["id"] if segments else ''
 
     groups = g.aggregator.get_groups()
     gids = [group.gid for group in groups]
@@ -66,7 +62,6 @@ def index_page():
         "feeds": feeds,
         "no_text_mode": no_text_mode,
         "read_percentage": read_percentage,
-        "segments": segments
     }
     items_args(args, rendered_items, True, gid is None, no_text_mode)
     load_more_button_args(
@@ -78,8 +73,6 @@ def index_page():
         remaining_count=remaining_count,
         include_read=include_read,
         total_count=total_count,
-        segment_id=last_segment_id,
-        rendered_count=rendered_count
     )
 
     return render_template('index.html', **args)
