@@ -22,14 +22,10 @@
                 src="{{ item.image_url }}"
                 {% endif %}
                 style="display: none;"
-                onload="this.style.display='block'; document.getElementById('img-{{ item.uid }}-loading').style.display = 'none';"
+                onload="this.style.display='block'; this.nextElementSibling.style.display = 'none';"
                 onerror="this.src='data:image/svg+xml;base64,{{ image_error_svg_base64 }}'"
             />
-            <img
-                id="img-{{ item.uid }}-loading"
-                class="item-image"
-                src="data:image/svg+xml;base64,{{ image_loading_svg_base64 }}"
-            />
+            <img class="item-image" src="data:image/svg+xml;base64,{{ image_loading_svg_base64 }}"/>
             {% elif item.video_url %}
             <video
                 id="img-{{ item.uid }}"
@@ -41,7 +37,7 @@
             />
             {% endif %}
             {% if item.video_count > 0 or item.image_count > 1 %}
-            <div class="item-image-overlay">
+            <div class="itemfimage-overlay">
                 {% if item.video_count > 1 %}{{ item.video_count }}<i class="fa-solid fa-video"></i>{% elif item.video_count == 1 %}<i class="fa-solid fa-video"></i>{% endif %}{% if item.image_count > 1 %}{{ item.image_count }}<i class="fa-solid fa-image"></i>{% endif %}
             </div>
             {% endif %}
