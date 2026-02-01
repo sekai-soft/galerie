@@ -10,7 +10,7 @@
     {% if item.unread_or_not and item.uid.endswith('-0') %}
     <input type="hidden" name="entry_id" class="entry-id" value="{{ item.iid }}">
     {% endif %}
-    <a href="/item?uid={{ item.uid }}{% if context_history_page %}&from_history=1{% endif %}" target="_blank">
+    <a href="/item?uid={{ item.uid }}{% if context_history_page %}&from_history=1{% endif %}">
         <div class="animate-long item-image-container">
             {% if item.video_thumbnail_url or item.image_url %}
             <img
