@@ -107,7 +107,7 @@ services:
 
   # nitter
   nitter:
-    image: zedeus/nitter:latest-arm64
+    image: ghcr.io/sekai-soft/nitter-pitchforked:v20260201
     # container_name: nitter
     # ports:
     #   - "127.0.0.1:8080:8080" # Replace with "8080:8080" if you don't use a reverse proxy
