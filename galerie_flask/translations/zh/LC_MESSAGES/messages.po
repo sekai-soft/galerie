@@ -7,7 +7,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: PROJECT VERSION\n"
 "Report-Msgid-Bugs-To: EMAIL@ADDRESS\n"
-"POT-Creation-Date: 2025-12-28 13:26+0800\n"
+"POT-Creation-Date: 2026-01-31 22:05-0800\n"
 "PO-Revision-Date: 2024-06-27 08:04+0000\n"
 "Last-Translator: FULL NAME <EMAIL@ADDRESS>\n"
 "Language: zh\n"
@@ -18,51 +18,43 @@ msgstr ""
 "Content-Transfer-Encoding: 8bit\n"
 "Generated-By: Babel 2.17.0\n"
 
-#: galerie_flask/actions_blueprint.py:73 galerie_flask/actions_blueprint.py:99
+#: galerie_flask/actions_blueprint.py:72 galerie_flask/actions_blueprint.py:98
 msgid "Username is required"
 msgstr "用户名是必需的"
 
-#: galerie_flask/actions_blueprint.py:77 galerie_flask/actions_blueprint.py:81
-#: galerie_flask/actions_blueprint.py:103
+#: galerie_flask/actions_blueprint.py:76 galerie_flask/actions_blueprint.py:80
+#: galerie_flask/actions_blueprint.py:102
 msgid "Password is required"
 msgstr "密码是必需的"
 
-#: galerie_flask/actions_blueprint.py:84
+#: galerie_flask/actions_blueprint.py:83
 msgid "Passwords do not match"
 msgstr "密码不匹配"
 
 #: galerie_flask/actions/set_max_items/set_max_items_action.py:14
 #: galerie_flask/actions/set_max_rendered_items/set_max_rendered_items_action.py:14
-#: galerie_flask/actions_blueprint.py:131
+#: galerie_flask/actions_blueprint.py:130
 msgid "Setting updated"
 msgstr "设置已更新"
 
-#: galerie_flask/actions_blueprint.py:154
+#: galerie_flask/actions_blueprint.py:153
 msgid "Group updated"
 msgstr "分组已更新"
 
-#: galerie_flask/actions_blueprint.py:168
+#: galerie_flask/actions_blueprint.py:167
 msgid "This feed already exists"
 msgstr "此订阅源已存在"
 
-#: galerie_flask/actions_blueprint.py:180
+#: galerie_flask/actions_blueprint.py:179
 msgid "Unable to detect a valid feed"
 msgstr "无法检测到有效的订阅源"
 
-#: galerie_flask/actions_blueprint.py:211
-msgid "Instapaper username or email is required"
-msgstr "Instapaper 用户名或邮箱是必需的"
-
-#: galerie_flask/actions_blueprint.py:220
-msgid "Wrong Instapaper credentials"
-msgstr "Instapaper 用户名或密码错误"
-
-#: galerie_flask/actions_blueprint.py:273
+#: galerie_flask/actions_blueprint.py:231
 msgid "You cannot delete the last group"
 msgstr "您不能删除最后一个分组"
 
 #: galerie_flask/actions/session_management/session_management_action.py:20
-#: galerie_flask/actions_blueprint.py:323
+#: galerie_flask/actions_blueprint.py:281
 msgid "Name is required"
 msgstr "名字是必需的"
 
@@ -78,26 +70,6 @@ msgstr "用户名或密码错误"
 #: galerie_flask/miniflux_admin.py:86
 msgid "Your session has expired. Please log in again."
 msgstr "您的会话已过期。请重新登录。"
-
-#: galerie_flask/utils.py:16
-msgid "Latest 100"
-msgstr "最新 100"
-
-#: galerie_flask/utils.py:17
-msgid "Latest 200"
-msgstr "最新 200"
-
-#: galerie_flask/utils.py:18
-msgid "Older"
-msgstr "更早的"
-
-#: galerie_flask/actions/instapaper/instapaper_action.py:40
-msgid "Failed to add to Instapaper"
-msgstr "无法添加到 Instapaper"
-
-#: galerie_flask/actions/instapaper/instapaper_action.py:42
-msgid "Saved to Instapaper"
-msgstr "保存到了 Instapaper"
 
 #: galerie_flask/actions/mark_group_as_read/mark_group_as_read_action.py:15
 msgid "Group is required"
@@ -135,11 +107,6 @@ msgstr "已终止其他 {} 个会话"
 #, python-brace-format
 msgid "Terminated {} unnamed session(s)"
 msgstr "已终止其他 {} 个未命名的会话"
-
-#: galerie_flask/pages/feed/feed.html:30
-#: galerie_flask/templates/update_feed.html:30
-msgid "Are you sure you want to delete this feed?"
-msgstr "确定要删除这个订阅源吗？"
 
 #: galerie_flask/pages/feed_maintenance/feed_maintenance.html:3
 #: galerie_flask/pages/feed_maintenance/feed_maintenance.html:5
@@ -299,34 +266,9 @@ msgstr "加载"
 msgid "more"
 msgstr "更多"
 
-#: galerie_flask/pages/item/item.html:49
+#: galerie_flask/pages/item/item.html:55
 msgid "via"
 msgstr "转发自"
-
-#: galerie_flask/pages/item/item.html:71
-msgid "Open link"
-msgstr "打开链接"
-
-#: galerie_flask/pages/item/item.html:83
-msgid "Save to Instapaper"
-msgstr "保存至 Instapaper"
-
-#: galerie_flask/pages/item/item.html:93
-msgid "Share"
-msgstr "分享"
-
-#: galerie_flask/pages/item/item.html:101
-msgid "Copy link"
-msgstr "复制链接"
-
-#: galerie_flask/pages/item/item.html:112
-#: galerie_flask/pages/item/item.html:127
-msgid "Download"
-msgstr "下载"
-
-#: galerie_flask/pages/item/item.html:133
-msgid "Download all"
-msgstr "下载全部"
 
 #: galerie_flask/pages/item_history/item_history.html:3
 #: galerie_flask/pages/item_history/item_history.html:6
@@ -557,6 +499,10 @@ msgstr "更新订阅源"
 #: galerie_flask/templates/update_group.html:5
 msgid "Update group"
 msgstr "更新分组"
+
+#: galerie_flask/templates/update_feed.html:30
+msgid "Are you sure you want to delete this feed?"
+msgstr "确定要删除这个订阅源吗？"
 
 #: galerie_flask/templates/update_feed.html:32
 msgid "Delete feed"

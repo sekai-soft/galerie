@@ -4,7 +4,6 @@ from flask_babel import _
 from galerie.rendered_item import convert_rendered_item
 from galerie.twitter import extract_twitter_handle_from_url
 from galerie_flask.pages_blueprint import catches_exceptions, requires_auth
-from galerie_flask.instapaper import is_instapaper_available
 from galerie_flask.utils import DEFAULT_MAX_RENDERED_ITEMS
 from galerie_flask.db import db, Session, ItemViewHistory
 
@@ -67,6 +66,5 @@ def item():
         item=rendered_items[0],
         items=rendered_items,
         u_index=u_index,
-        is_instapaper_available=is_instapaper_available(),
         no_text_mode=no_text_mode
     )

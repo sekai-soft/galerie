@@ -10,7 +10,6 @@ from galerie.twitter import create_nitter_feed_url, extract_twitter_handle_from_
 from .utils import requires_auth, cookie_max_age
 from .get_aggregator import get_aggregator
 from .miniflux_admin import get_miniflux_admin, MinifluxAdminException
-from .instapaper_manager import get_instapaper_manager
 
 
 actions_blueprint = Blueprint('actions_legacy', __name__)
@@ -201,47 +200,6 @@ def delete_feed():
     g.aggregator.delete_feed(fid)
 
     return make_back()
-
-
-@actions_blueprint.route('/log_into_instapaper', methods=['POST'])
-@catches_exceptions
-def log_into_instapaper():
-    username_or_email = request.form.get('username_or_email')
-    if not username_or_email:
-        return make_toast(400, _("Instapaper username or email is required"))
-
-    password = request.form.get('password', '')
-
-    auth_res = requests.post("https://www.instapaper.com/api/authenticate", data={
-        "username": username_or_email,
-        "password": password
-    })
-    if auth_res.status_code != 200:
-        return make_toast(400, _("Wrong Instapaper credentials"))
-    
-    instapaper_manager = get_instapaper_manager()
-    instapaper_manager.add_instapaper_connection(
-        session_token=request.cookies.get('session_token'),
-        instapaper_username=username_or_email,
-        instapaper_password=password
-    )
-
-    resp = make_response()
-    resp.headers['HX-Refresh'] = "true"
-    return resp
-
-
-@actions_blueprint.route('/log_out_of_instapaper', methods=['POST'])
-@catches_exceptions
-def log_out_of_instapaper():
-    instapaper_manager = get_instapaper_manager()
-    instapaper_manager.remove_instapaper_connection(
-        request.cookies.get('session_token'),
-    )
-
-    resp = make_response()
-    resp.headers['HX-Refresh'] = "true"
-    return resp
 
 
 @actions_blueprint.route('/rename_group', methods=['POST'])
