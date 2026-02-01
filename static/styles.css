@@ -199,8 +199,8 @@ dialog {
 .item-buttons {
     display: flex;
     flex-direction: row;
-    margin-top: 48px;
-    margin-bottom: 48px;
+    margin-top: 32px;
+    margin-bottom: 32px;
 }
 
 .item-buttons-right {

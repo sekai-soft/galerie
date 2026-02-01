@@ -4,12 +4,6 @@
 
 {% block header_title %}{{ item.title if not no_text_mode else '(No text mode is on)' }}{% endblock %}
 
-{% block header_right_content %}
-<a href="{{ item.url }}" target="_blank" class="link-button">
-    <i class="fa-solid fa-arrow-up-right-from-square"></i>
-</a>
-{% endblock %}
-
 {% block page_content %}
 
 <div class="carousel">
@@ -71,30 +65,25 @@
 {% endif %}
 
 <div class="item-buttons">
+    <!-- Open link -->
+    <a href="{{ item.url }}" target="_blank" class="link-button">
+        <i class="fa-solid fa-arrow-up-right-from-square"></i>
+    </a>
+
     <!-- Copy link -->
-    <a
-        id="item-copy-link-button"
-        class="link-button"
-    >
+    <a id="item-copy-link-button" class="link-button">
         <i class="fa-solid fa-copy"></i>
     </a>
 
     <!-- Web share -->
-    <a
-        id="item-web-share-button"
-        class="link-button"
-        onclick="navigator.share({'url': '{{ item.shareable_url }}'})"
-    >
+    <a id="item-web-share-button" class="link-button" onclick="navigator.share({'url': '{{ item.shareable_url }}'})">
         <i class="fa-solid fa-share-nodes"></i>
     </a>
 
     <div class="item-buttons-right">
         <!-- Download all -->
         {% if items|length > 1 %}
-        <a
-            class="link-button"
-            href="/actions/download_all_media?iid={{ item.iid }}"
-        >
+        <a class="link-button" href="/actions/download_all_media?iid={{ item.iid }}">
             <i class="fa-solid fa-file-zipper"></i>
         </a>
         {% endif %}
