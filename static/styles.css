@@ -39,6 +39,13 @@ input {
 
 .carousel-cell {
     width: calc(100% - 64px);
+    max-height: 90vh;                                                                                                                                                                                                                                    
+    object-fit: contain;   
+}
+
+.flickity-slider {
+    display: flex;
+    align-items: center;
 }
 
 /** sizes for > iPhone 14 Pro Max <= iPad Pro **/
