@@ -38,12 +38,12 @@
             id="refresh-button"
             href="javascript:window.location.reload();"
             class="link-button"
-        >🔄</a>
+        ><i class="fa-solid fa-arrows-rotate"></i></a>
         <a
             type="button"
             class="link-button"
             onclick="document.getElementById('mark-read-dialog').showModal()"
-        >✅</a>
+        ><i class="fa-solid fa-check-double"></i></a>
         <dialog id="mark-read-dialog">
             <p>{{ _('Mark these items as read') }}</p>
             <button
@@ -90,7 +90,7 @@
         <a
             href="javascript:document.getElementById('settings').showModal()"
             class="link-button"
-        >⚙️</a>
+        ><i class="fa-solid fa-gear"></i></a>
         <dialog id="settings">
             <p>
                 {{ _('Status') }} 

@@ -205,6 +205,7 @@ dialog {
 
 .link-button {
     text-decoration: none;
+    cursor: pointer;
 }
 
 .item-feed-title {

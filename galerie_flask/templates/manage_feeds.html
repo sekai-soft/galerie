@@ -9,7 +9,7 @@
             id="back-button"
             href="javascript:window.history.back();"
             class="link-button"
-        >⬅️</a>
+        ><i class="fa-solid fa-angle-left"></i></a>
         <p>{{ _('Manage feeds') }}</p>
         <select id="group-select">
             {% for g in groups %}
@@ -27,7 +27,7 @@
 {% for feed in feeds %}
 <a style="font-size: 1em" href="/feed?fid={{ feed.fid }}">
     <p class="animate-long user-string-horizontal">
-        {% if feed.error %}<span class="highlight-text">⚠️</span>{% endif %}
+        {% if feed.error %}<i class="fa-solid fa-triangle-exclamation"></i>{% endif %}
         {{ feed.title }}
     </p>
 </a>

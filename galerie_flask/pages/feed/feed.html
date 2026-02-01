@@ -17,19 +17,11 @@
     href="{{ feed.site_url }}"
     target="_blank"
     class="link-button"
->🌐</a>
+><i class="fa-solid fa-up-right-from-square"></i></a>
 <a
     href="/update_feed?fid={{ feed.fid }}"
     class="link-button"
->⚙️</a>
-<a
-    style="cursor: pointer;"
-    hx-post="/actions/delete_feed?fid={{ feed.fid }}"
-    hx-swap="none"
-    hx-disabled-elt="this"
-    hx-confirm="{{ _('Are you sure you want to delete this feed?') }}"
-    class="link-button"
->🗑️</a>
+><i class="fa-solid fa-gear"></i></a>
 {% endblock %}
 
 {% block page_content %}
