@@ -26,7 +26,8 @@ class RenderedItem:
     video_url: str = ''
     video_thumbnail_url: str = ''
     text: str = ''
-    overlay_text: str = ''
+    video_count: int = 0
+    image_count: int = 0
 
     shareable_url: str = field(init=False)
 
@@ -77,14 +78,6 @@ def convert_rendered_item(item: Item, max_rendered_items: int, ignore_rendered_i
 
     if not ignore_rendered_items_cap:
         target_elements = target_elements[:max_rendered_items]
-    overlay_text = ''
-    if image_count + video_count > 1:
-        if video_count > 1:
-            overlay_text += f'{video_count}🎥'
-        if image_count > 1:
-            overlay_text += f'{image_count}🖼️'
-    elif video_count == 1:
-        overlay_text = '🎥'
 
     res = []
     for i, target_element in enumerate(target_elements):
@@ -114,7 +107,8 @@ def convert_rendered_item(item: Item, max_rendered_items: int, ignore_rendered_i
             video_url=fix_proxied_media_url(video_url),
             video_thumbnail_url=fix_proxied_media_url(video_thumbnail_url),
             text=item.text if item.text else "(No text)",
-            overlay_text=overlay_text,))
+            video_count=video_count,
+            image_count=image_count,))
 
     return res
 

@@ -40,9 +40,9 @@
                 loop
             />
             {% endif %}
-            {% if item.overlay_text != '' %}
+            {% if item.video_count > 0 or item.image_count > 1 %}
             <div class="item-image-overlay">
-                {{ item.overlay_text }}
+                {% if item.video_count > 1 %}{{ item.video_count }}<i class="fa-solid fa-video"></i>{% elif item.video_count == 1 %}<i class="fa-solid fa-video"></i>{% endif %}{% if item.image_count > 1 %}{{ item.image_count }}<i class="fa-solid fa-image"></i>{% endif %}
             </div>
             {% endif %}
             {% if not no_text_mode %}
