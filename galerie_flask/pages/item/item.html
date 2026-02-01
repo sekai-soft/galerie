@@ -4,6 +4,12 @@
 
 {% block header_title %}{{ item.title if not no_text_mode else '(No text mode is on)' }}{% endblock %}
 
+{% block header_right_content %}
+<a href="{{ item.url }}" target="_blank" class="link-button">
+    <i class="fa-solid fa-arrow-up-right-from-square"></i>
+</a>
+{% endblock %}
+
 {% block page_content %}
 
 <div class="carousel">
@@ -65,75 +71,47 @@
 {% endif %}
 
 <div class="item-buttons">
-    <!-- Open link -->
-    <a href="{{ item.url }}" target="_blank">
-        <button class="button" style="font-size: 1em">
-            {{ _('Open link') }}
-        </button>
-    </a>
-
-    <!-- Instapaper -->
-    {% if is_instapaper_available %}
-    <button
-        class="button"
-        hx-post="/actions/instapaper?iid={{ item.iid }}"
-        hx-swap="none"
-        hx-disabled-elt="this"
+    <!-- Copy link -->
+    <a
+        id="item-copy-link-button"
+        class="link-button"
     >
-        {{ _('Save to Instapaper') }}
-    </button>
-    {% endif %}
+        <i class="fa-solid fa-copy"></i>
+    </a>
 
     <!-- Web share -->
-    <button
+    <a
         id="item-web-share-button"
-        class="button"
+        class="link-button"
         onclick="navigator.share({'url': '{{ item.shareable_url }}'})"
     >
-        {{ _('Share') }}
-    </button>
-
-    <!-- Copy link -->
-    <button
-        id="item-copy-link-button"
-        class="button"
-    >
-        {{ _('Copy link') }}
-    </button>
-
-    <!-- Download -->
-    {% if items|length == 1 %}
-    {% for item in items %}
-    <a
-        id="media-download-{{ loop.index }}"
-        href="/actions/download_media?uid={{ item.uid }}"
-        {% if loop.index != u_index + 1 %} style="display: none;" {% endif %}
-    >
-        <button class="button" style="font-size: 1em">{{ _('Download') }}</button>
+        <i class="fa-solid fa-share-nodes"></i>
     </a>
-    {% endfor %}
-    {% endif %}
+
+    <div class="item-buttons-right">
+        <!-- Download all -->
+        {% if items|length > 1 %}
+        <a
+            class="link-button"
+            href="/actions/download_all_media?iid={{ item.iid }}"
+        >
+            <i class="fa-solid fa-file-zipper"></i>
+        </a>
+        {% endif %}
+
+        <!-- Download -->
+        {% for item in items %}
+        <a
+            id="media-download-{{ loop.index }}"
+            class="link-button"
+            href="/actions/download_media?uid={{ item.uid }}"
+            {% if loop.index != u_index + 1 %} style="display: none;" {% endif %}
+        >
+            <i class="fa-solid fa-download"></i>
+        </a>
+        {% endfor %}
+    </div>
 </div>
-
-{% if items|length > 1 %}
-<div class="item-buttons">
-    <!-- Download -->
-    {% for item in items %}
-    <a
-        id="media-download-{{ loop.index }}"
-        href="/actions/download_media?uid={{ item.uid }}"
-        {% if loop.index != u_index + 1 %} style="display: none;" {% endif %}
-    >
-        <button class="button" style="font-size: 1em">{{ _('Download') }}</button>
-    </a>
-    {% endfor %}
-
-    <!-- Download all -->
-    <a href="/actions/download_all_media?iid={{ item.iid }}">
-        <button class="button" style="font-size: 1em">{{ _('Download all') }}</button>
-    </a>
-</div>
-{% endif %}
 
 <script>
     window.U_INDEX = "{{ u_index }}";

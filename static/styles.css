@@ -34,14 +34,14 @@ input {
 }
 
 .item-buttons {
-    gap: 1em;
+    gap: 48px;
 }
 
 .carousel-cell {
     width: calc(100% - 64px);
 }
 
-/** sizes for > iPhone 12 Pro Max <= iPad Pro **/
+/** sizes for > iPhone 14 Pro Max <= iPad Pro **/
 @media screen and (max-width: 1024px) {
     .app {
         width: 100%;
@@ -71,7 +71,7 @@ input {
     }
 
     .item-buttons {
-        gap: 1em;
+        gap: 48px;
     }
 
     .carousel-cell {
@@ -109,7 +109,7 @@ input {
     }
 
     .item-buttons {
-        gap: 0.5em;
+        gap: 24px;
     }
 
     .carousel-cell {
@@ -199,8 +199,15 @@ dialog {
 .item-buttons {
     display: flex;
     flex-direction: row;
-    margin-top: 16px;
-    margin-bottom: 16px;
+    margin-top: 48px;
+    margin-bottom: 48px;
+}
+
+.item-buttons-right {
+    display: flex;
+    flex-direction: row;
+    margin-left: auto;
+    gap: inherit;
 }
 
 .link-button {
@@ -272,7 +279,7 @@ dialog {
     right: 1em;
 }
 
-/** sizes for > iPhone 12 Pro Max <= iPad Pro **/
+/** sizes for > iPhone 14 Pro Max <= iPad Pro **/
 @media screen and (max-width: 1024px) {
     #toast {
         width: 50%;

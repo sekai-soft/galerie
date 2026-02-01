@@ -102,7 +102,7 @@ select {
     font-size: 2em;
 }
 
-/** sizes for > iPhone 12 Pro Max <= iPad Pro **/
+/** sizes for > iPhone 14 Pro Max <= iPad Pro **/
 @media screen and (max-width: 1024px) {
     p {
         font-size: 2em;
