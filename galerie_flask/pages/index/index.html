@@ -93,29 +93,26 @@
         ><i class="fa-solid fa-gear"></i></a>
         <dialog id="settings">
             <p>
-                {{ _('Status') }} 
                 <select id="read-select">
-                    <option value="0" {{ 'selected=selected' if include_read == '0' else '' }}>{{ _('unread only') }}</option>
-                    <option value="1" {{ 'selected=selected' if include_read == '1' else '' }}>{{ _('include read') }}</option>
+                    <option value="0" {{ 'selected=selected' if include_read == '0' else '' }}>{{ _('Unread only') }}</option>
+                    <option value="1" {{ 'selected=selected' if include_read == '1' else '' }}>{{ _('Include read') }}</option>
                 </select>
             </p>
             <p>
-                {{ _('Sort') }} 
                 <select id="sort-select">
-                    <option value="0" {{ 'selected=selected' if sort_by_desc else '' }}>{{ _('descending') }}</option>
-                    <option value="1" {{ 'selected=selected' if not sort_by_desc else '' }}>{{ _('ascending') }}</option>
+                    <option value="0" {{ 'selected=selected' if sort_by_desc else '' }}>{{ _('Latest first') }}</option>
+                    <option value="1" {{ 'selected=selected' if not sort_by_desc else '' }}>{{ _('Earliest first') }}</option>
                 </select>
             </p>
             <p>
-                {{ _('No text mode') }} 
                 <select
                     name="no_text_mode"
                     hx-trigger="change"
                     hx-post="/actions/set_no_text_mode"
                     hx-swap="none"
                 >
-                    <option value="0" {{ 'selected=selected' if not no_text_mode else '' }}>{{ _('no') }}</option>
-                    <option value="1" {{ 'selected=selected' if no_text_mode else '' }}>{{ _('yes') }}</option>
+                    <option value="0" {{ 'selected=selected' if not no_text_mode else '' }}>{{ _('Show texts') }}</option>
+                    <option value="1" {{ 'selected=selected' if no_text_mode else '' }}>{{ _('Hide texts') }}</option>
                 </select>
             </p>
             <a href="/settings">

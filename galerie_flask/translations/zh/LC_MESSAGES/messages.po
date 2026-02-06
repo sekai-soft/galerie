@@ -7,7 +7,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: PROJECT VERSION\n"
 "Report-Msgid-Bugs-To: EMAIL@ADDRESS\n"
-"POT-Creation-Date: 2026-01-31 22:05-0800\n"
+"POT-Creation-Date: 2026-02-06 10:19-0800\n"
 "PO-Revision-Date: 2024-06-27 08:04+0000\n"
 "Last-Translator: FULL NAME <EMAIL@ADDRESS>\n"
 "Language: zh\n"
@@ -186,69 +186,57 @@ msgstr "所有条目"
 msgid "Cancel"
 msgstr "取消"
 
-#: galerie_flask/pages/index/index.html:96
-msgid "Status"
-msgstr "状态"
-
-#: galerie_flask/pages/index/index.html:98
-msgid "unread only"
+#: galerie_flask/pages/index/index.html:97
+msgid "Unread only"
 msgstr "仅未读"
 
-#: galerie_flask/pages/index/index.html:99
-msgid "include read"
+#: galerie_flask/pages/index/index.html:98
+msgid "Include read"
 msgstr "包含已读"
 
 #: galerie_flask/pages/index/index.html:103
-msgid "Sort"
-msgstr "排序"
+msgid "Latest first"
+msgstr "最新优先"
 
-#: galerie_flask/pages/index/index.html:105
-msgid "descending"
-msgstr "降序"
+#: galerie_flask/pages/index/index.html:104
+msgid "Earliest first"
+msgstr "最旧优先"
 
-#: galerie_flask/pages/index/index.html:106
-msgid "ascending"
-msgstr "升序"
+#: galerie_flask/pages/index/index.html:114
+msgid "Show texts"
+msgstr "显示文字"
 
-#: galerie_flask/pages/index/index.html:110
-msgid "No text mode"
-msgstr "无言模式"
+#: galerie_flask/pages/index/index.html:115
+msgid "Hide texts"
+msgstr "隐藏文字"
 
-#: galerie_flask/pages/index/index.html:117
-msgid "no"
-msgstr "否"
-
-#: galerie_flask/pages/index/index.html:118
-msgid "yes"
-msgstr "是"
-
-#: galerie_flask/pages/index/index.html:122
+#: galerie_flask/pages/index/index.html:119
 msgid "More settings"
 msgstr "更多设置"
 
-#: galerie_flask/pages/index/index.html:127
+#: galerie_flask/pages/index/index.html:124
 #: galerie_flask/pages/session_management/session_management.html:46
 #: galerie_flask/templates/add_feed.html:58
 msgid "Close"
 msgstr "关闭"
 
-#: galerie_flask/pages/index/index.html:136
+#: galerie_flask/pages/index/index.html:133
 msgid "start adding some feeds ❤️"
 msgstr "开始添加一些订阅源 ❤️"
 
-#: galerie_flask/pages/index/index.html:139
+#: galerie_flask/pages/index/index.html:136
 msgid "all read ✨"
 msgstr "全部已读 ✨"
 
-#: galerie_flask/pages/index/index.html:140
+#: galerie_flask/pages/index/index.html:137
 msgid "go touch some grass 🌱"
 msgstr "去接触一下大自然吧 🌱"
 
-#: galerie_flask/pages/index/index.html:146
+#: galerie_flask/pages/index/index.html:143
 msgid "has"
 msgstr "有"
 
-#: galerie_flask/pages/index/index.html:146
+#: galerie_flask/pages/index/index.html:143
 msgid "unread items"
 msgstr "未读条目"
 
@@ -266,7 +254,7 @@ msgstr "加载"
 msgid "more"
 msgstr "更多"
 
-#: galerie_flask/pages/item/item.html:55
+#: galerie_flask/pages/item/item.html:49
 msgid "via"
 msgstr "转发自"
 
