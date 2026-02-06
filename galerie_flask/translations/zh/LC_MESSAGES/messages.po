@@ -7,7 +7,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: PROJECT VERSION\n"
 "Report-Msgid-Bugs-To: EMAIL@ADDRESS\n"
-"POT-Creation-Date: 2026-02-06 10:19-0800\n"
+"POT-Creation-Date: 2026-02-06 10:24-0800\n"
 "PO-Revision-Date: 2024-06-27 08:04+0000\n"
 "Last-Translator: FULL NAME <EMAIL@ADDRESS>\n"
 "Language: zh\n"
@@ -147,8 +147,8 @@ msgid "by groups"
 msgstr "依据分组"
 
 #: galerie_flask/pages/index/index.html:24
-msgid "history"
-msgstr "历史记录"
+msgid "🕣 history"
+msgstr "🕣 历史记录"
 
 #: galerie_flask/pages/index/index.html:25
 msgid "by feed"
