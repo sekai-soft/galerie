@@ -1,8 +1,7 @@
 // only show refresh on iOS PWA
 const isStandalone = navigator.standalone || window.matchMedia("(display-mode: standalone)").matches;
 if (!window.isIos || !isStandalone) {
-    const refreshButton = document.getElementById('refresh-button');
-    refreshButton.style.display = 'none';
+    console.log('iOS PWA')
 }
 
 // redirect on select changes
