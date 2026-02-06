@@ -15,10 +15,16 @@ from galerie_flask.actions_blueprint import catches_exceptions
 load_more_bp = Blueprint('load_more', __name__, template_folder='../../shared_templates')
 
 
-@load_more_bp.route('/load_more')
+@load_more_bp.route('/load_more', methods=['POST'])
 @catches_exceptions
 @requires_auth
 def load_more():
+    scroll_as_read = request.cookies.get('scroll_as_read', '0') == '1'
+    if scroll_as_read:
+        entry_ids = request.form.getlist('entry_id')
+        if entry_ids:
+            g.aggregator.mark_entries_as_read(entry_ids)
+
     sort_by_desc = request.args.get('sort', 'desc') == 'desc'
     gid = request.args.get('group') if request.args.get('group') else None
     include_read = request.args.get('read', '0') == '1'
@@ -44,7 +50,7 @@ def load_more():
     last_iid = unread_items[-1].iid if unread_items else ''
 
     if last_iid:
-        args = {}
+        args = {"scroll_as_read": scroll_as_read}
         items_args(args, rendered_items, True, gid is None, no_text_mode, iids_without_media)
         remaining_count = remaining_count - max_items if remaining_count > max_items else 0
         load_more_button_args(

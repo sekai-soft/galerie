@@ -26,6 +26,7 @@ def index_page():
     max_items = int(request.cookies.get('max_items', DEFAULT_MAX_ITEMS))
     max_rendered_items = int(request.cookies.get('max_rendered_items', DEFAULT_MAX_RENDERED_ITEMS))
     no_text_mode = request.cookies.get('no_text_mode', '0') == '1'
+    scroll_as_read = request.cookies.get('scroll_as_read', '0') == '1'
 
     unread_items = g.aggregator.get_items(
         count=max_items,
@@ -61,6 +62,7 @@ def index_page():
         "all_feed_count": all_feed_count,
         "feeds": feeds,
         "no_text_mode": no_text_mode,
+        "scroll_as_read": scroll_as_read,
         "read_percentage": read_percentage,
     }
     items_args(args, rendered_items, True, gid is None, no_text_mode, iids_without_media)

@@ -110,6 +110,17 @@
                     <option value="1" {{ 'selected=selected' if no_text_mode else '' }}>{{ _('Hide texts') }}</option>
                 </select>
             </p>
+            <p>
+                <select
+                    name="scroll_as_read"
+                    hx-trigger="change"
+                    hx-post="/actions/set_scroll_as_read"
+                    hx-swap="none"
+                >
+                    <option value="0" {{ 'selected=selected' if not scroll_as_read else '' }}>{{ _('Manually mark items as read') }}</option>
+                    <option value="1" {{ 'selected=selected' if scroll_as_read else '' }}>{{ _('Mark items as read while scrolling') }}</option>
+                </select>
+            </p>
             <a href="/settings">
                 <button class="button" style="font-size: 1em">{{ _('More settings') }}</button>
             </a>

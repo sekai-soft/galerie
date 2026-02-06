@@ -8,6 +8,7 @@ from .mark_rendered_as_read.mark_rendered_as_read_action import mark_rendered_as
 from .set_max_items.set_max_items_action import set_max_items_bp
 from .set_max_rendered_items.set_max_rendered_items_action import set_max_rendered_items_bp
 from .set_no_text_mode.set_no_text_mode_action import set_no_text_mode_bp
+from .set_scroll_as_read.set_scroll_as_read_action import set_scroll_as_read_bp
 from .session_management.session_management_action import session_management_bp
 
 
@@ -21,4 +22,5 @@ actions_bp.register_blueprint(mark_rendered_as_read_bp)
 actions_bp.register_blueprint(set_max_items_bp)
 actions_bp.register_blueprint(set_max_rendered_items_bp)
 actions_bp.register_blueprint(set_no_text_mode_bp)
+actions_bp.register_blueprint(set_scroll_as_read_bp)
 actions_bp.register_blueprint(session_management_bp)
