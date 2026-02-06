@@ -61,11 +61,11 @@ def fix_proxied_media_url(url: str) -> str:
 
 def proxy_twitter_video_url(url: str, iid: str, media_index: int) -> str:
     if url.startswith(TWITTER_VIDEO_CDN_URL):
-        return f"/p/{iid}/{media_index}"
+        return f"/m/{iid}/{media_index}"
     return url
 
 
-def convert_rendered_item(item: Item, max_rendered_items: int, ignore_rendered_items_cap: Optional[bool]=False) -> List[RenderedItem]:
+def convert_rendered_item(item: Item, max_rendered_items: int, ignore_rendered_items_cap: Optional[bool]=False, add_proxy_twitter_video_url: Optional[bool]=True) -> List[RenderedItem]:
     soup = BeautifulSoup(item.html, 'html.parser')
     
     target_elements = []
@@ -96,6 +96,10 @@ def convert_rendered_item(item: Item, max_rendered_items: int, ignore_rendered_i
             video_url = source_element.get('src', '') if source_element else target_element.get('src', '')
             video_thumbnail_url = target_element.get('poster', '')
 
+        video_url = fix_proxied_media_url(video_url)
+        if add_proxy_twitter_video_url:
+            video_url = proxy_twitter_video_url(video_url, item.iid, i)
+
         res.append(RenderedItem(
             uid=f'{item.iid}-{i}',
             url=item.url,
@@ -108,7 +112,7 @@ def convert_rendered_item(item: Item, max_rendered_items: int, ignore_rendered_i
             published_at=item.published_at,
 
             image_url=fix_proxied_media_url(image_url),
-            video_url=proxy_twitter_video_url(fix_proxied_media_url(video_url), item.iid, i),
+            video_url=video_url,
             video_thumbnail_url=fix_proxied_media_url(video_thumbnail_url),
             text=item.text if item.text else "(No text)",
             video_count=video_count,

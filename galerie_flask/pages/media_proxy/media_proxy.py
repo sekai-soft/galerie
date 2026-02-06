@@ -7,18 +7,15 @@ from galerie_flask.utils import requires_auth, DEFAULT_MAX_RENDERED_ITEMS
 media_proxy_bp = Blueprint('media_proxy', __name__)
 
 
-@media_proxy_bp.route('/p/<iid>/<int:media_index>')
+@media_proxy_bp.route('/m/<iid>/<int:media_index>')
 @requires_auth
 def proxy_media(iid: str, media_index: int):
-    """
-    Proxy media content from Twitter/X to avoid hotlinking restrictions.
-    Streams the video/image content through the server.
-    """
+    print(iid, media_index)
     item = g.aggregator.get_item(iid)
     if not item:
         return Response("item not found", status=404)
 
-    rendered_items = convert_rendered_item(item, DEFAULT_MAX_RENDERED_ITEMS, ignore_rendered_items_cap=True)
+    rendered_items = convert_rendered_item(item, DEFAULT_MAX_RENDERED_ITEMS, ignore_rendered_items_cap=True, add_proxy_twitter_video_url=False)
     if media_index >= len(rendered_items):
         return Response("media index out of range", status=404)
 

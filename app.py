@@ -13,7 +13,6 @@ from galerie_flask.actions_blueprint import actions_blueprint
 from galerie_flask.pages_blueprint import pages_blueprint
 from galerie_flask.actions.actions_routes import actions_bp
 from galerie_flask.pages.routes import pages_bp
-from galerie_flask.actions.media_proxy.media_proxy_action import media_proxy_bp
 
 
 load_dotenv()
@@ -47,7 +46,6 @@ app.register_blueprint(pages_blueprint, url_prefix='/')
 app.register_blueprint(actions_blueprint, url_prefix='/actions')
 app.register_blueprint(pages_bp, url_prefix='/')
 app.register_blueprint(actions_bp, url_prefix='/actions')
-app.register_blueprint(media_proxy_bp, url_prefix='/')
 
 
 if 'SQLALCHEMY_DATABASE_URI' in os.environ:
