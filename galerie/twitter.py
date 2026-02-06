@@ -4,7 +4,7 @@ from typing import Optional
 from urllib.parse import urlparse
 
 
-TWITTER_VIDEO_CDN_HOST = "video.twimg.com"
+TWITTER_VIDEO_CDN_URL = "https://video.twimg.com/"
 TWITTER_MEDIA_CDN_URL = "https://pbs.twimg.com/"
 
 

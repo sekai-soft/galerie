@@ -11,7 +11,7 @@
     {% if item.video_url %}
     <video
         class="carousel-cell"
-        src="{{ item.video_url }}"
+        src="/p/{{ item.iid }}/{{ loop.index0 }}"
         controls
     ></video>
     {% elif item.image_url %}

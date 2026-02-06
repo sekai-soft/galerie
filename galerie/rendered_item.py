@@ -7,7 +7,7 @@ from dataclasses import dataclass, field
 from bs4 import BeautifulSoup
 from .item import Item
 from .group import Group
-from .twitter import get_nitter_base_url, fix_shareable_twitter_url, TWITTER_VIDEO_CDN_HOST, TWITTER_MEDIA_CDN_URL
+from .twitter import get_nitter_base_url, fix_shareable_twitter_url, TWITTER_VIDEO_CDN_URL, TWITTER_MEDIA_CDN_URL
 
 
 @dataclass
@@ -52,12 +52,16 @@ def fix_proxied_media_url(url: str) -> str:
 
         if decoded_url.startswith(get_nitter_base_url()):
             twitter_media_path = unquote(urlparse(decoded_url).path.split('/')[-1])
-            if twitter_media_path.startswith(TWITTER_VIDEO_CDN_HOST):
-                return 'https://' + twitter_media_path
             return TWITTER_MEDIA_CDN_URL + twitter_media_path
 
         return decoded_url
 
+    return url
+
+
+def proxy_twitter_video_url(url: str, iid: str, media_index: int) -> str:
+    if url.startswith(TWITTER_VIDEO_CDN_URL):
+        return f"/p/{iid}/{media_index}"
     return url
 
 
@@ -104,7 +108,7 @@ def convert_rendered_item(item: Item, max_rendered_items: int, ignore_rendered_i
             published_at=item.published_at,
 
             image_url=fix_proxied_media_url(image_url),
-            video_url=fix_proxied_media_url(video_url),
+            video_url=proxy_twitter_video_url(fix_proxied_media_url(video_url), item.iid, i),
             video_thumbnail_url=fix_proxied_media_url(video_thumbnail_url),
             text=item.text if item.text else "(No text)",
             video_count=video_count,
