@@ -21,7 +21,7 @@ const initMasonry = () => {
 initMasonry();
 
 document.body.addEventListener("mark_as_read", (event) => {
-    // Mark items as read.
+    // Gray out items that were marked as read via scroll_as_read.
     const iids = event.detail.value;
     iids.forEach(iid => {
         document.querySelectorAll(`.grid-item[data-iid="${iid}"]`).forEach(el => {
