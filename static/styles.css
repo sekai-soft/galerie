@@ -22,6 +22,10 @@
     margin-bottom: 32px;
 }
 
+.grid-item.read {
+    filter: grayscale(100%);
+}
+
 .button-with-links {
     display: flex;
     flex-direction: row;

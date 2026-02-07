@@ -3,7 +3,7 @@
 {% endfor %}
 {% for item in items %}
 {% if not (item.unread_or_not or context_feed_page or context_history_page) %}
-<div id="{{ item.uid }}" class="grid-item" data-iid="{{ item.iid }}" style="filter: grayscale(100%);">
+<div id="{{ item.uid }}" class="grid-item read" data-iid="{{ item.iid }}">
 {% else %}
 <div id="{{ item.uid }}" class="grid-item" data-iid="{{ item.iid }}">
 {% endif %}

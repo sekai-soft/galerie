@@ -25,7 +25,7 @@ document.body.addEventListener("mark_as_read", (event) => {
     const iids = event.detail.value;
     iids.forEach(iid => {
         document.querySelectorAll(`.grid-item[data-iid="${iid}"]`).forEach(el => {
-            el.style.filter = 'grayscale(100%)';
+            el.classList.add('read');
         });
     });
 });
