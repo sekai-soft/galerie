@@ -64,6 +64,7 @@ def index_page():
         "no_text_mode": no_text_mode,
         "scroll_as_read": scroll_as_read,
         "read_percentage": read_percentage,
+        "infinite_scroll": infinite_scroll,
     }
     items_args(args, rendered_items, True, gid is None, no_text_mode, iids_without_media)
     load_more_button_args(

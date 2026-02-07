@@ -22,19 +22,6 @@
 <br>
 <br>
 <hr>
-<p>{{ _('Infinite scroll')}}</p>
-<select
-    name="infinite_scroll"
-    hx-trigger="change"
-    hx-post="/actions/set_infinite_scroll"
-    hx-swap="none"
->
-    <option value="1" {{ 'selected=selected' if infinite_scroll else '' }}>{{ _('Yes')}}</option>
-    <option value="0" {{ 'selected=selected' if not infinite_scroll else '' }}>{{ _('No')}}</option>
-</select>
-<br>
-<br>
-<hr>
 <p>{{ _('Maximum media to display per post')}}</p>
 <select
     name="max_rendered_items"

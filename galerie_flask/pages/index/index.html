@@ -92,6 +92,17 @@
                     <option value="1" {{ 'selected=selected' if scroll_as_read else '' }}>{{ _('Automatically mark items as read') }}</option>
                 </select>
             </p>
+            <p>
+                <select
+                    name="infinite_scroll"
+                    hx-trigger="change"
+                    hx-post="/actions/set_infinite_scroll"
+                    hx-swap="none"
+                >
+                    <option value="1" {{ 'selected=selected' if infinite_scroll else '' }}>{{ _('Automaitcally load more') }}</option>
+                    <option value="0" {{ 'selected=selected' if not infinite_scroll else '' }}>{{ _('Manually load more') }}</option>
+                </select>
+            </p>
             <a href="/settings">
                 <button class="button" style="font-size: 1em">{{ _('More settings') }}</button>
             </a>

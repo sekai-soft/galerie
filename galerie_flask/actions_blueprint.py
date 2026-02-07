@@ -127,7 +127,8 @@ def logout():
 def set_infinite_scroll():
     infinite_scroll = request.form.get('infinite_scroll', '0')
 
-    resp = make_toast(200, _("Setting updated"))
+    resp = make_response()
+    resp.headers['HX-Refresh'] = "true"
     resp.set_cookie('infinite_scroll', infinite_scroll, max_age=cookie_max_age)
     return resp
 
