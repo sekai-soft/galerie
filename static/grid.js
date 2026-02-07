@@ -20,6 +20,16 @@ const initMasonry = () => {
 // Initialize on page load.
 initMasonry();
 
+document.body.addEventListener("mark_as_read", (event) => {
+    // Gray out items that were marked as read via scroll_as_read.
+    const iids = event.detail.value;
+    iids.forEach(iid => {
+        document.querySelectorAll(`.grid-item[data-iid="${iid}"]`).forEach(el => {
+            el.style.filter = 'grayscale(100%)';
+        });
+    });
+});
+
 document.body.addEventListener("append", (event) => {
     // load_more triggers an "append" event with the UIDs of newly-rendered items.
     const uids = event.detail.value;

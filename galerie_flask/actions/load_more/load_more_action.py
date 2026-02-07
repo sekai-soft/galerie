@@ -19,12 +19,6 @@ load_more_bp = Blueprint('load_more', __name__, template_folder='../../shared_te
 @catches_exceptions
 @requires_auth
 def load_more():
-    scroll_as_read = request.cookies.get('scroll_as_read', '0') == '1'
-    if scroll_as_read:
-        entry_ids = request.form.getlist('entry_id')
-        if entry_ids:
-            g.aggregator.mark_entries_as_read(entry_ids)
-
     sort_by_desc = request.args.get('sort', 'desc') == 'desc'
     gid = request.args.get('group') if request.args.get('group') else None
     include_read = request.args.get('read', '0') == '1'
@@ -32,6 +26,7 @@ def load_more():
     max_items = int(request.cookies.get('max_items', DEFAULT_MAX_ITEMS))
     max_rendered_items = int(request.cookies.get('max_rendered_items', DEFAULT_MAX_RENDERED_ITEMS))
     no_text_mode = request.cookies.get('no_text_mode', '0') == '1'
+    scroll_as_read = request.cookies.get('scroll_as_read', '0') == '1'
 
     from_iid = request.args.get('from_iid')
     remaining_count = int(request.args.get('remaining_count'))
@@ -48,6 +43,13 @@ def load_more():
 
     rendered_items, iids_without_media = convert_rendered_items(unread_items, max_rendered_items)
     last_iid = unread_items[-1].iid if unread_items else ''
+
+    marked_as_read_ids = []
+    if scroll_as_read:
+        entry_ids = request.form.getlist('entry_id')
+        if entry_ids:
+            g.aggregator.mark_entries_as_read(entry_ids)
+            marked_as_read_ids = entry_ids
 
     if last_iid:
         args = {"scroll_as_read": scroll_as_read}
@@ -72,6 +74,7 @@ def load_more():
     resp = make_response(rendered_string)
     resp.headers['HX-Trigger-After-Settle'] = json.dumps({
         "append": list(map(lambda i: i.uid, rendered_items)),
-        "update_read_percentage": read_percentage
+        "update_read_percentage": read_percentage,
+        "mark_as_read": marked_as_read_ids
     })
     return resp
