@@ -1,3 +1,4 @@
+<!-- See load_more_button.html for documentation on intersect and hx-sync -->
 <div
     class="button-container"
     id="buttons"
@@ -6,7 +7,8 @@
     <button
         class="button"
         hx-get="/actions/load_more_history?from_iid={{ from_iid }}&remaining_count={{ remaining_count }}&total_count={{ total_count }}"
-        hx-trigger="{{ 'revealed' if infinite_scroll else 'click' }}"
+        hx-trigger="{{ 'intersect' if infinite_scroll else 'click' }}"
+        hx-sync="#grid:drop"
         hx-target="#grid"
         hx-swap="beforeend"
         hx-disabled-elt="this"

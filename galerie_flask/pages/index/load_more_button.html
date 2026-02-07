@@ -1,3 +1,14 @@
+<!--
+    Infinite scroll load more button.
+
+    - intersect: fires when element enters viewport, including on OOB swap insertion.
+      Unlike 'revealed', it fires even if element is already visible when added to DOM.
+      https://htmx.org/attributes/hx-trigger/ (search "intersect")
+
+    - hx-sync="#grid:drop": prevents duplicate requests by syncing on #grid (which
+      persists across OOB swaps). If a request is in flight, new ones are dropped.
+      https://htmx.org/attributes/hx-sync/
+-->
 <div
     class="button-container"
     id="buttons"
@@ -10,7 +21,8 @@
         hx-include="#grid .iid"
         hx-on:htmx:before-send="document.querySelectorAll('#grid .iid').forEach(el => el.remove())"
         {% endif %}
-        hx-trigger="{{ 'revealed' if infinite_scroll else 'click' }}"
+        hx-trigger="{{ 'intersect' if infinite_scroll else 'click' }}"
+        hx-sync="#grid:drop"
         hx-target="#grid"
         hx-swap="beforeend"
         hx-disabled-elt="this"
