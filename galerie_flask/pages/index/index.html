@@ -34,54 +34,25 @@
     <p style="visibility: hidden;">.</p>
     <div class="header-right grid-sizer">
         <p id="read-percentage">{{ read_percentage }}%</p>
+        {% if gid %}
         <a
             type="button"
             class="link-button"
-            onclick="document.getElementById('mark-read-dialog').showModal()"
+            hx-post="/actions/mark_group_as_read?group={{ gid }}&sort={{ sort }}"
+            hx-confirm="{{ _('Mark this group as read?') }}"
+            hx-disabled-elt="this"
+            hx-swap="none"
         ><i class="fa-solid fa-check-double"></i></a>
-        <dialog id="mark-read-dialog">
-            <p>{{ _('Mark these items as read') }}</p>
-            <button
-                type="button"
-                class="button"
-                hx-post="/actions/mark_rendered_as_read"
-                hx-include="#grid .entry-id"
-                hx-confirm="{{ _('Are you sure you want to mark these items as read?') }}"
-                hx-disabled-elt="this"
-                hx-swap="none"
-                onclick="document.getElementById('mark-read-dialog').close()"
-            >{{ _('Displayed items') }}</button>
-            <br>
-            <br>
-            {% if gid %}
-            <button
-                type="button"
-                class="button"
-                hx-post="/actions/mark_group_as_read?group={{ gid }}&sort={{ sort }}"
-                hx-confirm="{{ _('Are you sure you want to mark this group as read?') }}"
-                hx-disabled-elt="this"
-                hx-swap="none"
-                onclick="document.getElementById('mark-read-dialog').close()"
-            >{{ _('All items in group') }}</button>
-            <br>
-            <br>
-            {% else %}
-            <button
-                type="button"
-                class="button"
-                hx-post="/actions/mark_all_as_read"
-                hx-confirm="{{ _('Are you sure you want to mark all items as read?') }}"
-                hx-disabled-elt="this"
-                hx-swap="none"
-                onclick="document.getElementById('mark-read-dialog').close()"
-            >{{ _('All items') }}</button>
-            <br>
-            <br>
-            {% endif %}
-            <button class="button" onclick="document.getElementById('mark-read-dialog').close()">
-                {{ _('Cancel') }}
-            </button>
-        </dialog>
+        {% else %}
+        <a
+            type="button"
+            class="link-button"
+            hx-post="/actions/mark_all_as_read"
+            hx-confirm="{{ _('Mark all items as read?') }}"
+            hx-disabled-elt="this"
+            hx-swap="none"
+        ><i class="fa-solid fa-check-double"></i></a>
+        {% endif %}
         <a
             href="javascript:document.getElementById('settings').showModal()"
             class="link-button"
@@ -118,7 +89,7 @@
                     hx-swap="none"
                 >
                     <option value="0" {{ 'selected=selected' if not scroll_as_read else '' }}>{{ _('Manually mark items as read') }}</option>
-                    <option value="1" {{ 'selected=selected' if scroll_as_read else '' }}>{{ _('Mark items as read while scrolling') }}</option>
+                    <option value="1" {{ 'selected=selected' if scroll_as_read else '' }}>{{ _('Automatically mark items as read') }}</option>
                 </select>
             </p>
             <a href="/settings">

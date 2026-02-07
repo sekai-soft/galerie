@@ -7,7 +7,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: PROJECT VERSION\n"
 "Report-Msgid-Bugs-To: EMAIL@ADDRESS\n"
-"POT-Creation-Date: 2026-02-06 10:24-0800\n"
+"POT-Creation-Date: 2026-02-06 16:00-0800\n"
 "PO-Revision-Date: 2024-06-27 08:04+0000\n"
 "Last-Translator: FULL NAME <EMAIL@ADDRESS>\n"
 "Language: zh\n"
@@ -74,10 +74,6 @@ msgstr "您的会话已过期。请重新登录。"
 #: galerie_flask/actions/mark_group_as_read/mark_group_as_read_action.py:15
 msgid "Group is required"
 msgstr "分组是必需的"
-
-#: galerie_flask/actions/mark_rendered_as_read/mark_rendered_as_read_action.py:15
-msgid "No unread items on this page"
-msgstr "这个页面上没有未读条目"
 
 #: galerie_flask/actions/session_management/session_management_action.py:16
 #: galerie_flask/actions/session_management/session_management_action.py:37
@@ -154,101 +150,85 @@ msgstr "🕣 历史记录"
 msgid "by feed"
 msgstr "依据订阅源"
 
-#: galerie_flask/pages/index/index.html:48
-msgid "Mark these items as read"
-msgstr "确定要标记这些条目为已读吗？"
+#: galerie_flask/pages/index/index.html:42
+msgid "Mark this group as read?"
+msgstr "标记这个分组为已读？"
 
-#: galerie_flask/pages/index/index.html:54
-msgid "Are you sure you want to mark these items as read?"
-msgstr "确定要标记这些条目为已读吗？"
+#: galerie_flask/pages/index/index.html:51
+msgid "Mark all items as read?"
+msgstr "标记所有条目为已读？"
 
-#: galerie_flask/pages/index/index.html:58
-msgid "Displayed items"
-msgstr "显示的条目"
-
-#: galerie_flask/pages/index/index.html:66
-msgid "Are you sure you want to mark this group as read?"
-msgstr "确定要标记这个分组的条目为已读吗？"
-
-#: galerie_flask/pages/index/index.html:70
-msgid "All items in group"
-msgstr "分组中的所有条目"
-
-#: galerie_flask/pages/index/index.html:78
-msgid "Are you sure you want to mark all items as read?"
-msgstr "确定要标记所有条目为已读吗？"
-
-#: galerie_flask/pages/index/index.html:82
-msgid "All items"
-msgstr "所有条目"
-
-#: galerie_flask/pages/index/index.html:87
-msgid "Cancel"
-msgstr "取消"
-
-#: galerie_flask/pages/index/index.html:97
+#: galerie_flask/pages/index/index.html:63
 msgid "Unread only"
 msgstr "仅未读"
 
-#: galerie_flask/pages/index/index.html:98
+#: galerie_flask/pages/index/index.html:64
 msgid "Include read"
 msgstr "包含已读"
 
-#: galerie_flask/pages/index/index.html:103
+#: galerie_flask/pages/index/index.html:69
 msgid "Latest first"
 msgstr "最新优先"
 
-#: galerie_flask/pages/index/index.html:104
+#: galerie_flask/pages/index/index.html:70
 msgid "Earliest first"
 msgstr "最旧优先"
 
-#: galerie_flask/pages/index/index.html:114
+#: galerie_flask/pages/index/index.html:80
 msgid "Show texts"
 msgstr "显示文字"
 
-#: galerie_flask/pages/index/index.html:115
+#: galerie_flask/pages/index/index.html:81
 msgid "Hide texts"
 msgstr "隐藏文字"
 
-#: galerie_flask/pages/index/index.html:119
+#: galerie_flask/pages/index/index.html:91
+msgid "Manually mark items as read"
+msgstr "手动条目为已读"
+
+#: galerie_flask/pages/index/index.html:92
+msgid "Automatically mark items as read"
+msgstr "自动条目为已读"
+
+#: galerie_flask/pages/index/index.html:96
 msgid "More settings"
 msgstr "更多设置"
 
-#: galerie_flask/pages/index/index.html:124
+#: galerie_flask/pages/index/index.html:101
 #: galerie_flask/pages/session_management/session_management.html:46
 #: galerie_flask/templates/add_feed.html:58
 msgid "Close"
 msgstr "关闭"
 
-#: galerie_flask/pages/index/index.html:133
+#: galerie_flask/pages/index/index.html:110
 msgid "start adding some feeds ❤️"
 msgstr "开始添加一些订阅源 ❤️"
 
-#: galerie_flask/pages/index/index.html:136
+#: galerie_flask/pages/index/index.html:113
 msgid "all read ✨"
 msgstr "全部已读 ✨"
 
-#: galerie_flask/pages/index/index.html:137
+#: galerie_flask/pages/index/index.html:114
 msgid "go touch some grass 🌱"
 msgstr "去接触一下大自然吧 🌱"
 
-#: galerie_flask/pages/index/index.html:143
+#: galerie_flask/pages/index/index.html:120
 msgid "has"
 msgstr "有"
 
-#: galerie_flask/pages/index/index.html:143
+#: galerie_flask/pages/index/index.html:120
 msgid "unread items"
 msgstr "未读条目"
 
-#: galerie_flask/pages/index/load_more_button.html:15
-#: galerie_flask/pages/index/load_more_button.html:17
+#: galerie_flask/pages/index/load_more_button.html:19
+#: galerie_flask/pages/index/load_more_button.html:21
 #: galerie_flask/pages/item_history/load_more_button_history.html:15
 #: galerie_flask/pages/item_history/load_more_button_history.html:17
 msgid "Load"
 msgstr "加载"
 
-#: galerie_flask/pages/index/load_more_button.html:15
-#: galerie_flask/pages/index/load_more_button.html:17
+#: galerie_flask/pages/index/load_more_button.html:19
+#: galerie_flask/pages/index/load_more_button.html:21
 #: galerie_flask/pages/item_history/load_more_button_history.html:15
 #: galerie_flask/pages/item_history/load_more_button_history.html:17
 msgid "more"
