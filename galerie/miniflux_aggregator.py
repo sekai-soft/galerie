@@ -154,10 +154,10 @@ class MinifluxAggregator(RssAggregator):
     def mark_all_items_as_read(self):
         self.client.mark_user_entries_as_read(self.client.me()['id'])
 
-    def mark_entries_as_read(self, entry_ids: List[str]):
-        if not entry_ids:
+    def mark_items_as_read(self, iids: List[str]):
+        if not iids:
             return
-        unique_ids = {int(entry_id) for entry_id in entry_ids if entry_id.isdigit()}
+        unique_ids = {int(iid) for iid in iids if iid.isdigit()}
         if not unique_ids:
             return
         self.client.update_entries(list(unique_ids), 'read')

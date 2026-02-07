@@ -7,8 +7,8 @@
         class="button"
         hx-post="/actions/load_more?from_iid={{ from_iid }}&group={{ gid }}&sort={{ sort }}&remaining_count={{ remaining_count }}&read={{ include_read }}&total_count={{ total_count }}"
         {% if scroll_as_read %}
-        hx-include="#grid .entry-id"
-        hx-on:htmx:before-send="document.querySelectorAll('#grid .entry-id').forEach(el => el.remove())"
+        hx-include="#grid .iid"
+        hx-on:htmx:before-send="document.querySelectorAll('#grid .iid').forEach(el => el.remove())"
         {% endif %}
         hx-trigger="{{ 'revealed' if infinite_scroll else 'click' }}"
         hx-target="#grid"

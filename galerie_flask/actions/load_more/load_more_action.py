@@ -44,12 +44,12 @@ def load_more():
     rendered_items, iids_without_media = convert_rendered_items(unread_items, max_rendered_items)
     last_iid = unread_items[-1].iid if unread_items else ''
 
-    marked_as_read_ids = []
+    marked_as_read_iids = []
     if scroll_as_read:
-        entry_ids = request.form.getlist('entry_id')
-        if entry_ids:
-            g.aggregator.mark_entries_as_read(entry_ids)
-            marked_as_read_ids = entry_ids
+        iids = request.form.getlist('iid')
+        if iids:
+            g.aggregator.mark_items_as_read(iids)
+            marked_as_read_iids = iids
 
     if last_iid:
         args = {"scroll_as_read": scroll_as_read}
@@ -75,6 +75,6 @@ def load_more():
     resp.headers['HX-Trigger-After-Settle'] = json.dumps({
         "append": list(map(lambda i: i.uid, rendered_items)),
         "update_read_percentage": read_percentage,
-        "mark_as_read": marked_as_read_ids
+        "mark_as_read": marked_as_read_iids
     })
     return resp

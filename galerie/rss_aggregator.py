@@ -36,7 +36,7 @@ class RssAggregator(ABC):
         pass
 
     @abstractmethod
-    def mark_entries_as_read(self, entry_ids: List[str]):
+    def mark_items_as_read(self, iids: List[str]):
         pass
 
     @abstractmethod
