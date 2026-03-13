@@ -93,8 +93,25 @@ services:
       - MEDIA_PROXY_RESOURCE_TYPES=image,audio,video
     env_file:
       - env
-    ports:
-      - "8080:80"
+    network_mode: service:miniflux-ts
+  miniflux-ts:
+    image: tailscale/tailscale:latest
+    restart: unless-stopped
+    hostname: miniflux
+    environment:
+      - TS_EXTRA_ARGS=--advertise-tags=tag:server
+      - TS_STATE_DIR=/var/lib/tailscale
+    env_file:
+      - /home/nixos/env-tailscale
+    volumes:
+      - miniflux-ts:/var/lib/tailscale
+      - /dev/net/tun:/dev/net/tun
+    cap_add:
+      - net_admin
+      - sys_module
+    labels:
+      - com.centurylinklabs.watchtower.enable=true
+
   miniflux-postgres:
     image: postgres:15
     restart: unless-stopped
@@ -127,4 +144,5 @@ volumes:
   galerie-ts:
   postgres:
   postgres-ts:
+  miniflux-ts:
   miniflux-postgres:
