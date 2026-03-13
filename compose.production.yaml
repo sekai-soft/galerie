@@ -105,50 +105,7 @@ services:
       POSTGRES_USER: miniflux
       POSTGRES_PASSWORD: secret
 
-  # nitter
-  nitter:
-    image: ghcr.io/sekai-soft/nitter-pitchforked:v20260201
-    # container_name: nitter
-    # ports:
-    #   - "127.0.0.1:8080:8080" # Replace with "8080:8080" if you don't use a reverse proxy
-    volumes:
-      - ./nitter.conf:/src/nitter.conf:Z,ro
-      - ./sessions_cookies.jsonl:/src/sessions.jsonl:Z,ro
-    depends_on:
-      - nitter-redis
-    restart: unless-stopped
-    # healthcheck:
-    #   test: wget -nv --tries=1 --spider http://127.0.0.1:8080/Jack/status/20 || exit 1
-    #   interval: 30s
-    #   timeout: 5s
-    #   retries: 2
-    user: "998:998"
-    read_only: true
-    security_opt:
-      - no-new-privileges:true
-    cap_drop:
-      - ALL
-  nitter-redis:
-    image: redis:6-alpine
-    # container_name: nitter-redis
-    command: redis-server --save 60 1 --loglevel warning
-    volumes:
-      - nitter-pf-redis:/data
-    restart: unless-stopped
-    healthcheck:
-      test: redis-cli ping
-      interval: 30s
-      timeout: 5s
-      retries: 2
-    user: "999:1000"
-    read_only: true
-    security_opt:
-      - no-new-privileges:true
-    cap_drop:
-      - ALL
-
 volumes:
   galerie-ts:
   postgres:
   miniflux-postgres:
-  nitter-pf-redis:
