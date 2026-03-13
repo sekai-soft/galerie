@@ -7,38 +7,13 @@ services:
     restart: unless-stopped
     environment:
       BASE_URL: 'https://galerie-reader.app'
-      SQLALCHEMY_DATABASE_URI: 'postgresql://galerie:secret@postgres/galerie?sslmode=disable'
+      SQLALCHEMY_DATABASE_URI: 'postgresql://galerie:secret@galerie-postgres/galerie?sslmode=disable'
       MINIFLUX_BASE_URL: 'http://miniflux'
       NITTER_BASE_URL: 'http://nitter'
       MEDIA_PROXY_CUSTOM_URL: 'http://galerie-reader-media'
     env_file:
       - env
     network_mode: service:galerie-ts
-  postgres:
-    image: postgres:15
-    restart: unless-stopped
-    environment:
-      - POSTGRES_USER=galerie
-      - POSTGRES_PASSWORD=secret
-      - POSTGRES_DB=galerie
-    volumes:
-      - postgres:/var/lib/postgresql/data
-    ports:
-      - "5432:5432"
-  postgres-backup:
-    image: ghcr.io/sekai-soft/postgres-backup-s3:15
-    restart: unless-stopped
-    env_file:
-      - env-backup
-      - /home/nixos/env-backup
-    environment:
-      S3_PREFIX: 'galerie'
-      SCHEDULE: '@daily'
-      BACKUP_KEEP_DAYS: 7
-      POSTGRES_HOST: postgres
-      POSTGRES_DATABASE: galerie
-      POSTGRES_USER: galerie
-      POSTGRES_PASSWORD: secret
   galerie-ts:
     image: tailscale/tailscale:latest
     restart: unless-stopped
@@ -56,6 +31,49 @@ services:
       - sys_module
     labels:
       - com.centurylinklabs.watchtower.enable=true
+
+  # postgres
+  postgres:
+    image: postgres:15
+    restart: unless-stopped
+    environment:
+      - POSTGRES_USER=galerie
+      - POSTGRES_PASSWORD=secret
+      - POSTGRES_DB=galerie
+    volumes:
+      - postgres:/var/lib/postgresql/data
+    network_mode: service:postgres-ts
+  postgres-ts:
+    image: tailscale/tailscale:latest
+    restart: unless-stopped
+    hostname: galerie-postgres
+    environment:
+      - TS_EXTRA_ARGS=--advertise-tags=tag:server
+      - TS_STATE_DIR=/var/lib/tailscale
+    env_file:
+      - /home/nixos/env-tailscale
+    volumes:
+      - postgres-ts:/var/lib/tailscale
+      - /dev/net/tun:/dev/net/tun
+    cap_add:
+      - net_admin
+      - sys_module
+    labels:
+      - com.centurylinklabs.watchtower.enable=true
+  postgres-backup:
+    image: ghcr.io/sekai-soft/postgres-backup-s3:15
+    restart: unless-stopped
+    env_file:
+      - env-backup
+      - /home/nixos/env-backup
+    environment:
+      S3_PREFIX: 'galerie'
+      SCHEDULE: '@daily'
+      BACKUP_KEEP_DAYS: 7
+      POSTGRES_HOST: postgres
+      POSTGRES_DATABASE: galerie
+      POSTGRES_USER: galerie
+      POSTGRES_PASSWORD: secret
 
   # miniflux
   miniflux:
@@ -108,4 +126,5 @@ services:
 volumes:
   galerie-ts:
   postgres:
+  postgres-ts:
   miniflux-postgres:
