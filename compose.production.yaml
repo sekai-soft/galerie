@@ -70,14 +70,14 @@ services:
       S3_PREFIX: 'galerie'
       SCHEDULE: '@daily'
       BACKUP_KEEP_DAYS: 7
-      POSTGRES_HOST: postgres
+      POSTGRES_HOST: galerie-postgres
       POSTGRES_DATABASE: galerie
       POSTGRES_USER: galerie
       POSTGRES_PASSWORD: secret
 
   # miniflux
   miniflux:
-    image: miniflux/miniflux:2.2.16
+    image: miniflux/miniflux:2.2.18
     restart: unless-stopped
     depends_on:
       miniflux-postgres:
