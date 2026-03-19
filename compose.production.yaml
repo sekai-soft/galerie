@@ -91,6 +91,7 @@ services:
       - WORKER_POOL_SIZE=1
       - MEDIA_PROXY_CUSTOM_URL=http://galerie-reader-media
       - MEDIA_PROXY_RESOURCE_TYPES=image,audio,video
+      - FETCHER_ALLOW_PRIVATE_NETWORKS=1
     env_file:
       - env
     network_mode: service:miniflux-ts
