@@ -22,7 +22,7 @@
 <br>
 <br>
 <hr>
-<p>{{ _('Maximum media to display per post')}}</p>
+<p>{{ _('Display media count')}}</p>
 <select
     name="max_rendered_items"
     hx-trigger="change"
@@ -37,16 +37,19 @@
 <br>
 <br>
 <hr>
-<p>{{ _('Number of posts to load at a time')}}</p>
+<p>{{ _('Page size')}}</p>
 <select
     name="max_items"
     hx-trigger="change"
     hx-post="/actions/set_max_items"
     hx-swap="none"
 >
-    <option value="5" {{ 'selected=selected' if max_items == 5 else '' }}>{{_('5 (takes shorter to load new posts but fewer posts are loaded)')}}</option>
+    <option value="5" {{ 'selected=selected' if max_items == 5 else '' }}>5</option>
     <option value="10" {{ 'selected=selected' if max_items == 10 else '' }}>10</option>
-    <option value="15" {{ 'selected=selected' if max_items == 15 else '' }}>{{_('15 (takes longer to load new posts but more posts are loaded)')}}</option>
+    <option value="15" {{ 'selected=selected' if max_items == 15 else '' }}>15</option>
+    <option value="20" {{ 'selected=selected' if max_items == 20 else '' }}>20</option>
+    <option value="50" {{ 'selected=selected' if max_items == 50 else '' }}>50</option>
+    <option value="100" {{ 'selected=selected' if max_items == 100 else '' }}>100</option>
 </select>
 <br>
 <br>

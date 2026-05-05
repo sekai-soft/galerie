@@ -5,7 +5,7 @@ from galerie.rendered_item import RenderedItem
 from .get_aggregator import get_aggregator
 
 
-DEFAULT_MAX_ITEMS = 10
+DEFAULT_MAX_ITEMS = 20
 DEFAULT_MAX_RENDERED_ITEMS = 4
 cookie_max_age = 60 * 60 * 24 * 365  # 1 year
 

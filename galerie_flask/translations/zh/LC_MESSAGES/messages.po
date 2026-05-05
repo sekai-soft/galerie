@@ -7,7 +7,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: PROJECT VERSION\n"
 "Report-Msgid-Bugs-To: EMAIL@ADDRESS\n"
-"POT-Creation-Date: 2026-02-06 16:00-0800\n"
+"POT-Creation-Date: 2026-05-05 10:47-0700\n"
 "PO-Revision-Date: 2024-06-27 08:04+0000\n"
 "Last-Translator: FULL NAME <EMAIL@ADDRESS>\n"
 "Language: zh\n"
@@ -31,30 +31,24 @@ msgstr "密码是必需的"
 msgid "Passwords do not match"
 msgstr "密码不匹配"
 
-#: galerie_flask/actions/set_max_items/set_max_items_action.py:14
-#: galerie_flask/actions/set_max_rendered_items/set_max_rendered_items_action.py:14
-#: galerie_flask/actions_blueprint.py:130
-msgid "Setting updated"
-msgstr "设置已更新"
-
-#: galerie_flask/actions_blueprint.py:153
+#: galerie_flask/actions_blueprint.py:154
 msgid "Group updated"
 msgstr "分组已更新"
 
-#: galerie_flask/actions_blueprint.py:167
+#: galerie_flask/actions_blueprint.py:168
 msgid "This feed already exists"
 msgstr "此订阅源已存在"
 
-#: galerie_flask/actions_blueprint.py:179
+#: galerie_flask/actions_blueprint.py:180
 msgid "Unable to detect a valid feed"
 msgstr "无法检测到有效的订阅源"
 
-#: galerie_flask/actions_blueprint.py:231
+#: galerie_flask/actions_blueprint.py:232
 msgid "You cannot delete the last group"
 msgstr "您不能删除最后一个分组"
 
 #: galerie_flask/actions/session_management/session_management_action.py:20
-#: galerie_flask/actions_blueprint.py:281
+#: galerie_flask/actions_blueprint.py:282
 msgid "Name is required"
 msgstr "名字是必需的"
 
@@ -103,6 +97,11 @@ msgstr "已终止其他 {} 个会话"
 #, python-brace-format
 msgid "Terminated {} unnamed session(s)"
 msgstr "已终止其他 {} 个未命名的会话"
+
+#: galerie_flask/actions/set_max_items/set_max_items_action.py:14
+#: galerie_flask/actions/set_max_rendered_items/set_max_rendered_items_action.py:14
+msgid "Setting updated"
+msgstr "设置已更新"
 
 #: galerie_flask/pages/feed_maintenance/feed_maintenance.html:3
 #: galerie_flask/pages/feed_maintenance/feed_maintenance.html:5
@@ -190,47 +189,55 @@ msgstr "手动条目为已读"
 msgid "Automatically mark items as read"
 msgstr "自动条目为已读"
 
-#: galerie_flask/pages/index/index.html:96
+#: galerie_flask/pages/index/index.html:102
+msgid "Automaitcally load more"
+msgstr "自动加载"
+
+#: galerie_flask/pages/index/index.html:103
+msgid "Manually load more"
+msgstr "手动加载"
+
+#: galerie_flask/pages/index/index.html:107
 msgid "More settings"
 msgstr "更多设置"
 
-#: galerie_flask/pages/index/index.html:101
+#: galerie_flask/pages/index/index.html:112
 #: galerie_flask/pages/session_management/session_management.html:46
 #: galerie_flask/templates/add_feed.html:58
 msgid "Close"
 msgstr "关闭"
 
-#: galerie_flask/pages/index/index.html:110
+#: galerie_flask/pages/index/index.html:121
 msgid "start adding some feeds ❤️"
 msgstr "开始添加一些订阅源 ❤️"
 
-#: galerie_flask/pages/index/index.html:113
+#: galerie_flask/pages/index/index.html:124
 msgid "all read ✨"
 msgstr "全部已读 ✨"
 
-#: galerie_flask/pages/index/index.html:114
+#: galerie_flask/pages/index/index.html:125
 msgid "go touch some grass 🌱"
 msgstr "去接触一下大自然吧 🌱"
 
-#: galerie_flask/pages/index/index.html:120
+#: galerie_flask/pages/index/index.html:131
 msgid "has"
 msgstr "有"
 
-#: galerie_flask/pages/index/index.html:120
+#: galerie_flask/pages/index/index.html:131
 msgid "unread items"
 msgstr "未读条目"
 
-#: galerie_flask/pages/index/load_more_button.html:19
-#: galerie_flask/pages/index/load_more_button.html:21
-#: galerie_flask/pages/item_history/load_more_button_history.html:15
+#: galerie_flask/pages/index/load_more_button.html:31
+#: galerie_flask/pages/index/load_more_button.html:33
 #: galerie_flask/pages/item_history/load_more_button_history.html:17
+#: galerie_flask/pages/item_history/load_more_button_history.html:19
 msgid "Load"
 msgstr "加载"
 
-#: galerie_flask/pages/index/load_more_button.html:19
-#: galerie_flask/pages/index/load_more_button.html:21
-#: galerie_flask/pages/item_history/load_more_button_history.html:15
+#: galerie_flask/pages/index/load_more_button.html:31
+#: galerie_flask/pages/index/load_more_button.html:33
 #: galerie_flask/pages/item_history/load_more_button_history.html:17
+#: galerie_flask/pages/item_history/load_more_button_history.html:19
 msgid "more"
 msgstr "更多"
 
@@ -249,7 +256,7 @@ msgstr "没有历史记录"
 
 #: galerie_flask/pages/session_management/session_management.html:3
 #: galerie_flask/pages/session_management/session_management.html:5
-#: galerie_flask/pages/settings/settings.html:70
+#: galerie_flask/pages/settings/settings.html:60
 msgid "Session management"
 msgstr "会话管理"
 
@@ -325,43 +332,23 @@ msgid "Manage groups"
 msgstr "管理分组"
 
 #: galerie_flask/pages/settings/settings.html:25
-msgid "Infinite scroll"
-msgstr "无限滚动"
+msgid "Display media count"
+msgstr "显示媒体数目"
 
-#: galerie_flask/pages/settings/settings.html:32
-msgid "Yes"
-msgstr "是"
+#: galerie_flask/pages/settings/settings.html:40
+msgid "Page size"
+msgstr "每页大小"
 
-#: galerie_flask/pages/settings/settings.html:33
-msgid "No"
-msgstr "否"
-
-#: galerie_flask/pages/settings/settings.html:38
-msgid "Maximum media to display per post"
-msgstr "每个帖子显示的最大媒体数量"
-
-#: galerie_flask/pages/settings/settings.html:53
-msgid "Number of posts to load at a time"
-msgstr "每次加载的帖子数量"
-
-#: galerie_flask/pages/settings/settings.html:60
-msgid "5 (takes shorter to load new posts but fewer posts are loaded)"
-msgstr "5 (加载新帖子所需时间较短，但加载的帖子较少)"
-
-#: galerie_flask/pages/settings/settings.html:62
-msgid "15 (takes longer to load new posts but more posts are loaded)"
-msgstr "15 (加载新帖子所需时间较长，但加载的帖子较多)"
-
-#: galerie_flask/pages/settings/settings.html:68
+#: galerie_flask/pages/settings/settings.html:58
 msgid "Logged in as: "
 msgstr "已用此身份登陆: "
 
-#: galerie_flask/pages/settings/settings.html:78
+#: galerie_flask/pages/settings/settings.html:68
 #: galerie_flask/templates/error.html:14
 msgid "Log out"
 msgstr "登出"
 
-#: galerie_flask/pages/settings/settings.html:80
+#: galerie_flask/pages/settings/settings.html:70
 msgid "Connected to"
 msgstr "连接至"
 
