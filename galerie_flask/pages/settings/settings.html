@@ -5,22 +5,28 @@
 {% block header_title %}{{ _('Settings') }}{% endblock %}
 
 {% block page_content %}
-<p>{{ _('Feed management') }}</p>
-<a href="/manage_feeds">
-    <button class="button" style="font-size: 1em">{{ _('Manage feeds')}}</button>
-</a>
-<br>
-<br>
-<a href="/manage_groups">
-    <button class="button" style="font-size: 1em">{{ _('Manage groups')}}</button>
-</a>
-<br>
-<br>
-<a href="/feed_maintenance">
-    <button class="button" style="font-size: 1em">{{ _('Feed maintenance')}}</button>
-</a>
-<br>
-<br>
+<p>
+    <select
+        name="infinite_scroll"
+        hx-trigger="change"
+        hx-post="/actions/set_infinite_scroll"
+        hx-swap="none"
+    >
+        <option value="1" {{ 'selected=selected' if infinite_scroll else '' }}>{{ _('Automaitcally load more') }}</option>
+        <option value="0" {{ 'selected=selected' if not infinite_scroll else '' }}>{{ _('Manually load more') }}</option>
+    </select>
+</p>
+<p>
+    <select
+        name="scroll_as_read"
+        hx-trigger="change"
+        hx-post="/actions/set_scroll_as_read"
+        hx-swap="none"
+    >
+        <option value="0" {{ 'selected=selected' if not scroll_as_read else '' }}>{{ _('Manually mark items as read') }}</option>
+        <option value="1" {{ 'selected=selected' if scroll_as_read else '' }}>{{ _('Automatically mark items as read') }}</option>
+    </select>
+</p>
 <hr>
 <p>{{ _('Display media count')}}</p>
 <select
@@ -34,9 +40,6 @@
     <option value="3" {{ 'selected=selected' if max_rendered_items == 3 else '' }}>3</option>
     <option value="4" {{ 'selected=selected' if max_rendered_items == 4 else '' }}>4</option>
 </select>
-<br>
-<br>
-<hr>
 <p>{{ _('Page size')}}</p>
 <select
     name="max_items"

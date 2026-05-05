@@ -22,10 +22,10 @@ def index_page():
     sort_by_desc = request.args.get('sort', 'desc') == 'desc'
     gid = request.args.get('group') if request.args.get('group') else None
     include_read = request.args.get('read', '0') == '1'
-    infinite_scroll = request.cookies.get('infinite_scroll', '1') == '1'
     max_items = int(request.cookies.get('max_items', DEFAULT_MAX_ITEMS))
     max_rendered_items = int(request.cookies.get('max_rendered_items', DEFAULT_MAX_RENDERED_ITEMS))
     no_text_mode = request.cookies.get('no_text_mode', '0') == '1'
+    infinite_scroll = request.cookies.get('infinite_scroll', '1') == '1'
     scroll_as_read = request.cookies.get('scroll_as_read', '0') == '1'
 
     unread_items = g.aggregator.get_items(

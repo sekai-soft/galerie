@@ -81,27 +81,18 @@
                     <option value="1" {{ 'selected=selected' if no_text_mode else '' }}>{{ _('Hide texts') }}</option>
                 </select>
             </p>
+            <hr>
             <p>
-                <select
-                    name="scroll_as_read"
-                    hx-trigger="change"
-                    hx-post="/actions/set_scroll_as_read"
-                    hx-swap="none"
-                >
-                    <option value="0" {{ 'selected=selected' if not scroll_as_read else '' }}>{{ _('Manually mark items as read') }}</option>
-                    <option value="1" {{ 'selected=selected' if scroll_as_read else '' }}>{{ _('Automatically mark items as read') }}</option>
-                </select>
+                <a href="/add_feed?go_home=1">{{ _('Add feed') }}</a>
             </p>
             <p>
-                <select
-                    name="infinite_scroll"
-                    hx-trigger="change"
-                    hx-post="/actions/set_infinite_scroll"
-                    hx-swap="none"
-                >
-                    <option value="1" {{ 'selected=selected' if infinite_scroll else '' }}>{{ _('Automaitcally load more') }}</option>
-                    <option value="0" {{ 'selected=selected' if not infinite_scroll else '' }}>{{ _('Manually load more') }}</option>
-                </select>
+                <a href="/manage_feeds">{{ _('Manage feeds') }}</a>
+            </p>
+            <p>
+                <a href="/manage_groups">{{ _('Manage groups') }}</a>
+            </p>
+            <p>
+                <a href="/feed_maintenance">{{ _('Feed maintenance') }}</a>
             </p>
             <a href="/settings">
                 <button class="button" style="font-size: 1em">{{ _('More settings') }}</button>

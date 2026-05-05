@@ -7,7 +7,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: PROJECT VERSION\n"
 "Report-Msgid-Bugs-To: EMAIL@ADDRESS\n"
-"POT-Creation-Date: 2026-05-05 10:47-0700\n"
+"POT-Creation-Date: 2026-05-05 14:22-0700\n"
 "PO-Revision-Date: 2024-06-27 08:04+0000\n"
 "Last-Translator: FULL NAME <EMAIL@ADDRESS>\n"
 "Language: zh\n"
@@ -105,7 +105,7 @@ msgstr "设置已更新"
 
 #: galerie_flask/pages/feed_maintenance/feed_maintenance.html:3
 #: galerie_flask/pages/feed_maintenance/feed_maintenance.html:5
-#: galerie_flask/pages/settings/settings.html:20
+#: galerie_flask/pages/index/index.html:95
 msgid "Feed maintenance"
 msgstr "订阅源维护"
 
@@ -181,49 +181,53 @@ msgstr "显示文字"
 msgid "Hide texts"
 msgstr "隐藏文字"
 
-#: galerie_flask/pages/index/index.html:91
-msgid "Manually mark items as read"
-msgstr "手动条目为已读"
+#: galerie_flask/pages/index/index.html:86
+#: galerie_flask/templates/add_feed.html:3
+#: galerie_flask/templates/add_feed.html:5
+#: galerie_flask/templates/add_feed.html:46
+#: galerie_flask/templates/manage_feeds.html:21
+msgid "Add feed"
+msgstr "添加订阅源"
+
+#: galerie_flask/pages/index/index.html:89
+#: galerie_flask/templates/manage_feeds.html:3
+#: galerie_flask/templates/manage_feeds.html:13
+msgid "Manage feeds"
+msgstr "管理订阅源"
 
 #: galerie_flask/pages/index/index.html:92
-msgid "Automatically mark items as read"
-msgstr "自动条目为已读"
+#: galerie_flask/templates/manage_groups.html:3
+#: galerie_flask/templates/manage_groups.html:5
+msgid "Manage groups"
+msgstr "管理分组"
 
-#: galerie_flask/pages/index/index.html:102
-msgid "Automaitcally load more"
-msgstr "自动加载"
-
-#: galerie_flask/pages/index/index.html:103
-msgid "Manually load more"
-msgstr "手动加载"
-
-#: galerie_flask/pages/index/index.html:107
+#: galerie_flask/pages/index/index.html:98
 msgid "More settings"
 msgstr "更多设置"
 
-#: galerie_flask/pages/index/index.html:112
+#: galerie_flask/pages/index/index.html:103
 #: galerie_flask/pages/session_management/session_management.html:46
 #: galerie_flask/templates/add_feed.html:58
 msgid "Close"
 msgstr "关闭"
 
-#: galerie_flask/pages/index/index.html:121
+#: galerie_flask/pages/index/index.html:112
 msgid "start adding some feeds ❤️"
 msgstr "开始添加一些订阅源 ❤️"
 
-#: galerie_flask/pages/index/index.html:124
+#: galerie_flask/pages/index/index.html:115
 msgid "all read ✨"
 msgstr "全部已读 ✨"
 
-#: galerie_flask/pages/index/index.html:125
+#: galerie_flask/pages/index/index.html:116
 msgid "go touch some grass 🌱"
 msgstr "去接触一下大自然吧 🌱"
 
-#: galerie_flask/pages/index/index.html:131
+#: galerie_flask/pages/index/index.html:122
 msgid "has"
 msgstr "有"
 
-#: galerie_flask/pages/index/index.html:131
+#: galerie_flask/pages/index/index.html:122
 msgid "unread items"
 msgstr "未读条目"
 
@@ -256,7 +260,7 @@ msgstr "没有历史记录"
 
 #: galerie_flask/pages/session_management/session_management.html:3
 #: galerie_flask/pages/session_management/session_management.html:5
-#: galerie_flask/pages/settings/settings.html:60
+#: galerie_flask/pages/settings/settings.html:63
 msgid "Session management"
 msgstr "会话管理"
 
@@ -315,49 +319,42 @@ msgstr "没有其他会话"
 msgid "Settings"
 msgstr "设置"
 
-#: galerie_flask/pages/settings/settings.html:8
-msgid "Feed management"
-msgstr "订阅源管理"
-
-#: galerie_flask/pages/settings/settings.html:10
-#: galerie_flask/templates/manage_feeds.html:3
-#: galerie_flask/templates/manage_feeds.html:13
-msgid "Manage feeds"
-msgstr "管理订阅源"
-
 #: galerie_flask/pages/settings/settings.html:15
-#: galerie_flask/templates/manage_groups.html:3
-#: galerie_flask/templates/manage_groups.html:5
-msgid "Manage groups"
-msgstr "管理分组"
+msgid "Automaitcally load more"
+msgstr "自动加载"
 
-#: galerie_flask/pages/settings/settings.html:25
+#: galerie_flask/pages/settings/settings.html:16
+msgid "Manually load more"
+msgstr "手动加载"
+
+#: galerie_flask/pages/settings/settings.html:26
+msgid "Manually mark items as read"
+msgstr "手动条目为已读"
+
+#: galerie_flask/pages/settings/settings.html:27
+msgid "Automatically mark items as read"
+msgstr "自动条目为已读"
+
+#: galerie_flask/pages/settings/settings.html:31
 msgid "Display media count"
 msgstr "显示媒体数目"
 
-#: galerie_flask/pages/settings/settings.html:40
+#: galerie_flask/pages/settings/settings.html:43
 msgid "Page size"
 msgstr "每页大小"
 
-#: galerie_flask/pages/settings/settings.html:58
+#: galerie_flask/pages/settings/settings.html:61
 msgid "Logged in as: "
 msgstr "已用此身份登陆: "
 
-#: galerie_flask/pages/settings/settings.html:68
+#: galerie_flask/pages/settings/settings.html:71
 #: galerie_flask/templates/error.html:14
 msgid "Log out"
 msgstr "登出"
 
-#: galerie_flask/pages/settings/settings.html:70
+#: galerie_flask/pages/settings/settings.html:73
 msgid "Connected to"
 msgstr "连接至"
-
-#: galerie_flask/templates/add_feed.html:3
-#: galerie_flask/templates/add_feed.html:5
-#: galerie_flask/templates/add_feed.html:46
-#: galerie_flask/templates/manage_feeds.html:21
-msgid "Add feed"
-msgstr "添加订阅源"
 
 #: galerie_flask/templates/add_feed.html:10
 msgid "Feed URL"
