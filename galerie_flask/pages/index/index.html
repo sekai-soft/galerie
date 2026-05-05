@@ -32,6 +32,13 @@
     <!-- hack to ensure height is consistent... -->
     <p style="visibility: hidden;">.</p>
     <div class="header-right grid-sizer">
+        {% if dead_feed_count != 0 %}
+        <a
+            type="button"
+            href="/feed_maintenance"
+            class="link-button"
+        >{{ dead_feed_count }}<i class="fa-solid fa-triangle-exclamation"></i></a>
+        {% endif %}
         <p id="read-percentage">{{ read_percentage }}%</p>
         {% if gid %}
         <a

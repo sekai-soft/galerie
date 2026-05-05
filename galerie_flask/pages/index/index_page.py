@@ -52,6 +52,7 @@ def index_page():
     
     all_feed_count = sum(group.feed_count for group in groups)
     feeds = g.aggregator.get_feeds()
+    dead_feeds = list(filter(lambda f: f.error, feeds))
     args = {
         "groups": groups,
         "all_group_counts": all_group_counts,
@@ -65,6 +66,7 @@ def index_page():
         "scroll_as_read": scroll_as_read,
         "read_percentage": read_percentage,
         "infinite_scroll": infinite_scroll,
+        "dead_feed_count": len(dead_feeds)
     }
     items_args(args, rendered_items, True, gid is None, no_text_mode, iids_without_media)
     load_more_button_args(
