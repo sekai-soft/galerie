@@ -21,11 +21,20 @@
     {% for feed in dead_feeds %}
     <div style="display: flex; align-items: center; gap: 1em;">
         <div>
-            <input type="checkbox" class="feed-checkbox" id="dead-feed-{{ feed.fid }}" name="dead-feed-{{ feed.fid }}">
+            <input type="checkbox" class="feed-checkbox" id="dead-feed-{{ feed[0].fid }}" name="dead-feed-{{ feed[0].fid }}">
         </div>
-        <a href="{{ feed.site_url }}" target="_blank" style="font-size: 1em;">
+        <a href="{{ feed[0].site_url }}" target="_blank" style="font-size: 1em;">
             <p class="animate-long" style="margin-top: 8px; margin-bottom: 8px;">
-                {{ feed.title }}
+                {% if feed[1] == 'absent' %}
+                <i class="fa-solid fa-user-slash"></i>
+                {% endif %}
+                {% if feed[1] == 'suspended' %}
+                <i class="fa-solid fa-ban"></i>
+                {% endif %}
+                {% if feed[1] == 'protected' %}
+                <i class="fa-solid fa-lock"></i>
+                {% endif %}
+                {{ feed[0].title }}
             </p>
         </a>
     </div>

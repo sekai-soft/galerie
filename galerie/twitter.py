@@ -1,5 +1,6 @@
 import os
 import re
+import requests
 from typing import Optional
 from urllib.parse import urlparse
 
@@ -107,3 +108,16 @@ def fix_shareable_twitter_url(url: str) -> str:
         elif url.startswith(f'https://{domain}'):
             return url.replace(f'https://{domain}', 'https://fxtwitter.com')
     return url
+
+def check_twitter_handle_status(twitter_handle: str) -> str:
+    nitter_url = f'{get_nitter_base_url()}/{twitter_handle}'
+    resp = str(requests.get(nitter_url).content)
+    if twitter_handle not in resp:
+        return ''
+    if 'not found' in resp:
+        return 'absent'
+    if 'suspended' in resp:
+        return 'suspended'
+    if 'tweets are protected' in resp:
+        return 'protected'
+    return ''
