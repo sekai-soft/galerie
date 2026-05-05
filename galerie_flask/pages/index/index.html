@@ -21,7 +21,6 @@
             </option>
             {% endfor %}
         </optgroup>
-        <option value="_history">{{ _('🕣 history') }}</option>
         <optgroup label="{{ _('by feed') }}">
             {% for f in feeds %}
             <option value="feed-{{ f.fid }}">
@@ -80,6 +79,10 @@
                     <option value="0" {{ 'selected=selected' if not no_text_mode else '' }}>{{ _('Show texts') }}</option>
                     <option value="1" {{ 'selected=selected' if no_text_mode else '' }}>{{ _('Hide texts') }}</option>
                 </select>
+            </p>
+            <hr>
+            <p>
+                <a href="/history">{{ _('History') }}</a>
             </p>
             <hr>
             <p>
