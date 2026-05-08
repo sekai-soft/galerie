@@ -188,6 +188,10 @@ def add_feed():
     if go_home:
         return make_hx_redirect('/')
 
+    show_toast = request.args.get('show_toast', '0') == '1'
+    if show_toast:
+        return make_toast(200, _('Feed added'))
+
     return make_back()
 
 

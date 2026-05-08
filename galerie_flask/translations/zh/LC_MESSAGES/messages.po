@@ -7,7 +7,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: PROJECT VERSION\n"
 "Report-Msgid-Bugs-To: EMAIL@ADDRESS\n"
-"POT-Creation-Date: 2026-05-08 13:45-0700\n"
+"POT-Creation-Date: 2026-05-08 14:10-0700\n"
 "PO-Revision-Date: 2024-06-27 08:04+0000\n"
 "Last-Translator: FULL NAME <EMAIL@ADDRESS>\n"
 "Language: zh\n"
@@ -43,12 +43,16 @@ msgstr "此订阅源已存在"
 msgid "Unable to detect a valid feed"
 msgstr "无法检测到有效的订阅源"
 
-#: galerie_flask/actions_blueprint.py:233
+#: galerie_flask/actions_blueprint.py:193
+msgid "Feed added"
+msgstr "订阅源已添加"
+
+#: galerie_flask/actions_blueprint.py:237
 msgid "You cannot delete the last group"
 msgstr "您不能删除最后一个分组"
 
 #: galerie_flask/actions/session_management/session_management_action.py:20
-#: galerie_flask/actions_blueprint.py:283
+#: galerie_flask/actions_blueprint.py:287
 msgid "Name is required"
 msgstr "名字是必需的"
 

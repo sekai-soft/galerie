@@ -70,7 +70,7 @@ def pwa_manifest():
         "short_name": "Galerie",
         "start_url": get_base_url(),
         "share_target": {
-            "action": "add_feed?view_feed=1",
+            "action": "add_feed?show_toast=1", # for some reason view_feed doesn't work in Android share target, so just show toast
             "method": "GET",
             "params": {
                 "title": "title",
@@ -171,8 +171,10 @@ def add_feed_page():
     add_feed_behavior = ''
     if args.get('view_feed', '0')== '1':
         add_feed_behavior += '?view_feed=1'
-    if args.get('go_home', '0')== '1':
+    if args.get('go_home', '0') == '1':
         add_feed_behavior += '?go_home=1'
+    if args.get('show_toast', '0') == '1':
+        add_feed_behavior += '?show_toast=1'
 
     default_group = args.get('group')
 
