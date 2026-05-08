@@ -1,6 +1,5 @@
 import os
 from functools import wraps
-from urllib.parse import urlparse
 from sentry_sdk import capture_exception
 from flask import Blueprint, redirect, render_template, g, request, jsonify, make_response
 from flask_babel import _
@@ -139,53 +138,6 @@ def update_feed_page():
         "groups": g.aggregator.get_groups(),
     }
     return render_template('update_feed.html', **args)
-
-
-def is_valid_url(url: str) -> bool:
-    try:
-        urlparse(url)
-        return True
-    except ValueError:
-        return False
-
-
-bookmarklet = f"""javascript:(function() {{
-  const url = `{get_base_url()}/add_feed?url=${{window.location.href}}&view_feed=1`;
-  window.open(url, '_blank').focus();
-}})();
-"""
-
-@pages_blueprint.route("/add_feed")
-@catches_exceptions
-@requires_auth
-def add_feed_page():   
-    args = request.args
-    url = None
-    if 'url' in args and is_valid_url(args['url']):
-        url = args['url']
-    elif 'text' in args and is_valid_url(args['text']):
-        url = args['text']
-    elif 'title' in args and is_valid_url(args['title']):
-        url = args['title']
-
-    add_feed_behavior = ''
-    if args.get('view_feed', '0')== '1':
-        add_feed_behavior += '?view_feed=1'
-    if args.get('go_home', '0') == '1':
-        add_feed_behavior += '?go_home=1'
-    if args.get('show_toast', '0') == '1':
-        add_feed_behavior += '?show_toast=1'
-
-    default_group = args.get('group')
-
-    return render_template(
-        'add_feed.html',
-        url=url,
-        bookmarklet=bookmarklet,
-        groups=g.aggregator.get_groups(),
-        add_feed_behavior=add_feed_behavior,
-        default_group=default_group
-    )
 
 
 @pages_blueprint.route("/update_group")
