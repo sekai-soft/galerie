@@ -97,36 +97,6 @@ def signup_page():
     return render_template('signup.html', next_url=next_url)
 
 
-@pages_blueprint.route("/manage_feeds")
-@catches_exceptions
-@requires_auth
-@no_cache
-def manage_feeds_page():
-    groups = g.aggregator.get_groups()
-    if not groups:
-        raise ValueError("No groups found")
-    groups = sorted(groups, key=lambda group: group.feed_count, reverse=True)
-
-    gid = request.args.get('group')
-    if gid is None:
-        return redirect(f'/manage_feeds?group={groups[0].gid}')
-    
-    feeds = g.aggregator.get_feeds_by_group_id(gid)
-    feeds = sorted(feeds, key=lambda feed: (0 if feed.error else 1, feed.title))
-
-    feed_counts = {}
-    for group in groups:
-        feed_counts[group.gid] = group.feed_count
-
-    return render_template(
-        'manage_feeds.html',
-        groups=groups,
-        gid=gid,
-        feeds=feeds,
-        feed_counts=feed_counts,
-    )
-
-
 @pages_blueprint.route("/update_feed")
 @catches_exceptions
 @requires_auth

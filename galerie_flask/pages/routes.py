@@ -8,6 +8,7 @@ from .session_management.session_management_page import session_management_bp
 from .item_history.item_history_page import item_history_bp
 from .media_proxy.media_proxy import media_proxy_bp
 from .add_feed.add_feed_page import add_feed_bp
+from .manage_feeds.manage_feeds_page import manage_feeds_bp
 
 
 pages_bp = Blueprint('pages', __name__, url_prefix='/')
@@ -20,3 +21,4 @@ pages_bp.register_blueprint(session_management_bp)
 pages_bp.register_blueprint(item_history_bp)
 pages_bp.register_blueprint(media_proxy_bp)
 pages_bp.register_blueprint(add_feed_bp)
+pages_bp.register_blueprint(manage_feeds_bp)
