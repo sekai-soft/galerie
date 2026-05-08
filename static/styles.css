@@ -26,13 +26,6 @@
     filter: grayscale(100%);
 }
 
-.button-with-links {
-    display: flex;
-    flex-direction: row;
-    align-items: center;
-    gap: 2em;
-}
-
 input {
     width: 75%;
 }
@@ -77,10 +70,6 @@ input {
         margin-bottom: 32px;
     }
 
-    .button-with-links {
-        gap: 2em;
-    }
-
     .item-buttons {
         gap: 48px;
     }
@@ -113,10 +102,6 @@ input {
     
     .grid-item {
         margin-bottom: 32px;
-    }
-
-    .button-with-links {
-        gap: 1em;
     }
 
     .item-buttons {

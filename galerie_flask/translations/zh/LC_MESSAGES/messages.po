@@ -7,7 +7,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: PROJECT VERSION\n"
 "Report-Msgid-Bugs-To: EMAIL@ADDRESS\n"
-"POT-Creation-Date: 2026-05-05 14:39-0700\n"
+"POT-Creation-Date: 2026-05-08 13:45-0700\n"
 "PO-Revision-Date: 2024-06-27 08:04+0000\n"
 "Last-Translator: FULL NAME <EMAIL@ADDRESS>\n"
 "Language: zh\n"
@@ -18,37 +18,37 @@ msgstr ""
 "Content-Transfer-Encoding: 8bit\n"
 "Generated-By: Babel 2.17.0\n"
 
-#: galerie_flask/actions_blueprint.py:72 galerie_flask/actions_blueprint.py:98
+#: galerie_flask/actions_blueprint.py:71 galerie_flask/actions_blueprint.py:97
 msgid "Username is required"
 msgstr "用户名是必需的"
 
-#: galerie_flask/actions_blueprint.py:76 galerie_flask/actions_blueprint.py:80
-#: galerie_flask/actions_blueprint.py:102
+#: galerie_flask/actions_blueprint.py:75 galerie_flask/actions_blueprint.py:79
+#: galerie_flask/actions_blueprint.py:101
 msgid "Password is required"
 msgstr "密码是必需的"
 
-#: galerie_flask/actions_blueprint.py:83
+#: galerie_flask/actions_blueprint.py:82
 msgid "Passwords do not match"
 msgstr "密码不匹配"
 
-#: galerie_flask/actions_blueprint.py:154
+#: galerie_flask/actions_blueprint.py:153
 msgid "Group updated"
 msgstr "分组已更新"
 
-#: galerie_flask/actions_blueprint.py:168
+#: galerie_flask/actions_blueprint.py:177
 msgid "This feed already exists"
 msgstr "此订阅源已存在"
 
-#: galerie_flask/actions_blueprint.py:180
+#: galerie_flask/actions_blueprint.py:181
 msgid "Unable to detect a valid feed"
 msgstr "无法检测到有效的订阅源"
 
-#: galerie_flask/actions_blueprint.py:232
+#: galerie_flask/actions_blueprint.py:233
 msgid "You cannot delete the last group"
 msgstr "您不能删除最后一个分组"
 
 #: galerie_flask/actions/session_management/session_management_action.py:20
-#: galerie_flask/actions_blueprint.py:282
+#: galerie_flask/actions_blueprint.py:283
 msgid "Name is required"
 msgstr "名字是必需的"
 
@@ -117,11 +117,11 @@ msgstr "不活跃的订阅源"
 msgid "Refresh all dead feeds"
 msgstr "刷新所有不活跃的订阅源"
 
-#: galerie_flask/pages/feed_maintenance/feed_maintenance.html:42
+#: galerie_flask/pages/feed_maintenance/feed_maintenance.html:51
 msgid "Delete 0 dead feeds"
 msgstr "删除订阅源"
 
-#: galerie_flask/pages/feed_maintenance/feed_maintenance.html:46
+#: galerie_flask/pages/feed_maintenance/feed_maintenance.html:55
 msgid "There is no dead feed to clean up"
 msgstr "没有不活跃的订阅源可供清理"
 
@@ -186,7 +186,7 @@ msgstr "历史记录"
 #: galerie_flask/pages/index/index.html:96
 #: galerie_flask/templates/add_feed.html:3
 #: galerie_flask/templates/add_feed.html:5
-#: galerie_flask/templates/add_feed.html:46
+#: galerie_flask/templates/add_feed.html:45
 #: galerie_flask/templates/manage_feeds.html:21
 msgid "Add feed"
 msgstr "添加订阅源"
@@ -209,7 +209,8 @@ msgstr "更多设置"
 
 #: galerie_flask/pages/index/index.html:113
 #: galerie_flask/pages/session_management/session_management.html:46
-#: galerie_flask/templates/add_feed.html:58
+#: galerie_flask/templates/add_feed.html:60
+#: galerie_flask/templates/add_feed.html:73
 msgid "Close"
 msgstr "关闭"
 
@@ -361,33 +362,53 @@ msgstr "订阅源 URL"
 msgid "Group"
 msgstr "分组"
 
-#: galerie_flask/templates/add_feed.html:48
+#: galerie_flask/templates/add_feed.html:49
 msgid "Other ways to add feed"
 msgstr "其他添加订阅源的方式"
 
-#: galerie_flask/templates/add_feed.html:50
+#: galerie_flask/templates/add_feed.html:52
 msgid "1. Drag this bookmarklet to your browser's bookmark bar"
 msgstr "1. 将这个书签拖到浏览器的书签栏"
 
-#: galerie_flask/templates/add_feed.html:51
+#: galerie_flask/templates/add_feed.html:53
 msgid "Add to Galerie"
 msgstr "添加至 Galerie"
 
-#: galerie_flask/templates/add_feed.html:53
+#: galerie_flask/templates/add_feed.html:55
 msgid "2. Add"
 msgstr "2. 添加"
 
-#: galerie_flask/templates/add_feed.html:54
+#: galerie_flask/templates/add_feed.html:56
 msgid "this"
 msgstr "这个"
 
-#: galerie_flask/templates/add_feed.html:55
+#: galerie_flask/templates/add_feed.html:57
 msgid "iOS shortcut"
 msgstr "添加 iOS 快捷方式"
 
-#: galerie_flask/templates/add_feed.html:63
-msgid "Supported feed types: Twitter, RSS"
-msgstr "支持的订阅源类型: Twitter, RSS"
+#: galerie_flask/templates/add_feed.html:64
+msgid "Supported feed types"
+msgstr "支持的订阅源类型"
+
+#: galerie_flask/templates/add_feed.html:67
+msgid "X/Twitter URLs"
+msgstr "X/推特链接"
+
+#: galerie_flask/templates/add_feed.html:68
+msgid "Status with a handle, such as https://x.com/jack/status/20"
+msgstr "带用户名的推文链接，例如 https://x.com/jack/status/20"
+
+#: galerie_flask/templates/add_feed.html:69
+msgid "Profile with a handle, such as https://x.com/jack"
+msgstr "带用户名的链接，例如 https://x.com/jack"
+
+#: galerie_flask/templates/add_feed.html:70
+msgid "Status without a handle, such as https://x.com/i/status/20"
+msgstr "不带用户名的推文链接，例如 https://x.com/i/status/20"
+
+#: galerie_flask/templates/add_feed.html:71
+msgid "Any RSS feed"
+msgstr "任意 RSS 订阅源"
 
 #: galerie_flask/templates/add_group.html:3
 #: galerie_flask/templates/add_group.html:5

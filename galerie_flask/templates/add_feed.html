@@ -36,29 +36,42 @@
             {% endfor %}
         </select>
     </p>
-    <div class="button-with-links">
-        <button
-            class="button"
-            hx-post="/actions/add_feed{{ add_feed_behavior }}"
-            hx-swap="none"
-            hx-disabled-elt="this"
-        >
-            {{ _('Add feed') }} <span class="htmx-indicator">...</span>
-        </button>
-        <a class="animate-long" href="javascript:document.getElementById('other-ways-to-add-feed').showModal()">{{ _('Other ways to add feed') }}</a>
-        <dialog id="other-ways-to-add-feed">
-            <p>{{ _("1. Drag this bookmarklet to your browser's bookmark bar") }}</p>
-            <a href="{{ bookmarklet }}">{{ _('Add to Galerie')}}</a>
-            <p>
-                {{ _('2. Add')}}
-                <a href="https://www.icloud.com/shortcuts/9a9a1f09ed214ec18251f9558b1f75e2" target="_blank">{{ _('this')}}</a>
-                {{ _('iOS shortcut')}}
-            </p>
-            <button class="button" onclick="document.getElementById('other-ways-to-add-feed').close()">
-                {{ _('Close') }}
-            </button>
-        </dialog>
-    </div>
+    <button
+        class="button"
+        hx-post="/actions/add_feed{{ add_feed_behavior }}"
+        hx-swap="none"
+        hx-disabled-elt="this"
+    >
+        {{ _('Add feed') }} <span class="htmx-indicator">...</span>
+    </button>
 </form>
-<p>{{ _('Supported feed types: Twitter, RSS') }}</p>
+<p>
+    <a class="animate-long" href="javascript:document.getElementById('other-ways-to-add-feed').showModal()">{{ _('Other ways to add feed') }}</a>
+</p>
+<dialog id="other-ways-to-add-feed">
+    <p>{{ _("1. Drag this bookmarklet to your browser's bookmark bar") }}</p>
+    <a href="{{ bookmarklet }}">{{ _('Add to Galerie')}}</a>
+    <p>
+        {{ _('2. Add')}}
+        <a href="https://www.icloud.com/shortcuts/9a9a1f09ed214ec18251f9558b1f75e2" target="_blank">{{ _('this')}}</a>
+        {{ _('iOS shortcut')}}
+    </p>
+    <button class="button" onclick="document.getElementById('other-ways-to-add-feed').close()">
+        {{ _('Close') }}
+    </button>
+</dialog>
+<p>
+    <a class="animate-long" href="javascript:document.getElementById('supported-feed-types').showModal()">{{ _('Supported feed types') }}</a>
+</p>
+<dialog id="supported-feed-types">
+    <p>-&nbsp;{{ _('X/Twitter URLs') }}</p>
+    <p>&nbsp;&nbsp;&nbsp;&nbsp;-&nbsp;{{ _('Status with a handle, such as https://x.com/jack/status/20') }}</p>
+    <p>&nbsp;&nbsp;&nbsp;&nbsp;-&nbsp;{{ _('Profile with a handle, such as https://x.com/jack') }}</p>
+    <p>&nbsp;&nbsp;&nbsp;&nbsp;-&nbsp;{{ _('Status without a handle, such as https://x.com/i/status/20') }}</p>
+    <p>-&nbsp;{{ _('Any RSS feed') }}</p>
+    <button class="button" onclick="document.getElementById('supported-feed-types').close()">
+        {{ _('Close') }}
+    </button>
+</dialog>
+
 {% endblock %}

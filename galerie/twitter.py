@@ -1,7 +1,7 @@
 import os
 import re
 import requests
-from typing import Optional
+from bs4 import BeautifulSoup
 from urllib.parse import urlparse
 
 
@@ -65,7 +65,7 @@ def create_nitter_feed_url(twitter_handle: str) -> str:
     return f"{get_nitter_base_url()}/{twitter_handle}/rss?key={rss_password}"
 
 
-def extract_twitter_handle_from_nitter_feed_url(feed_url: str) -> Optional[str]:
+def extract_twitter_handle_from_nitter_feed_url(feed_url: str) -> str | None:
     nitter_base_url = get_nitter_base_url()
     if not feed_url.startswith(nitter_base_url):
         return None
@@ -83,7 +83,7 @@ twitter_domains = {
 }
 
 
-def extract_twitter_handle_from_url(url: str) -> Optional[str]:
+def extract_twitter_handle_from_url(url: str) -> str | None:
     nitter_base_url = get_nitter_base_url()
     if url.startswith(nitter_base_url):
         return url[len(nitter_base_url):].split('/')[1].lower()
@@ -109,6 +109,7 @@ def fix_shareable_twitter_url(url: str) -> str:
             return url.replace(f'https://{domain}', 'https://fxtwitter.com')
     return url
 
+
 def check_twitter_handle_status(twitter_handle: str) -> str:
     nitter_url = f'{get_nitter_base_url()}/{twitter_handle}'
     resp = str(requests.get(nitter_url).content)
@@ -121,3 +122,12 @@ def check_twitter_handle_status(twitter_handle: str) -> str:
     if 'tweets are protected' in resp:
         return 'protected'
     return ''
+
+
+def get_twitter_handle_from_status_url(url: str) -> str:
+    status_id = urlparse(url).path.split('/')[-1]
+    nitter_url = f'{get_nitter_base_url()}/i/status/{status_id}'
+    resp = str(requests.get(nitter_url).content)
+    soup = BeautifulSoup(resp, "html.parser")
+    main_tweet = soup.find("div", class_="main-tweet")
+    return main_tweet.find(attrs={"data-username": True})["data-username"]

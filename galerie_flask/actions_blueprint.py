@@ -1,12 +1,11 @@
 import os
 import json
-import requests
 from typing import Dict
 from functools import wraps
 from flask import request, g, Blueprint, make_response, Response
 from flask_babel import _
 from sentry_sdk import capture_exception
-from galerie.twitter import create_nitter_feed_url, extract_twitter_handle_from_url
+from galerie.twitter import create_nitter_feed_url, extract_twitter_handle_from_url, get_twitter_handle_from_status_url
 from .utils import requires_auth, cookie_max_age
 from .get_aggregator import get_aggregator
 from .miniflux_admin import get_miniflux_admin, MinifluxAdminException
@@ -161,19 +160,21 @@ def add_feed():
     if 'group' not in request.form:
         return make_toast(400, "Group is required")
     gid = request.form.get('group')
-
     url = request.form['url']
-    existing_feed = g.aggregator.find_feed_by_url(url)
-    if existing_feed:
-        return make_toast(200, _('This feed already exists'))
 
     twitter_handle = extract_twitter_handle_from_url(url)
     if twitter_handle:
+        if twitter_handle == 'i':
+            twitter_handle = get_twitter_handle_from_status_url(url)
         feed_url = create_nitter_feed_url(twitter_handle)
     else:
         feed_url = url
     if not feed_url:
         return make_toast(400, "URL is required")
+
+    existing_feed = g.aggregator.find_feed_by_url(feed_url)
+    if existing_feed:
+        return make_toast(200, _('This feed already exists'))
 
     fid = g.aggregator.add_feed(feed_url, gid)
     if not fid:
