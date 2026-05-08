@@ -12,9 +12,10 @@ add_feed_bp = Blueprint('add_feed', __name__)
 @requires_auth
 @catches_exceptions
 def add_feed():
-    if 'group' not in request.form:
+    if 'group' not in request.form and 'new_group' not in request.form:
         return make_toast(400, "Group is required")
     gid = request.form.get('group')
+    new_group = request.form.get('new_group')
     url = request.form['url']
 
     twitter_handle = extract_twitter_handle_from_url(url)
@@ -30,6 +31,9 @@ def add_feed():
     existing_feed = g.aggregator.find_feed_by_url(feed_url)
     if existing_feed:
         return make_toast(200, _('This feed already exists'))
+
+    if new_group:
+        gid = g.aggregator.create_group(new_group)
 
     fid = g.aggregator.add_feed(feed_url, gid)
     if not fid:

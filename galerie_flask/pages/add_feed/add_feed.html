@@ -27,14 +27,24 @@
         {% endif %}
     </p>
     <p>
-        {{ _('Group') }}
-        <select name="group">
+        <select id="existing-or-new-group-select">
+            <option selected value="existing_group">{{ _('Add to group') }}</option>
+            <option value="new_group">{{ _('Create new group') }}</option>
+        </select>
+        <select id="existing-group-select" name="group">
             {% for group in groups %}
                 <option {{ 'selected=selected' if group.gid == default_group else '' }} value="{{ group.gid }}">
                     {{ group.title }}
                 </option>
             {% endfor %}
         </select>
+        <input
+            id="new-group-input"
+            hidden
+            type="text"
+            name="new_group"
+            autocomplete="off"
+        >
     </p>
     <button
         class="button"
@@ -73,5 +83,5 @@
         {{ _('Close') }}
     </button>
 </dialog>
-
+<script src="{{ static_url_for('static', filename='add_feed.js') }}"></script>
 {% endblock %}
