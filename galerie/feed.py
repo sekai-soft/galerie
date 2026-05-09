@@ -11,3 +11,4 @@ class Feed:
     group_title: str
     error: bool
     site_url: str
+    order_added: int

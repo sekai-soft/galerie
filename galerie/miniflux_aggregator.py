@@ -85,7 +85,8 @@ def _feed_dict_to_feed(feed_dict: dict) -> Feed:
         title=title,
         group_title=feed_dict['category']['title'],
         error=feed_dict.get('parsing_error_count', 0) > 0,
-        site_url=fix_nitter_url(feed_dict.get('site_url', ''))
+        site_url=fix_nitter_url(feed_dict.get('site_url', '')),
+        order_added=feed_dict['id']
     )
 
 

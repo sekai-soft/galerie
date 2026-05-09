@@ -11,26 +11,31 @@ manage_feeds_bp = Blueprint('manage_feed', __name__, template_folder='.')
 @requires_auth
 @no_cache
 def manage_feeds_page():
+    gid: str = request.args.get('group', '_all')
+    sort = request.args.get('sort', 'order_desc')
+
     groups = g.aggregator.get_groups()
-    if not groups:
-        raise ValueError("No groups found")
     groups = sorted(groups, key=lambda group: group.feed_count, reverse=True)
-
-    gid = request.args.get('group')
-    if gid is None:
-        return redirect(f'/manage_feeds?group={groups[0].gid}')
+    all_feeds = g.aggregator.get_feeds()
     
-    feeds = g.aggregator.get_feeds_by_group_id(gid)
-    feeds = sorted(feeds, key=lambda feed: (0 if feed.error else 1, feed.title))
-
-    feed_counts = {}
-    for group in groups:
-        feed_counts[group.gid] = group.feed_count
+    if gid == '_all':
+        feeds = all_feeds
+    else:
+        feeds = g.aggregator.get_feeds_by_group_id(gid)
+    def feed_sort_key(feed):
+        if sort == 'order_desc':
+            return 0 if feed.error else 1, -feed.order_added
+        elif sort == 'order_asc':
+            return 0 if feed.error else 1, feed.order_added
+        # sort == 'ab'
+        return 0 if feed.error else 1, feed.title
+    feeds = sorted(feeds, key=feed_sort_key)
 
     return render_template(
         'manage_feeds.html',
+        sort=sort,
         groups=groups,
         gid=gid,
         feeds=feeds,
-        feed_counts=feed_counts,
+        all_feed_count=len(all_feeds)
     )

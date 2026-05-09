@@ -12,9 +12,17 @@
         ><i class="fa-solid fa-angle-left"></i></a>
         <p>{{ _('Manage feeds') }}</p>
         <select id="group-select">
+            <option value="_all" {{ 'selected=selected' if not gid == '_all' else '' }}>
+                ({{ all_feed_count }}) {{ _('all') }}
+            </option>
             {% for g in groups %}
-            <option value="{{ g.gid }}" {{ 'selected=selected' if g.gid == gid else '' }}>({{ feed_counts[g.gid] }}) {{ g.title }}</option>
+            <option value="{{ g.gid }}" {{ 'selected=selected' if g.gid == gid else '' }}>({{ g.feed_count }}) {{ g.title }}</option>
             {% endfor %}
+        </select>
+        <select id="sort-select">
+            <option value="order_desc" {{ 'selected=selected' if sort == 'order_desc' else '' }}>{{ _('Latest first') }}</option>
+            <option value="order_asc" {{ 'selected=selected' if sort == 'order_asc' else '' }}>{{ _('Earliest first') }}</option>
+            <option value="ab" {{ 'selected=selected' if sort == 'ab' else '' }}>{{ _('Alphabetical') }}</option>
         </select>
     </div>
     <div class="header-right">

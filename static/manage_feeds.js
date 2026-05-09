@@ -17,3 +17,11 @@ document.getElementById('group-select').addEventListener('change', (event) => {
         updateQueryParameter('group', groupId);
     }
 });
+
+document.getElementById('sort-select').addEventListener('change', (event) => {
+    const sort = event.target.value;
+    if (sort === 'order_desc') {
+        updateQueryParameter('sort', null);
+    } else {
+        updateQueryParameter('sort', sort);
+}});
