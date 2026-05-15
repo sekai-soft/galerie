@@ -7,7 +7,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: PROJECT VERSION\n"
 "Report-Msgid-Bugs-To: EMAIL@ADDRESS\n"
-"POT-Creation-Date: 2026-05-08 18:06-0700\n"
+"POT-Creation-Date: 2026-05-15 15:15-0700\n"
 "PO-Revision-Date: 2024-06-27 08:04+0000\n"
 "Last-Translator: FULL NAME <EMAIL@ADDRESS>\n"
 "Language: zh\n"
@@ -188,19 +188,31 @@ msgstr "任意 RSS 订阅源"
 msgid "Feed maintenance"
 msgstr "订阅源维护"
 
-#: galerie_flask/pages/feed_maintenance/feed_maintenance.html:9
-msgid "Dead feeds"
-msgstr "不活跃的订阅源"
-
-#: galerie_flask/pages/feed_maintenance/feed_maintenance.html:18
+#: galerie_flask/pages/feed_maintenance/feed_maintenance.html:17
 msgid "Refresh all dead feeds"
 msgstr "刷新所有不活跃的订阅源"
 
-#: galerie_flask/pages/feed_maintenance/feed_maintenance.html:51
+#: galerie_flask/pages/feed_maintenance/feed_maintenance.html:24
+msgid "X/Twitter account is deleted"
+msgstr "X/推特账号已删除"
+
+#: galerie_flask/pages/feed_maintenance/feed_maintenance.html:26
+msgid "X/Twitter account is banned"
+msgstr "X/推特账号被封禁"
+
+#: galerie_flask/pages/feed_maintenance/feed_maintenance.html:28
+msgid "X/Twitter account is private"
+msgstr "私密 X/推特账号"
+
+#: galerie_flask/pages/feed_maintenance/feed_maintenance.html:30
+msgid "Feed timed out"
+msgstr "订阅源超时"
+
+#: galerie_flask/pages/feed_maintenance/feed_maintenance.html:56
 msgid "Delete 0 dead feeds"
 msgstr "删除订阅源"
 
-#: galerie_flask/pages/feed_maintenance/feed_maintenance.html:55
+#: galerie_flask/pages/feed_maintenance/feed_maintenance.html:60
 msgid "There is no dead feed to clean up"
 msgstr "没有不活跃的订阅源可供清理"
 
@@ -510,7 +522,4 @@ msgstr "确定要删除这个分组吗？此分组中的所有订阅源也将被
 #: galerie_flask/templates/update_group.html:36
 msgid "Delete group"
 msgstr "删除分组"
-
-#~ msgid "Group"
-#~ msgstr "分组"
 

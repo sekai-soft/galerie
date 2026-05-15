@@ -5,8 +5,7 @@
 {% block header_title %}{{ _('Feed maintenance') }}{% endblock %}
 
 {% block page_content %}
-{% if dead_feeds %}
-<p>{{ _('Dead feeds') }}</p>
+{% if dead_feeds_by_reason %}
 <button
     id="refresh-all-dead-feeds-button"
     class="button"
@@ -18,26 +17,32 @@
     {{ _('Refresh all dead feeds') }} <span class="htmx-indicator">...</span>
 </button>
 <form>
-    {% for feed in dead_feeds %}
+    {% for reason, feeds in dead_feeds_by_reason.items() %}
+    {% if feeds %}
+    <p>
+        {% if reason == 'x_absent' %}
+        {{ _('X/Twitter account is deleted')}}
+        {% elif reason == 'x_suspended' %}
+        {{ _('X/Twitter account is banned')}}
+        {% elif reason == 'x_protected' %}
+        {{ _('X/Twitter account is private')}}
+        {% elif reason == 'timeout' %}
+        {{ _('Feed timed out')}}
+        {% else %}
+        {{ reason }}
+        {% endif %}
+    </p>
+    {% for feed in feeds %}
     <div style="display: flex; align-items: center; gap: 1em;">
         <div>
-            <input type="checkbox" class="feed-checkbox" id="dead-feed-{{ feed[0].fid }}" name="dead-feed-{{ feed[0].fid }}">
+            <input type="checkbox" class="feed-checkbox" id="dead-feed-{{ feed.fid }}" name="dead-feed-{{ feed.fid }}">
         </div>
-        <a href="{{ feed[0].site_url }}" target="_blank" style="font-size: 1em;">
-            <p class="animate-long" style="margin-top: 8px; margin-bottom: 8px;">
-                {% if feed[1] == 'absent' %}
-                <i class="fa-solid fa-user-slash"></i>
-                {% endif %}
-                {% if feed[1] == 'suspended' %}
-                <i class="fa-solid fa-ban"></i>
-                {% endif %}
-                {% if feed[1] == 'protected' %}
-                <i class="fa-solid fa-lock"></i>
-                {% endif %}
-                {{ feed[0].title }}
-            </p>
+        <a href="{{ feed.site_url }}" target="_blank" style="font-size: 1em;">
+            <p class="animate-long" style="margin-top: 8px; margin-bottom: 8px;">{{ feed.title }}</p>
         </a>
     </div>
+    {% endfor %}
+    {% endif %}
     {% endfor %}
     <button
         id="clean-up-dead-feeds-button"
