@@ -7,7 +7,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: PROJECT VERSION\n"
 "Report-Msgid-Bugs-To: EMAIL@ADDRESS\n"
-"POT-Creation-Date: 2026-05-15 15:15-0700\n"
+"POT-Creation-Date: 2026-05-15 16:09-0700\n"
 "PO-Revision-Date: 2024-06-27 08:04+0000\n"
 "Last-Translator: FULL NAME <EMAIL@ADDRESS>\n"
 "Language: zh\n"
@@ -17,6 +17,50 @@ msgstr ""
 "Content-Type: text/plain; charset=utf-8\n"
 "Content-Transfer-Encoding: 8bit\n"
 "Generated-By: Babel 2.17.0\n"
+
+#: app.py:79
+msgid "Just now"
+msgstr "就在刚刚"
+
+#: app.py:82
+msgid "minute ago"
+msgstr "分钟之前"
+
+#: app.py:82
+msgid "minutes ago"
+msgstr "分钟之前"
+
+#: app.py:85
+msgid "hour ago"
+msgstr "小时之前"
+
+#: app.py:85
+msgid "hours ago"
+msgstr "小时之前"
+
+#: app.py:88
+msgid "day ago"
+msgstr "天之前"
+
+#: app.py:88
+msgid "days ago"
+msgstr "天之前"
+
+#: app.py:91
+msgid "month ago"
+msgstr "月之前"
+
+#: app.py:91
+msgid "months ago"
+msgstr "月之前"
+
+#: app.py:94
+msgid "year ago"
+msgstr "年之前"
+
+#: app.py:94
+msgid "years ago"
+msgstr "年之前"
 
 #: galerie_flask/actions_blueprint.py:70 galerie_flask/actions_blueprint.py:96
 msgid "Username is required"

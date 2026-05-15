@@ -1,12 +1,11 @@
 import os
-import io
 import base64
 import sentry_sdk
 import click
 import datetime
 from dotenv import load_dotenv
 from flask import Flask, request
-from flask_babel import Babel
+from flask_babel import Babel, _
 from flask_static_digest import FlaskStaticDigest
 from galerie_flask.db import db
 from galerie_flask.actions_blueprint import actions_blueprint
@@ -69,29 +68,30 @@ def format_count(count: int) -> str:
 
 @app.template_filter('time_ago')
 def time_ago(dt) -> str:
-    try:
-        diff = datetime.datetime.now() - dt
-        seconds = diff.total_seconds()
+    if dt.tzinfo:
+        now = datetime.datetime.now(datetime.UTC)
+    else:
+        now = datetime.datetime.now()
+    diff = now - dt
+    seconds = diff.total_seconds()
 
-        if seconds < 60:
-            return "Just now"
-        elif seconds < 3600:
-            minutes = int(seconds // 60)
-            return f"{minutes} {'minute' if minutes == 1 else 'minutes'} ago"
-        elif seconds < 86400:
-            hours = int(seconds // 3600)
-            return f"{hours} {'hour' if hours == 1 else 'hours'} ago"
-        elif seconds < 2592000:  # ~30 days
-            days = int(seconds // 86400)
-            return f"{days} {'day' if days == 1 else 'days'} ago"
-        elif seconds < 31536000:  # ~365 days
-            months = int(seconds // 2592000)
-            return f"{months} {'month' if months == 1 else 'months'} ago"
-        else:
-            years = int(seconds // 31536000)
-            return f"{years} {'year' if years == 1 else 'years'} ago"
-    except Exception:
-        return ""
+    if seconds < 60:
+        return _("Just now")
+    elif seconds < 3600:
+        minutes = int(seconds // 60)
+        return f"{minutes} {_('minute ago') if minutes == 1 else _('minutes ago')}"
+    elif seconds < 86400:
+        hours = int(seconds // 3600)
+        return f"{hours} {_('hour ago') if hours == 1 else _('hours ago')}"
+    elif seconds < 2592000:  # ~30 days
+        days = int(seconds // 86400)
+        return f"{days} {_('day ago') if days == 1 else _('days ago')}"
+    elif seconds < 31536000:  # ~365 days
+        months = int(seconds // 2592000)
+        return f"{months} {_('month ago') if months == 1 else _('months ago')}"
+    else:
+        years = int(seconds // 31536000)
+        return f"{years} {_('year ago') if years == 1 else _('years ago')}"
 
 
 @app.cli.group()

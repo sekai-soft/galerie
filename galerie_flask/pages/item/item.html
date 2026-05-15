@@ -32,13 +32,13 @@
         class="link-button"
     ><i class="fa-solid fa-user-plus"></i></a>
     <a href="https://x.com/{{ rt }}/media" target="_blank" style="font-size: 1em">
-        <p class="animate-long item-feed-title">
+        <p class="animate-long item-feed-title user-string-horizontal">
             @{{ rt }}
         </p>
     </a>
     {% else %}
     <a href="/feed?fid={{ rt_feed.fid }}" style="font-size: 1em">
-        <p class="animate-long item-feed-title">
+        <p class="animate-long item-feed-title user-string-horizontal">
             {% if rt_feed_icon %}
             <img class="item-feed-icon" src="data:{{ rt_feed_icon.data }}">
             {% endif %}
@@ -50,7 +50,7 @@
     {% endif %}
 
     <a href="/feed?fid={{ item.fid }}" style="font-size: 1em">
-        <p class="animate-long item-feed-title">
+        <p class="animate-long item-feed-title user-string-horizontal">
             {% if feed_icon %}
             <img class="item-feed-icon" src="data:{{ feed_icon.data }}">
             {% endif %}
@@ -59,7 +59,7 @@
     </a>
 </div>
 
-<p>{{ item.text }}</p>
+<p style="word-break: break-all;">{{ item.text }}</p>
 
 <p>{{ item.published_at|time_ago }}</p>
 {% endif %}

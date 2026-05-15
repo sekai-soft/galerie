@@ -1,6 +1,5 @@
 import datetime
 from .group import Group
-from typing import List
 from dataclasses import dataclass
 
 

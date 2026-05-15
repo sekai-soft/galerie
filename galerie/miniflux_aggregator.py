@@ -1,7 +1,7 @@
 import miniflux
 from datetime import datetime, timezone
 from urllib.parse import urlparse
-from typing import List, Optional, Dict
+from typing import Any, List, Optional, Dict
 from bs4 import BeautifulSoup
 from .item import Item
 from .group import Group
@@ -23,18 +23,7 @@ def _category_dict_to_group(category_dict: dict) -> Group:
 
 
 def parse_published_at(date_string: str) -> datetime:
-    formats = [
-        "%Y-%m-%dT%H:%M:%S.%fZ",
-        "%Y-%m-%dT%H:%M:%SZ"
-    ]
-    
-    for fmt in formats:
-        try:
-            return datetime.strptime(date_string, fmt).replace(tzinfo=timezone.utc)
-        except ValueError:
-            continue
-    
-    raise ValueError(f"time data '{date_string}' doesn't match known formats")
+    return datetime.fromisoformat(date_string)
 
 
 def entry_dict_to_item(entry_dict: dict) -> Item:
