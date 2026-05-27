@@ -92,7 +92,7 @@ services:
       - MEDIA_PROXY_CUSTOM_URL=http://galerie-reader-media
       - MEDIA_PROXY_RESOURCE_TYPES=image,audio,video
       - FETCHER_ALLOW_PRIVATE_NETWORKS=1
-      - HTTP_CLIENT_TIMEOUT=60
+      - HTTP_CLIENT_TIMEOUT=120
     env_file:
       - env
     network_mode: service:miniflux-ts
