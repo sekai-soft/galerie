@@ -77,7 +77,7 @@ services:
 
   # miniflux
   miniflux:
-    image: miniflux/miniflux:2.2.18
+    image: miniflux/miniflux:2.3.0
     restart: unless-stopped
     depends_on:
       miniflux-postgres:
@@ -92,6 +92,7 @@ services:
       - MEDIA_PROXY_CUSTOM_URL=http://galerie-reader-media
       - MEDIA_PROXY_RESOURCE_TYPES=image,audio,video
       - FETCHER_ALLOW_PRIVATE_NETWORKS=1
+      - HTTP_CLIENT_TIMEOUT=60
     env_file:
       - env
     network_mode: service:miniflux-ts
