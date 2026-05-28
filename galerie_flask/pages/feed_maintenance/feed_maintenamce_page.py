@@ -1,4 +1,3 @@
-from typing import Any
 from flask import Blueprint, render_template, g
 from flask_babel import _
 from galerie.twitter import is_nitter_url, extract_twitter_handle_from_nitter_feed_url, check_twitter_handle_status
@@ -23,16 +22,18 @@ def feed_maintenance_page():
         'x_protected': []
     }
     for feed in dead_feeds:
-        reason = None
-        if is_nitter_url(feed.url):
+        if "Client.Timeout" in feed.error_reason or 'i/o timeout' in feed.error_reason:
+            reason = 'timeout'
+        elif is_nitter_url(feed.url):
             handle = extract_twitter_handle_from_nitter_feed_url(feed.url)
             if handle:
                 status = check_twitter_handle_status(handle)
-                reason = f"x_{status}"
+                if status:
+                    reason = f"x_{status}"
+                else:
+                    reason = feed.error_reason
             else:
                 reason = feed.error_reason
-        elif "Client.Timeout" in feed.error_reason:
-            reason = "timeout"
         else:
             reason = feed.error_reason
         
