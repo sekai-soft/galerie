@@ -77,7 +77,7 @@ services:
 
   # miniflux
   miniflux:
-    image: miniflux/miniflux:2.3.0
+    image: miniflux/miniflux:2.3.1
     restart: unless-stopped
     depends_on:
       miniflux-postgres:
