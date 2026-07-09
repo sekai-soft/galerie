@@ -65,15 +65,15 @@
         ><i class="fa-solid fa-gear"></i></a>
         <dialog id="settings">
             <p>
-                <select id="read-select">
-                    <option value="0" {{ 'selected=selected' if include_read == '0' else '' }}>{{ _('Unread only') }}</option>
-                    <option value="1" {{ 'selected=selected' if include_read == '1' else '' }}>{{ _('Include read') }}</option>
-                </select>
-            </p>
-            <p>
                 <select id="sort-select">
                     <option value="0" {{ 'selected=selected' if sort_by_desc else '' }}>{{ _('Latest first') }}</option>
                     <option value="1" {{ 'selected=selected' if not sort_by_desc else '' }}>{{ _('Earliest first') }}</option>
+                </select>
+            </p>
+            <p>
+                <select id="read-select">
+                    <option value="0" {{ 'selected=selected' if include_read == '0' else '' }}>{{ _('Unread only') }}</option>
+                    <option value="1" {{ 'selected=selected' if include_read == '1' else '' }}>{{ _('Include read') }}</option>
                 </select>
             </p>
             <p>
