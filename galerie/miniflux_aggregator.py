@@ -11,9 +11,6 @@ from .twitter import fix_nitter_url, fix_nitter_rt_title, fix_nitter_urls_in_tex
 from .feed_icon import FeedIcon
 
 
-TIMEOUT = 5
-
-
 def _category_dict_to_group(category_dict: dict) -> Group:
     return Group(
         gid=str(category_dict['id']),
@@ -90,12 +87,12 @@ class MinifluxAggregator(RssAggregator):
         self.base_url = base_url
         self.username = username
         self.password = password
-        self.client = miniflux.Client(base_url, username, password, timeout=TIMEOUT)
+        self.client = miniflux.Client(base_url, username, password)
         self.managed_or_self_hosted = managed_or_self_hosted
 
     def get_groups(self) -> List[Group]:
         _endpoint = self.client._get_endpoint("/categories?counts=true")
-        _response = self.client._session.get(_endpoint, timeout=self.client._timeout)
+        _response = self.client._session.get(_endpoint)
         if _response.status_code != 200:
             self.client._handle_error_response(_response)
         res = _response.json()
