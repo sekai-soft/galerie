@@ -16,6 +16,7 @@ services:
     network_mode: service:galerie-ts
   galerie-ts:
     image: tailscale/tailscale:latest
+    container_name: galerie-ts
     restart: unless-stopped
     hostname: galerie
     environment:
@@ -35,6 +36,7 @@ services:
   # postgres
   postgres:
     image: postgres:15
+    container_name: galerie-postgres
     restart: unless-stopped
     environment:
       - POSTGRES_USER=galerie
@@ -45,6 +47,7 @@ services:
     network_mode: service:postgres-ts
   postgres-ts:
     image: tailscale/tailscale:latest
+    container_name: galerie-postgres-ts
     restart: unless-stopped
     hostname: galerie-postgres
     environment:
@@ -62,6 +65,7 @@ services:
       - com.centurylinklabs.watchtower.enable=true
   postgres-backup:
     image: ghcr.io/sekai-soft/postgres-backup-s3:15
+    container_name: galerie-postgres-backup
     restart: unless-stopped
     env_file:
       - env-backup
@@ -78,6 +82,7 @@ services:
   # miniflux
   miniflux:
     image: miniflux/miniflux:2.3.2
+    container_name: galerie-miniflux
     restart: unless-stopped
     depends_on:
       miniflux-postgres:
@@ -99,6 +104,7 @@ services:
     network_mode: service:miniflux-ts
   miniflux-ts:
     image: tailscale/tailscale:latest
+    container_name: galerie-miniflux-ts
     restart: unless-stopped
     hostname: miniflux
     environment:
@@ -117,6 +123,7 @@ services:
 
   miniflux-postgres:
     image: postgres:15
+    container_name: galerie-miniflux-postgres
     restart: unless-stopped
     environment:
       - POSTGRES_USER=miniflux
@@ -130,6 +137,7 @@ services:
       start_period: 30s
   miniflux-postgres-backup:
     image: ghcr.io/sekai-soft/postgres-backup-s3:15
+    container_name: galerie-miniflux-postgres-backup
     restart: unless-stopped
     env_file:
       - env-backup-miniflux
