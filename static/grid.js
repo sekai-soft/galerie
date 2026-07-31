@@ -21,6 +21,7 @@ const initMasonry = () => {
 initMasonry();
 
 document.addEventListener('click', (event) => {
+    // Gray out items that were clicked
     const gridItem = event.target.closest('.grid-item');
     if (!gridItem) {
         return;

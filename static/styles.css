@@ -1,4 +1,4 @@
-/** sizes for > iPad **/
+/** sizes for > iPad (3/4/5 columns by viewport) **/
 .app {
     width: 66%;
     margin: 0 auto;
@@ -6,6 +6,28 @@
 
 .grid-sizer, .grid-item {
     width: calc((100% - 64px) / 3)
+}
+
+/** 4 columns: >= 1440px (QHD laptop/monitor) **/
+@media screen and (min-width: 1440px) {
+    .app {
+        width: 80%;
+    }
+
+    .grid-sizer, .grid-item {
+        width: calc((100% - 96px) / 4)
+    }
+}
+
+/** 5 columns: >= 2400px (QHD 1440p and wider) **/
+@media screen and (min-width: 2400px) {
+    .app {
+        width: 90%;
+    }
+
+    .grid-sizer, .grid-item {
+        width: calc((100% - 128px) / 5)
+    }
 }
 
 .grid-item-title {
