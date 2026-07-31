@@ -20,6 +20,7 @@ def feed_page():
 
     max_rendered_items = int(request.cookies.get('max_rendered_items', DEFAULT_MAX_RENDERED_ITEMS))
     no_text_mode = request.cookies.get('no_text_mode', '0') == '1'
+    display_titles = request.cookies.get('display_titles', '1') == '1'
 
     items = g.aggregator.get_feed_items_by_iid_descending(fid)
     rendered_items, iids_without_media = convert_rendered_items(items, max_rendered_items)
@@ -28,6 +29,7 @@ def feed_page():
         "feed": feed,
         "feed_icon": feed_icon,
         "context_feed_page": True,
+        "display_titles": display_titles,
     }
     items_args(args, rendered_items, False, False, no_text_mode, iids_without_media)
     return render_template('feed.html', **args)

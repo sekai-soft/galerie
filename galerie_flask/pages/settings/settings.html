@@ -27,6 +27,17 @@
         <option value="1" {{ 'selected=selected' if scroll_as_read else '' }}>{{ _('Automatically mark items as read') }}</option>
     </select>
 </p>
+<p>
+    <select
+        name="display_titles"
+        hx-trigger="change"
+        hx-post="/actions/set_display_titles"
+        hx-swap="none"
+    >
+        <option value="1" {{ 'selected=selected' if display_titles else '' }}>{{ _('Display item and feed titles in browser history') }}</option>
+        <option value="0" {{ 'selected=selected' if not display_titles else '' }}>{{ _('Hide item and feed titles in browser history') }}</option>
+    </select>
+</p>
 <hr>
 <p>{{ _('Display media count')}}</p>
 <select

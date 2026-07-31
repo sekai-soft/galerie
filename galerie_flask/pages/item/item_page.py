@@ -16,6 +16,7 @@ item_bp = Blueprint('item', __name__, template_folder='.')
 @requires_auth
 def item():
     no_text_mode = request.cookies.get('no_text_mode', '0') == '1'
+    display_titles = request.cookies.get('display_titles', '1') == '1'
     from_history = request.args.get('from_history', '0') == '1'
 
     uid = request.args.get('uid')
@@ -67,5 +68,6 @@ def item():
         item=rendered_items[0],
         items=rendered_items,
         u_index=u_index,
-        no_text_mode=no_text_mode
+        no_text_mode=no_text_mode,
+        display_titles=display_titles
     )

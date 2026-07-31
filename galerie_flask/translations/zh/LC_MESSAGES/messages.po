@@ -7,7 +7,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: PROJECT VERSION\n"
 "Report-Msgid-Bugs-To: EMAIL@ADDRESS\n"
-"POT-Creation-Date: 2026-05-15 16:09-0700\n"
+"POT-Creation-Date: 2026-07-30 20:35-0700\n"
 "PO-Revision-Date: 2024-06-27 08:04+0000\n"
 "Last-Translator: FULL NAME <EMAIL@ADDRESS>\n"
 "Language: zh\n"
@@ -226,6 +226,11 @@ msgstr "不带用户名的推文链接，例如 https://x.com/i/status/20"
 msgid "Any RSS feed"
 msgstr "任意 RSS 订阅源"
 
+#: galerie_flask/pages/feed/feed.html:3 galerie_flask/pages/index/index.html:3
+#: galerie_flask/pages/item/item.html:3
+msgid "Galerie"
+msgstr "Galerie"
+
 #: galerie_flask/pages/feed_maintenance/feed_maintenance.html:3
 #: galerie_flask/pages/feed_maintenance/feed_maintenance.html:5
 #: galerie_flask/pages/index/index.html:105
@@ -264,10 +269,6 @@ msgstr "没有不活跃的订阅源可供清理"
 msgid "All items are loaded"
 msgstr "所有条目已加载"
 
-#: galerie_flask/pages/index/index.html:3
-msgid "Galerie"
-msgstr "Galerie"
-
 #: galerie_flask/pages/index/index.html:12
 #: galerie_flask/pages/manage_feeds/manage_feeds.html:16
 msgid "all"
@@ -290,22 +291,22 @@ msgid "Mark all items as read?"
 msgstr "标记所有条目为已读？"
 
 #: galerie_flask/pages/index/index.html:69
-msgid "Unread only"
-msgstr "仅未读"
-
-#: galerie_flask/pages/index/index.html:70
-msgid "Include read"
-msgstr "包含已读"
-
-#: galerie_flask/pages/index/index.html:75
 #: galerie_flask/pages/manage_feeds/manage_feeds.html:23
 msgid "Latest first"
 msgstr "最新优先"
 
-#: galerie_flask/pages/index/index.html:76
+#: galerie_flask/pages/index/index.html:70
 #: galerie_flask/pages/manage_feeds/manage_feeds.html:24
 msgid "Earliest first"
 msgstr "最旧优先"
+
+#: galerie_flask/pages/index/index.html:75
+msgid "Unread only"
+msgstr "仅未读"
+
+#: galerie_flask/pages/index/index.html:76
+msgid "Include read"
+msgstr "包含已读"
 
 #: galerie_flask/pages/index/index.html:86
 msgid "Show texts"
@@ -389,7 +390,7 @@ msgstr "此分组没有订阅源"
 
 #: galerie_flask/pages/session_management/session_management.html:3
 #: galerie_flask/pages/session_management/session_management.html:5
-#: galerie_flask/pages/settings/settings.html:63
+#: galerie_flask/pages/settings/settings.html:74
 msgid "Session management"
 msgstr "会话管理"
 
@@ -464,24 +465,32 @@ msgstr "手动条目为已读"
 msgid "Automatically mark items as read"
 msgstr "自动条目为已读"
 
-#: galerie_flask/pages/settings/settings.html:31
+#: galerie_flask/pages/settings/settings.html:37
+msgid "Display item and feed titles in browser history"
+msgstr "在浏览器历史记录中显示条目和订阅源标题"
+
+#: galerie_flask/pages/settings/settings.html:38
+msgid "Hide item and feed titles in browser history"
+msgstr "在浏览器历史记录中隐藏条目和订阅源标题"
+
+#: galerie_flask/pages/settings/settings.html:42
 msgid "Display media count"
 msgstr "显示媒体数目"
 
-#: galerie_flask/pages/settings/settings.html:43
+#: galerie_flask/pages/settings/settings.html:54
 msgid "Page size"
 msgstr "每页大小"
 
-#: galerie_flask/pages/settings/settings.html:61
+#: galerie_flask/pages/settings/settings.html:72
 msgid "Logged in as: "
 msgstr "已用此身份登陆: "
 
-#: galerie_flask/pages/settings/settings.html:71
+#: galerie_flask/pages/settings/settings.html:82
 #: galerie_flask/templates/error.html:14
 msgid "Log out"
 msgstr "登出"
 
-#: galerie_flask/pages/settings/settings.html:73
+#: galerie_flask/pages/settings/settings.html:84
 msgid "Connected to"
 msgstr "连接至"
 

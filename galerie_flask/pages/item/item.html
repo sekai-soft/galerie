@@ -1,6 +1,14 @@
 {% extends 'base_child_page.html' %}
 
-{% block title %}{{ item.title if not no_text_mode else '(No text mode is on)' }}{% endblock %}
+{% block title %}
+{% if not display_titles %}
+{{ _('Galerie') }}
+{% elif no_text_mode %}
+(No text mode is on)
+{% else %}
+{{ item.title }}
+{% endif %}
+{% endblock %}
 
 {% block header_title %}{{ item.title if not no_text_mode else '(No text mode is on)' }}{% endblock %}
 
