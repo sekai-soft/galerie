@@ -26,6 +26,7 @@ def item():
     rendered_items = convert_rendered_item(item, DEFAULT_MAX_RENDERED_ITEMS, ignore_rendered_items_cap=True)
 
     if not from_history:
+        g.aggregator.mark_items_as_read([iid])
         # Record item view history (skip if from_history=1)
         session_token = request.cookies.get('session_token')
         session = db.session.query(Session).filter_by(uuid=session_token).first()

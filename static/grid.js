@@ -20,6 +20,17 @@ const initMasonry = () => {
 // Initialize on page load.
 initMasonry();
 
+document.addEventListener('click', (event) => {
+    const gridItem = event.target.closest('.grid-item');
+    if (!gridItem) {
+        return;
+    }
+    if (!gridItem.querySelector('a[href^="/item"]')) {
+        return;
+    }
+    gridItem.classList.add('read');
+});
+
 document.body.addEventListener("mark_as_read", (event) => {
     // Gray out items that were marked as read via scroll_as_read.
     const iids = event.detail.value;
