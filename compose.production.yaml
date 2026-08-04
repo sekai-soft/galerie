@@ -13,15 +13,34 @@ services:
       MEDIA_PROXY_CUSTOM_URL: 'http://galerie-reader-media'
     env_file:
       - env
+    depends_on:
+      galerie-ts:
+        condition: service_healthy
     network_mode: service:galerie-ts
   galerie-ts:
     image: tailscale/tailscale:latest
     container_name: galerie-ts
     restart: unless-stopped
     hostname: galerie
+    command:
+      - /bin/sh
+      - -c
+      - |
+        echo "[ts] waiting for tailscale control-plane reachability..."
+        until nc -z -w 2 api.tailscale.com 443 >/dev/null 2>&1 && nc -z -w 2 controlplane.tailscale.com 443 >/dev/null 2>&1; do
+          sleep 2
+        done
+        echo "[ts] control-plane reachable, starting containerboot"
+        exec /usr/local/bin/containerboot
     environment:
       - TS_EXTRA_ARGS=--advertise-tags=tag:server
       - TS_STATE_DIR=/var/lib/tailscale
+    healthcheck:
+      test: ["CMD-SHELL", "tailscale status --json | grep -Eq '\"BackendState\": *\"Running\"'"]
+      interval: 5s
+      timeout: 3s
+      retries: 20
+      start_period: 5s
     env_file:
       - /home/nixos/env-tailscale
     volumes:
@@ -44,15 +63,34 @@ services:
       - POSTGRES_DB=galerie
     volumes:
       - postgres:/var/lib/postgresql/data
+    depends_on:
+      postgres-ts:
+        condition: service_healthy
     network_mode: service:postgres-ts
   postgres-ts:
     image: tailscale/tailscale:latest
     container_name: galerie-postgres-ts
     restart: unless-stopped
     hostname: galerie-postgres
+    command:
+      - /bin/sh
+      - -c
+      - |
+        echo "[ts] waiting for tailscale control-plane reachability..."
+        until nc -z -w 2 api.tailscale.com 443 >/dev/null 2>&1 && nc -z -w 2 controlplane.tailscale.com 443 >/dev/null 2>&1; do
+          sleep 2
+        done
+        echo "[ts] control-plane reachable, starting containerboot"
+        exec /usr/local/bin/containerboot
     environment:
       - TS_EXTRA_ARGS=--advertise-tags=tag:server
       - TS_STATE_DIR=/var/lib/tailscale
+    healthcheck:
+      test: ["CMD-SHELL", "tailscale status --json | grep -Eq '\"BackendState\": *\"Running\"'"]
+      interval: 5s
+      timeout: 3s
+      retries: 20
+      start_period: 5s
     env_file:
       - /home/nixos/env-tailscale
     volumes:
@@ -87,6 +125,8 @@ services:
     depends_on:
       miniflux-postgres:
         condition: service_healthy
+      miniflux-ts:
+        condition: service_healthy
     environment:
       - DATABASE_URL=postgres://miniflux:secret@miniflux-postgres/miniflux?sslmode=disable
       - RUN_MIGRATIONS=1
@@ -107,9 +147,25 @@ services:
     container_name: galerie-miniflux-ts
     restart: unless-stopped
     hostname: miniflux
+    command:
+      - /bin/sh
+      - -c
+      - |
+        echo "[ts] waiting for tailscale control-plane reachability..."
+        until nc -z -w 2 api.tailscale.com 443 >/dev/null 2>&1 && nc -z -w 2 controlplane.tailscale.com 443 >/dev/null 2>&1; do
+          sleep 2
+        done
+        echo "[ts] control-plane reachable, starting containerboot"
+        exec /usr/local/bin/containerboot
     environment:
       - TS_EXTRA_ARGS=--advertise-tags=tag:server
       - TS_STATE_DIR=/var/lib/tailscale
+    healthcheck:
+      test: ["CMD-SHELL", "tailscale status --json | grep -Eq '\"BackendState\": *\"Running\"'"]
+      interval: 5s
+      timeout: 3s
+      retries: 20
+      start_period: 5s
     env_file:
       - /home/nixos/env-tailscale
     volumes:
