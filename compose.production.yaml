@@ -11,6 +11,8 @@ services:
       MINIFLUX_BASE_URL: 'http://miniflux'
       NITTER_BASE_URL: 'http://nitter'
       MEDIA_PROXY_CUSTOM_URL: 'http://galerie-reader-media'
+      GALERIE_MEDIA_PROXY_BASE_URL: 'https://media.galerie-reader.app/p'
+      GALERIE_MEDIA_PROXY_URL_TTL: '300'
     env_file:
       - env
     depends_on:

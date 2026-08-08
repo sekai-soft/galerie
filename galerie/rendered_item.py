@@ -7,6 +7,7 @@ from dataclasses import dataclass, field
 from bs4 import BeautifulSoup
 from .item import Item
 from .group import Group
+from .media_proxy import sign_media_url
 from .twitter import get_nitter_base_url, fix_shareable_twitter_url, TWITTER_VIDEO_CDN_URL, TWITTER_MEDIA_CDN_URL
 
 
@@ -64,14 +65,14 @@ def fix_proxied_media_url(url: str) -> str:
     return url
 
 
-def proxy_twitter_video_url(url: str, iid: str, media_index: int) -> str:
+def proxy_twitter_video_url(url: str) -> str:
     # twitter video urls have to be proxied because of CORS
     if url.startswith(TWITTER_VIDEO_CDN_URL):
-        return f"/m/{iid}/{media_index}"
+        return sign_media_url(url)
     return url
 
 
-def convert_rendered_item(item: Item, max_rendered_items: int, ignore_rendered_items_cap: Optional[bool]=False, add_proxy_twitter_video_url: Optional[bool]=True) -> List[RenderedItem]:
+def convert_rendered_item(item: Item, max_rendered_items: int, ignore_rendered_items_cap: Optional[bool]=False) -> List[RenderedItem]:
     soup = BeautifulSoup(item.html, 'html.parser')
     
     target_elements = []
@@ -103,8 +104,7 @@ def convert_rendered_item(item: Item, max_rendered_items: int, ignore_rendered_i
             video_thumbnail_url = target_element.get('poster', '')
 
         video_url = fix_proxied_media_url(video_url)
-        if add_proxy_twitter_video_url:
-            video_url = proxy_twitter_video_url(video_url, item.iid, i)
+        video_url = proxy_twitter_video_url(video_url)
 
         res.append(RenderedItem(
             uid=f'{item.iid}-{i}',
