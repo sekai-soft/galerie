@@ -114,9 +114,9 @@ jobs:
           tags: tag:ops
       - name: Pull and restart container
         run: |
-          ssh -o StrictHostKeyChecking=no -o UserKnownHostsFile=/dev/null nixos@gibraltar \
-            'mkdir -p /home/nixos/galerie && \
-             curl -sSfLo /home/nixos/galerie/compose.yaml https://raw.githubusercontent.com/sekai-soft/galerie/${{ github.sha }}/compose.production.yaml && \
-             sed -i "s|ghcr.io/sekai-soft/galerie:latest|ghcr.io/sekai-soft/galerie:${{ github.sha }}|g" /home/nixos/galerie/compose.yaml && \
-             docker compose -f /home/nixos/galerie/compose.yaml pull galerie && \
-             docker compose -f /home/nixos/galerie/compose.yaml up -d --remove-orphans'
+          ssh -o StrictHostKeyChecking=no -o UserKnownHostsFile=/dev/null ubuntu@eichenwalde \
+            'mkdir -p /home/ubuntu/galerie && \
+             curl -sSfLo /home/ubuntu/galerie/compose.yaml https://raw.githubusercontent.com/sekai-soft/galerie/${{ github.sha }}/compose.production.yaml && \
+             sed -i "s|ghcr.io/sekai-soft/galerie:latest|ghcr.io/sekai-soft/galerie:${{ github.sha }}|g" /home/ubuntu/galerie/compose.yaml && \
+             docker compose -f /home/ubuntu/galerie/compose.yaml pull galerie && \
+             docker compose -f /home/ubuntu/galerie/compose.yaml up -d --remove-orphans'
