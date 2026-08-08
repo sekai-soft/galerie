@@ -22,5 +22,13 @@
 {% if show_load_more %}
     {% include 'load_more_button_history.html' %}
 {% endif %}
+<script>
+    document.addEventListener('keydown', (event) => {
+        if (event.key === 'Escape') {
+            event.preventDefault();
+            window.history.back();
+        }
+    });
+</script>
 <script src="{{ static_url_for('static', filename='grid.js') }}"></script>
 {% endblock %}

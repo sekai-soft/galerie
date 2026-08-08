@@ -34,7 +34,10 @@ const flkty = new Flickity('.carousel', {
 
 // Keyboard navigation with arrow keys (global, without needing focus)
 document.addEventListener('keydown', (event) => {
-    if (event.key === 'ArrowLeft') {
+    if (event.key === 'Escape') {
+        event.preventDefault();                                                                                                                                                  
+        window.history.back();
+    } else if (event.key === 'ArrowLeft') {
         event.preventDefault();
         flkty.previous();
     } else if (event.key === 'ArrowRight') {
