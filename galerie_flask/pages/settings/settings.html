@@ -65,6 +65,17 @@
     <option value="50" {{ 'selected=selected' if max_items == 50 else '' }}>50</option>
     <option value="100" {{ 'selected=selected' if max_items == 100 else '' }}>100</option>
 </select>
+<p>{{ _('Initial Page size')}}</p>
+<select
+    name="initial_page_size"
+    hx-trigger="change"
+    hx-post="/actions/set_initial_page_size"
+    hx-swap="none"
+>
+    <option value="10" {{ 'selected=selected' if initial_page_size == 10 else '' }}>10</option>
+    <option value="15" {{ 'selected=selected' if initial_page_size == 15 else '' }}>15</option>
+    <option value="20" {{ 'selected=selected' if initial_page_size == 20 else '' }}>20</option>
+</select>
 <br>
 <br>
 <hr>

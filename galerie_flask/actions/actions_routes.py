@@ -5,6 +5,7 @@ from .load_more_history.load_more_history_action import load_more_history_bp
 from .mark_all_as_read.mark_all_as_read_action import mark_all_as_read_bp
 from .mark_group_as_read.mark_group_as_read_action import mark_group_as_read_bp
 from .set_max_items.set_max_items_action import set_max_items_bp
+from .set_initial_page_size.set_initial_page_size_action import set_initial_page_size_bp
 from .set_max_rendered_items.set_max_rendered_items_action import set_max_rendered_items_bp
 from .set_display_titles.set_display_titles_action import set_display_titles_bp
 from .set_no_text_mode.set_no_text_mode_action import set_no_text_mode_bp
@@ -20,6 +21,7 @@ actions_bp.register_blueprint(load_more_history_bp)
 actions_bp.register_blueprint(mark_all_as_read_bp)
 actions_bp.register_blueprint(mark_group_as_read_bp)
 actions_bp.register_blueprint(set_max_items_bp)
+actions_bp.register_blueprint(set_initial_page_size_bp)
 actions_bp.register_blueprint(set_max_rendered_items_bp)
 actions_bp.register_blueprint(set_display_titles_bp)
 actions_bp.register_blueprint(set_no_text_mode_bp)

@@ -7,6 +7,7 @@ from .get_aggregator import get_aggregator
 
 DEFAULT_MAX_ITEMS = 20
 DEFAULT_MAX_RENDERED_ITEMS = 4
+DEFAULT_INITIAL_PAGE_SIZE = 10
 cookie_max_age = 60 * 60 * 24 * 365  # 1 year
 
 

@@ -2,7 +2,7 @@ from flask import Blueprint, render_template, request
 from flask_babel import _
 from galerie.rendered_item import convert_rendered_item
 from galerie.miniflux_aggregator import entry_dict_to_item
-from galerie_flask.utils import requires_auth, items_args, load_more_button_args, DEFAULT_MAX_ITEMS, DEFAULT_MAX_RENDERED_ITEMS, compute_read_percentage
+from galerie_flask.utils import requires_auth, items_args, load_more_button_args, DEFAULT_MAX_ITEMS, DEFAULT_MAX_RENDERED_ITEMS, DEFAULT_INITIAL_PAGE_SIZE, compute_read_percentage
 from galerie_flask.pages_blueprint import catches_exceptions, requires_auth
 from galerie_flask.db import ItemViewHistory, Session, db
 
@@ -15,6 +15,7 @@ item_history_bp = Blueprint('item_history', __name__, template_folder='.')
 @requires_auth
 def item_history_page():
     max_items = int(request.cookies.get('max_items', DEFAULT_MAX_ITEMS))
+    initial_page_size = int(request.cookies.get('initial_page_size', DEFAULT_INITIAL_PAGE_SIZE))
     max_rendered_items = int(request.cookies.get('max_rendered_items', DEFAULT_MAX_RENDERED_ITEMS))
     no_text_mode = request.cookies.get('no_text_mode', '0') == '1'
     infinite_scroll = request.cookies.get('infinite_scroll', '1') == '1'
@@ -32,7 +33,7 @@ def item_history_page():
     # Query item view history for the current user, ordered by most recent first, limited
     view_history = db.session.query(ItemViewHistory).filter_by(
         user_uuid=user_uuid
-    ).order_by(ItemViewHistory.created_at.desc()).limit(max_items).all()
+    ).order_by(ItemViewHistory.created_at.desc()).limit(initial_page_size).all()
 
     items = []
     item_indices = []  # Store the index for each item
@@ -61,7 +62,7 @@ def item_history_page():
     items_args(args, rendered_items, False, False, no_text_mode, [])
 
     # Add load more button if there are more items
-    remaining_count = total_count - max_items
+    remaining_count = total_count - initial_page_size
     if view_history and remaining_count > 0:
         last_uuid = view_history[-1].uuid
         load_more_button_args(

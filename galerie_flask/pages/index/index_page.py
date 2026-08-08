@@ -6,6 +6,7 @@ from galerie_flask.utils import (
     items_args,
     load_more_button_args,
     DEFAULT_MAX_ITEMS,
+    DEFAULT_INITIAL_PAGE_SIZE,
     DEFAULT_MAX_RENDERED_ITEMS,
     compute_read_percentage,
 )
@@ -23,13 +24,14 @@ def index_page():
     gid = request.args.get('group') if request.args.get('group') else None
     include_read = request.args.get('read', '0') == '1'
     max_items = int(request.cookies.get('max_items', DEFAULT_MAX_ITEMS))
+    initial_page_size = int(request.cookies.get('initial_page_size', DEFAULT_INITIAL_PAGE_SIZE))
     max_rendered_items = int(request.cookies.get('max_rendered_items', DEFAULT_MAX_RENDERED_ITEMS))
     no_text_mode = request.cookies.get('no_text_mode', '0') == '1'
     infinite_scroll = request.cookies.get('infinite_scroll', '1') == '1'
     scroll_as_read = request.cookies.get('scroll_as_read', '0') == '1'
 
     unread_items = g.aggregator.get_items(
-        count=max_items,
+        count=initial_page_size,
         from_iid_exclusive=None,
         group_id=gid,
         sort_by_id_descending=sort_by_desc,
@@ -47,7 +49,7 @@ def index_page():
     selected_group = next((group for group in groups if group.gid == gid), None)
 
     total_count = all_group_counts[gid] if gid is not None else all_unread_count
-    remaining_count = total_count - max_items if total_count > max_items else 0
+    remaining_count = total_count - initial_page_size if total_count > initial_page_size else 0
     read_percentage = compute_read_percentage(remaining_count, total_count)
     
     all_feed_count = sum(group.feed_count for group in groups)

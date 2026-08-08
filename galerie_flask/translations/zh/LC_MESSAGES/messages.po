@@ -7,7 +7,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: PROJECT VERSION\n"
 "Report-Msgid-Bugs-To: EMAIL@ADDRESS\n"
-"POT-Creation-Date: 2026-07-30 20:35-0700\n"
+"POT-Creation-Date: 2026-08-07 23:44-0700\n"
 "PO-Revision-Date: 2024-06-27 08:04+0000\n"
 "Last-Translator: FULL NAME <EMAIL@ADDRESS>\n"
 "Language: zh\n"
@@ -146,6 +146,7 @@ msgstr "已终止其他 {} 个会话"
 msgid "Terminated {} unnamed session(s)"
 msgstr "已终止其他 {} 个未命名的会话"
 
+#: galerie_flask/actions/set_initial_page_size/set_initial_page_size_action.py:14
 #: galerie_flask/actions/set_max_items/set_max_items_action.py:14
 #: galerie_flask/actions/set_max_rendered_items/set_max_rendered_items_action.py:14
 msgid "Setting updated"
@@ -227,7 +228,7 @@ msgid "Any RSS feed"
 msgstr "任意 RSS 订阅源"
 
 #: galerie_flask/pages/feed/feed.html:3 galerie_flask/pages/index/index.html:3
-#: galerie_flask/pages/item/item.html:3
+#: galerie_flask/pages/item/item.html:5
 msgid "Galerie"
 msgstr "Galerie"
 
@@ -372,7 +373,7 @@ msgstr "加载"
 msgid "more"
 msgstr "更多"
 
-#: galerie_flask/pages/item/item.html:49
+#: galerie_flask/pages/item/item.html:57
 msgid "via"
 msgstr "转发自"
 
@@ -390,7 +391,7 @@ msgstr "此分组没有订阅源"
 
 #: galerie_flask/pages/session_management/session_management.html:3
 #: galerie_flask/pages/session_management/session_management.html:5
-#: galerie_flask/pages/settings/settings.html:74
+#: galerie_flask/pages/settings/settings.html:85
 msgid "Session management"
 msgstr "会话管理"
 
@@ -481,16 +482,20 @@ msgstr "显示媒体数目"
 msgid "Page size"
 msgstr "每页大小"
 
-#: galerie_flask/pages/settings/settings.html:72
+#: galerie_flask/pages/settings/settings.html:68
+msgid "Initial Page size"
+msgstr "初始每页大小"
+
+#: galerie_flask/pages/settings/settings.html:83
 msgid "Logged in as: "
 msgstr "已用此身份登陆: "
 
-#: galerie_flask/pages/settings/settings.html:82
+#: galerie_flask/pages/settings/settings.html:93
 #: galerie_flask/templates/error.html:14
 msgid "Log out"
 msgstr "登出"
 
-#: galerie_flask/pages/settings/settings.html:84
+#: galerie_flask/pages/settings/settings.html:95
 msgid "Connected to"
 msgstr "连接至"
 

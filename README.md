@@ -5,14 +5,9 @@
 ### Setup
 This project uses [uv](https://docs.astral.sh/uv/) for dependency management.
 
-```bash
-# Install dependencies
-uv sync
-```
-
 ### Running the server
 ```bash
-uv run flask run --reload
+./run.sh
 ```
 
 ### Running tests
