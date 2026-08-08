@@ -47,19 +47,25 @@ def fix_proxied_media_url(url: str) -> str:
     media_proxy_custom_url = get_media_proxy_custom_url()
 
     if url.startswith(media_proxy_custom_url):
+        # if starts with http://galerie-reader-media and looks like http://galerie-reader-media/<some base64>
         encoded_url = url[len(media_proxy_custom_url):]
         decoded_url = base64.urlsafe_b64decode(encoded_url).decode('utf-8')
 
         if decoded_url.startswith(get_nitter_base_url()):
+            # if <some base64> starts with http://nitter and looks like http://nitter/pic/<some urlencoded>
             twitter_media_path = unquote(urlparse(decoded_url).path.split('/')[-1])
+
+            # decode <some urlencoded> and get final url, e.g. https://pbs.twimg.com/media/<some jpg>
             return TWITTER_MEDIA_CDN_URL + twitter_media_path
 
         return decoded_url
 
+    # notice that nitter actually returns the real link for twitter videos, so twitter video links are actually not fixed here
     return url
 
 
 def proxy_twitter_video_url(url: str, iid: str, media_index: int) -> str:
+    # twitter video urls have to be proxied because of CORS
     if url.startswith(TWITTER_VIDEO_CDN_URL):
         return f"/m/{iid}/{media_index}"
     return url
