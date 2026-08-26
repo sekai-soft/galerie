@@ -5,7 +5,7 @@
 {% block header_title %}{{ _('Feed maintenance') }}{% endblock %}
 
 {% block page_content %}
-{% if dead_feeds_by_reason %}
+{% if dead_feeds_by_reason or dead_feeds %}
 <button
     id="refresh-all-dead-feeds-button"
     class="button"
@@ -17,6 +17,7 @@
     {{ _('Refresh all dead feeds') }} <span class="htmx-indicator">...</span>
 </button>
 <form>
+    {% if dead_feeds_by_reason %}
     {% for reason, feeds in dead_feeds_by_reason.items() %}
     {% if feeds %}
     <p>
@@ -44,6 +45,19 @@
     {% endfor %}
     {% endif %}
     {% endfor %}
+    {% elif dead_feeds %}
+    <p>{{ _('Dead feeds') }}</p>
+    {% for feed in dead_feeds %}
+    <div style="display: flex; align-items: center; gap: 1em;">
+        <div>
+            <input type="checkbox" class="feed-checkbox" id="dead-feed-{{ feed.fid }}" name="dead-feed-{{ feed.fid }}">
+        </div>
+        <a href="{{ feed.site_url }}" target="_blank" style="font-size: 1em;">
+            <p class="animate-long" style="margin-top: 8px; margin-bottom: 8px;">{{ feed.title }}</p>
+        </a>
+    </div>
+    {% endfor %}
+    {% endif %}
     <button
         id="clean-up-dead-feeds-button"
         class="button"
