@@ -15,6 +15,13 @@ def feed_maintenance_page():
     dead_feeds = list(filter(lambda f: f.error, feeds))
     dead_feeds.sort(key=lambda f: f.url)
 
+    if len(dead_feeds) > 10:
+        return render_template(
+            'feed_maintenance.html',
+            dead_feeds_by_reason=None,
+            dead_feeds=dead_feeds,
+        )
+
     dead_feeds_by_reason = {
         'x_absent': [],
         'x_suspended': [],
@@ -36,10 +43,11 @@ def feed_maintenance_page():
                 reason = feed.error_reason
         else:
             reason = feed.error_reason
-        
+
         dead_feeds_by_reason[reason] = dead_feeds_by_reason.get(reason, []) + [feed]
 
     return render_template(
         'feed_maintenance.html',
-        dead_feeds_by_reason=dead_feeds_by_reason
+        dead_feeds_by_reason=dead_feeds_by_reason,
+        dead_feeds=None,
     )
