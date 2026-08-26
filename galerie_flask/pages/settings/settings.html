@@ -79,6 +79,16 @@
 <br>
 <br>
 <hr>
+<button
+    class="button"
+    hx-post="/actions/refresh_all_dead_feeds"
+    hx-swap="none"
+    hx-disabled-elt="this"
+>
+    {{ _('Refresh all dead feeds') }} <span class="htmx-indicator">...</span>
+</button>
+<br>
+<br>
 {% if connection_info.managed_or_self_hosted %}
 <p>{{ _('Logged in as: ') }} {{ username }}</p>
 <a href="/sessions">
